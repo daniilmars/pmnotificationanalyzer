@@ -57,7 +57,7 @@ def generate_test_data(filename="test_meldungen.csv", count=100):
             v_id=random.randint(10, 50),
             e_code=random.choice(["E-404", "E-501", "E-21B"]),
             l_id=random.randint(1, 100),
-            f_id=random.randint(1, 100)  # BUGFIX: Added the missing f_id
+            f_id=random.randint(1, 100)
         )
         
         rows.append({"id": i, "meldungstext": text})
@@ -72,4 +72,5 @@ def generate_test_data(filename="test_meldungen.csv", count=100):
         print(f"Error writing to file {filename}: {e}")
 
 if __name__ == "__main__":
-    generate_test_data()
+    # Generate only 5 test messages
+    generate_test_data(count=5)
