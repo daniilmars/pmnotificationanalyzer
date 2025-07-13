@@ -1,5 +1,5 @@
 from fastapi import FastAPI, HTTPException
-from app.analyzer import analyze_text
+from app.services.analysis_service import analyze_text # <-- Angepasster Import
 from app.models import AnalysisRequest, AnalysisResult
 
 app = FastAPI(title="SAP PM Text Analyzer")
