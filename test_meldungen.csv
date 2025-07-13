@@ -1,0 +1,101 @@
+id,meldungstext
+1,Fehler.
+2,Pumpe 906 macht Geräusche. Wurde überprüft und repariert.
+3,Filter F-89 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
+4,Motor M-308548 läuft nicht. Elektriker hat es repariert.
+5,Anlage A42 steht. Problem behoben.
+6,Leckage am Flansch des Wärmetauschers WT-16. Dichtung (Material: 658983) war porös und wurde ersetzt. Dichtheitsprüfung mit 10 bar bestanden. Anlage wieder in Betrieb.
+7,Anlage A42 steht. Problem behoben.
+8,Pumpe kaputt.
+9,Filter F-41 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
+10,"Pumpe 735 an Anlage A42 zeigte starke Vibrationen. Ursache: Lagerschaden antriebsseitig durch mangelnde Schmierung. Lager getauscht (Material: 749765), neu geschmiert. Probelauf über 4h war erfolgreich."
+11,Leck an Leitung L-83. Dichtung getauscht.
+12,Leck an Leitung L-61. Dichtung getauscht.
+13,Motor von Band 3 zu heiss. neu gestartet.
+14,Motor M-828328 läuft nicht. Elektriker hat es repariert.
+15,Ventil V-50 schließt nicht vollständig. Spindel wurde nachgezogen und justiert. Ventil ist jetzt wieder dicht.
+16,Motor M-958854 läuft nicht. Elektriker hat es repariert.
+17,Filter F-88 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
+18,Anlage A42 steht. Problem behoben.
+19,"Pumpe 338 an Anlage C11 zeigte starke Vibrationen. Ursache: Lagerschaden antriebsseitig durch mangelnde Schmierung. Lager getauscht (Material: 460604), neu geschmiert. Probelauf über 4h war erfolgreich."
+20,Pumpe 262 macht Geräusche. Wurde überprüft und repariert.
+21,Filter F-90 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
+22,"SPS-Steuerung der Abfüllanlage A-B7 meldet Fehlercode E-404. Neustart der Steuerung hat das Problem behoben. Ursache unklar, Anlage zur Beobachtung."
+23,"Pumpe 687 an Anlage C11 zeigte starke Vibrationen. Ursache: Lagerschaden antriebsseitig durch mangelnde Schmierung. Lager getauscht (Material: 828938), neu geschmiert. Probelauf über 4h war erfolgreich."
+24,Pumpe 821 macht Geräusche. Wurde überprüft und repariert.
+25,Pumpe kaputt.
+26,Filter F-84 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
+27,"SPS-Steuerung der Abfüllanlage A-B7 meldet Fehlercode E-404. Neustart der Steuerung hat das Problem behoben. Ursache unklar, Anlage zur Beobachtung."
+28,Pumpe 820 macht Geräusche. Wurde überprüft und repariert.
+29,"Vibration an A-C11, lager wohl defekt. geprüft."
+30,"Vibration an A-C11, lager wohl defekt. geprüft."
+31,Leck an Leitung L-86. Dichtung getauscht.
+32,Pumpe kaputt.
+33,"Pumpe 190 an Anlage C11 zeigte starke Vibrationen. Ursache: Lagerschaden antriebsseitig durch mangelnde Schmierung. Lager getauscht (Material: 764042), neu geschmiert. Probelauf über 4h war erfolgreich."
+34,"Pumpe 558 an Anlage A42 zeigte starke Vibrationen. Ursache: Lagerschaden antriebsseitig durch mangelnde Schmierung. Lager getauscht (Material: 364958), neu geschmiert. Probelauf über 4h war erfolgreich."
+35,Anlage A42 steht. Problem behoben.
+36,Filter F-39 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
+37,Filter F-13 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
+38,Motor M-980077 läuft nicht. Elektriker hat es repariert.
+39,Filter F-24 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
+40,Filter F-65 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
+41,Filter F-50 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
+42,Druckverlust an V49. scheint wieder zu gehen.
+43,Filter F-81 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
+44,Leckage am Flansch des Wärmetauschers WT-19. Dichtung (Material: 381348) war porös und wurde ersetzt. Dichtheitsprüfung mit 10 bar bestanden. Anlage wieder in Betrieb.
+45,"SPS-Steuerung der Abfüllanlage A-B7 meldet Fehlercode E-21B. Neustart der Steuerung hat das Problem behoben. Ursache unklar, Anlage zur Beobachtung."
+46,Pumpe 186 macht Geräusche. Wurde überprüft und repariert.
+47,Leck an Leitung L-33. Dichtung getauscht.
+48,"SPS-Steuerung der Abfüllanlage A-C11 meldet Fehlercode E-21B. Neustart der Steuerung hat das Problem behoben. Ursache unklar, Anlage zur Beobachtung."
+49,Druckverlust an V28. scheint wieder zu gehen.
+50,"SPS-Steuerung der Abfüllanlage A-A42 meldet Fehlercode E-404. Neustart der Steuerung hat das Problem behoben. Ursache unklar, Anlage zur Beobachtung."
+51,Leck an Leitung L-64. Dichtung getauscht.
+52,Ventil V-38 schließt nicht vollständig. Spindel wurde nachgezogen und justiert. Ventil ist jetzt wieder dicht.
+53,"Pumpe 698 an Anlage C11 zeigte starke Vibrationen. Ursache: Lagerschaden antriebsseitig durch mangelnde Schmierung. Lager getauscht (Material: 161260), neu geschmiert. Probelauf über 4h war erfolgreich."
+54,Leck an Leitung L-73. Dichtung getauscht.
+55,Motor M-534559 läuft nicht. Elektriker hat es repariert.
+56,Filter F-68 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
+57,Anlage steht.
+58,Motor M-809453 läuft nicht. Elektriker hat es repariert.
+59,Motor M-282778 des Förderbands FB-1 überhitzt. Thermische Überlastung durch blockiertes Getriebe. Getriebe gereinigt und neu gefettet. Motor läuft wieder im normalen Temperaturbereich.
+60,Pumpe kaputt.
+61,Filter F-35 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
+62,"SPS-Steuerung der Abfüllanlage A-A42 meldet Fehlercode E-404. Neustart der Steuerung hat das Problem behoben. Ursache unklar, Anlage zur Beobachtung."
+63,Motor M-622270 des Förderbands FB-1 überhitzt. Thermische Überlastung durch blockiertes Getriebe. Getriebe gereinigt und neu gefettet. Motor läuft wieder im normalen Temperaturbereich.
+64,Repariert.
+65,"Dichtung an Pumpe P269 leckt, getauscht. alles ok."
+66,Leck an Leitung L-10. Dichtung getauscht.
+67,Anlage A42 steht. Problem behoben.
+68,Ölverlust.
+69,Pumpe 719 macht Geräusche. Wurde überprüft und repariert.
+70,"SPS-Steuerung der Abfüllanlage A-A42 meldet Fehlercode E-404. Neustart der Steuerung hat das Problem behoben. Ursache unklar, Anlage zur Beobachtung."
+71,Ventil V-10 schließt nicht vollständig. Spindel wurde nachgezogen und justiert. Ventil ist jetzt wieder dicht.
+72,"Pumpe 495 an Anlage B7 zeigte starke Vibrationen. Ursache: Lagerschaden antriebsseitig durch mangelnde Schmierung. Lager getauscht (Material: 994551), neu geschmiert. Probelauf über 4h war erfolgreich."
+73,"Dichtung an Pumpe P533 leckt, getauscht. alles ok."
+74,Anlage A42 steht. Problem behoben.
+75,Pumpe 851 macht Geräusche. Wurde überprüft und repariert.
+76,Anlage A42 steht. Problem behoben.
+77,Motor M-390625 läuft nicht. Elektriker hat es repariert.
+78,Anlage C11 steht. Problem behoben.
+79,Repariert.
+80,Fehler.
+81,Motor M-556724 läuft nicht. Elektriker hat es repariert.
+82,"SPS-Steuerung der Abfüllanlage A-A42 meldet Fehlercode E-404. Neustart der Steuerung hat das Problem behoben. Ursache unklar, Anlage zur Beobachtung."
+83,Repariert.
+84,Anlage C11 steht. Problem behoben.
+85,Ölverlust.
+86,Filter F-54 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
+87,Druckverlust an V46. scheint wieder zu gehen.
+88,Filter F-46 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
+89,Motor von Band 3 zu heiss. neu gestartet.
+90,Dichtung undicht.
+91,Ventil V-40 schließt nicht vollständig. Spindel wurde nachgezogen und justiert. Ventil ist jetzt wieder dicht.
+92,"SPS-Steuerung der Abfüllanlage A-A42 meldet Fehlercode E-501. Neustart der Steuerung hat das Problem behoben. Ursache unklar, Anlage zur Beobachtung."
+93,Leck an Leitung L-59. Dichtung getauscht.
+94,"SPS-Steuerung der Abfüllanlage A-B7 meldet Fehlercode E-21B. Neustart der Steuerung hat das Problem behoben. Ursache unklar, Anlage zur Beobachtung."
+95,Filter F-26 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
+96,Leckage am Flansch des Wärmetauschers WT-7. Dichtung (Material: 505032) war porös und wurde ersetzt. Dichtheitsprüfung mit 10 bar bestanden. Anlage wieder in Betrieb.
+97,Repariert.
+98,Motor M-904320 des Förderbands FB-2 überhitzt. Thermische Überlastung durch blockiertes Getriebe. Getriebe gereinigt und neu gefettet. Motor läuft wieder im normalen Temperaturbereich.
+99,Ventil V-17 schließt nicht vollständig. Spindel wurde nachgezogen und justiert. Ventil ist jetzt wieder dicht.
+100,Filter F-85 in der Hydraulikleitung verstopft. Filterelement wurde gereinigt und wieder eingesetzt. Druck wieder im Sollbereich.
