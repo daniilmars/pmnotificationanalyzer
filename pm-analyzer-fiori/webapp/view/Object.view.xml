@@ -1,0 +1,84 @@
+<mvc:View
+    controllerName="com.sap.pm.pmanalyzerfiori.controller.Object"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+    <Page
+        id="page"
+        title="Meldungsdetails: {NotificationId}"
+        showNavButton="true"
+        navButtonPress=".onNavBack">
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <!-- Formular für Meldungsdetails -->
+                <f:SimpleForm
+                    id="SimpleFormDisplay"
+                    editable="false"
+                    layout="ResponsiveGridLayout"
+                    labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
+                    adjustLabelSpan="false"
+                    emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0"
+                    columnsXL="1" columnsL="1" columnsM="1"
+                    singleContainerFullSize="false">
+                    <f:content>
+                        <Label text="Beschreibung"/>
+                        <Text id="descriptionText" text="{Description}" />
+                        <Label text="Meldungsart"/>
+                        <Text id="typeText" text="{NotificationType}" />
+                        <Label text="Erfasst von"/>
+                        <Text id="userText" text="{CreatedByUser}" />
+                        <Label text="Langtext"/>
+                        <TextArea id="longText" value="{LongText}" growing="true" width="100%" editable="false"/>
+                        <Label text="Maßnahmen"/>
+                        <TextArea id="activitiesText" value="{Activities}" growing="true" width="100%" editable="false"/>
+                    </f:content>
+                </f:SimpleForm>
+
+                <!-- Analyse Button -->
+                <Button
+                    id="analyzeButton"
+                    text="Qualität analysieren"
+                    type="Emphasized"
+                    press=".onAnalyzePress"
+                    class="sapUiSmallMarginTop"
+                    icon="sap-icon://activate" />
+
+                <!-- Ergebnisbereich (zuerst unsichtbar) -->
+                <Panel id="resultsPanel" visible="false" class="sapUiSmallMarginTop" expandable="true" expanded="true" width="auto">
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="Analyseergebnis"/>
+                            <ToolbarSpacer/>
+                            <core:Icon id="loadingSpinner" src="sap-icon://synchronize" class="sapUiMediumMarginEnd sap-icon-spin" visible="false"/>
+                        </Toolbar>
+                    </headerToolbar>
+                    <content>
+                        <f:SimpleForm layout="ResponsiveGridLayout">
+                            <f:content>
+                                <Label text="Qualitäts-Score"/>
+                                <ProgressIndicator
+                                    id="scoreIndicator"
+                                    percentValue="0"
+                                    displayValue="0/100"
+                                    showValue="true"
+                                    state="None" />
+
+                                <Label text="Gefundene Probleme"/>
+                                <List
+                                    id="issuesList"
+                                    items="{analysis>/issues}">
+                                    <StandardListItem title="{analysis>}" />
+                                </List>
+
+                                <Label text="Zusammenfassung"/>
+                                <Text id="summaryText" text="{analysis>/summary}" />
+                            </f:content>
+                        </f:SimpleForm>
+                    </content>
+                </Panel>
+
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

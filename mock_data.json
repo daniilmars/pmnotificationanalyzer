@@ -1,0 +1,162 @@
+[
+  {
+    "NotificationId": "40012345",
+    "NotificationType": "M1",
+    "Description": "Pumpe P-101 ausgefallen, laute Geräusche",
+    "CreatedByUser": "MUELLER_H",
+    "LongText": "Pumpe P-101 an Anlage R-101 zeigte starke Vibrationen und laute, mahlende Geräusche. Ausfall während Produktion von Charge 2024-07-B.",
+    "Activities": "1. Ursache: Lagerschaden antriebsseitig durch Materialermüdung, nachweislich durch fehlerhafte Charge des Lagers (Lieferant XYZ). \n2. Lager (Mat-Nr. 12345) getauscht. \n3. Pumpe neu geschmiert und ausgerichtet. \n4. Probelauf über 4h war erfolgreich. \n5. Produkteinfluss: Kein Einfluss, da vor Abfüllung bemerkt und Charge gesperrt. \n6. CAPA: Lieferant über fehlerhafte Lagercharge informiert, Wareneingangsprüfung für Lager dieses Typs erweitert."
+  },
+  {
+    "NotificationId": "40012349",
+    "NotificationType": "M2",
+    "Description": "Druckabfall Reaktor R-202",
+    "CreatedByUser": "WEBER_S",
+    "LongText": "Druck im Reaktor R-202 fiel während der Reaktion von Charge 2024-07-C von 5 auf 3 bar ab.",
+    "Activities": "1. Ursache: Haarriss im Dichtungsring des Hauptventils V-1, festgestellt durch Lecksuchspray. \n2. Dichtung (Mat-Nr. 67890) getauscht. \n3. System auf 10 bar abgedrückt, Druck über 30 min stabil. \n4. Produkteinfluss: Charge wurde unter Beobachtung zu Ende gefahren, Proben durch QC analysiert und freigegeben. \n5. CAPA: Austauschintervall für Dichtungen dieses Typs von 12 auf 9 Monate verkürzt."
+  },
+  {
+    "NotificationId": "40012350",
+    "NotificationType": "M1",
+    "Description": "Motor M-303 überhitzt",
+    "CreatedByUser": "SCHMID_T",
+    "LongText": "Motor M-303 des Förderbandes FB-08 wurde heiss und schaltete ab. Anlage stand.",
+    "Activities": "1. Ursache: Lüftergitter war stark mit Staub verstopft, was die Kühlung verhinderte. \n2. Lüftergitter demontiert, gereinigt und wieder montiert. \n3. Probelauf unter Last für 1h, Temperatur im Normalbereich. \n4. Produkteinfluss: Keiner, da vor Produktaufgabe bemerkt."
+  },
+  {
+    "NotificationId": "40012351",
+    "NotificationType": "M2",
+    "Description": "Manometer an Tank T-50 zeigt falschen Wert",
+    "CreatedByUser": "HUBER_A",
+    "LongText": "Das Manometer PI-50 an Tank T-50 zeigte 0 bar, obwohl der Tank gefüllt war.",
+    "Activities": "1. Ursache: Manometer war defekt. \n2. Manometer (Mat-Nr. 55432) wurde ausgetauscht und kalibriert. \n3. Anzeige mit Referenzdruckmessgerät verglichen, Werte stimmen überein."
+  },
+  {
+    "NotificationId": "40012352",
+    "NotificationType": "M3",
+    "Description": "Routinewartung an Zentrifuge Z-04",
+    "CreatedByUser": "MUELLER_H",
+    "LongText": "Geplante Wartung gemäss SOP-W-112 durchgeführt.",
+    "Activities": "1. Ölstand geprüft und aufgefüllt. \n2. Filter gereinigt. \n3. Alle Schrauben nachgezogen. \n4. Anlage gereinigt. Keine Abweichungen festgestellt."
+  },
+  {
+    "NotificationId": "40012346",
+    "NotificationType": "M2",
+    "Description": "Ventil V-5 undicht",
+    "CreatedByUser": "SCHMID_T",
+    "LongText": "An Ventil V-5 wurde eine Leckage festgestellt. Produkt tropft auf den Boden.",
+    "Activities": "1. Dichtung getauscht. \n2. Anlage wieder angefahren."
+  },
+  {
+    "NotificationId": "40012353",
+    "NotificationType": "M1",
+    "Description": "SPS Fehler an Abfüllanlage A-01",
+    "CreatedByUser": "WEBER_S",
+    "LongText": "Die Abfüllanlage A-01 steht mit Fehlercode E-123 auf dem HMI.",
+    "Activities": "Steuerung neu gestartet. Läuft wieder."
+  },
+  {
+    "NotificationId": "40012354",
+    "NotificationType": "M2",
+    "Description": "Ölverlust an Getriebe G-22",
+    "CreatedByUser": "HUBER_A",
+    "LongText": "Unter dem Getriebe G-22 befindet sich eine Ölpfütze.",
+    "Activities": "Öl nachgefüllt und Leckage beobachtet. Scheint wieder dicht zu sein."
+  },
+  {
+    "NotificationId": "40012355",
+    "NotificationType": "M1",
+    "Description": "Rührwerk R-300 blockiert",
+    "CreatedByUser": "MUELLER_H",
+    "LongText": "Das Rührwerk im Ansatzbehälter B-300 lässt sich nicht starten.",
+    "Activities": "Fremdkörper entfernt. Rührwerk läuft wieder."
+  },
+  {
+    "NotificationId": "40012348",
+    "NotificationType": "M1",
+    "Description": "Motor kaputt",
+    "CreatedByUser": "HUBER_A",
+    "LongText": "Motor von Band 3 geht nicht.",
+    "Activities": "Repariert."
+  },
+  {
+    "NotificationId": "40012356",
+    "NotificationType": "M2",
+    "Description": "Leitung undicht",
+    "CreatedByUser": "SCHMID_T",
+    "LongText": "Leitung L-112 tropft.",
+    "Activities": "Abgedichtet."
+  },
+  {
+    "NotificationId": "40012357",
+    "NotificationType": "M1",
+    "Description": "Anlage steht",
+    "CreatedByUser": "WEBER_S",
+    "LongText": "Produktionslinie 2 steht.",
+    "Activities": "Problem gefunden und behoben."
+  },
+  {
+    "NotificationId": "40012358",
+    "NotificationType": "M1",
+    "Description": "Defekt",
+    "CreatedByUser": "MUELLER_H",
+    "LongText": "Defekt.",
+    "Activities": "OK."
+  },
+  {
+    "NotificationId": "40012359",
+    "NotificationType": "M2",
+    "Description": "Wartung",
+    "CreatedByUser": "HUBER_A",
+    "LongText": "",
+    "Activities": "durchgeführt"
+  },
+  {
+    "NotificationId": "40012360",
+    "NotificationType": "M2",
+    "Description": "Filter F-12 verstopft",
+    "CreatedByUser": "SCHMID_T",
+    "LongText": "Druckdifferenz an Filter F-12 zu hoch. Anlage hat auf Störung geschaltet.",
+    "Activities": "Filtereinsatz gereinigt und wieder eingebaut. Druck wieder i.O."
+  },
+  {
+    "NotificationId": "40012361",
+    "NotificationType": "M1",
+    "Description": "Sicherung F-07 an Schaltschrank S-03 ausgelöst",
+    "CreatedByUser": "WEBER_S",
+    "LongText": "Sicherung F-07 hat ausgelöst. Anlage dunkel.",
+    "Activities": "Sicherung wieder eingeschaltet. Ursache: unklar. Zur Beobachtung."
+  },
+  {
+    "NotificationId": "40012362",
+    "NotificationType": "M1",
+    "Description": "Vakuum an Abfülllinie 4 bricht zusammen",
+    "CreatedByUser": "MUELLER_H",
+    "LongText": "Vakuum an Abfülllinie 4 kann nicht gehalten werden. Fällt von -0.8 auf -0.2 bar ab.",
+    "Activities": "Schlauchverbindung war lose. Neu befestigt. Vakuum hält wieder."
+  },
+  {
+    "NotificationId": "40012363",
+    "NotificationType": "M2",
+    "Description": "Kalibrierung Waage W-09 fällig",
+    "CreatedByUser": "HUBER_A",
+    "LongText": "Jahreskalibrierung der Waage W-09 stand an.",
+    "Activities": "Kalibrierung mit zertifizierten Gewichten durchgeführt. Protokoll im System abgelegt. Alles innerhalb der Toleranz."
+  },
+  {
+    "NotificationId": "40012364",
+    "NotificationType": "M1",
+    "Description": "Falsches Material an Maschine X",
+    "CreatedByUser": "SCHMID_T",
+    "LongText": "Bediener meldet, dass falsches Verpackungsmaterial an Maschine X zugeführt wurde. Charge 2024-07-D betroffen.",
+    "Activities": "Falsches Material entfernt, korrektes Material zugeführt. Produkte der betroffenen Charge gesperrt und an QS übergeben. Keine Aussage zum Produkteinfluss, da QS zuständig."
+  },
+  {
+    "NotificationId": "40012365",
+    "NotificationType": "M2",
+    "Description": "Komische Geräusche an Lüfter L-01",
+    "CreatedByUser": "WEBER_S",
+    "LongText": "Lüfter macht quietschende Geräusche.",
+    "Activities": "Keilriemen war locker. Nachgespannt. Geräusch weg."
+  }
+]
