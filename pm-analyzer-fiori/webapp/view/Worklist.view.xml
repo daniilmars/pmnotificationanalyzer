@@ -2,7 +2,7 @@
     controllerName="com.sap.pm.pmanalyzerfiori.controller.Worklist"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc">
-    <Page id="page" title="{i18n>title}">
+    <Page id="page" title="{i18n>worklistTitle}">
         <content>
             <Table
                 id="table"
@@ -12,28 +12,20 @@
                 class="sapUiResponsiveMargin">
                 <headerToolbar>
                     <Toolbar>
-                        <Title text="Instandhaltungsmeldungen" level="H2"/>
+                        <Title text="Instandhaltungsfälle" level="H2"/>
                     </Toolbar>
                 </headerToolbar>
                 <columns>
-                    <Column>
-                        <Text text="Meldungsnummer" />
-                    </Column>
-                    <Column>
-                        <Text text="Beschreibung" />
-                    </Column>
-                    <Column minScreenWidth="Tablet" demandinPopin="true">
-                        <Text text="Meldungsart" />
-                    </Column>
+                    <Column><Text text="Meldungsnummer" /></Column>
+                    <Column><Text text="Beschreibung" /></Column>
+                    <Column minScreenWidth="Tablet" demandPopin="true"><Text text="Meldungsart" /></Column>
                 </columns>
                 <items>
-                    <ColumnListItem
-                        type="Navigation"
-                        press=".onPress">
+                    <ColumnListItem type="Navigation" press=".onPress">
                         <cells>
-                            <ObjectIdentifier title="{NotificationId}" />
-                            <Text text="{Description}" />
-                            <Text text="{NotificationType}" />
+                            <ObjectIdentifier title="{Notification/NotificationId}" />
+                            <Text text="{Notification/Description}" />
+                            <Text text="{Notification/NotificationType}" />
                         </cells>
                     </ColumnListItem>
                 </items>

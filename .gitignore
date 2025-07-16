@@ -60,3 +60,5 @@ Thumbs.db
 
 # CSV test data file
 test_meldungen.csv
+
+*.sh

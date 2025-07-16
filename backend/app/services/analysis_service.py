@@ -1,51 +1,59 @@
 import os
 import re
-import google.generativeai as genai # <-- Zurück zur Google-Bibliothek
-from app.models import AnalysisResult
+import google.generativeai as genai
+from app.models import AnalysisCase, AnalysisResult
 
-def analyze_text(text: str) -> AnalysisResult:
+def analyze_text(case: AnalysisCase) -> AnalysisResult:
     """
-    Analysiert einen SAP-Instandhaltungstext mit der Google Gemini API.
+    Analysiert einen vollständigen Instandhaltungsfall mit der Google Gemini API.
     """
-    # API-Schlüssel aus der .env-Datei laden
     api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key:
-        raise ValueError("CRITICAL: GOOGLE_API_KEY environment variable is not set or could not be loaded.")
+        raise ValueError("CRITICAL: GOOGLE_API_KEY environment variable is not set.")
     genai.configure(api_key=api_key)
 
-    # Der bewährte Prompt für Gemini
+    # Daten aus dem gesamten Fall für den Prompt zusammenstellen
+    full_text_for_prompt = f"Meldungstext: {case.Notification.LongText}\n\n"
+    
+    # --- FINALE KORREKTUR: Korrekter Zugriff auf das Order-Dictionary ---
+    if case.Order:
+        # Wir greifen auf die Daten mit ['key'] zu, nicht mit .key
+        full_text_for_prompt += f"Geplante Vorgänge im Auftrag: {case.Order.get('Operations', '')}\n"
+        full_text_for_prompt += f"Geplante Komponenten: {case.Order.get('Components', '')}\n\n"
+    # --------------------------------------------------------------------
+        
+    full_text_for_prompt += f"Durchgeführte Tätigkeiten (Rückmeldung): {case.Confirmation.Activities}"
+    
+    if case.ExternalProtocol:
+        full_text_for_prompt += f"\n\nExternes Protokoll: {case.ExternalProtocol}"
+
     prompt = f"""
-    Du bist ein erfahrener GMP-Auditor und bewertest die Qualität von Instandhaltungsmeldungen in einem pharmazeutischen Produktionsbetrieb. Deine Bewertung muss extrem streng sein und sich an den Prinzipien von GMP und Datenintegrität (ALCOA+) orientieren.
+    Du bist ein GMP-Auditor. Analysiere den folgenden Instandhaltungsprozess auf Konsistenz und Vollständigkeit.
+    Prüfe, ob die durchgeführten Tätigkeiten (inkl. externem Protokoll, falls vorhanden) zur Meldung und zum Auftrag passen.
+    
+    PROZESSDATEN:
+    ---
+    {full_text_for_prompt}
+    ---
 
-    BEWERTUNGSMATRIX:
-    - Score 90-100 (Audit-sicher): Alle 5 Säulen (GMP/ALCOA+, Rückverfolgbarkeit, Ursachenanalyse, Produkteinfluss, CAPA mit Vorbeugemassnahme) sind vollständig erfüllt. Alle IDs und Chargennummern sind vorhanden.
-    - Score 70-89 (Gut, mit Lücken): Grösstenteils konform, aber es fehlt eine explizite Vorbeugemassnahme oder die Ursachenanalyse ist nicht tiefgehend.
-    - Score 40-69 (Mangelhaft): Es fehlt eine klare Bewertung des Produkteinflusses oder die Ursachenanalyse. Kritische IDs (z.B. Chargennummer) fehlen.
-    - Score 10-39 (Schwerwiegend mangelhaft): Mehrere Säulen fehlen. Die Rückverfolgbarkeit ist nicht gegeben.
-    - Score 0-9 (Ungenügend): Der Eintrag ist für ein GMP-Umfeld völlig unbrauchbar.
+    BEWERTUNG:
+    - Wurde das Problem aus der Meldung im Auftrag und in der Durchführung adressiert?
+    - Passen die durchgeführten Tätigkeiten zu den geplanten Vorgängen?
+    - Ist die gesamte Dokumentation GMP-konform (Ursache, Produkteinfluss, CAPA)?
 
-    ANALYSIERE DIESEN TEXT:
-    "{text}"
-
-    GIB DEINE ANTWORT NUR IN DIESEM EXAKTEN FORMAT ZURÜCK, OHNE WEITERE ERKLÄRUNGEN:
+    GIB DEINE ANTWORT NUR IN DIESEM EXAKTEN FORMAT ZURÜCK:
     Score: <int>
     Probleme:
-    - <Problem 1>
-    - <Problem 2>
-    Zusammenfassung: <String>
+    - <Liste der gefundenen Mängel>
+    Zusammenfassung: <Zusammenfassung der Prozessqualität>
     """
-
+    
     try:
         model = genai.GenerativeModel('gemini-1.5-flash-latest')
-        generation_config = genai.types.GenerationConfig(temperature=0.1)
-
-        response = model.generate_content(prompt, generation_config=generation_config)
+        response = model.generate_content(prompt, generation_config=genai.types.GenerationConfig(temperature=0.1))
         reply = response.text
 
-        pattern = re.compile(
-            r"Score:\s*(\d+)\s*Probleme:\s*(.*?)\s*Zusammenfassung:\s*(.*)",
-            re.DOTALL | re.IGNORECASE
-        )
+        pattern = re.compile(r"Score:\s*(\d+)\s*Probleme:\s*(.*?)\s*Zusammenfassung:\s*(.*)", re.DOTALL | re.IGNORECASE)
         match = pattern.search(reply)
 
         if not match:

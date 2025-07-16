@@ -6,45 +6,73 @@
     xmlns:core="sap.ui.core">
     <Page
         id="page"
-        title="Meldungsdetails: {NotificationId}"
+        title="Qualitätsprüfung für Meldung {Notification/NotificationId}"
         showNavButton="true"
         navButtonPress=".onNavBack">
         <content>
             <VBox class="sapUiSmallMargin">
-                <!-- Formular für Meldungsdetails -->
-                <f:SimpleForm
-                    id="SimpleFormDisplay"
-                    editable="false"
-                    layout="ResponsiveGridLayout"
-                    labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
-                    adjustLabelSpan="false"
-                    emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0"
-                    columnsXL="1" columnsL="1" columnsM="1"
-                    singleContainerFullSize="false">
-                    <f:content>
-                        <Label text="Beschreibung"/>
-                        <Text id="descriptionText" text="{Description}" />
-                        <Label text="Meldungsart"/>
-                        <Text id="typeText" text="{NotificationType}" />
-                        <Label text="Erfasst von"/>
-                        <Text id="userText" text="{CreatedByUser}" />
-                        <Label text="Langtext"/>
-                        <TextArea id="longText" value="{LongText}" growing="true" width="100%" editable="false"/>
-                        <Label text="Maßnahmen"/>
-                        <TextArea id="activitiesText" value="{Activities}" growing="true" width="100%" editable="false"/>
-                    </f:content>
-                </f:SimpleForm>
+                <!-- Sektionen für Meldung, Auftrag, Rückmeldung -->
+                <Panel expandable="true" expanded="true" headerText="Instandhaltungsmeldung">
+                    <content>
+                        <f:SimpleForm layout="ResponsiveGridLayout">
+                            <Label text="Meldungsnummer"/><Text text="{Notification/NotificationId}"/>
+                            <Label text="Meldungsart"/><Text id="typeText" text="{Notification/NotificationType}"/>
+                            <Label text="Beschreibung"/><Text text="{Notification/Description}"/>
+                            <Label text="Langtext"/><TextArea id="longText" value="{Notification/LongText}" editable="{view>/editMode}" width="100%" rows="3"/>
+                        </f:SimpleForm>
+                    </content>
+                </Panel>
+                <Panel expandable="true" expanded="true" headerText="Instandhaltungsauftrag" class="sapUiSmallMarginTop">
+                    <content>
+                        <f:SimpleForm layout="ResponsiveGridLayout">
+                            <Label text="Auftragsnummer"/><Text text="{Order/OrderId}"/>
+                            <Label text="Geplante Vorgänge"/><TextArea value="{Order/Operations}" editable="false" width="100%" rows="3"/>
+                            <Label text="Geplante Komponenten"/><Text text="{Order/Components}"/>
+                        </f:SimpleForm>
+                    </content>
+                </Panel>
+                <Panel expandable="true" expanded="true" headerText="Durchführung &amp; Rückmeldung" class="sapUiSmallMarginTop">
+                    <content>
+                        <f:SimpleForm layout="ResponsiveGridLayout">
+                            <Label text="Durchgeführte Tätigkeiten"/><TextArea id="activitiesText" value="{Confirmation/Activities}" editable="{view>/editMode}" width="100%" rows="5"/>
+                        </f:SimpleForm>
+                    </content>
+                </Panel>
 
-                <!-- Analyse Button -->
+                <!-- NEU: Sektion für externe Protokolle mit UploadCollection -->
+                <Panel expandable="true" expanded="true" headerText="Externe Protokolle" class="sapUiSmallMarginTop">
+                    <content>
+                        <UploadCollection
+                            id="uploadCollection"
+                            maximumFileSize="10"
+                            multiple="false"
+                            instantUpload="false"
+                            noDataDescription="Laden Sie hier das externe Wartungsprotokoll (PDF) hoch."
+                            change="onFileChange"
+                            fileDeleted="onFileDeleted"
+                            uploadComplete="onUploadComplete" />
+                    </content>
+                </Panel>
+
+                <!-- Analyse Buttons & Ergebnisbereich... -->
                 <Button
                     id="analyzeButton"
                     text="Qualität analysieren"
                     type="Emphasized"
                     press=".onAnalyzePress"
-                    class="sapUiSmallMarginTop"
-                    icon="sap-icon://activate" />
+                    class="sapUiLargeMarginTop"
+                    icon="sap-icon://activate"
+                    visible="{= !${view>/analysisDone} }" />
 
-                <!-- Ergebnisbereich (zuerst unsichtbar) -->
+                <Button
+                    id="reanalyzeButton"
+                    text="Korrigierte Texte erneut analysieren"
+                    type="Accept"
+                    press=".onAnalyzePress"
+                    class="sapUiLargeMarginTop"
+                    icon="sap-icon://refresh"
+                    visible="{view>/analysisDone}" />
+
                 <Panel id="resultsPanel" visible="false" class="sapUiSmallMarginTop" expandable="true" expanded="true" width="auto">
                     <headerToolbar>
                         <Toolbar>
@@ -57,27 +85,17 @@
                         <f:SimpleForm layout="ResponsiveGridLayout">
                             <f:content>
                                 <Label text="Qualitäts-Score"/>
-                                <ProgressIndicator
-                                    id="scoreIndicator"
-                                    percentValue="0"
-                                    displayValue="0/100"
-                                    showValue="true"
-                                    state="None" />
-
+                                <ProgressIndicator id="scoreIndicator" percentValue="0" displayValue="0/100" showValue="true" state="None" />
                                 <Label text="Gefundene Probleme"/>
-                                <List
-                                    id="issuesList"
-                                    items="{analysis>/issues}">
-                                    <StandardListItem title="{analysis>}" />
+                                <List id="issuesList" items="{analysis>/issues}">
+                                    <CustomListItem><Text text="{analysis>}" class="sapUiSmallMargin" /></CustomListItem>
                                 </List>
-
                                 <Label text="Zusammenfassung"/>
                                 <Text id="summaryText" text="{analysis>/summary}" />
                             </f:content>
                         </f:SimpleForm>
                     </content>
                 </Panel>
-
             </VBox>
         </content>
     </Page>
