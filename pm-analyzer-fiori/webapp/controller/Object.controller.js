@@ -1,144 +1,142 @@
 sap.ui.define([
-    "./BaseController",
-    "sap/ui/model/json/JSONModel", // JSONModel importieren
-    "sap/m/MessageToast" // MessageToast für Fehlermeldungen importieren
-], function (BaseController, JSONModel, MessageToast) {
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/model/json/JSONModel",
+    "sap/m/MessageBox",
+    "sap/ui/core/routing/History"
+], function (Controller, JSONModel, MessageBox, History) {
     "use strict";
-
-    return BaseController.extend("com.sap.pm.pmanalyzerfiori.controller.Object", {
-
-        /**
-         * Wird bei der Initialisierung der View aufgerufen.
-         */
+ 
+    return Controller.extend("com.sap.pm.pmanalyzerfiori.controller.Object", {
         onInit: function () {
-            // Ein leeres Model für die Analyseergebnisse erstellen und an die View binden.
-            // Dies ermöglicht es uns, die Ergebnis-UI einfach zu aktualisieren.
-            var oAnalysisModel = new JSONModel({
+            const oAnalysisModel = new JSONModel({
+                busy: false,
+                resultsVisible: false,
                 score: 0,
-                issues: [],
+                problems: [],
                 summary: ""
             });
             this.getView().setModel(oAnalysisModel, "analysis");
 
-            // Den Router holen und eine Funktion registrieren, die aufgerufen wird,
-            // wenn die "object"-Route aufgerufen wird.
-            var oRouter = this.getRouter();
+            const oRouter = this.getOwnerComponent().getRouter();
             oRouter.getRoute("object").attachPatternMatched(this._onObjectMatched, this);
         },
 
-        /**
-         * Wird aufgerufen, wenn die URL zur Detailseite passt.
-         * @param {sap.ui.base.Event} oEvent Das Routing-Event
-         */
         _onObjectMatched: function (oEvent) {
-            // Holt die ID des Objekts aus der URL (z.B. "0", "1", etc.)
-            var sObjectId =  oEvent.getParameter("arguments").objectId;
+            const sNotificationId = oEvent.getParameter("arguments").notificationId;
+            const oModel = this.getOwnerComponent().getModel();
             
-            // Bindet die gesamte View an den Pfad des ausgewählten Objekts im Hauptmodell.
-            // z.B. an "/0" für das erste Element in unserer mock_data.json.
-            // Dadurch werden alle Felder wie {Description}, {LongText} automatisch gefüllt.
-            this.getView().bindElement({
-                path: "/" + sObjectId
-            });
-
-            // Stellt sicher, dass der Ergebnisbereich bei jeder neuen Navigation ausgeblendet ist.
-            this.getView().byId("resultsPanel").setVisible(false);
+            // Wait for the model to be loaded before trying to find the path
+            oModel.dataLoaded().then(() => {
+                const aNotifications = oModel.getProperty("/Notifications") || [];
+                const sObjectPath = aNotifications.findIndex(
+                    (notif) => notif.NotificationId === sNotificationId
+                );
+                if (sObjectPath !== -1) {
+                    this.getView().bindElement({ path: `/Notifications/${sObjectPath}` });
+                }
+            }); 
         },
 
-        /**
-         * Wird aufgerufen, wenn der "Zurück"-Button geklickt wird.
-         * Navigiert zur vorherigen Seite in der Browser-Historie.
-         */
         onNavBack: function () {
-            var oHistory = sap.ui.core.routing.History.getInstance();
-            var sPreviousHash = oHistory.getPreviousHash();
+            const oHistory = History.getInstance();
+            const sPreviousHash = oHistory.getPreviousHash();
 
             if (sPreviousHash !== undefined) {
                 window.history.go(-1);
             } else {
-                this.getRouter().navTo("worklist", {}, true);
+                const oRouter = this.getOwnerComponent().getRouter();
+                oRouter.navTo("worklist", {}, true);
             }
         },
-
-        /**
-         * Wird beim Klick auf den "Qualität analysieren"-Button aufgerufen.
-         */
+ 
         onAnalyzePress: async function () {
+            const oComponent = this.getOwnerComponent();
             const oView = this.getView();
-            const oResultsPanel = oView.byId("resultsPanel");
-            const oSpinner = oView.byId("loadingSpinner");
-            const oAnalyzeButton = oView.byId("analyzeButton");
-
-            // Daten aus den UI-Elementen der Detailseite sammeln
+            const oAnalysisModel = oView.getModel("analysis");
+            
+            // Combine long text and activities for analysis
             const sLongText = oView.byId("longText").getValue();
             const sActivities = oView.byId("activitiesText").getValue();
+            const sTextToAnalyze = `${sLongText}\n\n${sActivities}`;
+ 
+            if (!sTextToAnalyze.trim()) {
+                MessageBox.warning("Please enter text to analyze.");
+                return;
+            }
             
-            // Die Texte für die Analyse kombinieren
-            const sFullText = sLongText + "\n\nMaßnahmen:\n" + sActivities;
-
-            // UI für den Ladezustand vorbereiten
-            oAnalyzeButton.setEnabled(false);
-            oResultsPanel.setVisible(true);
-            oSpinner.setVisible(true);
-
+            this._setAnalysisState(true);
+ 
             try {
-                // API-Aufruf an das lokale Python-Backend (läuft auf Port 8000)
-                const response = await fetch("http://localhost:8000/analyze", {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({ text: sFullText }),
-                });
-
-                if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.detail || "Serverfehler");
-                }
-
+                const auth0Client = await oComponent.getAuth0Client();
+                const response = await this._callAnalysisApi(sTextToAnalyze, auth0Client);
                 const result = await response.json();
-                
-                // Das "analysis"-Model mit den neuen Daten vom Backend aktualisieren.
-                // Die UI-Elemente, die an dieses Model gebunden sind, aktualisieren sich automatisch.
-                const oAnalysisModel = this.getView().getModel("analysis");
-                oAnalysisModel.setData(result);
-
-                // Hilfsfunktion aufrufen, um den Score-Balken einzufärben
-                this._updateScoreIndicator(result.score);
-
+                this._displayAnalysisResult(result);
+ 
             } catch (error) {
-                console.error("Analyse-Fehler:", error);
-                let displayMessage = 'Ein unerwarteter Fehler ist aufgetreten.';
-                if (error.message.includes('Failed to fetch')) {
-                    displayMessage = 'Netzwerkfehler: Konnte das Backend nicht erreichen. Läuft der Python-Server?';
-                } else {
-                    displayMessage = error.message;
+                if (error.error === 'login_required' || error.error === 'consent_required') {
+                    const auth0Client = await oComponent.getAuth0Client();
+                    await auth0Client.loginWithRedirect();
+                    return;
                 }
-                MessageToast.show(displayMessage);
-                // Bei einem Fehler den Ergebnisbereich wieder ausblenden
-                oResultsPanel.setVisible(false);
+                MessageBox.error(error.message);
             } finally {
-                // Ladezustand in jedem Fall beenden
-                oSpinner.setVisible(false);
-                oAnalyzeButton.setEnabled(true);
+                this._setAnalysisState(false);
             }
         },
 
-        /**
-         * Hilfsfunktion zum Einfärben des Score-Balkens je nach Wert.
-         * @param {int} score Der erhaltene Qualitäts-Score
-         */
+        _callAnalysisApi: async function(sText, auth0Client) {
+            const accessToken = await auth0Client.getTokenSilently();
+ 
+            const response = await fetch("/api/analyze", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${accessToken}`
+                },
+                body: JSON.stringify({ text: sText })
+            });
+
+            if (!response.ok) {
+                let errorMessage = `Server error: ${response.status} ${response.statusText}`;
+                try {
+                    const errorData = await response.json();
+                    if (errorData.error && errorData.error.message) {
+                        errorMessage = errorData.error.message;
+                    }
+                } catch (e) {
+                    console.error("Could not parse error response as JSON.", e);
+                }
+                throw new Error(errorMessage);
+            }
+            return response;
+        },
+
+        _setAnalysisState: function(bIsBusy) {
+            const oAnalysisModel = this.getView().getModel("analysis");
+            oAnalysisModel.setProperty("/busy", bIsBusy);
+            // Hide old results when a new analysis starts
+            if (bIsBusy) {
+                oAnalysisModel.setProperty("/resultsVisible", false);
+            }
+        },
+
+        _displayAnalysisResult: function(oResult) {
+            const oAnalysisModel = this.getView().getModel("analysis");
+            oAnalysisModel.setProperty("/score", oResult.score);
+            oAnalysisModel.setProperty("/problems", oResult.problems);
+            oAnalysisModel.setProperty("/summary", oResult.summary);
+            oAnalysisModel.setProperty("/resultsVisible", true);
+            this._updateScoreIndicator(oResult.score);
+        },
+
         _updateScoreIndicator: function(score) {
             const oScoreIndicator = this.getView().byId("scoreIndicator");
-            oScoreIndicator.setPercentValue(score);
-            oScoreIndicator.setDisplayValue(score + "/100");
-
             if (score >= 90) {
-                oScoreIndicator.setState(sap.ui.core.ValueState.Success); // Grün
+                oScoreIndicator.setState(sap.ui.core.ValueState.Success);
             } else if (score >= 70) {
-                oScoreIndicator.setState(sap.ui.core.ValueState.Warning); // Gelb
+                oScoreIndicator.setState(sap.ui.core.ValueState.Warning);
             } else {
-                oScoreIndicator.setState(sap.ui.core.ValueState.Error); // Rot
+                oScoreIndicator.setState(sap.ui.core.ValueState.Error);
             }
         }
     });

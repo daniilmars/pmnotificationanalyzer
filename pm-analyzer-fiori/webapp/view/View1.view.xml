@@ -1,0 +1,66 @@
+<mvc:View
+    controllerName="com.sap.pm.pmanalyzerfiori.controller.View1"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    xmlns:l="sap.ui.layout"
+    displayBlock="true">
+    <Page id="page" title="{i18n>title}" busy="{ui>/isBusy}">
+        <headerContent>
+            <!-- Login button, visible only when not authenticated -->
+            <Button
+                id="loginButton"
+                text="{i18n>loginButtonText}"
+                press="onLogin"
+                visible="{= !${ui>/isAuthenticated} }" />
+
+            <!-- User information and Logout button, visible only when authenticated -->
+            <HBox visible="{ui>/isAuthenticated}" alignItems="Center">
+                <Text text="{ui>/userProfile/name}" class="sapUiSmallMarginEnd" />
+                <Button
+                    id="logoutButton"
+                    text="{i18n>logoutButtonText}"
+                    press="onLogout" />
+            </HBox>
+        </headerContent>
+        <content>
+            <!-- The main content of the application is only visible after successful login -->
+            <VBox class="sapUiSmallMargin" visible="{ui>/isAuthenticated}">
+                <Label text="{i18n>view1.inputLabel}" labelFor="pmTextInput" />
+                <TextArea
+                    id="pmTextInput"
+                    width="100%"
+                    rows="8"
+                    placeholder="{i18n>view1.inputPlaceholder}" />
+                <Button
+                    id="analyzeButton"
+                    text="{i18n>view1.analyzeButton}"
+                    press="onAnalyzePress"
+                    type="Emphasized"
+                    class="sapUiSmallMarginTop" />
+
+                <Panel
+                    id="resultsPanel"
+                    headerText="{i18n>view1.resultsPanelHeader}"
+                    class="sapUiSmallMarginTop"
+                    visible="{analysis>/resultsVisible}"
+                    busy="{analysis>/busy}">
+                    <l:Grid defaultSpan="L6 M6 S12">
+                        <Label text="{i18n>view1.scoreLabel}" labelFor="scoreIndicator" />
+                        <ProgressIndicator
+                            id="scoreIndicator"
+                            percentValue="{analysis>/score}"
+                            displayValue="{analysis>/score}/100"
+                            showValue="true"
+                            state="None"/>
+                        <Label text="{i18n>view1.problemsLabel}"/>
+                        <List items="{analysis>/problems}" noDataText="No specific problems found.">
+                            <StandardListItem title="{}" type="Inactive"/>
+                        </List>
+                        <Label text="{i18n>view1.summaryLabel}" />
+                        <Text text="{analysis>/summary}" />
+                    </l:Grid>
+                </Panel>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

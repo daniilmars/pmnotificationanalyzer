@@ -107,7 +107,7 @@
         const errorBox = document.getElementById('error-box');
         const errorMessage = document.getElementById('error-message');
 
-        const apiUrl = 'http://127.0.0.1:8080/analyze';
+        const apiUrl = 'http://127.0.0.1:5000/api/analyze';
 
         analyzeBtn.addEventListener('click', async () => {
             const textToAnalyze = pmTextInput.value.trim();
@@ -130,7 +130,7 @@
 
                 if (!response.ok) {
                     const errorData = await response.json();
-                    throw new Error(errorData.detail || `Serverfehler: ${response.status}`);
+                    throw new Error(errorData.error || `Serverfehler: ${response.status}`);
                 }
 
                 const result = await response.json();
@@ -198,8 +198,8 @@
             }
 
             issuesList.innerHTML = '';
-            if (data.issues && data.issues.length > 0) {
-                data.issues.forEach(issue => {
+            if (data.problems && data.problems.length > 0) {
+                data.problems.forEach(issue => {
                     const li = document.createElement('li');
                     li.textContent = issue;
                     issuesList.appendChild(li);

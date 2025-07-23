@@ -8,17 +8,20 @@
     "sapui5"
   ],
   "main": "webapp/index.html",
-  "dependencies": {},
+  "dependencies": {
+    "@auth0/auth0-spa-js": "^2.3.0"
+  },
   "devDependencies": {
-    "@ui5/cli": "^4.0.16",
-    "@sap/ux-ui5-tooling": "1",
     "@sap-ux/ui5-middleware-fe-mockserver": "2",
-    "ui5-task-zipper": "^3.4.x",
+    "@sap/ux-ui5-tooling": "1",
+    "@ui5/cli": "^4.0.16",
+    "mbt": "^1.2.29",
     "rimraf": "^5.0.5",
-    "mbt": "^1.2.29"
+    "ui5-task-zipper": "^3.4.x",
+    "ui5-middleware-simpleproxy": "^0.7.0"
   },
   "scripts": {
-    "start": "echo \\\"This application was generated with a local metadata file and does not reference a live server. Please add the required server configuration or start this application with mock data using the target: npm run start-mock\\\"",
+    "start": "fiori run --config ./ui5.yaml --open \"webapp/index.html\"",
     "start-local": "fiori run --config ./ui5-local.yaml --open \"test/flpSandbox.html?sap-ui-xx-viewCache=false#comsappmpmanalyzerfiori-display\"",
     "build": "ui5 build --config=ui5.yaml --clean-dest --dest dist",
     "deploy": "fiori cfDeploy",

@@ -1,21 +1,34 @@
 sap.ui.define([
-    "./BaseController"
-], function (BaseController) {
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/model/json/JSONModel"
+], function (Controller, JSONModel) {
     "use strict";
-
-    return BaseController.extend("com.sap.pm.pmanalyzerfiori.controller.Worklist", {
+    return Controller.extend("com.sap.pm.pmanalyzerfiori.controller.Worklist", {
+        onInit: function () {
+            // The main data model is now set globally in Component.js
+        },
 
         onPress: function (oEvent) {
-            // Holt das Objekt, auf das geklickt wurde
-            var oItem = oEvent.getSource();
+            const oItem = oEvent.getSource();
+            const oRouter = this.getOwnerComponent().getRouter();
+            oRouter.navTo("object", {
+                notificationId: oItem.getBindingContext().getProperty("NotificationId")
+            });
+        },
 
-            // Holt den Pfad zum Datenobjekt (z.B. "/0" für das erste Element)
-            var sPath = oItem.getBindingContext().getPath();
-            var sIndex = sPath.split("/").slice(-1).pop();
-
-            // Navigiert zur "object"-Route und übergibt den Index als Parameter
-            this.getRouter().navTo("object", {
-                objectId: sIndex
+        onLogin: async function () {
+            const oComponent = this.getOwnerComponent();
+            const auth0Client = await oComponent.getAuth0Client();
+            await auth0Client.loginWithRedirect();
+        },
+ 
+        onLogout: async function () {
+            const oComponent = this.getOwnerComponent();
+            const auth0Client = await oComponent.getAuth0Client();
+            auth0Client.logout({
+                logoutParams: {
+                    returnTo: window.location.origin + window.location.pathname
+                }
             });
         }
     });
