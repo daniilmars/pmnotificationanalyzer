@@ -2,42 +2,28 @@
     controllerName="com.sap.pm.pmanalyzerfiori.controller.Worklist"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc">
-    <Page id="page" title="{i18n>title}">
+    <Page id="worklistPage" title="{i18n>worklistTitle}" busy="{ui>/isBusy}">
+        <headerContent>
+            <!-- Login button, visible only when not authenticated -->
+            <Button
+                id="loginButton"
+                text="{i18n>loginButtonText}"
+                press="onLogin"
+                visible="{= !${ui>/isAuthenticated} }" />
+
+            <!-- User information and Logout button, visible only when authenticated -->
+            <HBox visible="{ui>/isAuthenticated}" alignItems="Center">
+                <Text text="{ui>/userProfile/name}" class="sapUiSmallMarginEnd" />
+                <Button
+                    id="logoutButton"
+                    text="{i18n>logoutButtonText}"
+                    press="onLogout" />
+            </HBox>
+        </headerContent>
         <content>
-            <Table
-                id="table"
-                width="auto"
-                items="{/}"
-                noDataText="Keine Daten gefunden"
-                class="sapUiResponsiveMargin">
-                <headerToolbar>
-                    <Toolbar>
-                        <Title text="Instandhaltungsmeldungen" level="H2"/>
-                    </Toolbar>
-                </headerToolbar>
-                <columns>
-                    <Column>
-                        <Text text="Meldungsnummer" />
-                    </Column>
-                    <Column>
-                        <Text text="Beschreibung" />
-                    </Column>
-                    <Column minScreenWidth="Tablet" demandinPopin="true">
-                        <Text text="Meldungsart" />
-                    </Column>
-                </columns>
-                <items>
-                    <ColumnListItem
-                        type="Navigation"
-                        press=".onPress">
-                        <cells>
-                            <ObjectIdentifier title="{NotificationId}" />
-                            <Text text="{Description}" />
-                            <Text text="{NotificationType}" />
-                        </cells>
-                    </ColumnListItem>
-                </items>
-            </Table>
+            <List id="list" items="{/Notifications}" headerText="Notifications">
+                <StandardListItem title="{NotificationId}" type="Navigation" press=".onPress"/>
+            </List>
         </content>
     </Page>
 </mvc:View>

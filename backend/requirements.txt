@@ -1,7 +1,7 @@
-fastapi
-uvicorn
-pydantic
+Flask
+Flask-Cors
 google-generativeai
 python-dotenv
-pytest
-ollama
+pydantic
+python-jose[cryptography]
+requests
