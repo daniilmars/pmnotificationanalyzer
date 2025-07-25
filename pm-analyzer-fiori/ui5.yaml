@@ -1,7 +1,15 @@
-specVersion: '2.6'
+specVersion: "2.6"
 metadata:
   name: pm-analyzer-fiori
 type: application
+framework:
+  name: SAPUI5
+  version: "1.120.13"
+  libraries:
+    - name: sap.m
+    - name: sap.ui.core
+    - name: sap.ui.layout
+    - name: themelib_sap_horizon
 server:
   customMiddleware:
     - name: fiori-tools-appreload
@@ -13,12 +21,6 @@ server:
     - name: fiori-tools-proxy
       afterMiddleware: compression
       configuration:
-        # This is the configuration for your local Python backend
         backend:
           - path: /api
             url: http://localhost:5001
-        ui5:
-          path:
-            - /resources
-            - /test-resources
-          url: https://ui5.sap.com
