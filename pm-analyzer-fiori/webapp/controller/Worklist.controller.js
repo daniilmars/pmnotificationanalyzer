@@ -4,7 +4,11 @@ sap.ui.define([
     "use strict";
     return Controller.extend("com.sap.pm.pmanalyzerfiori.controller.Worklist", {
         onInit: function () {
-            // The main data model is now set globally in Component.js
+            const sCurrentLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
+            const oLanguageSelect = this.byId("languageSelect");
+            if (oLanguageSelect) {
+                oLanguageSelect.setSelectedKey(sCurrentLanguage);
+            }
         },
 
         onPress: function (oEvent) {
@@ -23,6 +27,12 @@ sap.ui.define([
                     returnTo: window.location.origin + window.location.pathname
                 }
             });
+        },
+
+        onLanguageChange: function(oEvent) {
+            const sLanguage = oEvent.getParameter("selectedItem").getKey();
+            localStorage.setItem("appLanguage", sLanguage);
+            window.location.href = window.location.pathname;
         }
     });
 });

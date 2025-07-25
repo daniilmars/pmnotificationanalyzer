@@ -2,23 +2,17 @@
     "sap.app": {
         "id": "com.sap.pm.pmanalyzerfiori",
         "type": "application",
-        "applicationVersion": {
-            "version": "0.0.1"
-        },
+        "applicationVersion": { "version": "0.0.1" },
         "title": "{{appTitle}}",
         "description": "{{appDescription}}"
     },
     "sap.ui": {
         "technology": "UI5",
-        "deviceTypes": {
-            "desktop": true,
-            "tablet": true,
-            "phone": true
-        }
+        "deviceTypes": { "desktop": true, "tablet": true, "phone": true }
     },
     "sap.ui5": {
         "dependencies": {
-            "minUI5Version": "1.138.0",
+            "minUI5Version": "1.108.0",
             "libs": {
                 "sap.m": {},
                 "sap.ui.core": {},
@@ -33,7 +27,7 @@
             "i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
                 "settings": {
-                    "bundleUrl": "i18n/i18n.properties",
+                    "bundleName": "com.sap.pm.pmanalyzerfiori.i18n.i18n",
                     "supportedLocales": ["en", "de"],
                     "fallbackLocale": "en"
                 }
@@ -56,35 +50,14 @@
                 "clearControlAggregation": false
             },
             "routes": [
-                {
-                    "name": "login",
-                    "pattern": "",
-                    "target": ["login"]
-                },
-                {
-                    "name": "worklist",
-                    "pattern": "worklist",
-                    "target": ["worklist"]
-                },
-                {
-                    "name": "object",
-                    "pattern": "Notifications/{notificationId}",
-                    "target": ["object"]
-                }
+                { "name": "login", "pattern": "", "target": "login" },
+                { "name": "worklist", "pattern": "worklist", "target": "worklist" },
+                { "name": "object", "pattern": "Notifications/{notificationId}", "target": "object" }
             ],
             "targets": {
-                "login": {
-                    "viewName": "Login",
-                    "viewId": "login"
-                },
-                "worklist": {
-                    "viewName": "Worklist",
-                    "viewId": "worklist"
-                },
-                "object": {
-                    "viewName": "Object",
-                    "viewId": "object"
-                }
+                "login": { "viewName": "Login", "viewId": "login" },
+                "worklist": { "viewName": "Worklist", "viewId": "worklist" },
+                "object": { "viewName": "Object", "viewId": "object" }
             }
         }
     }
