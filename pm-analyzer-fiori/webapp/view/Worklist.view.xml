@@ -4,14 +4,6 @@
     xmlns:mvc="sap.ui.core.mvc">
     <Page id="worklistPage" title="{i18n>worklistTitle}" busy="{ui>/isBusy}">
         <headerContent>
-            <!-- Login button, visible only when not authenticated -->
-            <Button
-                id="loginButton"
-                text="{i18n>loginButtonText}"
-                press="onLogin"
-                visible="{= !${ui>/isAuthenticated} }" />
-
-            <!-- User information and Logout button, visible only when authenticated -->
             <HBox visible="{ui>/isAuthenticated}" alignItems="Center">
                 <Text text="{ui>/userProfile/name}" class="sapUiSmallMarginEnd" />
                 <Button
@@ -21,7 +13,11 @@
             </HBox>
         </headerContent>
         <content>
-            <List id="list" items="{/Notifications}" headerText="Notifications">
+            <List
+                id="list"
+                items="{/Notifications}"
+                headerText="Notifications"
+                visible="{ui>/isAuthenticated}">
                 <StandardListItem title="{NotificationId}" type="Navigation" press=".onPress"/>
             </List>
         </content>

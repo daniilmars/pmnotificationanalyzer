@@ -1,7 +1,7 @@
 sap.ui.define([
     "sap/ui/core/UIComponent",
     "sap/ui/Device",
-    "sap/ui/dom/includeScript", // Correct module for loading external scripts
+    "sap/ui/dom/includeScript",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox"
 ],
@@ -21,7 +21,7 @@ function (UIComponent, Device, includeScript, JSONModel, MessageBox) {
                 isBusy: true // Start in a busy state until auth is checked
             });
             this.setModel(oUiModel, "ui");
- 
+
             const oConfigModel = new JSONModel();
             this.setModel(oConfigModel, "config");
 
@@ -32,7 +32,7 @@ function (UIComponent, Device, includeScript, JSONModel, MessageBox) {
                 .then((oData) => {
                     oDataModel.setProperty("/Notifications", oDataModel.getData());
                 });
- 
+
             // call the base component's init function AFTER setting up the models
             UIComponent.prototype.init.apply(this, arguments);
 
@@ -92,6 +92,11 @@ function (UIComponent, Device, includeScript, JSONModel, MessageBox) {
                 if (isAuthenticated) {
                     const userProfile = await auth0Client.getUser();
                     oUiModel.setProperty("/userProfile", userProfile);
+                    // *** NEW: Navigate to worklist if authenticated ***
+                    this.getRouter().navTo("worklist", {}, true);
+                } else {
+                    // *** NEW: Navigate to login page if not authenticated ***
+                    this.getRouter().navTo("login", {}, true);
                 }
 
                 return auth0Client;

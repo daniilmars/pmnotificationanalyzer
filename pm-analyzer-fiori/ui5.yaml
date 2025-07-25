@@ -16,7 +16,7 @@ server:
         # This is the configuration for your local Python backend
         backend:
           - path: /api
-            url: http://localhost:5000
+            url: http://localhost:5001
         ui5:
           path:
             - /resources
