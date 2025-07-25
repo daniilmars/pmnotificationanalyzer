@@ -45,12 +45,10 @@
                     icon="sap-icon://activate" />
 
                 <!-- Ergebnisbereich (zuerst unsichtbar) -->
-                <Panel id="resultsPanel" visible="false" class="sapUiSmallMarginTop" expandable="true" expanded="true" width="auto">
+                <Panel id="resultsPanel" visible="{analysis>/resultsVisible}" class="sapUiSmallMarginTop" expandable="true" expanded="true" width="auto" busy="{analysis>/busy}">
                     <headerToolbar>
                         <Toolbar>
                             <Title text="{i18n>object.resultsPanelTitle}"/>
-                            <ToolbarSpacer/>
-                            <core:Icon id="loadingSpinner" src="sap-icon://synchronize" class="sapUiMediumMarginEnd sap-icon-spin" visible="false"/>
                         </Toolbar>
                     </headerToolbar>
                     <content>
@@ -59,20 +57,21 @@
                                 <Label text="{i18n>object.scoreLabel}"/>
                                 <ProgressIndicator
                                     id="scoreIndicator"
-                                    percentValue="0"
-                                    displayValue="0/100"
+                                    percentValue="{analysis>/score}"
+                                    displayValue="{analysis>/score}/100"
                                     showValue="true"
                                     state="None" />
 
                                 <Label text="{i18n>object.problemsLabel}"/>
                                 <List
                                     id="problemsList"
-                                    items="{analysis>/problems}">
-                                    <StandardListItem title="{}" type="Inactive" />
+                                    items="{analysis>/problems}"
+                                    noDataText="{i18n>noProblemsFound}">
+                                    <StandardListItem title="{analysis>}" type="Inactive" />
                                 </List>
 
                                 <Label text="{i18n>object.summaryLabel}"/>
-                                <Text id="summaryText" text="{analysis>/summary}"/>
+                                <Text id="summaryText" text="{analysis>/summary}" />
                             </f:content>
                         </f:SimpleForm>
                     </content>

@@ -53,8 +53,8 @@
                             showValue="true"
                             state="None"/>
                         <Label text="{i18n>view1.problemsLabel}"/>
-                        <List items="{analysis>/problems}" noDataText="No specific problems found.">
-                            <StandardListItem title="{}" type="Inactive"/>
+                        <List items="{analysis>/problems}" noDataText="{i18n>noProblemsFound}">
+                            <StandardListItem title="{analysis>}" type="Inactive"/>
                         </List>
                         <Label text="{i18n>view1.summaryLabel}" />
                         <Text text="{analysis>/summary}" />

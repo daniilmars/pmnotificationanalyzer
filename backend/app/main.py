@@ -68,5 +68,5 @@ def analyze() -> Tuple[str, int]:
 
 if __name__ == '__main__':
     # For development, debug=True is fine. For production, use a WSGI server like Gunicorn.
-    port = int(os.environ.get('PORT', 5000))
+    port = int(os.environ.get('PORT', 5001))
     app.run(debug=True, port=port, host='0.0.0.0')

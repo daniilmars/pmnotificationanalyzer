@@ -1,7 +1,6 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller",
-    "sap/ui/model/json/JSONModel"
-], function (Controller, JSONModel) {
+    "sap/ui/core/mvc/Controller"
+], function (Controller) {
     "use strict";
     return Controller.extend("com.sap.pm.pmanalyzerfiori.controller.Worklist", {
         onInit: function () {
@@ -14,12 +13,6 @@ sap.ui.define([
             oRouter.navTo("object", {
                 notificationId: oItem.getBindingContext().getProperty("NotificationId")
             });
-        },
-
-        onLogin: async function () {
-            const oComponent = this.getOwnerComponent();
-            const auth0Client = await oComponent.getAuth0Client();
-            await auth0Client.loginWithRedirect();
         },
  
         onLogout: async function () {

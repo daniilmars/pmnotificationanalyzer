@@ -57,8 +57,13 @@
             },
             "routes": [
                 {
-                    "name": "worklist",
+                    "name": "login",
                     "pattern": "",
+                    "target": ["login"]
+                },
+                {
+                    "name": "worklist",
+                    "pattern": "worklist",
                     "target": ["worklist"]
                 },
                 {
@@ -68,6 +73,10 @@
                 }
             ],
             "targets": {
+                "login": {
+                    "viewName": "Login",
+                    "viewId": "login"
+                },
                 "worklist": {
                     "viewName": "Worklist",
                     "viewId": "worklist"

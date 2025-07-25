@@ -54,7 +54,6 @@ sap.ui.define([
             const oView = this.getView();
             const oAnalysisModel = oView.getModel("analysis");
             
-            // Combine long text and activities for analysis
             const sLongText = oView.byId("longText").getValue();
             const sActivities = oView.byId("activitiesText").getValue();
             const sTextToAnalyze = `${sLongText}\n\n${sActivities}`;
@@ -73,15 +72,22 @@ sap.ui.define([
                 this._displayAnalysisResult(result);
  
             } catch (error) {
-                if (error.error === 'login_required' || error.error === 'consent_required') {
-                    const auth0Client = await oComponent.getAuth0Client();
-                    await auth0Client.loginWithRedirect();
-                    return;
-                }
+                // Simplified error handling: any error here is unexpected, so we just show it.
                 MessageBox.error(error.message);
             } finally {
                 this._setAnalysisState(false);
             }
+        },
+
+        // ADDED FOR CONSISTENCY
+        onLogout: async function () {
+            const oComponent = this.getOwnerComponent();
+            const auth0Client = await oComponent.getAuth0Client();
+            auth0Client.logout({
+                logoutParams: {
+                    returnTo: window.location.origin + window.location.pathname
+                }
+            });
         },
 
         _callAnalysisApi: async function(sText, auth0Client) {
@@ -114,7 +120,6 @@ sap.ui.define([
         _setAnalysisState: function(bIsBusy) {
             const oAnalysisModel = this.getView().getModel("analysis");
             oAnalysisModel.setProperty("/busy", bIsBusy);
-            // Hide old results when a new analysis starts
             if (bIsBusy) {
                 oAnalysisModel.setProperty("/resultsVisible", false);
             }
