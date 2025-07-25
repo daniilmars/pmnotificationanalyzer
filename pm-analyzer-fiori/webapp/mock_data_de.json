@@ -1,0 +1,122 @@
+[
+  {
+    "NotificationId": "4003010",
+    "Description": "Pumpe P-101 ist an der Hauptdichtung undicht",
+    "FunctionalLocation": "CH-BAS-S1-PMP-100",
+    "EquipmentNumber": "1005678",
+    "NotificationType": "M1",
+    "NotificationTypeText": "Instandsetzung",
+    "CreationDate": "2025-07-21T10:00:00Z",
+    "CreatedByUser": "MILLER",
+    "LongText": "Bei der Routineinspektion wurde ein leichtes Tropfen an der mechanischen Hauptdichtung der Pumpe P-101 festgestellt. Betroffenes Produkt ist Gereinigtes Wasser (WFI). Die aktuelle Produktionscharge #B450-11A könnte betroffen sein. Leckrate ca. 1 Tropfen/5 Sek. Bereich gereinigt und abgesperrt. Kein unmittelbares Sicherheitsrisiko.",
+    "Activities": "Ursache: Dichtungsversagen (Teil #G-5882) aufgrund von Materialermüdung. Korrekturmassnahme: Pumpe isoliert und entleert. Dichtung und Dichtungsbaugruppe ersetzt. Schrauben mit 55 Nm nachgezogen. 1 Stunde überwacht, keine weiteren Lecks beobachtet. Vorbeugemassnahme: Austausch der Dichtung in den jährlichen PM-Plan für diesen Pumpentyp aufgenommen."
+  },
+  {
+    "NotificationId": "4003011",
+    "Description": "Jahresinspektion für HVAC-04",
+    "FunctionalLocation": "CH-BAS-S1-HVAC-04",
+    "EquipmentNumber": "1004532",
+    "NotificationType": "M2",
+    "NotificationTypeText": "Vorbeugende Instandhaltung",
+    "CreationDate": "2025-07-22T09:30:00Z",
+    "CreatedByUser": "SCHMIDT",
+    "LongText": "Geplante jährliche vorbeugende Wartung für die HVAC-Einheit 04, die den sterilen Verpackungsbereich versorgt. Alle Filter müssen gemäss PM-Plan #PM-HVAC-001 ersetzt werden.",
+    "Activities": "Primär- und Sekundärluftfilter ersetzt. Spulen gereinigt und Kältemittelstände geprüft. Anlage arbeitet innerhalb der normalen Parameter. PM-Auftrag 102345 bestätigt."
+  },
+  {
+    "NotificationId": "4003012",
+    "Description": "Förderband an Linie 3 gestoppt",
+    "FunctionalLocation": "CH-BAS-S2-PKG-LN3",
+    "EquipmentNumber": "1008345",
+    "NotificationType": "M4",
+    "NotificationTypeText": "Störungsbeseitigung",
+    "CreationDate": "2025-07-23T14:15:00Z",
+    "CreatedByUser": "BAKER",
+    "LongText": "Das Hauptförderband der Verpackungslinie 3 ist vollständig gestoppt. Der Motor brummt, aber das Band bewegt sich nicht. Die Produktion ist unterbrochen.",
+    "Activities": "Ein festgefressenes Rollenlager wurde gefunden. Die Lagereinheit wurde ersetzt. Die Linie ist wieder in Betrieb."
+  },
+  {
+    "NotificationId": "4003013",
+    "Description": "Maschine prüfen",
+    "FunctionalLocation": "CH-BAS-S2-PKG-LN2",
+    "EquipmentNumber": "1008344",
+    "NotificationType": "M3",
+    "NotificationTypeText": "Allgemeine Instandhaltung",
+    "CreationDate": "2025-07-20T11:00:00Z",
+    "CreatedByUser": "BAKER",
+    "LongText": "Bediener sagt, die Maschine an Linie 2 macht ein komisches Geräusch.",
+    "Activities": "Geprüft. Scheint in Ordnung zu sein."
+  },
+  {
+    "NotificationId": "4003014",
+    "Description": "Malerarbeiten in Korridor C",
+    "FunctionalLocation": "CH-BAS-S1-BLD-GEN",
+    "EquipmentNumber": "",
+    "NotificationType": "M3",
+    "NotificationTypeText": "Allgemeine Instandhaltung",
+    "CreationDate": "2025-07-25T08:45:00Z",
+    "CreatedByUser": "MILLER",
+    "LongText": "Schleifspuren und Absplitterungen in der Farbe an der Westwand von Korridor C, in der Nähe der Hauptschleuse. Kein Produktkontaktrisiko.",
+    "Activities": "Bereich gereinigt und vorbereitet. Eine Schicht GMP-konformer Epoxidfarbe aufgetragen. Bereich wird für 24 Stunden zum Aushärten gesperrt."
+  },
+  {
+    "NotificationId": "4003015",
+    "Description": "Druck hoch",
+    "FunctionalLocation": "CH-BAS-S1-RCT-02",
+    "EquipmentNumber": "1009910",
+    "NotificationType": "M1",
+    "NotificationTypeText": "Instandsetzung",
+    "CreationDate": "2025-07-19T16:30:00Z",
+    "CreatedByUser": "BAKER",
+    "LongText": "Druckanzeige am Reaktor ist zu hoch.",
+    "Activities": "Ventil eingestellt."
+  },
+  {
+    "NotificationId": "4003016",
+    "Description": "Quartalskalibrierung der Waage SC-08",
+    "FunctionalLocation": "CH-BAS-S1-LAB-WEIGH",
+    "EquipmentNumber": "1001122",
+    "NotificationType": "M2",
+    "NotificationTypeText": "Vorbeugende Instandhaltung",
+    "CreationDate": "2025-07-24T13:00:00Z",
+    "CreatedByUser": "SCHMIDT",
+    "LongText": "Die vierteljährliche Kalibrierung für die Waage SC-08 ist fällig. Standardgewichte (Satz C) vorbereitet. Kein Einfluss auf Produkte, da die Waage gesperrt war.",
+    "Activities": "5-Punkt-Kalibrierungsprüfung durchgeführt. Abweichung von +0,5% bei maximaler Last festgestellt. Ursache: Elektronische Drift. Korrekturmassnahme: Sensorverstärkung gemäss SOP-CAL-112 angepasst. Erneut getestet und Genauigkeit innerhalb der Toleranz bestätigt. Kalibrierzertifikat #C-2025-308 ausgestellt. Vorbeugemassnahme: Keine Änderung, Drift liegt im erwarteten Bereich für diesen Zeitraum."
+  },
+  {
+    "NotificationId": "4003017",
+    "Description": "Glühbirne ersetzen",
+    "FunctionalLocation": "CH-BAS-S1-OFF-101",
+    "EquipmentNumber": "",
+    "NotificationType": "M3",
+    "NotificationTypeText": "Allgemeine Instandhaltung",
+    "CreationDate": "2025-07-18T15:00:00Z",
+    "CreatedByUser": "MILLER",
+    "LongText": "Die Glühbirne in Büro 101 ist kaputt.",
+    "Activities": "Ersetzt."
+  },
+  {
+    "NotificationId": "4003018",
+    "Description": "Rührwerk am Reaktor R-02 ausgefallen",
+    "FunctionalLocation": "CH-BAS-S1-RCT-02",
+    "EquipmentNumber": "1009910",
+    "NotificationType": "M4",
+    "NotificationTypeText": "Störungsbeseitigung",
+    "CreationDate": "2025-07-25T11:20:00Z",
+    "CreatedByUser": "BAKER",
+    "LongText": "Das Rührwerk für den Reaktor R-02 ist mitten im Prozess für die Charge #B451-01 ausgefallen. Der Prozess wurde angehalten. Dies ist ein kritischer Ausfall mit direktem Produkteinfluss.",
+    "Activities": "Motorsteuerung untersucht. Ausgelösten Schutzschalter gefunden. Schutzschalter zurückgesetzt, aber er löste sofort wieder aus. Fehler auf einen Kurzschluss in der Motorwicklung zurückgeführt. Motor durch Ersatzteil aus dem Lager ersetzt (Teil #M-987-B). Rührwerk wiederhergestellt, Prozess fortgesetzt."
+  },
+  {
+    "NotificationId": "4003019",
+    "Description": "Tablettenpresse macht Geräusche",
+    "FunctionalLocation": "CH-BAS-S2-CMP-01",
+    "EquipmentNumber": "1007788",
+    "NotificationType": "M1",
+    "NotificationTypeText": "Instandsetzung",
+    "CreationDate": "2025-07-22T18:00:00Z",
+    "CreatedByUser": "MILLER",
+    "LongText": "Die Tablettenpresse macht während der Kompression ein rhythmisches Klickgeräusch. Der Bediener ist besorgt. Es läuft derzeit keine Charge.",
+    "Activities": "Die Matrizen- und Stempelbaugruppe inspiziert. Eine lose Stempelhalteschraube gefunden. Die Schraube angezogen. Maschine ohne Produkt laufen lassen, das Geräusch ist weg."
+  }
+]

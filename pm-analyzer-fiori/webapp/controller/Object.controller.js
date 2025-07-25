@@ -25,14 +25,13 @@ sap.ui.define([
             const sNotificationId = oEvent.getParameter("arguments").notificationId;
             const oModel = this.getOwnerComponent().getModel();
             
-            // Wait for the model to be loaded before trying to find the path
             oModel.dataLoaded().then(() => {
                 const aNotifications = oModel.getProperty("/Notifications") || [];
-                const sObjectPath = aNotifications.findIndex(
+                const iObjectIndex = aNotifications.findIndex(
                     (notif) => notif.NotificationId === sNotificationId
                 );
-                if (sObjectPath !== -1) {
-                    this.getView().bindElement({ path: `/Notifications/${sObjectPath}` });
+                if (iObjectIndex !== -1) {
+                    this.getView().bindElement({ path: `/Notifications/${iObjectIndex}` });
                 }
             }); 
         },
@@ -53,10 +52,12 @@ sap.ui.define([
             const oComponent = this.getOwnerComponent();
             const oView = this.getView();
             const oAnalysisModel = oView.getModel("analysis");
-            
+            const oNotification = oView.getBindingContext().getObject();
+
+            const sHeaderText = `Functional Location: ${oNotification.FunctionalLocation}\nEquipment: ${oNotification.EquipmentNumber}\nDescription: ${oNotification.Description}`;
             const sLongText = oView.byId("longText").getValue();
             const sActivities = oView.byId("activitiesText").getValue();
-            const sTextToAnalyze = `${sLongText}\n\n${sActivities}`;
+            const sTextToAnalyze = `${sHeaderText}\n\nLong Text:\n${sLongText}\n\nActivities:\n${sActivities}`;
  
             if (!sTextToAnalyze.trim()) {
                 MessageBox.warning("Please enter text to analyze.");
@@ -66,20 +67,22 @@ sap.ui.define([
             this._setAnalysisState(true);
  
             try {
+                // Get the current language to send to the backend
+                const sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
                 const auth0Client = await oComponent.getAuth0Client();
-                const response = await this._callAnalysisApi(sTextToAnalyze, auth0Client);
+
+                // Pass the language to the API call function
+                const response = await this._callAnalysisApi(sTextToAnalyze, auth0Client, sLanguage);
                 const result = await response.json();
                 this._displayAnalysisResult(result);
  
             } catch (error) {
-                // Simplified error handling: any error here is unexpected, so we just show it.
                 MessageBox.error(error.message);
             } finally {
                 this._setAnalysisState(false);
             }
         },
 
-        // ADDED FOR CONSISTENCY
         onLogout: async function () {
             const oComponent = this.getOwnerComponent();
             const auth0Client = await oComponent.getAuth0Client();
@@ -90,7 +93,7 @@ sap.ui.define([
             });
         },
 
-        _callAnalysisApi: async function(sText, auth0Client) {
+        _callAnalysisApi: async function(sText, auth0Client, sLanguage) {
             const accessToken = await auth0Client.getTokenSilently();
  
             const response = await fetch("/api/analyze", {
@@ -99,7 +102,8 @@ sap.ui.define([
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${accessToken}`
                 },
-                body: JSON.stringify({ text: sText })
+                // Add the language to the request body
+                body: JSON.stringify({ text: sText, language: sLanguage })
             });
 
             if (!response.ok) {

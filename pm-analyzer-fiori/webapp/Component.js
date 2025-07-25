@@ -2,9 +2,10 @@ sap.ui.define([
     "sap/ui/core/UIComponent",
     "sap/ui/Device",
     "sap/ui/model/json/JSONModel",
-    "sap/m/MessageBox"
+    "sap/m/MessageBox",
+    "sap/ui/model/resource/ResourceModel"
 ],
-function (UIComponent, Device, JSONModel, MessageBox) {
+function (UIComponent, Device, JSONModel, MessageBox, ResourceModel) {
     "use strict";
 
     return UIComponent.extend("com.sap.pm.pmanalyzerfiori.Component", {
@@ -28,20 +29,36 @@ function (UIComponent, Device, JSONModel, MessageBox) {
             const oConfigModel = new JSONModel();
             this.setModel(oConfigModel, "config");
 
+            // --- MODIFIED BLOCK FOR MULTILINGUAL MOCK DATA ---
+            // Determine which language file to load
+            let sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
+            if (sLanguage !== "de") {
+                sLanguage = "en"; // Default to English
+            }
+            // Use a simple, direct path to the file
+            const sMockDataPath = `./mock_data_${sLanguage}.json`;
+            
+            // Load the language-specific data
             const oDataModel = new JSONModel();
             this.setModel(oDataModel);
-            oDataModel.loadData(sap.ui.require.toUrl("com/sap/pm/pmanalyzerfiori/mock_data.json"))
+            oDataModel.loadData(sMockDataPath) // No longer need sap.ui.require.toUrl()
                 .then(() => {
                     oDataModel.setProperty("/Notifications", oDataModel.getData());
                 });
+            // --- END OF MODIFIED BLOCK ---
 
             UIComponent.prototype.init.apply(this, arguments);
 
-            // The promise now simply loads the config and initializes the client
+            const i18nModel = new ResourceModel({
+                bundleName: "com.sap.pm.pmanalyzerfiori.i18n.i18n",
+                supportedLocales: ["en", "de"],
+                fallbackLocale: "en"
+            });
+            this.setModel(i18nModel, "i18n");
+
             this._auth0Promise = oConfigModel.loadData(sap.ui.require.toUrl("com/sap/pm/pmanalyzerfiori/config.json"))
                 .then(() => this._initAuth0Client());
 
-            // The router is initialized after the auth process is complete
             this._auth0Promise.then(() => {
                 this.getRouter().initialize();
             });
@@ -52,14 +69,11 @@ function (UIComponent, Device, JSONModel, MessageBox) {
         },
 
         _initAuth0Client: async function () {
+            // ... this function remains unchanged ...
             const oUiModel = this.getModel("ui");
             try {
-                console.log("DEBUG: 1. Starting _initAuth0Client...");
                 const oConfig = this.getModel("config").getData().auth0;
-                console.log("DEBUG: 2. Auth0 config loaded:", oConfig);
-
-                console.log("DEBUG: 3. Calling createAuth0Client...");
-                // 'auth0' is now globally available from index.html
+                
                 const auth0Client = await auth0.createAuth0Client({
                     domain: oConfig.domain,
                     clientId: oConfig.clientId,
@@ -68,29 +82,21 @@ function (UIComponent, Device, JSONModel, MessageBox) {
                         redirect_uri: window.location.origin + window.location.pathname
                     }
                 });
-                console.log("DEBUG: 4. Auth0 client object created:", auth0Client);
 
                 const query = window.location.search;
                 if (query.includes("code=") && query.includes("state=")) {
-                    console.log("DEBUG: 5a. Handling redirect callback...");
                     await auth0Client.handleRedirectCallback();
                     window.history.replaceState({}, document.title, window.location.pathname);
-                    console.log("DEBUG: 5b. Redirect callback handled.");
                 }
                 
-                console.log("DEBUG: 6. Calling auth0Client.isAuthenticated()...");
                 const isAuthenticated = await auth0Client.isAuthenticated();
-                console.log("DEBUG: 7. isAuthenticated() returned:", isAuthenticated); // This is the most important log
-
                 oUiModel.setProperty("/isAuthenticated", isAuthenticated);
 
                 if (isAuthenticated) {
-                    console.log("DEBUG: 8a. User is authenticated, getting profile...");
                     const userProfile = await auth0Client.getUser();
                     oUiModel.setProperty("/userProfile", userProfile);
                     this.getRouter().navTo("worklist", {}, true);
                 } else {
-                    console.log("DEBUG: 8b. User is NOT authenticated, navigating to login.");
                     this.getRouter().navTo("login", {}, true);
                 }
                 return auth0Client;
@@ -101,7 +107,6 @@ function (UIComponent, Device, JSONModel, MessageBox) {
             } finally {
                 oUiModel.setProperty("/isBusy", false);
             }
-        },
-    
+        }
     });
 });
