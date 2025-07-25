@@ -1,6 +1,6 @@
 import os
 import re
-import google.generativeai as genai # <-- Zurück zur Google-Bibliothek
+import google.generativeai as genai
 from app.models import AnalysisResponse
 
 def _parse_gemini_response(reply: str) -> AnalysisResponse:
@@ -14,31 +14,32 @@ def _parse_gemini_response(reply: str) -> AnalysisResponse:
     match = pattern.search(reply)
 
     if not match:
-        # In a real application, you might want to log the failed response for debugging.
-        # import logging
-        # logging.warning(f"Could not parse Gemini response: {reply}")
-        raise ValueError(f"Konnte die Antwort von Gemini nicht parsen. Antwort war: {reply}")
+        raise ValueError(f"Could not parse the response from the AI. Response was: {reply}")
 
     score = int(match.group(1).strip())
     issues_text = match.group(2).strip()
-    # This list comprehension is effective for extracting bullet points.
     issues = [line.strip("- ") for line in issues_text.split('\n') if line.strip() and line.strip().startswith('-')]
     summary = match.group(3).strip()
 
     return AnalysisResponse(score=score, problems=issues, summary=summary)
 
 
-def analyze_text(text: str) -> AnalysisResponse:
+def analyze_text(text: str, language: str = "en") -> AnalysisResponse:
     """
-    Analysiert einen SAP-Instandhaltungstext mit der Google Gemini API.
+    Analyzes an SAP maintenance text using the Google Gemini API in the specified language.
     """
-    # Load API key from .env file
     api_key = os.getenv("GOOGLE_API_KEY")
     if not api_key:
-        raise ValueError("CRITICAL: GOOGLE_API_KEY environment variable is not set or could not be loaded.")
+        raise ValueError("CRITICAL: GOOGLE_API_KEY environment variable is not set.")
     genai.configure(api_key=api_key)
 
-    # Der bewährte Prompt für Gemini
+    # Map language codes to full names for a clearer instruction to the AI
+    lang_map = {
+        "en": "English",
+        "de": "German"
+    }
+    output_language = lang_map.get(language, "English")
+
     prompt = f"""
     Du bist ein erfahrener GMP-Auditor und bewertest die Qualität von Instandhaltungsmeldungen in einem pharmazeutischen Produktionsbetrieb. Deine Bewertung muss extrem streng sein und sich an den Prinzipien von GMP und Datenintegrität (ALCOA+) orientieren.
 
@@ -52,7 +53,7 @@ def analyze_text(text: str) -> AnalysisResponse:
     ANALYSIERE DIESEN TEXT:
     "{text}"
 
-    GIB DEINE ANTWORT NUR IN DIESEM EXAKTEN FORMAT ZURÜCK, OHNE WEITERE ERKLÄRUNGEN:
+    GIB DEINE ANTWORT NUR IM FOLGENDEN FORMAT UND NUR IN DIESER SPRACHE ZURÜCK: {output_language}
     Score: <int>
     Probleme:
     - <Problem 1>
@@ -70,6 +71,5 @@ def analyze_text(text: str) -> AnalysisResponse:
         return _parse_gemini_response(reply)
 
     except Exception as e:
-        # It's good practice to log the error before re-raising it.
-        print(f"Ein Fehler bei der Kommunikation mit der Google Gemini API ist aufgetreten: {e}")
+        print(f"An error occurred while communicating with the Google Gemini API: {e}")
         raise e

@@ -2,7 +2,6 @@
     controllerName="com.sap.pm.pmanalyzerfiori.controller.Login"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
-    xmlns:l="sap.ui.layout"
     displayBlock="true">
     <Page id="loginPage" showHeader="false" class="sapUiContentPadding">
         <content>

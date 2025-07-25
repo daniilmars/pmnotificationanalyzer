@@ -1,0 +1,122 @@
+[
+  {
+    "NotificationId": "4003010",
+    "Description": "Pump P-101 is leaking at main seal",
+    "FunctionalLocation": "CH-BAS-S1-PMP-100",
+    "EquipmentNumber": "1005678",
+    "NotificationType": "M1",
+    "NotificationTypeText": "Corrective Maintenance",
+    "CreationDate": "2025-07-21T10:00:00Z",
+    "CreatedByUser": "MILLER",
+    "LongText": "During routine inspection, slight dripping was observed at the main mechanical seal of pump P-101. Product affected is Purified Water (WFI). Current production batch #B450-11A may be impacted. Leak rate is approx. 1 drop/5 sec. Area cleaned and cordoned off. No immediate safety risk.",
+    "Activities": "Root Cause: Gasket (Part #G-5882) failure due to material fatigue. Corrective Action: Isolated and drained pump. Replaced gasket and seal assembly. Re-torqued bolts to 55 Nm. Monitored for 1 hour, no leaks observed. Preventive Action: Added gasket replacement to annual PM schedule for this pump type."
+  },
+  {
+    "NotificationId": "4003011",
+    "Description": "Annual inspection for HVAC-04",
+    "FunctionalLocation": "CH-BAS-S1-HVAC-04",
+    "EquipmentNumber": "1004532",
+    "NotificationType": "M2",
+    "NotificationTypeText": "Preventive Maintenance",
+    "CreationDate": "2025-07-22T09:30:00Z",
+    "CreatedByUser": "SCHMIDT",
+    "LongText": "Scheduled annual preventive maintenance for HVAC unit 04, serving sterile packaging area. All filters are due for replacement per PM plan #PM-HVAC-001.",
+    "Activities": "Replaced primary and secondary air filters. Cleaned coils and checked refrigerant levels. System is operating within normal parameters. PM work order 102345 confirmed."
+  },
+  {
+    "NotificationId": "4003012",
+    "Description": "Conveyor belt on Line 3 stopped",
+    "FunctionalLocation": "CH-BAS-S2-PKG-LN3",
+    "EquipmentNumber": "1008345",
+    "NotificationType": "M4",
+    "NotificationTypeText": "Breakdown Maintenance",
+    "CreationDate": "2025-07-23T14:15:00Z",
+    "CreatedByUser": "BAKER",
+    "LongText": "The main conveyor belt for packaging line 3 has completely stopped. Motor is humming but the belt is not moving. Production is halted.",
+    "Activities": "Found a seized roller bearing. Replaced the bearing assembly. Line is back in operation."
+  },
+  {
+    "NotificationId": "4003013",
+    "Description": "Check machine",
+    "FunctionalLocation": "CH-BAS-S2-PKG-LN2",
+    "EquipmentNumber": "1008344",
+    "NotificationType": "M3",
+    "NotificationTypeText": "General Maintenance",
+    "CreationDate": "2025-07-20T11:00:00Z",
+    "CreatedByUser": "BAKER",
+    "LongText": "Operator says machine on Line 2 is making a funny noise.",
+    "Activities": "Checked. Seems fine."
+  },
+  {
+    "NotificationId": "4003014",
+    "Description": "Paint touch-up in hallway C",
+    "FunctionalLocation": "CH-BAS-S1-BLD-GEN",
+    "EquipmentNumber": "",
+    "NotificationType": "M3",
+    "NotificationTypeText": "General Maintenance",
+    "CreationDate": "2025-07-25T08:45:00Z",
+    "CreatedByUser": "MILLER",
+    "LongText": "Scuff marks and chips in the paint along the west wall of hallway C, near the main airlock. No product contact risk.",
+    "Activities": "Cleaned and prepped the area. Applied one coat of GMP-compliant epoxy paint. Area will be closed for 24 hours to cure."
+  },
+  {
+    "NotificationId": "4003015",
+    "Description": "Pressure high",
+    "FunctionalLocation": "CH-BAS-S1-RCT-02",
+    "EquipmentNumber": "1009910",
+    "NotificationType": "M1",
+    "NotificationTypeText": "Corrective Maintenance",
+    "CreationDate": "2025-07-19T16:30:00Z",
+    "CreatedByUser": "BAKER",
+    "LongText": "Pressure reading on reactor is too high.",
+    "Activities": "Adjusted valve."
+  },
+  {
+    "NotificationId": "4003016",
+    "Description": "Quarterly calibration of scales SC-08",
+    "FunctionalLocation": "CH-BAS-S1-LAB-WEIGH",
+    "EquipmentNumber": "1001122",
+    "NotificationType": "M2",
+    "NotificationTypeText": "Preventive Maintenance",
+    "CreationDate": "2025-07-24T13:00:00Z",
+    "CreatedByUser": "SCHMIDT",
+    "LongText": "Quarterly calibration for weighing scale SC-08 is due. Standard weights (Set C) prepared. No impact on products as scale was locked out.",
+    "Activities": "Performed 5-point calibration check. Found deviation of +0.5% at max load. Root Cause: Electronic drift. Corrective Action: Adjusted sensor gain as per SOP-CAL-112. Re-tested and confirmed accuracy within tolerance. Calibration certificate #C-2025-308 issued. Preventive Action: No change, drift is within expected range for this period."
+  },
+  {
+    "NotificationId": "4003017",
+    "Description": "Replace lightbulb",
+    "FunctionalLocation": "CH-BAS-S1-OFF-101",
+    "EquipmentNumber": "",
+    "NotificationType": "M3",
+    "NotificationTypeText": "General Maintenance",
+    "CreationDate": "2025-07-18T15:00:00Z",
+    "CreatedByUser": "MILLER",
+    "LongText": "Lightbulb is out in office 101.",
+    "Activities": "Replaced."
+  },
+  {
+    "NotificationId": "4003018",
+    "Description": "Agitator on reactor R-02 failed",
+    "FunctionalLocation": "CH-BAS-S1-RCT-02",
+    "EquipmentNumber": "1009910",
+    "NotificationType": "M4",
+    "NotificationTypeText": "Breakdown Maintenance",
+    "CreationDate": "2025-07-25T11:20:00Z",
+    "CreatedByUser": "BAKER",
+    "LongText": "Agitator for reactor R-02 failed mid-process for batch #B451-01. Process has been put on hold. This is a critical failure with direct product impact.",
+    "Activities": "Investigated motor controller. Found tripped breaker. Reset breaker, but it tripped again immediately. Fault traced to a short in the motor winding. Replaced motor with spare from stores (Part #M-987-B). Agitation restored, process resumed."
+  },
+  {
+    "NotificationId": "4003019",
+    "Description": "Tablet press making noise",
+    "FunctionalLocation": "CH-BAS-S2-CMP-01",
+    "EquipmentNumber": "1007788",
+    "NotificationType": "M1",
+    "NotificationTypeText": "Corrective Maintenance",
+    "CreationDate": "2025-07-22T18:00:00Z",
+    "CreatedByUser": "MILLER",
+    "LongText": "Tablet press machine is making a rhythmic clicking noise during compression. The operator is concerned. No batch is currently running.",
+    "Activities": "Inspected the die and punch assembly. Found a loose punch retaining bolt. Tightened the bolt. Ran machine without product, noise is gone."
+  }
+]

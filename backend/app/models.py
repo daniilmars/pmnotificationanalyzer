@@ -1,14 +1,13 @@
-# /backend/app/models.py
-
 from pydantic import BaseModel
 from typing import List
 
 class AnalysisRequest(BaseModel):
-    """Das Modell für die eingehende Anfrage."""
+    """The model for the incoming request."""
     text: str
+    language: str = "en" # Add this line
 
 class AnalysisResponse(BaseModel):
-    """Das Modell für die ausgehende Antwort."""
+    """The model for the outgoing response."""
     score: int
     problems: List[str]
     summary: str

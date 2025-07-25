@@ -11,21 +11,21 @@
         navButtonPress=".onNavBack">
         <content>
             <VBox class="sapUiSmallMargin">
-                <!-- Formular für Meldungsdetails -->
                 <f:SimpleForm
                     id="SimpleFormDisplay"
                     editable="false"
-                    layout="ResponsiveGridLayout"
-                    labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12"
-                    adjustLabelSpan="false"
-                    emptySpanXL="4" emptySpanL="4" emptySpanM="4" emptySpanS="0"
-                    columnsXL="1" columnsL="1" columnsM="1"
-                    singleContainerFullSize="false">
+                    layout="ResponsiveGridLayout">
                     <f:content>
                         <Label text="{i18n>object.descriptionLabel}"/>
                         <Text id="descriptionText" text="{Description}" />
+                        
+                        <Label text="Functional Location"/>
+                        <Text text="{FunctionalLocation}" />
+                        <Label text="Equipment"/>
+                        <Text text="{EquipmentNumber}" />
+                        
                         <Label text="{i18n>object.typeLabel}"/>
-                        <Text id="typeText" text="{NotificationType}" />
+                        <Text id="typeText" text="{NotificationTypeText}" />
                         <Label text="{i18n>object.userLabel}"/>
                         <Text id="userText" text="{CreatedByUser}" />
                         <Label text="{i18n>object.longTextLabel}"/>
@@ -35,7 +35,6 @@
                     </f:content>
                 </f:SimpleForm>
 
-                <!-- Analyse Button -->
                 <Button
                     id="analyzeButton"
                     text="{i18n>object.analyzeButtonText}"
@@ -44,7 +43,6 @@
                     class="sapUiSmallMarginTop"
                     icon="sap-icon://activate" />
 
-                <!-- Ergebnisbereich (zuerst unsichtbar) -->
                 <Panel id="resultsPanel" visible="{analysis>/resultsVisible}" class="sapUiSmallMarginTop" expandable="true" expanded="true" width="auto" busy="{analysis>/busy}">
                     <headerToolbar>
                         <Toolbar>
@@ -76,7 +74,6 @@
                         </f:SimpleForm>
                     </content>
                 </Panel>
-
             </VBox>
         </content>
     </Page>
