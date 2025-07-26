@@ -7,7 +7,7 @@ parameters:
   enable-parallel-deployments: true
 
 modules:
-  #------------------- FRONTEND MODULE -------------------
+  #------------------- FRONTEND MODULE (HTML5 Content) -------------------
   - name: comsappmpmanalyzerfiori-app-content
     type: com.sap.application.content
     path: .
@@ -15,15 +15,6 @@ modules:
       - name: comsappmpmanalyzerfiori-html5-repo-host
         parameters:
           content-target: true
-      # This tells the frontend it needs the destination service
-      - name: backend-destination # Refers to the destination resource name
-        group: destinations
-        properties:
-          name: backend-api # The name of the destination to be created
-          # REMOVED: The 'url' property here is not resolved by MTA build.
-          # The Approuter will resolve the URL at runtime via the destination service.
-          # url: ~{destination_url} 
-          forwardAuthToken: true 
     build-parameters:
       build-result: resources
       requires:
@@ -32,6 +23,7 @@ modules:
           name: comsappmpmanalyzerfiori
           target-path: resources/
 
+  #------------------- HTML5 Application (Builds the UI) -------------------
   - name: comsappmpmanalyzerfiori
     type: html5
     path: .
@@ -60,11 +52,30 @@ modules:
       API_AUDIENCE: __API_AUDIENCE_PLACEHOLDER__
     build-parameters:
       no-source: true
-    # This module provides its default URL under a specific name
     provides:
-      - name: backend_url_property # A unique name for the provided property
+      - name: backend_url_property 
         properties:
-          url: ${default-url} # Exposes the backend's default route as 'url'
+          url: ${default-url}
+
+  #------------------- NEW: APPROUTER MODULE -------------------
+  - name: comsappmpmanalyzerfiori-approuter
+    type: nodejs # Or com.sap.cloud.approuter for a managed Approuter
+    path: approuter # This will be a new folder you need to create
+    parameters:
+      disk-quota: 256M
+      memory: 256M
+    requires:
+      - name: comsappmpmanalyzerfiori-html5-repo-host # Binds to the HTML5 App Repository
+      - name: comsappmpmanalyzerfiori-uaa # Binds to the XSUAA service
+      - name: backend-destination # Binds to the destination service
+        group: destinations
+        properties:
+          name: backend-api # The name of the destination to be created in the Approuter env
+          forwardAuthToken: true # Forward the user's JWT token to the backend
+    build-parameters:
+      # This tells the MTA build tool to include the Approuter's dependencies
+      builder: npm
+      npm-args: "--production"
 
 resources:
   #------------------- SERVICES -------------------------
@@ -81,20 +92,12 @@ resources:
       service: xsuaa
       service-plan: application
 
-  # DESTINATION RESOURCE: This defines the destination service that will be created
   - name: backend-destination
     type: org.cloudfoundry.managed-service
     parameters:
       service: destination
       service-plan: lite
       config:
-        URL: ~{backend_url_property/url} # Reference the provided property from the backend module
-    # This resource requires the 'backend_url_property' provided by the 'pm-analyzer-backend' module
+        URL: ~{backend_url_property/url}
     requires:
-      - name: backend_url_property # Refers to the 'provides' name from the backend module
-    # REMOVED: 'provides' is not a valid field for a resource in this context,
-    # as the destination URL is implicitly handled by the platform.
-    # provides:
-    #   - name: destination_url
-    #     properties:
-    #       destination_url: ${url}
+      - name: backend_url_property
