@@ -1,3 +1,5 @@
+# In pm-analyzer-fiori/mta.yaml
+
 _schema-version: "3.2"
 ID: comsappmpmanalyzerfiori
 version: 0.0.1
@@ -42,7 +44,8 @@ modules:
       disk-quota: 512M
       memory: 256M
       docker:
-        image: ${{ secrets.DOCKER_USERNAME }}/pm-analyzer-backend:latest # Docker image to be used
+        # CHANGE THIS LINE:
+        image: __DOCKER_IMAGE_FULL_TAG__ # Placeholder for Docker image to be used
         
 resources:
   #------------------- SERVICES -------------------------
