@@ -15,14 +15,13 @@ modules:
       - name: comsappmpmanalyzerfiori-html5-repo-host
         parameters:
           content-target: true
-      # --- ADDED REQUIREMENT ---
-      # This tells the frontend it needs the backend destination
+      # ADDED REQUIREMENT: This tells the frontend it needs the backend destination
       - name: backend-destination 
         group: destinations
         properties:
           name: backend-api
-          url: ~{backend-url}
-          forwardAuthToken: true
+          url: ~{backend-url} # This uses the URL provided by the backend module
+          forwardAuthToken: true # Important for forwarding user's JWT token
     build-parameters:
       build-result: resources
       requires:
@@ -49,18 +48,21 @@ modules:
       disk-quota: 512M
       memory: 256M
       docker:
-        image: __DOCKER_IMAGE_FULL_TAG__
-    # --- ADDED PROVIDES SECTION ---
-    # This exposes the backend's URL for other modules to use
-    provides:
-      - name: backend
-        properties:
-          backend-url: ${default-url}
+        image: __DOCKER_IMAGE_FULL_TAG__ 
+        registry: docker.io 
+        credentials:
+          username: __DOCKER_USERNAME_PLACEHOLDER__
+          password: __DOCKER_TOKEN_PLACEHOLDER__ 
     properties:
       AUTH0_DOMAIN: __AUTH0_DOMAIN_PLACEHOLDER__
       API_AUDIENCE: __API_AUDIENCE_PLACEHOLDER__
     build-parameters:
       no-source: true
+    # ADDED PROVIDES SECTION: This exposes the backend's URL for other modules to use
+    provides:
+      - name: backend
+        properties:
+          backend-url: ${default-url} # Exposes the backend's default route as 'backend-url'
 
 resources:
   #------------------- SERVICES -------------------------
@@ -77,10 +79,13 @@ resources:
       service: xsuaa
       service-plan: application
 
-  # --- ADDED DESTINATION RESOURCE ---
-  # This defines the destination service that will be created
+  # ADDED DESTINATION RESOURCE: This defines the destination service that will be created
   - name: backend-destination
     type: org.cloudfoundry.managed-service
     parameters:
       service: destination
       service-plan: lite
+    # ADDED: This requires the 'backend' provided by the 'pm-analyzer-backend' module
+    # making its properties (like backend-url) available to this resource.
+    requires:
+      - name: backend
