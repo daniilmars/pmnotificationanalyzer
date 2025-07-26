@@ -52,7 +52,7 @@ modules:
         registry: docker.io 
         credentials:
           username: __DOCKER_USERNAME_PLACEHOLDER__
-          password: __DOCKER_TOKEN_PLACEER__ 
+          password: __DOCKER_TOKEN_PLACEHOLDER__ 
     properties:
       AUTH0_DOMAIN: __AUTH0_DOMAIN_PLACEHOLDER__
       API_AUDIENCE: __API_AUDIENCE_PLACEHOLDER__
@@ -62,26 +62,6 @@ modules:
       - name: backend_url_property 
         properties:
           url: ${default-url}
-
-  #------------------- NEW: APPROUTER MODULE -------------------
-  - name: comsappmpmanalyzerfiori-approuter
-    type: nodejs 
-    # CORRECTED PATH: The approuter folder is one level up from mta.yaml
-    path: ../approuter 
-    parameters:
-      disk-quota: 256M
-      memory: 256M
-    requires:
-      - name: comsappmpmanalyzerfiori-html5-repo-host # Binds to the HTML5 App Repository
-      - name: comsappmpmanalyzerfiori-uaa # Binds to the XSUAA service
-      - name: backend-destination # Binds to the destination service
-        group: destinations
-        properties:
-          name: backend-api # The name of the destination to be created in the Approuter env
-          forwardAuthToken: true # Forward the user's JWT token to the backend
-    build-parameters:
-      builder: npm
-      npm-args: "--production"
 
 resources:
   #------------------- SERVICES -------------------------
@@ -98,12 +78,21 @@ resources:
       service: xsuaa
       service-plan: application
 
+  # DESTINATION RESOURCE: This defines the destination service that will be created
   - name: backend-destination
     type: org.cloudfoundry.managed-service
     parameters:
       service: destination
       service-plan: lite
-      config:
-        URL: ~{backend_url_property/url}
+      # The 'config' block is for service instance parameters.
+      # For the destination service, the actual destination properties are directly
+      # under 'parameters' for the resource itself, not nested under 'config'.
+      # Also, the 'url' property must be directly set here.
+      # The Approuter expects the 'url' property directly in the destination object.
+      URL: ~{backend_url_property/url} # Directly set the URL here
+      # Optional: You can also set other destination properties here if needed
+      # Name: backend-api # This is already handled by the 'requires' block in the approuter module
+      # ProxyType: Internet
+      # Authentication: NoAuthentication
     requires:
-      - name: backend_url_property
+      - name: backend_url_property # Refers to the 'provides' name from the backend module
