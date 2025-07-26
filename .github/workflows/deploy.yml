@@ -46,11 +46,15 @@ jobs:
           # IMPORTANT: Ensure DOCKER_TOKEN is a Personal Access Token with read access
           sed -i "s|__DOCKER_TOKEN_PLACEHOLDER__|${{ secrets.DOCKER_TOKEN }}|g" mta.yaml
           
+          # ADDED: Replace Auth0 environment variable placeholders
+          sed -i "s|__AUTH0_DOMAIN_PLACEHOLDER__|${{ secrets.AUTH0_DOMAIN }}|g" mta.yaml
+          sed -i "s|__API_AUDIENCE_PLACEHOLDER__|${{ secrets.API_AUDIENCE }}|g" mta.yaml
+          
           # Optional: Print the modified mta.yaml for debugging
           echo "--- Modified mta.yaml ---"
           cat mta.yaml
           echo "-------------------------"
-        working-directory: ./pm-analyzer-fiori # Crucial: ensure this targets the directory containing your mta.yaml
+        working-directory: ./pm-analyzer-fiori 
 
       - name: Install MTA Build Tool
         run: npm install -g mbt
@@ -84,14 +88,13 @@ jobs:
 
       - name: Delete Backend App (if it exists)
         env:
-          CF_API: ${{ secrets.CF_API }} # These are needed if cf login was in a separate step
+          CF_API: ${{ secrets.CF_API }}
           CF_USERNAME: ${{ secrets.CF_USERNAME }}
           CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
           CF_ORG: ${{ secrets.CF_ORG }}
           CF_SPACE: ${{ secrets.CF_SPACE }}
         run: |
           echo "Attempting to delete pm-analyzer-backend app if it exists..."
-          # The '|| true' ensures this step doesn't fail the workflow if the app is not found
           cf delete pm-analyzer-backend -f || true 
           echo "Deletion attempt complete."
 
@@ -103,8 +106,6 @@ jobs:
           CF_ORG: ${{ secrets.CF_ORG }}
           CF_SPACE: ${{ secrets.CF_SPACE }}
         run: |
-          # Deploy the application
           cf deploy ./pm-analyzer-fiori/mta_archives/comsappmpmanalyzerfiori_0.0.1.mtar -f
-          # Add a step to download deployment logs if the process fails for better debugging
-          echo "Attempting to download deployment logs for ID: 0c94eb53-6a41-11f0-9108-eeee0a8c5caf"
-          cf dmol -i 0c94eb53-6a41-11f0-9108-eeee0a8c5caf || true # Use '|| true' to not fail the step if dmol fails
+          echo "Attempting to download deployment logs for ID: 23042875-6a48-11f0-9108-eeee0a8c5caf"
+          cf dmol -i 23042875-6a48-11f0-9108-eeee0a8c5caf || true 

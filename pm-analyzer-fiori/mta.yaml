@@ -37,9 +37,6 @@ modules:
   #------------------- BACKEND MODULE (NEW) -------------------
   - name: pm-analyzer-backend
     type: application
-    # REMOVED the 'path' property as it's not needed for Docker-based applications
-    # and conflicts with Cloud Foundry's deployment of Docker images.
-    # path: ../backend 
     parameters:
       disk-quota: 512M
       memory: 256M
@@ -49,10 +46,11 @@ modules:
         credentials:
           username: __DOCKER_USERNAME_PLACEHOLDER__
           password: __DOCKER_TOKEN_PLACEHOLDER__ 
+      # ADDED: Environment variables for the application
+      env:
+        AUTH0_DOMAIN: __AUTH0_DOMAIN_PLACEHOLDER__
+        API_AUDIENCE: __API_AUDIENCE_PLACEHOLDER__
     build-parameters:
-      # ADDED: This tells the MTA Build Tool (mbt) that this module does not
-      # have local source code that needs to be packaged into a .zip file.
-      # It should rely solely on the 'docker' configuration.
       no-source: true
 
 resources:

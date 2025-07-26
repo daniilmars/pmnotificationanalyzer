@@ -1,0 +1,912 @@
+Retrieving logs for app pm-analyzer-backend in org dfa8bc11trial / space dev as daniilmarszallek@yahoo.de...
+
+   2025-07-26T19:44:22.02+0200 [API/16] OUT Added process: "web"
+   2025-07-26T19:44:22.03+0200 [API/16] OUT Created app with guid fe812b60-6475-42ed-8313-54b100f96b03
+   2025-07-26T19:44:22.13+0200 [API/11] OUT Updating process: "web"
+   2025-07-26T19:44:22.18+0200 [API/6] OUT Scaling process: "web"
+   2025-07-26T19:44:22.86+0200 [API/7] OUT Creating build for app with guid fe812b60-6475-42ed-8313-54b100f96b03
+   2025-07-26T19:44:22.98+0200 [STG/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 creating container for instance d54d648b-09cf-4c5f-8a8e-9f65278ee0ea
+   2025-07-26T19:44:23.32+0200 [STG/0] OUT Security group rules were updated
+   2025-07-26T19:44:23.38+0200 [STG/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 successfully created container for instance d54d648b-09cf-4c5f-8a8e-9f65278ee0ea
+   2025-07-26T19:44:23.97+0200 [STG/0] OUT Staging...
+   2025-07-26T19:44:24.02+0200 [STG/0] OUT Staging process started ...
+   2025-07-26T19:44:24.19+0200 [STG/0] OUT Staging process finished
+   2025-07-26T19:44:24.19+0200 [STG/0] OUT Exit status 0
+   2025-07-26T19:44:24.19+0200 [STG/0] OUT Staging Complete
+   2025-07-26T19:44:24.48+0200 [STG/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 stopping instance d54d648b-09cf-4c5f-8a8e-9f65278ee0ea
+   2025-07-26T19:44:24.48+0200 [STG/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 destroying container for instance d54d648b-09cf-4c5f-8a8e-9f65278ee0ea
+   2025-07-26T19:44:24.51+0200 [API/18] OUT Creating droplet for app with guid fe812b60-6475-42ed-8313-54b100f96b03
+   2025-07-26T19:44:25.38+0200 [STG/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 successfully destroyed container for instance d54d648b-09cf-4c5f-8a8e-9f65278ee0ea
+   2025-07-26T19:44:30.68+0200 [API/12] OUT Updated app with guid fe812b60-6475-42ed-8313-54b100f96b03 ({:droplet_guid=>"aa5e1d39-f832-4d57-8485-8bac96d93c1a"})
+   2025-07-26T19:44:30.98+0200 [API/6] OUT Creating revision for app with guid fe812b60-6475-42ed-8313-54b100f96b03
+   2025-07-26T19:44:31.01+0200 [API/6] OUT Starting app with guid fe812b60-6475-42ed-8313-54b100f96b03
+   2025-07-26T19:44:31.17+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 creating container for instance 1d8e7833-8129-43d4-4e04-a3d5
+   2025-07-26T19:44:33.33+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T19:44:33.38+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 successfully created container for instance 1d8e7833-8129-43d4-4e04-a3d5
+   2025-07-26T19:44:33.79+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 198, in _run_module_as_main
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 88, in _run_code
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/__main__.py", line 4, in <module>
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR uvicorn.main()
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1442, in __call__
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR return self.main(*args, **kwargs)
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1363, in main
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR rv = self.invoke(ctx)
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1226, in invoke
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR return ctx.invoke(self.callback, **ctx.params)
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 794, in invoke
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR return callback(*args, **kwargs)
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 413, in main
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR run(
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 580, in run
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR server.run()
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 67, in run
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR return asyncio.run(self.serve(sockets=sockets))
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR return runner.run(main)
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR return self._loop.run_until_complete(task)
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR return future.result()
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 71, in serve
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR await self._serve(sockets)
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 78, in _serve
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR config.load()
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 436, in load
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR self.loaded_app = import_from_string(self.app)
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR module = importlib.import_module(module_str)
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR return _bootstrap._gcd_import(name[level:], package, level)
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/app/app/main.py", line 13, in <module>
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR from app.auth import token_required
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR File "/app/app/auth.py", line 17, in <module>
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR raise RuntimeError("AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.")
+   2025-07-26T19:44:34.39+0200 [APP/PROC/WEB/0] ERR RuntimeError: AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.
+   2025-07-26T19:44:34.47+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T19:44:40.22+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 stopping instance 1d8e7833-8129-43d4-4e04-a3d5
+   2025-07-26T19:44:40.22+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 destroying container for instance 1d8e7833-8129-43d4-4e04-a3d5
+   2025-07-26T19:44:40.22+0200 [API/13] OUT Process has crashed with type: "web"
+   2025-07-26T19:44:40.23+0200 [API/13] OUT App instance exited with guid fe812b60-6475-42ed-8313-54b100f96b03 payload: {"instance"=>"1d8e7833-8129-43d4-4e04-a3d5", "index"=>0, "cell_id"=>"c839c7b1-088e-41af-b9b7-66256aacd457", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>1, "crash_timestamp"=>1753551880205945838, "version"=>"f7c88b8e-0679-4a1d-8eb7-5000ead8a275"}
+   2025-07-26T19:44:40.29+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T19:44:40.31+0200 [CELL/0] OUT Cell a39e6531-79d9-465f-9ab6-7109dfe6de55 creating container for instance 09a9aab4-66dd-4c7f-77b8-9a76
+   2025-07-26T19:44:41.17+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 successfully destroyed container for instance 1d8e7833-8129-43d4-4e04-a3d5
+   2025-07-26T19:44:42.48+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T19:44:42.54+0200 [CELL/0] OUT Cell a39e6531-79d9-465f-9ab6-7109dfe6de55 successfully created container for instance 09a9aab4-66dd-4c7f-77b8-9a76
+   2025-07-26T19:44:42.86+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 198, in _run_module_as_main
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 88, in _run_code
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/__main__.py", line 4, in <module>
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR uvicorn.main()
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1442, in __call__
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR return self.main(*args, **kwargs)
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1363, in main
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR rv = self.invoke(ctx)
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1226, in invoke
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR return ctx.invoke(self.callback, **ctx.params)
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 794, in invoke
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR return callback(*args, **kwargs)
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 413, in main
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR run(
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 580, in run
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR server.run()
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 67, in run
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR return asyncio.run(self.serve(sockets=sockets))
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR return runner.run(main)
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR return self._loop.run_until_complete(task)
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR return future.result()
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 71, in serve
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR await self._serve(sockets)
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 78, in _serve
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR config.load()
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 436, in load
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR self.loaded_app = import_from_string(self.app)
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR module = importlib.import_module(module_str)
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR return _bootstrap._gcd_import(name[level:], package, level)
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/app/app/main.py", line 13, in <module>
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR from app.auth import token_required
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR File "/app/app/auth.py", line 17, in <module>
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR raise RuntimeError("AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.")
+   2025-07-26T19:44:43.47+0200 [APP/PROC/WEB/0] ERR RuntimeError: AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.
+   2025-07-26T19:44:43.57+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T19:44:49.37+0200 [CELL/0] OUT Cell a39e6531-79d9-465f-9ab6-7109dfe6de55 stopping instance 09a9aab4-66dd-4c7f-77b8-9a76
+   2025-07-26T19:44:49.37+0200 [CELL/0] OUT Cell a39e6531-79d9-465f-9ab6-7109dfe6de55 destroying container for instance 09a9aab4-66dd-4c7f-77b8-9a76
+   2025-07-26T19:44:49.37+0200 [API/6] OUT Process has crashed with type: "web"
+   2025-07-26T19:44:49.38+0200 [API/6] OUT App instance exited with guid fe812b60-6475-42ed-8313-54b100f96b03 payload: {"instance"=>"09a9aab4-66dd-4c7f-77b8-9a76", "index"=>0, "cell_id"=>"a39e6531-79d9-465f-9ab6-7109dfe6de55", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>2, "crash_timestamp"=>1753551889358543678, "version"=>"f7c88b8e-0679-4a1d-8eb7-5000ead8a275"}
+   2025-07-26T19:44:49.46+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T19:44:49.46+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 creating container for instance 39afec82-3178-4f0e-7964-1989
+   2025-07-26T19:44:50.28+0200 [CELL/0] OUT Cell a39e6531-79d9-465f-9ab6-7109dfe6de55 successfully destroyed container for instance 09a9aab4-66dd-4c7f-77b8-9a76
+   2025-07-26T19:44:51.63+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T19:44:51.69+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully created container for instance 39afec82-3178-4f0e-7964-1989
+   2025-07-26T19:44:51.87+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 198, in _run_module_as_main
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 88, in _run_code
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/__main__.py", line 4, in <module>
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR uvicorn.main()
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1442, in __call__
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR return self.main(*args, **kwargs)
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1363, in main
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR rv = self.invoke(ctx)
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1226, in invoke
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR return ctx.invoke(self.callback, **ctx.params)
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 794, in invoke
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR return callback(*args, **kwargs)
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 413, in main
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR run(
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 580, in run
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR server.run()
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 67, in run
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR return asyncio.run(self.serve(sockets=sockets))
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR return runner.run(main)
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR return self._loop.run_until_complete(task)
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR return future.result()
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 71, in serve
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR await self._serve(sockets)
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 78, in _serve
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR config.load()
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 436, in load
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR self.loaded_app = import_from_string(self.app)
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR module = importlib.import_module(module_str)
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR return _bootstrap._gcd_import(name[level:], package, level)
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/app/app/main.py", line 13, in <module>
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR from app.auth import token_required
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR File "/app/app/auth.py", line 17, in <module>
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR raise RuntimeError("AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.")
+   2025-07-26T19:44:52.48+0200 [APP/PROC/WEB/0] ERR RuntimeError: AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.
+   2025-07-26T19:44:52.57+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T19:44:58.40+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 stopping instance 39afec82-3178-4f0e-7964-1989
+   2025-07-26T19:44:58.40+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 destroying container for instance 39afec82-3178-4f0e-7964-1989
+   2025-07-26T19:44:58.42+0200 [API/11] OUT Process has crashed with type: "web"
+   2025-07-26T19:44:58.43+0200 [API/11] OUT App instance exited with guid fe812b60-6475-42ed-8313-54b100f96b03 payload: {"instance"=>"39afec82-3178-4f0e-7964-1989", "index"=>0, "cell_id"=>"66bf8157-2666-4d64-b2ba-4e673aee0466", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>3, "crash_timestamp"=>1753551898403473976, "version"=>"f7c88b8e-0679-4a1d-8eb7-5000ead8a275"}
+   2025-07-26T19:44:58.47+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T19:44:59.25+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully destroyed container for instance 39afec82-3178-4f0e-7964-1989
+   2025-07-26T19:45:03.36+0200 [API/11] OUT Stopping app with guid fe812b60-6475-42ed-8313-54b100f96b03
+   2025-07-26T19:45:03.50+0200 [API/6] OUT Starting app with guid fe812b60-6475-42ed-8313-54b100f96b03
+   2025-07-26T19:45:03.66+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 creating container for instance 95243a77-a4fa-4d35-6543-9356
+   2025-07-26T19:45:04.11+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T19:45:04.17+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully created container for instance 95243a77-a4fa-4d35-6543-9356
+   2025-07-26T19:45:04.45+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 198, in _run_module_as_main
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 88, in _run_code
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/__main__.py", line 4, in <module>
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR uvicorn.main()
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1442, in __call__
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR return self.main(*args, **kwargs)
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1363, in main
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR rv = self.invoke(ctx)
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1226, in invoke
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR return ctx.invoke(self.callback, **ctx.params)
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 794, in invoke
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR return callback(*args, **kwargs)
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 413, in main
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR run(
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 580, in run
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR server.run()
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 67, in run
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR return asyncio.run(self.serve(sockets=sockets))
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR return runner.run(main)
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR return self._loop.run_until_complete(task)
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR return future.result()
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 71, in serve
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR await self._serve(sockets)
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 78, in _serve
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR config.load()
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 436, in load
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR self.loaded_app = import_from_string(self.app)
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR module = importlib.import_module(module_str)
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR return _bootstrap._gcd_import(name[level:], package, level)
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/app/app/main.py", line 13, in <module>
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR from app.auth import token_required
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR File "/app/app/auth.py", line 17, in <module>
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR raise RuntimeError("AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.")
+   2025-07-26T19:45:05.08+0200 [APP/PROC/WEB/0] ERR RuntimeError: AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.
+   2025-07-26T19:45:05.17+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T19:45:10.69+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 stopping instance 95243a77-a4fa-4d35-6543-9356
+   2025-07-26T19:45:10.69+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 destroying container for instance 95243a77-a4fa-4d35-6543-9356
+   2025-07-26T19:45:10.70+0200 [API/17] OUT Process has crashed with type: "web"
+   2025-07-26T19:45:10.71+0200 [API/17] OUT App instance exited with guid fe812b60-6475-42ed-8313-54b100f96b03 payload: {"instance"=>"95243a77-a4fa-4d35-6543-9356", "index"=>0, "cell_id"=>"66bf8157-2666-4d64-b2ba-4e673aee0466", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>1, "crash_timestamp"=>1753551910681154860, "version"=>"8ba97e0b-4cd2-4a77-bea1-1aa14b0c50a0"}
+   2025-07-26T19:45:10.76+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T19:45:10.77+0200 [CELL/0] OUT Cell a39e6531-79d9-465f-9ab6-7109dfe6de55 creating container for instance 8ab684d8-3399-4959-6675-af45
+   2025-07-26T19:45:11.27+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T19:45:11.32+0200 [CELL/0] OUT Cell a39e6531-79d9-465f-9ab6-7109dfe6de55 successfully created container for instance 8ab684d8-3399-4959-6675-af45
+   2025-07-26T19:45:11.53+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully destroyed container for instance 95243a77-a4fa-4d35-6543-9356
+   2025-07-26T19:45:11.71+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T19:45:12.32+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-07-26T19:45:12.32+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 198, in _run_module_as_main
+   2025-07-26T19:45:12.32+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 88, in _run_code
+   2025-07-26T19:45:12.32+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/__main__.py", line 4, in <module>
+   2025-07-26T19:45:12.32+0200 [APP/PROC/WEB/0] ERR uvicorn.main()
+   2025-07-26T19:45:12.32+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1442, in __call__
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR return self.main(*args, **kwargs)
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1363, in main
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR rv = self.invoke(ctx)
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1226, in invoke
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR return ctx.invoke(self.callback, **ctx.params)
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 794, in invoke
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR return callback(*args, **kwargs)
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 413, in main
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR run(
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 580, in run
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR server.run()
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 67, in run
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR return asyncio.run(self.serve(sockets=sockets))
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR return runner.run(main)
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR return self._loop.run_until_complete(task)
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR return future.result()
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 71, in serve
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR await self._serve(sockets)
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 78, in _serve
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR config.load()
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 436, in load
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR self.loaded_app = import_from_string(self.app)
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR module = importlib.import_module(module_str)
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR return _bootstrap._gcd_import(name[level:], package, level)
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "/app/app/main.py", line 13, in <module>
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR from app.auth import token_required
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR File "/app/app/auth.py", line 17, in <module>
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR raise RuntimeError("AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.")
+   2025-07-26T19:45:12.33+0200 [APP/PROC/WEB/0] ERR RuntimeError: AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.
+   2025-07-26T19:45:12.41+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T19:45:17.72+0200 [CELL/0] OUT Cell a39e6531-79d9-465f-9ab6-7109dfe6de55 stopping instance 8ab684d8-3399-4959-6675-af45
+   2025-07-26T19:45:17.72+0200 [CELL/0] OUT Cell a39e6531-79d9-465f-9ab6-7109dfe6de55 destroying container for instance 8ab684d8-3399-4959-6675-af45
+   2025-07-26T19:45:17.72+0200 [API/0] OUT Process has crashed with type: "web"
+   2025-07-26T19:45:17.74+0200 [API/0] OUT App instance exited with guid fe812b60-6475-42ed-8313-54b100f96b03 payload: {"instance"=>"8ab684d8-3399-4959-6675-af45", "index"=>0, "cell_id"=>"a39e6531-79d9-465f-9ab6-7109dfe6de55", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>2, "crash_timestamp"=>1753551917712794386, "version"=>"8ba97e0b-4cd2-4a77-bea1-1aa14b0c50a0"}
+   2025-07-26T19:45:17.81+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T19:45:17.81+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 creating container for instance 66367def-bd55-42bb-4f5f-3f4d
+   2025-07-26T19:45:18.29+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T19:45:18.34+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully created container for instance 66367def-bd55-42bb-4f5f-3f4d
+   2025-07-26T19:45:18.64+0200 [CELL/0] OUT Cell a39e6531-79d9-465f-9ab6-7109dfe6de55 successfully destroyed container for instance 8ab684d8-3399-4959-6675-af45
+   2025-07-26T19:45:19.06+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 198, in _run_module_as_main
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 88, in _run_code
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/__main__.py", line 4, in <module>
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR uvicorn.main()
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1442, in __call__
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR return self.main(*args, **kwargs)
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1363, in main
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR rv = self.invoke(ctx)
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1226, in invoke
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR return ctx.invoke(self.callback, **ctx.params)
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 794, in invoke
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR return callback(*args, **kwargs)
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 413, in main
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR run(
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 580, in run
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR server.run()
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 67, in run
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR return asyncio.run(self.serve(sockets=sockets))
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR return runner.run(main)
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR return self._loop.run_until_complete(task)
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR return future.result()
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 71, in serve
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR await self._serve(sockets)
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 78, in _serve
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR config.load()
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 436, in load
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR self.loaded_app = import_from_string(self.app)
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR module = importlib.import_module(module_str)
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR return _bootstrap._gcd_import(name[level:], package, level)
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/app/app/main.py", line 13, in <module>
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR from app.auth import token_required
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR File "/app/app/auth.py", line 17, in <module>
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR raise RuntimeError("AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.")
+   2025-07-26T19:45:19.68+0200 [APP/PROC/WEB/0] ERR RuntimeError: AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.
+   2025-07-26T19:45:19.77+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T19:45:25.20+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 stopping instance 66367def-bd55-42bb-4f5f-3f4d
+   2025-07-26T19:45:25.20+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 destroying container for instance 66367def-bd55-42bb-4f5f-3f4d
+   2025-07-26T19:45:25.22+0200 [API/16] OUT Process has crashed with type: "web"
+   2025-07-26T19:45:25.23+0200 [API/16] OUT App instance exited with guid fe812b60-6475-42ed-8313-54b100f96b03 payload: {"instance"=>"66367def-bd55-42bb-4f5f-3f4d", "index"=>0, "cell_id"=>"66bf8157-2666-4d64-b2ba-4e673aee0466", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>3, "crash_timestamp"=>1753551925203591377, "version"=>"8ba97e0b-4cd2-4a77-bea1-1aa14b0c50a0"}
+   2025-07-26T19:45:25.28+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T19:45:26.17+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully destroyed container for instance 66367def-bd55-42bb-4f5f-3f4d
+   2025-07-26T19:45:31.35+0200 [API/0] OUT Stopping app with guid fe812b60-6475-42ed-8313-54b100f96b03
+   2025-07-26T19:45:31.50+0200 [API/6] OUT Starting app with guid fe812b60-6475-42ed-8313-54b100f96b03
+   2025-07-26T19:45:31.67+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 creating container for instance 7900be23-d969-423f-7689-8547
+   2025-07-26T19:45:33.88+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T19:45:33.93+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 successfully created container for instance 7900be23-d969-423f-7689-8547
+   2025-07-26T19:45:34.39+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 198, in _run_module_as_main
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 88, in _run_code
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/__main__.py", line 4, in <module>
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR uvicorn.main()
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1442, in __call__
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR return self.main(*args, **kwargs)
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1363, in main
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR rv = self.invoke(ctx)
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1226, in invoke
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR return ctx.invoke(self.callback, **ctx.params)
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 794, in invoke
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR return callback(*args, **kwargs)
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 413, in main
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR run(
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 580, in run
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR server.run()
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 67, in run
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR return asyncio.run(self.serve(sockets=sockets))
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR return runner.run(main)
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR return self._loop.run_until_complete(task)
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR return future.result()
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 71, in serve
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR await self._serve(sockets)
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 78, in _serve
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR config.load()
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 436, in load
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR self.loaded_app = import_from_string(self.app)
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR module = importlib.import_module(module_str)
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR return _bootstrap._gcd_import(name[level:], package, level)
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/app/app/main.py", line 13, in <module>
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR from app.auth import token_required
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR File "/app/app/auth.py", line 17, in <module>
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR raise RuntimeError("AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.")
+   2025-07-26T19:45:35.01+0200 [APP/PROC/WEB/0] ERR RuntimeError: AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.
+   2025-07-26T19:45:35.10+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T19:45:41.25+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 stopping instance 7900be23-d969-423f-7689-8547
+   2025-07-26T19:45:41.25+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 destroying container for instance 7900be23-d969-423f-7689-8547
+   2025-07-26T19:45:41.25+0200 [API/4] OUT Process has crashed with type: "web"
+   2025-07-26T19:45:41.26+0200 [API/4] OUT App instance exited with guid fe812b60-6475-42ed-8313-54b100f96b03 payload: {"instance"=>"7900be23-d969-423f-7689-8547", "index"=>0, "cell_id"=>"7eab295c-fd78-413b-beff-f2d9abd94987", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>1, "crash_timestamp"=>1753551941237252709, "version"=>"d3b10152-1624-4078-bbdd-037a780aa0d9"}
+   2025-07-26T19:45:41.31+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T19:45:41.33+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 creating container for instance f390b2e5-c3be-4a0e-4992-9ba5
+   2025-07-26T19:45:41.79+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T19:45:41.84+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully created container for instance f390b2e5-c3be-4a0e-4992-9ba5
+   2025-07-26T19:45:42.16+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 successfully destroyed container for instance 7900be23-d969-423f-7689-8547
+   2025-07-26T19:45:42.35+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 198, in _run_module_as_main
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 88, in _run_code
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/__main__.py", line 4, in <module>
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR uvicorn.main()
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1442, in __call__
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR return self.main(*args, **kwargs)
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1363, in main
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR rv = self.invoke(ctx)
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1226, in invoke
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR return ctx.invoke(self.callback, **ctx.params)
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 794, in invoke
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR return callback(*args, **kwargs)
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 413, in main
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR run(
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 580, in run
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR server.run()
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 67, in run
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR return asyncio.run(self.serve(sockets=sockets))
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR return runner.run(main)
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR return self._loop.run_until_complete(task)
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR return future.result()
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 71, in serve
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR await self._serve(sockets)
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 78, in _serve
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR config.load()
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 436, in load
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR self.loaded_app = import_from_string(self.app)
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR module = importlib.import_module(module_str)
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR return _bootstrap._gcd_import(name[level:], package, level)
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/app/app/main.py", line 13, in <module>
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR from app.auth import token_required
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR File "/app/app/auth.py", line 17, in <module>
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR raise RuntimeError("AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.")
+   2025-07-26T19:45:42.97+0200 [APP/PROC/WEB/0] ERR RuntimeError: AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.
+   2025-07-26T19:45:43.06+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T19:45:48.40+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 stopping instance f390b2e5-c3be-4a0e-4992-9ba5
+   2025-07-26T19:45:48.40+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 destroying container for instance f390b2e5-c3be-4a0e-4992-9ba5
+   2025-07-26T19:45:48.41+0200 [API/9] OUT Process has crashed with type: "web"
+   2025-07-26T19:45:48.42+0200 [API/9] OUT App instance exited with guid fe812b60-6475-42ed-8313-54b100f96b03 payload: {"instance"=>"f390b2e5-c3be-4a0e-4992-9ba5", "index"=>0, "cell_id"=>"66bf8157-2666-4d64-b2ba-4e673aee0466", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>2, "crash_timestamp"=>1753551948392054714, "version"=>"d3b10152-1624-4078-bbdd-037a780aa0d9"}
+   2025-07-26T19:45:48.48+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T19:45:48.48+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 creating container for instance 4b7a59b6-ef93-4540-739a-0806
+   2025-07-26T19:45:48.97+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T19:45:49.02+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 successfully created container for instance 4b7a59b6-ef93-4540-739a-0806
+   2025-07-26T19:45:49.46+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully destroyed container for instance f390b2e5-c3be-4a0e-4992-9ba5
+   2025-07-26T19:45:49.57+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 198, in _run_module_as_main
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 88, in _run_code
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/__main__.py", line 4, in <module>
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR uvicorn.main()
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1442, in __call__
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR return self.main(*args, **kwargs)
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1363, in main
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR rv = self.invoke(ctx)
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1226, in invoke
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR return ctx.invoke(self.callback, **ctx.params)
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 794, in invoke
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR return callback(*args, **kwargs)
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 413, in main
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR run(
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 580, in run
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR server.run()
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 67, in run
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR return asyncio.run(self.serve(sockets=sockets))
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR return runner.run(main)
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR return self._loop.run_until_complete(task)
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR return future.result()
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 71, in serve
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR await self._serve(sockets)
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 78, in _serve
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR config.load()
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 436, in load
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR self.loaded_app = import_from_string(self.app)
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR module = importlib.import_module(module_str)
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR return _bootstrap._gcd_import(name[level:], package, level)
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/app/app/main.py", line 13, in <module>
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR from app.auth import token_required
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR File "/app/app/auth.py", line 17, in <module>
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR raise RuntimeError("AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.")
+   2025-07-26T19:45:50.19+0200 [APP/PROC/WEB/0] ERR RuntimeError: AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.
+   2025-07-26T19:45:50.28+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T19:45:55.69+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 stopping instance 4b7a59b6-ef93-4540-739a-0806
+   2025-07-26T19:45:55.69+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 destroying container for instance 4b7a59b6-ef93-4540-739a-0806
+   2025-07-26T19:45:55.70+0200 [API/2] OUT Process has crashed with type: "web"
+   2025-07-26T19:45:55.72+0200 [API/2] OUT App instance exited with guid fe812b60-6475-42ed-8313-54b100f96b03 payload: {"instance"=>"4b7a59b6-ef93-4540-739a-0806", "index"=>0, "cell_id"=>"7eab295c-fd78-413b-beff-f2d9abd94987", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>3, "crash_timestamp"=>1753551955693952591, "version"=>"d3b10152-1624-4078-bbdd-037a780aa0d9"}
+   2025-07-26T19:45:55.77+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T19:45:56.54+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 successfully destroyed container for instance 4b7a59b6-ef93-4540-739a-0806
+   2025-07-26T19:46:02.59+0200 [API/13] OUT Stopping app with guid fe812b60-6475-42ed-8313-54b100f96b03
+   2025-07-26T19:46:02.77+0200 [API/7] OUT Starting app with guid fe812b60-6475-42ed-8313-54b100f96b03
+   2025-07-26T19:46:02.98+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 creating container for instance e0211041-8427-4459-66c4-a7b7
+   2025-07-26T19:46:03.45+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T19:46:03.51+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 successfully created container for instance e0211041-8427-4459-66c4-a7b7
+   2025-07-26T19:46:04.06+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 198, in _run_module_as_main
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 88, in _run_code
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/__main__.py", line 4, in <module>
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR uvicorn.main()
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1442, in __call__
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR return self.main(*args, **kwargs)
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1363, in main
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR rv = self.invoke(ctx)
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1226, in invoke
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR return ctx.invoke(self.callback, **ctx.params)
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 794, in invoke
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR return callback(*args, **kwargs)
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 413, in main
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR run(
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 580, in run
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR server.run()
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 67, in run
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR return asyncio.run(self.serve(sockets=sockets))
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR return runner.run(main)
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR return self._loop.run_until_complete(task)
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR return future.result()
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 71, in serve
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR await self._serve(sockets)
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 78, in _serve
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR config.load()
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 436, in load
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR self.loaded_app = import_from_string(self.app)
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR module = importlib.import_module(module_str)
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR return _bootstrap._gcd_import(name[level:], package, level)
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/app/app/main.py", line 13, in <module>
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR from app.auth import token_required
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR File "/app/app/auth.py", line 17, in <module>
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR raise RuntimeError("AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.")
+   2025-07-26T19:46:04.67+0200 [APP/PROC/WEB/0] ERR RuntimeError: AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.
+   2025-07-26T19:46:04.76+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T19:46:10.28+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 stopping instance e0211041-8427-4459-66c4-a7b7
+   2025-07-26T19:46:10.28+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 destroying container for instance e0211041-8427-4459-66c4-a7b7
+   2025-07-26T19:46:10.29+0200 [API/11] OUT Process has crashed with type: "web"
+   2025-07-26T19:46:10.30+0200 [API/11] OUT App instance exited with guid fe812b60-6475-42ed-8313-54b100f96b03 payload: {"instance"=>"e0211041-8427-4459-66c4-a7b7", "index"=>0, "cell_id"=>"7eab295c-fd78-413b-beff-f2d9abd94987", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>1, "crash_timestamp"=>1753551970266831755, "version"=>"beaa5229-897f-4489-8d6f-0d916ceb8940"}
+   2025-07-26T19:46:10.36+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T19:46:10.36+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 creating container for instance 432b2394-1d86-4be2-4c9a-839a
+   2025-07-26T19:46:10.85+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T19:46:10.91+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully created container for instance 432b2394-1d86-4be2-4c9a-839a
+   2025-07-26T19:46:11.13+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T19:46:11.15+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 successfully destroyed container for instance e0211041-8427-4459-66c4-a7b7
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 198, in _run_module_as_main
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 88, in _run_code
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/__main__.py", line 4, in <module>
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR uvicorn.main()
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1442, in __call__
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR return self.main(*args, **kwargs)
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1363, in main
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR rv = self.invoke(ctx)
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1226, in invoke
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR return ctx.invoke(self.callback, **ctx.params)
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 794, in invoke
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR return callback(*args, **kwargs)
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 413, in main
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR run(
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 580, in run
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR server.run()
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 67, in run
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR return asyncio.run(self.serve(sockets=sockets))
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR return runner.run(main)
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR return self._loop.run_until_complete(task)
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR return future.result()
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 71, in serve
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR await self._serve(sockets)
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 78, in _serve
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR config.load()
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 436, in load
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR self.loaded_app = import_from_string(self.app)
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR module = importlib.import_module(module_str)
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR return _bootstrap._gcd_import(name[level:], package, level)
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/app/app/main.py", line 13, in <module>
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR from app.auth import token_required
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR File "/app/app/auth.py", line 17, in <module>
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR raise RuntimeError("AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.")
+   2025-07-26T19:46:11.75+0200 [APP/PROC/WEB/0] ERR RuntimeError: AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.
+   2025-07-26T19:46:11.84+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T19:46:17.18+0200 [API/18] OUT Process has crashed with type: "web"
+   2025-07-26T19:46:17.19+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 stopping instance 432b2394-1d86-4be2-4c9a-839a
+   2025-07-26T19:46:17.19+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 destroying container for instance 432b2394-1d86-4be2-4c9a-839a
+   2025-07-26T19:46:17.20+0200 [API/18] OUT App instance exited with guid fe812b60-6475-42ed-8313-54b100f96b03 payload: {"instance"=>"432b2394-1d86-4be2-4c9a-839a", "index"=>0, "cell_id"=>"66bf8157-2666-4d64-b2ba-4e673aee0466", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>2, "crash_timestamp"=>1753551977171291440, "version"=>"beaa5229-897f-4489-8d6f-0d916ceb8940"}
+   2025-07-26T19:46:17.26+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T19:46:17.27+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 creating container for instance a02186bd-18c0-46dd-4ff6-8d7c
+   2025-07-26T19:46:17.77+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T19:46:17.82+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 successfully created container for instance a02186bd-18c0-46dd-4ff6-8d7c
+   2025-07-26T19:46:18.02+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully destroyed container for instance 432b2394-1d86-4be2-4c9a-839a
+   2025-07-26T19:46:18.55+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 198, in _run_module_as_main
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 88, in _run_code
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/__main__.py", line 4, in <module>
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR uvicorn.main()
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1442, in __call__
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR return self.main(*args, **kwargs)
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1363, in main
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR rv = self.invoke(ctx)
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1226, in invoke
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR return ctx.invoke(self.callback, **ctx.params)
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 794, in invoke
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR return callback(*args, **kwargs)
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 413, in main
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR run(
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 580, in run
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR server.run()
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 67, in run
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR return asyncio.run(self.serve(sockets=sockets))
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR return runner.run(main)
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR return self._loop.run_until_complete(task)
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR return future.result()
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 71, in serve
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR await self._serve(sockets)
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 78, in _serve
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR config.load()
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 436, in load
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR self.loaded_app = import_from_string(self.app)
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR module = importlib.import_module(module_str)
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR return _bootstrap._gcd_import(name[level:], package, level)
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/app/app/main.py", line 13, in <module>
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR from app.auth import token_required
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR File "/app/app/auth.py", line 17, in <module>
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR raise RuntimeError("AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.")
+   2025-07-26T19:46:19.16+0200 [APP/PROC/WEB/0] ERR RuntimeError: AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.
+   2025-07-26T19:46:19.25+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T19:46:24.63+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 stopping instance a02186bd-18c0-46dd-4ff6-8d7c
+   2025-07-26T19:46:24.63+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 destroying container for instance a02186bd-18c0-46dd-4ff6-8d7c
+   2025-07-26T19:46:24.64+0200 [API/8] OUT Process has crashed with type: "web"
+   2025-07-26T19:46:24.65+0200 [API/8] OUT App instance exited with guid fe812b60-6475-42ed-8313-54b100f96b03 payload: {"instance"=>"a02186bd-18c0-46dd-4ff6-8d7c", "index"=>0, "cell_id"=>"7eab295c-fd78-413b-beff-f2d9abd94987", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>3, "crash_timestamp"=>1753551984632428758, "version"=>"beaa5229-897f-4489-8d6f-0d916ceb8940"}
+   2025-07-26T19:46:24.71+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T19:46:25.49+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 successfully destroyed container for instance a02186bd-18c0-46dd-4ff6-8d7c
+   2025-07-26T19:47:10.46+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 creating container for instance bd87c922-cb13-4a90-43c0-1743
+   2025-07-26T19:47:10.95+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T19:47:11.01+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 successfully created container for instance bd87c922-cb13-4a90-43c0-1743
+   2025-07-26T19:47:11.26+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 198, in _run_module_as_main
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "<frozen runpy>", line 88, in _run_code
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/__main__.py", line 4, in <module>
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR uvicorn.main()
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1442, in __call__
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR return self.main(*args, **kwargs)
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1363, in main
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR rv = self.invoke(ctx)
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 1226, in invoke
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR return ctx.invoke(self.callback, **ctx.params)
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/click/core.py", line 794, in invoke
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR return callback(*args, **kwargs)
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 413, in main
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR run(
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/main.py", line 580, in run
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR server.run()
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 67, in run
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR return asyncio.run(self.serve(sockets=sockets))
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 190, in run
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR return runner.run(main)
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/runners.py", line 118, in run
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR return self._loop.run_until_complete(task)
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR return future.result()
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 71, in serve
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR await self._serve(sockets)
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/server.py", line 78, in _serve
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR config.load()
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/config.py", line 436, in load
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR self.loaded_app = import_from_string(self.app)
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/site-packages/uvicorn/importer.py", line 19, in import_from_string
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR module = importlib.import_module(module_str)
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/usr/local/lib/python3.11/importlib/__init__.py", line 126, in import_module
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR return _bootstrap._gcd_import(name[level:], package, level)
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1204, in _gcd_import
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1176, in _find_and_load
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 1147, in _find_and_load_unlocked
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 690, in _load_unlocked
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap_external>", line 940, in exec_module
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/app/app/main.py", line 13, in <module>
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR from app.auth import token_required
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR File "/app/app/auth.py", line 17, in <module>
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR raise RuntimeError("AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.")
+   2025-07-26T19:47:11.88+0200 [APP/PROC/WEB/0] ERR RuntimeError: AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.
+   2025-07-26T19:47:11.97+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T19:47:17.44+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 stopping instance bd87c922-cb13-4a90-43c0-1743
+   2025-07-26T19:47:17.44+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 destroying container for instance bd87c922-cb13-4a90-43c0-1743
+   2025-07-26T19:47:17.45+0200 [API/14] OUT Process has crashed with type: "web"
+   2025-07-26T19:47:17.47+0200 [API/14] OUT App instance exited with guid fe812b60-6475-42ed-8313-54b100f96b03 payload: {"instance"=>"bd87c922-cb13-4a90-43c0-1743", "index"=>0, "cell_id"=>"7eab295c-fd78-413b-beff-f2d9abd94987", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>4, "crash_timestamp"=>1753552037438686878, "version"=>"beaa5229-897f-4489-8d6f-0d916ceb8940"}
+   2025-07-26T19:47:17.50+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T19:47:18.24+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 successfully destroyed container for instance bd87c922-cb13-4a90-43c0-1743
