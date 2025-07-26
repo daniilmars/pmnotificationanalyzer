@@ -1,0 +1,2 @@
+# Ignore third-party libraries that should not be processed
+/webapp/libs
