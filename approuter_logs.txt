@@ -1,0 +1,1002 @@
+Retrieving logs for app comsappmpmanalyzerfiori-approuter in org dfa8bc11trial / space dev as daniilmarszallek@yahoo.de...
+
+   2025-07-26T21:07:26.58+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:07:26.58+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:07:26.58+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:07:26.58+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:07:26.58+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:07:26.58+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:07:26.58+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:07:26.58+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:07:26.59+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:07:26.59+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:07:26.59+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:07:26.59+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:07:26.59+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:07:26.64+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:07:33.23+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 stopping instance 694c32d7-2067-4eaf-707d-1a9c
+   2025-07-26T21:07:33.23+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 destroying container for instance 694c32d7-2067-4eaf-707d-1a9c
+   2025-07-26T21:07:33.23+0200 [API/6] OUT Process has crashed with type: "web"
+   2025-07-26T21:07:33.24+0200 [API/6] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"694c32d7-2067-4eaf-707d-1a9c", "index"=>0, "cell_id"=>"7eab295c-fd78-413b-beff-f2d9abd94987", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>1, "crash_timestamp"=>1753556853215253696, "version"=>"b9ceda80-9b2b-431f-b294-def075c15bf8"}
+   2025-07-26T21:07:33.29+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:07:33.31+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 creating container for instance 841e6280-933a-4aa4-6ee8-fa01
+   2025-07-26T21:07:33.61+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:07:33.66+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 successfully created container for instance 841e6280-933a-4aa4-6ee8-fa01
+   2025-07-26T21:07:34.09+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:07:34.63+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 successfully destroyed container for instance 694c32d7-2067-4eaf-707d-1a9c
+   2025-07-26T21:07:37.05+0200 [CELL/0] OUT Downloaded droplet (59.9M)
+   2025-07-26T21:07:37.05+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:07:37.10+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:07:37.24+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:07:37.55+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:07:37.55+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:07:37.75+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:07:37.753Z","written_ts":1753556857753000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:07:38.051Z","written_ts":1753556858051000000,"csn_component":"-","correlation_id":"mdkmh77n","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmh77n","msg":"Application router version 20.6.1"}
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:07:38.054Z","written_ts":1753556858054000000,"csn_component":"-","correlation_id":"mdkmh77q","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmh77q","msg":"No COOKIES environment variable"}
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:07:38.05+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:07:38.06+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:07:38.06+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:07:38.06+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:07:38.06+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:07:38.06+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:07:38.12+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:07:44.10+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 stopping instance 841e6280-933a-4aa4-6ee8-fa01
+   2025-07-26T21:07:44.10+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 destroying container for instance 841e6280-933a-4aa4-6ee8-fa01
+   2025-07-26T21:07:44.10+0200 [API/3] OUT Process has crashed with type: "web"
+   2025-07-26T21:07:44.11+0200 [API/3] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"841e6280-933a-4aa4-6ee8-fa01", "index"=>0, "cell_id"=>"c839c7b1-088e-41af-b9b7-66256aacd457", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>2, "crash_timestamp"=>1753556864084704232, "version"=>"b9ceda80-9b2b-431f-b294-def075c15bf8"}
+   2025-07-26T21:07:44.16+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:07:44.17+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 creating container for instance a923bc8a-2164-43da-5dfa-b5fe
+   2025-07-26T21:07:44.47+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:07:44.54+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 successfully created container for instance a923bc8a-2164-43da-5dfa-b5fe
+   2025-07-26T21:07:45.16+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:07:45.40+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 successfully destroyed container for instance 841e6280-933a-4aa4-6ee8-fa01
+   2025-07-26T21:07:46.13+0200 [CELL/0] OUT Downloaded droplet
+   2025-07-26T21:07:46.13+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:07:46.18+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:07:46.33+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:07:46.63+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:07:46.63+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:07:46.82+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:07:46.827Z","written_ts":1753556866827000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.1.7","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:07:47.112Z","written_ts":1753556867112000000,"csn_component":"-","correlation_id":"mdkmhe7c","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.1.7","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmhe7c","msg":"Application router version 20.6.1"}
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:07:47.115Z","written_ts":1753556867115000000,"csn_component":"-","correlation_id":"mdkmhe7f","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.1.7","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmhe7f","msg":"No COOKIES environment variable"}
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:07:47.11+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:07:47.12+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:07:47.12+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:07:47.12+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:07:47.12+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:07:47.12+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:07:47.18+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:07:53.38+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 stopping instance a923bc8a-2164-43da-5dfa-b5fe
+   2025-07-26T21:07:53.38+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 destroying container for instance a923bc8a-2164-43da-5dfa-b5fe
+   2025-07-26T21:07:53.40+0200 [API/12] OUT Process has crashed with type: "web"
+   2025-07-26T21:07:53.41+0200 [API/12] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"a923bc8a-2164-43da-5dfa-b5fe", "index"=>0, "cell_id"=>"7eab295c-fd78-413b-beff-f2d9abd94987", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>3, "crash_timestamp"=>1753556873379919354, "version"=>"b9ceda80-9b2b-431f-b294-def075c15bf8"}
+   2025-07-26T21:07:53.45+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:07:54.90+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 successfully destroyed container for instance a923bc8a-2164-43da-5dfa-b5fe
+   2025-07-26T21:08:03.84+0200 [API/16] OUT Stopping app with guid c761e299-c55d-4c00-80a6-c595c18c944b
+   2025-07-26T21:08:04.02+0200 [API/4] OUT Starting app with guid c761e299-c55d-4c00-80a6-c595c18c944b
+   2025-07-26T21:08:04.20+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 creating container for instance 60f04c1f-5f46-48f5-66b2-fd88
+   2025-07-26T21:08:04.50+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:08:04.57+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully created container for instance 60f04c1f-5f46-48f5-66b2-fd88
+   2025-07-26T21:08:05.11+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:08:08.13+0200 [CELL/0] OUT Downloaded droplet (59.9M)
+   2025-07-26T21:08:08.13+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:08:08.17+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:08:08.33+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:08:08.63+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:08:08.63+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:08:08.83+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:08:08.828Z","written_ts":1753556888828000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:08:09.12+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:08:09.126Z","written_ts":1753556889126000000,"csn_component":"-","correlation_id":"mdkmhv6u","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmhv6u","msg":"Application router version 20.6.1"}
+   2025-07-26T21:08:09.12+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:08:09.129Z","written_ts":1753556889129000000,"csn_component":"-","correlation_id":"mdkmhv6x","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmhv6x","msg":"No COOKIES environment variable"}
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:08:09.13+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:08:09.14+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:08:09.14+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:08:09.14+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:08:09.14+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:08:09.14+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:08:09.19+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:08:15.08+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 stopping instance 60f04c1f-5f46-48f5-66b2-fd88
+   2025-07-26T21:08:15.08+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 destroying container for instance 60f04c1f-5f46-48f5-66b2-fd88
+   2025-07-26T21:08:15.09+0200 [API/10] OUT Process has crashed with type: "web"
+   2025-07-26T21:08:15.10+0200 [API/10] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"60f04c1f-5f46-48f5-66b2-fd88", "index"=>0, "cell_id"=>"0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>1, "crash_timestamp"=>1753556895074436037, "version"=>"71a47927-c678-4566-8bc7-35dcb9287b46"}
+   2025-07-26T21:08:15.15+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:08:15.17+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 creating container for instance 414f892f-afe0-4695-5f6f-a32a
+   2025-07-26T21:08:15.46+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:08:15.52+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 successfully created container for instance 414f892f-afe0-4695-5f6f-a32a
+   2025-07-26T21:08:15.85+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:08:16.43+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully destroyed container for instance 60f04c1f-5f46-48f5-66b2-fd88
+   2025-07-26T21:08:18.84+0200 [CELL/0] OUT Downloaded droplet (59.9M)
+   2025-07-26T21:08:18.84+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:08:18.89+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:08:19.04+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:08:19.33+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:08:19.33+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:08:19.53+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:08:19.530Z","written_ts":1753556899530000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:08:19.80+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:08:19.808Z","written_ts":1753556899808000000,"csn_component":"-","correlation_id":"mdkmi3fk","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmi3fk","msg":"Application router version 20.6.1"}
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:08:19.811Z","written_ts":1753556899811000000,"csn_component":"-","correlation_id":"mdkmi3fn","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmi3fn","msg":"No COOKIES environment variable"}
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:08:19.81+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:08:19.82+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:08:19.82+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:08:19.82+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:08:19.82+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:08:19.82+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:08:19.87+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:08:26.03+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 stopping instance 414f892f-afe0-4695-5f6f-a32a
+   2025-07-26T21:08:26.03+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 destroying container for instance 414f892f-afe0-4695-5f6f-a32a
+   2025-07-26T21:08:26.03+0200 [API/4] OUT Process has crashed with type: "web"
+   2025-07-26T21:08:26.04+0200 [API/4] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"414f892f-afe0-4695-5f6f-a32a", "index"=>0, "cell_id"=>"c839c7b1-088e-41af-b9b7-66256aacd457", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>2, "crash_timestamp"=>1753556906018567922, "version"=>"71a47927-c678-4566-8bc7-35dcb9287b46"}
+   2025-07-26T21:08:26.10+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:08:26.11+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 creating container for instance 70d3d984-a93c-46d2-7289-0694
+   2025-07-26T21:08:26.40+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:08:26.45+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully created container for instance 70d3d984-a93c-46d2-7289-0694
+   2025-07-26T21:08:26.67+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:08:27.34+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 successfully destroyed container for instance 414f892f-afe0-4695-5f6f-a32a
+   2025-07-26T21:08:27.63+0200 [CELL/0] OUT Downloaded droplet
+   2025-07-26T21:08:27.63+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:08:27.68+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:08:27.83+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:08:28.13+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:08:28.13+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:08:28.33+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:08:28.330Z","written_ts":1753556908330000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:08:28.61+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:08:28.615Z","written_ts":1753556908615000000,"csn_component":"-","correlation_id":"mdkmia87","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmia87","msg":"Application router version 20.6.1"}
+   2025-07-26T21:08:28.61+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:08:28.618Z","written_ts":1753556908618000000,"csn_component":"-","correlation_id":"mdkmia8a","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmia8a","msg":"No COOKIES environment variable"}
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:08:28.62+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:08:28.63+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:08:28.63+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:08:28.63+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:08:28.63+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:08:28.63+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:08:28.68+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:08:34.78+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 stopping instance 70d3d984-a93c-46d2-7289-0694
+   2025-07-26T21:08:34.78+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 destroying container for instance 70d3d984-a93c-46d2-7289-0694
+   2025-07-26T21:08:34.80+0200 [API/7] OUT Process has crashed with type: "web"
+   2025-07-26T21:08:34.81+0200 [API/7] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"70d3d984-a93c-46d2-7289-0694", "index"=>0, "cell_id"=>"0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>3, "crash_timestamp"=>1753556914784956166, "version"=>"71a47927-c678-4566-8bc7-35dcb9287b46"}
+   2025-07-26T21:08:34.86+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:08:36.10+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully destroyed container for instance 70d3d984-a93c-46d2-7289-0694
+   2025-07-26T21:08:43.40+0200 [API/11] OUT Stopping app with guid c761e299-c55d-4c00-80a6-c595c18c944b
+   2025-07-26T21:08:43.56+0200 [API/6] OUT Starting app with guid c761e299-c55d-4c00-80a6-c595c18c944b
+   2025-07-26T21:08:43.75+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 creating container for instance 489c9db0-218f-4aab-4b61-f5fe
+   2025-07-26T21:08:44.03+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:08:44.09+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully created container for instance 489c9db0-218f-4aab-4b61-f5fe
+   2025-07-26T21:08:44.81+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:08:47.80+0200 [CELL/0] OUT Downloaded droplet (59.9M)
+   2025-07-26T21:08:47.80+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:08:47.85+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:08:48.00+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:08:48.30+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:08:48.30+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:08:48.49+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:08:48.496Z","written_ts":1753556928496000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:08:48.79+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:08:48.794Z","written_ts":1753556928794000000,"csn_component":"-","correlation_id":"mdkmipsq","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmipsq","msg":"Application router version 20.6.1"}
+   2025-07-26T21:08:48.79+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:08:48.796Z","written_ts":1753556928796000000,"csn_component":"-","correlation_id":"mdkmipss","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmipss","msg":"No COOKIES environment variable"}
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:08:48.80+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:08:48.81+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:08:48.81+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:08:48.81+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:08:48.81+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:08:48.81+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:08:48.86+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:08:55.02+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 stopping instance 489c9db0-218f-4aab-4b61-f5fe
+   2025-07-26T21:08:55.02+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 destroying container for instance 489c9db0-218f-4aab-4b61-f5fe
+   2025-07-26T21:08:55.03+0200 [API/9] OUT Process has crashed with type: "web"
+   2025-07-26T21:08:55.04+0200 [API/9] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"489c9db0-218f-4aab-4b61-f5fe", "index"=>0, "cell_id"=>"0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>1, "crash_timestamp"=>1753556935011146328, "version"=>"98a90266-5fa7-4ee0-bee6-1cd6caa6da35"}
+   2025-07-26T21:08:55.08+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:08:55.10+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 creating container for instance 4614e368-4d20-4ea1-5cf7-911d
+   2025-07-26T21:08:55.39+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:08:55.44+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 successfully created container for instance 4614e368-4d20-4ea1-5cf7-911d
+   2025-07-26T21:08:55.68+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:08:56.39+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully destroyed container for instance 489c9db0-218f-4aab-4b61-f5fe
+   2025-07-26T21:08:58.61+0200 [CELL/0] OUT Downloaded droplet (59.9M)
+   2025-07-26T21:08:58.61+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:08:58.66+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:08:58.80+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:08:59.10+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:08:59.10+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:08:59.30+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:08:59.299Z","written_ts":1753556939299000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:08:59.592Z","written_ts":1753556939592000000,"csn_component":"-","correlation_id":"mdkmiy4o","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmiy4o","msg":"Application router version 20.6.1"}
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:08:59.594Z","written_ts":1753556939594000000,"csn_component":"-","correlation_id":"mdkmiy4q","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmiy4q","msg":"No COOKIES environment variable"}
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:08:59.59+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:08:59.60+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:08:59.60+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:08:59.60+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:08:59.60+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:08:59.60+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:08:59.66+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:09:05.82+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 stopping instance 4614e368-4d20-4ea1-5cf7-911d
+   2025-07-26T21:09:05.82+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 destroying container for instance 4614e368-4d20-4ea1-5cf7-911d
+   2025-07-26T21:09:05.82+0200 [API/14] OUT Process has crashed with type: "web"
+   2025-07-26T21:09:05.84+0200 [API/14] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"4614e368-4d20-4ea1-5cf7-911d", "index"=>0, "cell_id"=>"c839c7b1-088e-41af-b9b7-66256aacd457", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>2, "crash_timestamp"=>1753556945807995331, "version"=>"98a90266-5fa7-4ee0-bee6-1cd6caa6da35"}
+   2025-07-26T21:09:05.89+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:09:05.90+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 creating container for instance 99fde39f-41e9-4c45-5c8b-53bf
+   2025-07-26T21:09:06.19+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:09:06.25+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully created container for instance 99fde39f-41e9-4c45-5c8b-53bf
+   2025-07-26T21:09:06.42+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:09:07.12+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 successfully destroyed container for instance 4614e368-4d20-4ea1-5cf7-911d
+   2025-07-26T21:09:07.39+0200 [CELL/0] OUT Downloaded droplet
+   2025-07-26T21:09:07.39+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:09:07.44+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:09:07.59+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:09:07.90+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:09:07.90+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:09:08.10+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:09:08.105Z","written_ts":1753556948105000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:09:08.40+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:09:08.403Z","written_ts":1753556948403000000,"csn_component":"-","correlation_id":"mdkmj4xf","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmj4xf","msg":"Application router version 20.6.1"}
+   2025-07-26T21:09:08.40+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:09:08.406Z","written_ts":1753556948406000000,"csn_component":"-","correlation_id":"mdkmj4xi","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmj4xi","msg":"No COOKIES environment variable"}
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:09:08.41+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:09:08.42+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:09:08.42+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:09:08.42+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:09:08.42+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:09:08.42+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:09:08.47+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:09:14.60+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 stopping instance 99fde39f-41e9-4c45-5c8b-53bf
+   2025-07-26T21:09:14.60+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 destroying container for instance 99fde39f-41e9-4c45-5c8b-53bf
+   2025-07-26T21:09:14.62+0200 [API/4] OUT Process has crashed with type: "web"
+   2025-07-26T21:09:14.63+0200 [API/4] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"99fde39f-41e9-4c45-5c8b-53bf", "index"=>0, "cell_id"=>"0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>3, "crash_timestamp"=>1753556954601237939, "version"=>"98a90266-5fa7-4ee0-bee6-1cd6caa6da35"}
+   2025-07-26T21:09:14.67+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:09:15.85+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully destroyed container for instance 99fde39f-41e9-4c45-5c8b-53bf
+   2025-07-26T21:09:22.95+0200 [API/16] OUT Stopping app with guid c761e299-c55d-4c00-80a6-c595c18c944b
+   2025-07-26T21:09:23.10+0200 [API/16] OUT Starting app with guid c761e299-c55d-4c00-80a6-c595c18c944b
+   2025-07-26T21:09:23.28+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 creating container for instance 2353515e-69ad-4feb-7970-318b
+   2025-07-26T21:09:23.57+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:09:23.63+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully created container for instance 2353515e-69ad-4feb-7970-318b
+   2025-07-26T21:09:23.89+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:09:26.84+0200 [CELL/0] OUT Downloaded droplet (59.9M)
+   2025-07-26T21:09:26.84+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:09:26.89+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:09:27.03+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:09:27.34+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:09:27.34+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:09:27.54+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:09:27.548Z","written_ts":1753556967548000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:09:27.86+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:09:27.863Z","written_ts":1753556967863000000,"csn_component":"-","correlation_id":"mdkmjjxz","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmjjxz","msg":"Application router version 20.6.1"}
+   2025-07-26T21:09:27.86+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:09:27.866Z","written_ts":1753556967866000000,"csn_component":"-","correlation_id":"mdkmjjy2","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmjjy2","msg":"No COOKIES environment variable"}
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:09:27.87+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:09:27.88+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:09:27.88+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:09:27.88+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:09:27.88+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:09:27.88+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:09:27.93+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:09:33.91+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 stopping instance 2353515e-69ad-4feb-7970-318b
+   2025-07-26T21:09:33.91+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 destroying container for instance 2353515e-69ad-4feb-7970-318b
+   2025-07-26T21:09:33.92+0200 [API/1] OUT Process has crashed with type: "web"
+   2025-07-26T21:09:33.93+0200 [API/1] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"2353515e-69ad-4feb-7970-318b", "index"=>0, "cell_id"=>"0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>1, "crash_timestamp"=>1753556973903257257, "version"=>"76437425-8270-4e35-8c97-881b7cc144c8"}
+   2025-07-26T21:09:33.98+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:09:33.99+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 creating container for instance 9cf8d329-ab25-4799-5d12-7666
+   2025-07-26T21:09:34.28+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:09:34.34+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 successfully created container for instance 9cf8d329-ab25-4799-5d12-7666
+   2025-07-26T21:09:34.51+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:09:35.20+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully destroyed container for instance 2353515e-69ad-4feb-7970-318b
+   2025-07-26T21:09:37.51+0200 [CELL/0] OUT Downloaded droplet (59.9M)
+   2025-07-26T21:09:37.51+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:09:37.56+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:09:37.71+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:09:38.00+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:09:38.00+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:09:38.20+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:09:38.205Z","written_ts":1753556978205000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:09:38.50+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:09:38.504Z","written_ts":1753556978504000000,"csn_component":"-","correlation_id":"mdkmjs5l","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmjs5l","msg":"Application router version 20.6.1"}
+   2025-07-26T21:09:38.50+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:09:38.507Z","written_ts":1753556978507000000,"csn_component":"-","correlation_id":"mdkmjs5n","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmjs5n","msg":"No COOKIES environment variable"}
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:09:38.51+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:09:38.52+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:09:38.52+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:09:38.52+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:09:38.52+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:09:38.52+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:09:38.57+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:09:44.88+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 stopping instance 9cf8d329-ab25-4799-5d12-7666
+   2025-07-26T21:09:44.88+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 destroying container for instance 9cf8d329-ab25-4799-5d12-7666
+   2025-07-26T21:09:44.88+0200 [API/4] OUT Process has crashed with type: "web"
+   2025-07-26T21:09:44.89+0200 [API/4] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"9cf8d329-ab25-4799-5d12-7666", "index"=>0, "cell_id"=>"c839c7b1-088e-41af-b9b7-66256aacd457", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>2, "crash_timestamp"=>1753556984868657920, "version"=>"76437425-8270-4e35-8c97-881b7cc144c8"}
+   2025-07-26T21:09:44.95+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:09:44.98+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 creating container for instance 5960fa7e-af25-4436-5862-95b8
+   2025-07-26T21:09:45.33+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:09:45.41+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 successfully created container for instance 5960fa7e-af25-4436-5862-95b8
+   2025-07-26T21:09:45.91+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:09:46.17+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 successfully destroyed container for instance 9cf8d329-ab25-4799-5d12-7666
+   2025-07-26T21:09:48.88+0200 [CELL/0] OUT Downloaded droplet (59.9M)
+   2025-07-26T21:09:48.88+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:09:48.93+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:09:49.08+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:09:49.38+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:09:49.38+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:09:49.58+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:09:49.583Z","written_ts":1753556989583000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.1.7","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:09:49.871Z","written_ts":1753556989871000000,"csn_component":"-","correlation_id":"mdkmk0xb","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.1.7","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmk0xb","msg":"Application router version 20.6.1"}
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:09:49.873Z","written_ts":1753556989873000000,"csn_component":"-","correlation_id":"mdkmk0xd","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.1.7","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmk0xd","msg":"No COOKIES environment variable"}
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:09:49.87+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:09:49.88+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:09:49.88+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:09:49.88+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:09:49.88+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:09:49.88+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:09:49.94+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:09:56.11+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 stopping instance 5960fa7e-af25-4436-5862-95b8
+   2025-07-26T21:09:56.11+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 destroying container for instance 5960fa7e-af25-4436-5862-95b8
+   2025-07-26T21:09:56.12+0200 [API/15] OUT Process has crashed with type: "web"
+   2025-07-26T21:09:56.13+0200 [API/15] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"5960fa7e-af25-4436-5862-95b8", "index"=>0, "cell_id"=>"7eab295c-fd78-413b-beff-f2d9abd94987", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>3, "crash_timestamp"=>1753556996107113120, "version"=>"76437425-8270-4e35-8c97-881b7cc144c8"}
+   2025-07-26T21:09:56.18+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:09:57.57+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 successfully destroyed container for instance 5960fa7e-af25-4436-5862-95b8
+   2025-07-26T21:10:41.24+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 creating container for instance 89614f7a-5e62-4b4f-4211-f074
+   2025-07-26T21:10:41.55+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:10:41.61+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully created container for instance 89614f7a-5e62-4b4f-4211-f074
+   2025-07-26T21:10:41.82+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:10:42.89+0200 [CELL/0] OUT Downloaded droplet
+   2025-07-26T21:10:42.89+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:10:42.93+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:10:43.08+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:10:43.38+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:10:43.38+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:10:43.57+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:10:43.574Z","written_ts":1753557043574000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:10:43.85+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:10:43.854Z","written_ts":1753557043854000000,"csn_component":"-","correlation_id":"mdkml6ku","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkml6ku","msg":"Application router version 20.6.1"}
+   2025-07-26T21:10:43.85+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:10:43.856Z","written_ts":1753557043856000000,"csn_component":"-","correlation_id":"mdkml6kw","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkml6kw","msg":"No COOKIES environment variable"}
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:10:43.86+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:10:43.87+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:10:43.87+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:10:43.87+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:10:43.87+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:10:43.87+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:10:43.92+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:10:50.04+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 stopping instance 89614f7a-5e62-4b4f-4211-f074
+   2025-07-26T21:10:50.04+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 destroying container for instance 89614f7a-5e62-4b4f-4211-f074
+   2025-07-26T21:10:50.06+0200 [API/8] OUT Process has crashed with type: "web"
+   2025-07-26T21:10:50.07+0200 [API/8] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"89614f7a-5e62-4b4f-4211-f074", "index"=>0, "cell_id"=>"0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>4, "crash_timestamp"=>1753557050041227815, "version"=>"76437425-8270-4e35-8c97-881b7cc144c8"}
+   2025-07-26T21:10:50.11+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:10:51.37+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully destroyed container for instance 89614f7a-5e62-4b4f-4211-f074
+   2025-07-26T21:12:13.46+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 creating container for instance ac4af364-7137-4df9-699c-0675
+   2025-07-26T21:12:13.76+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:12:13.81+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully created container for instance ac4af364-7137-4df9-699c-0675
+   2025-07-26T21:12:14.26+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:12:15.27+0200 [CELL/0] OUT Downloaded droplet
+   2025-07-26T21:12:15.27+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:12:15.31+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:12:15.46+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:12:15.77+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:12:15.77+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:12:15.96+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:12:15.962Z","written_ts":1753557135962000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:12:16.24+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:12:16.248Z","written_ts":1753557136248000000,"csn_component":"-","correlation_id":"mdkmn5vc","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmn5vc","msg":"Application router version 20.6.1"}
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:12:16.250Z","written_ts":1753557136250000000,"csn_component":"-","correlation_id":"mdkmn5ve","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmn5ve","msg":"No COOKIES environment variable"}
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:12:16.25+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:12:16.26+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:12:16.26+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:12:16.26+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:12:16.26+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:12:16.26+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:12:16.31+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:12:22.52+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 stopping instance ac4af364-7137-4df9-699c-0675
+   2025-07-26T21:12:22.52+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 destroying container for instance ac4af364-7137-4df9-699c-0675
+   2025-07-26T21:12:22.53+0200 [API/8] OUT Process has crashed with type: "web"
+   2025-07-26T21:12:22.54+0200 [API/8] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"ac4af364-7137-4df9-699c-0675", "index"=>0, "cell_id"=>"0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>5, "crash_timestamp"=>1753557142517761326, "version"=>"76437425-8270-4e35-8c97-881b7cc144c8"}
+   2025-07-26T21:12:22.59+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:12:23.83+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully destroyed container for instance ac4af364-7137-4df9-699c-0675
+   2025-07-26T21:14:47.22+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 creating container for instance 4a48e3fd-bdcd-4aac-5c3b-a6ef
+   2025-07-26T21:14:47.54+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:14:47.60+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully created container for instance 4a48e3fd-bdcd-4aac-5c3b-a6ef
+   2025-07-26T21:14:48.23+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:14:49.21+0200 [CELL/0] OUT Downloaded droplet
+   2025-07-26T21:14:49.21+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:14:49.26+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:14:49.41+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:14:49.71+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:14:49.71+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:14:49.91+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:14:49.914Z","written_ts":1753557289914000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:14:50.21+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:14:50.215Z","written_ts":1753557290215000000,"csn_component":"-","correlation_id":"mdkmqgo7","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmqgo7","msg":"Application router version 20.6.1"}
+   2025-07-26T21:14:50.21+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:14:50.217Z","written_ts":1753557290217000000,"csn_component":"-","correlation_id":"mdkmqgoa","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmqgoa","msg":"No COOKIES environment variable"}
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:14:50.22+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:14:50.23+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:14:50.23+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:14:50.23+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:14:50.23+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:14:50.23+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:14:50.28+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:14:56.17+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 stopping instance 4a48e3fd-bdcd-4aac-5c3b-a6ef
+   2025-07-26T21:14:56.17+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 destroying container for instance 4a48e3fd-bdcd-4aac-5c3b-a6ef
+   2025-07-26T21:14:56.20+0200 [API/9] OUT Process has crashed with type: "web"
+   2025-07-26T21:14:56.21+0200 [API/9] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"4a48e3fd-bdcd-4aac-5c3b-a6ef", "index"=>0, "cell_id"=>"0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>6, "crash_timestamp"=>1753557296173059200, "version"=>"76437425-8270-4e35-8c97-881b7cc144c8"}
+   2025-07-26T21:14:56.25+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:14:57.59+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully destroyed container for instance 4a48e3fd-bdcd-4aac-5c3b-a6ef
+   2025-07-26T21:19:24.05+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 creating container for instance 14b61184-2c10-4e48-47da-0a8f
+   2025-07-26T21:19:24.35+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:19:24.41+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully created container for instance 14b61184-2c10-4e48-47da-0a8f
+   2025-07-26T21:19:24.70+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:19:25.67+0200 [CELL/0] OUT Downloaded droplet
+   2025-07-26T21:19:25.67+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:19:25.72+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:19:25.87+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:19:26.17+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:19:26.17+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:19:26.37+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:19:26.375Z","written_ts":1753557566375000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:19:26.68+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:19:26.683Z","written_ts":1753557566683000000,"csn_component":"-","correlation_id":"mdkmwdzv","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmwdzv","msg":"Application router version 20.6.1"}
+   2025-07-26T21:19:26.68+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:19:26.685Z","written_ts":1753557566685000000,"csn_component":"-","correlation_id":"mdkmwdzx","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.1.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkmwdzx","msg":"No COOKIES environment variable"}
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:19:26.69+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:19:26.70+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:19:26.70+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:19:26.70+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:19:26.70+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:19:26.70+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:19:26.75+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:19:33.19+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 stopping instance 14b61184-2c10-4e48-47da-0a8f
+   2025-07-26T21:19:33.19+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 destroying container for instance 14b61184-2c10-4e48-47da-0a8f
+   2025-07-26T21:19:33.20+0200 [API/0] OUT Process has crashed with type: "web"
+   2025-07-26T21:19:33.21+0200 [API/0] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"14b61184-2c10-4e48-47da-0a8f", "index"=>0, "cell_id"=>"0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>7, "crash_timestamp"=>1753557573190203398, "version"=>"76437425-8270-4e35-8c97-881b7cc144c8"}
+   2025-07-26T21:19:33.26+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:19:34.55+0200 [CELL/0] OUT Cell 0e9d359d-cbb1-42e2-ae1d-5cfbdc4910b6 successfully destroyed container for instance 14b61184-2c10-4e48-47da-0a8f
+   2025-07-26T21:24:53.80+0200 [API/8] OUT Uploading app package for app with guid c761e299-c55d-4c00-80a6-c595c18c944b
+   2025-07-26T21:24:54.00+0200 [API/5] OUT Updated app with guid c761e299-c55d-4c00-80a6-c595c18c944b ({"environment_variables"=>"[PRIVATE DATA HIDDEN]"})
+   2025-07-26T21:25:03.86+0200 [API/14] OUT Stopping app with guid c761e299-c55d-4c00-80a6-c595c18c944b
+   2025-07-26T21:25:04.08+0200 [API/0] OUT Creating build for app with guid c761e299-c55d-4c00-80a6-c595c18c944b
+   2025-07-26T21:25:04.61+0200 [STG/0] OUT Downloading zero_trust_sidecar_buildpack_1_10...
+   2025-07-26T21:25:04.61+0200 [STG/0] OUT Downloading python_buildpack...
+   2025-07-26T21:25:04.61+0200 [STG/0] OUT Downloading java_buildpack...
+   2025-07-26T21:25:04.61+0200 [STG/0] OUT Downloading nodejs_buildpack...
+   2025-07-26T21:25:04.61+0200 [STG/0] OUT Downloading go_buildpack...
+   2025-07-26T21:25:04.65+0200 [STG/0] OUT Downloaded nodejs_buildpack
+   2025-07-26T21:25:04.65+0200 [STG/0] OUT Downloading sap_java_buildpack_jakarta...
+   2025-07-26T21:25:04.65+0200 [STG/0] OUT Downloaded zero_trust_sidecar_buildpack_1_10
+   2025-07-26T21:25:04.65+0200 [STG/0] OUT Downloading php_buildpack...
+   2025-07-26T21:25:04.65+0200 [STG/0] OUT Downloaded go_buildpack
+   2025-07-26T21:25:04.65+0200 [STG/0] OUT Downloading nginx_buildpack...
+   2025-07-26T21:25:04.65+0200 [STG/0] OUT Downloaded python_buildpack
+   2025-07-26T21:25:04.65+0200 [STG/0] OUT Downloading binary_buildpack...
+   2025-07-26T21:25:04.65+0200 [STG/0] OUT Downloaded java_buildpack
+   2025-07-26T21:25:04.65+0200 [STG/0] OUT Downloading sap_java_buildpack...
+   2025-07-26T21:25:04.67+0200 [STG/0] OUT Downloaded php_buildpack
+   2025-07-26T21:25:04.67+0200 [STG/0] OUT Downloading sap_java_buildpack_1_114...
+   2025-07-26T21:25:04.67+0200 [STG/0] OUT Downloaded nginx_buildpack
+   2025-07-26T21:25:04.67+0200 [STG/0] OUT Downloading sap_java_buildpack_1_113...
+   2025-07-26T21:25:04.68+0200 [STG/0] OUT Downloaded sap_java_buildpack_jakarta
+   2025-07-26T21:25:04.68+0200 [STG/0] OUT Downloaded sap_java_buildpack
+   2025-07-26T21:25:04.68+0200 [STG/0] OUT Downloading zero_trust_sidecar_buildpack_1_9...
+   2025-07-26T21:25:04.68+0200 [STG/0] OUT Downloading sap_java_buildpack_jakarta_2_35...
+   2025-07-26T21:25:04.68+0200 [STG/0] OUT Downloaded binary_buildpack
+   2025-07-26T21:25:04.68+0200 [STG/0] OUT Downloading sap_java_buildpack_jakarta_2_33...
+   2025-07-26T21:25:04.69+0200 [STG/0] OUT Downloaded sap_java_buildpack_1_113
+   2025-07-26T21:25:04.69+0200 [STG/0] OUT Downloading sap_java_buildpack_jakarta_2_32...
+   2025-07-26T21:25:04.71+0200 [STG/0] OUT Downloaded sap_java_buildpack_1_114
+   2025-07-26T21:25:04.71+0200 [STG/0] OUT Downloading staticfile_buildpack...
+   2025-07-26T21:25:04.72+0200 [STG/0] OUT Downloaded zero_trust_sidecar_buildpack_1_9
+   2025-07-26T21:25:04.72+0200 [STG/0] OUT Downloading zero_trust_sidecar_buildpack...
+   2025-07-26T21:25:04.72+0200 [STG/0] OUT Downloaded sap_java_buildpack_jakarta_2_35
+   2025-07-26T21:25:04.72+0200 [STG/0] OUT Downloading zero_trust_sidecar_buildpack_1_8...
+   2025-07-26T21:25:04.73+0200 [STG/0] OUT Downloaded sap_java_buildpack_jakarta_2_33
+   2025-07-26T21:25:04.73+0200 [STG/0] OUT Downloaded sap_java_buildpack_jakarta_2_32
+   2025-07-26T21:25:04.74+0200 [STG/0] OUT Downloaded zero_trust_sidecar_buildpack
+   2025-07-26T21:25:04.75+0200 [STG/0] OUT Downloaded staticfile_buildpack
+   2025-07-26T21:25:04.76+0200 [STG/0] OUT Downloaded zero_trust_sidecar_buildpack_1_8
+   2025-07-26T21:25:04.76+0200 [STG/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 creating container for instance d41feb87-7c19-45b9-8b17-7b54e0f4da3f
+   2025-07-26T21:25:05.05+0200 [STG/0] OUT Security group rules were updated
+   2025-07-26T21:25:05.12+0200 [STG/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 successfully created container for instance d41feb87-7c19-45b9-8b17-7b54e0f4da3f
+   2025-07-26T21:25:05.27+0200 [STG/0] OUT Downloading app package...
+   2025-07-26T21:25:05.27+0200 [STG/0] OUT Downloading build artifacts cache...
+   2025-07-26T21:25:05.33+0200 [STG/0] OUT Downloaded build artifacts cache (225B)
+   2025-07-26T21:25:06.01+0200 [STG/0] OUT Downloaded app package (7M)
+   2025-07-26T21:25:06.47+0200 [STG/0] OUT -----> Nodejs Buildpack version 1.8.38
+   2025-07-26T21:25:06.73+0200 [STG/0] OUT -----> Bootstrapping python
+   2025-07-26T21:25:06.73+0200 [STG/0] OUT -----> Installing python 3.11.12
+   2025-07-26T21:25:06.73+0200 [STG/0] OUT Copy [/tmp/buildpacks/03e689130b2c3e18/dependencies/3f5f5c003ac7b91f9e1a85daf492f112/python_3.11.12_linux_x64_cflinuxfs4_51adfd88.tgz]
+   2025-07-26T21:25:09.48+0200 [STG/0] OUT -----> Installing binaries
+   2025-07-26T21:25:09.48+0200 [STG/0] OUT engines.node (package.json): unspecified
+   2025-07-26T21:25:09.48+0200 [STG/0] OUT engines.npm (package.json): unspecified (use default)
+   2025-07-26T21:25:09.48+0200 [STG/0] OUT [31;1m**WARNING**[0m Node version not specified in package.json or .nvmrc. See: http://docs.cloudfoundry.org/buildpacks/node/node-tips.html
+   2025-07-26T21:25:09.48+0200 [STG/0] OUT -----> Installing node 22.16.0
+   2025-07-26T21:25:09.48+0200 [STG/0] OUT Copy [/tmp/buildpacks/03e689130b2c3e18/dependencies/0a5b2807f2f20788823b197d52c24f05/node_22.16.0_linux_x64_cflinuxfs4_13829c62.tgz]
+   2025-07-26T21:25:11.15+0200 [STG/0] OUT Using default npm version: 10.9.2
+   2025-07-26T21:25:11.15+0200 [STG/0] OUT -----> Installing yarn 1.22.22
+   2025-07-26T21:25:11.15+0200 [STG/0] OUT Copy [/tmp/buildpacks/03e689130b2c3e18/dependencies/ff849eb7696d3a7f463752a272c9a88e/yarn_1.22.22_linux_noarch_any-stack_83bda680.tgz]
+   2025-07-26T21:25:11.38+0200 [STG/0] OUT Installed yarn 1.22.22
+   2025-07-26T21:25:11.38+0200 [STG/0] OUT -----> Creating runtime environment
+   2025-07-26T21:25:11.39+0200 [STG/0] OUT NODE_ENV=production
+   2025-07-26T21:25:11.39+0200 [STG/0] OUT NODE_HOME=/tmp/contents363565696/deps/0/node
+   2025-07-26T21:25:11.39+0200 [STG/0] OUT NODE_MODULES_CACHE=true
+   2025-07-26T21:25:11.39+0200 [STG/0] OUT NODE_VERBOSE=false
+   2025-07-26T21:25:11.39+0200 [STG/0] OUT NPM_CONFIG_LOGLEVEL=error
+   2025-07-26T21:25:11.39+0200 [STG/0] OUT NPM_CONFIG_PRODUCTION=true
+   2025-07-26T21:25:11.39+0200 [STG/0] OUT -----> Building dependencies
+   2025-07-26T21:25:11.39+0200 [STG/0] OUT Prebuild detected (node_modules already exists)
+   2025-07-26T21:25:11.39+0200 [STG/0] OUT Rebuilding any native modules
+   2025-07-26T21:25:11.95+0200 [STG/0] OUT rebuilt dependencies successfully
+   2025-07-26T21:25:11.95+0200 [STG/0] OUT npm notice
+   2025-07-26T21:25:11.95+0200 [STG/0] OUT npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:25:11.95+0200 [STG/0] OUT npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:25:11.95+0200 [STG/0] OUT npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:25:11.95+0200 [STG/0] OUT npm notice
+   2025-07-26T21:25:12.00+0200 [STG/0] OUT Installing any new modules (package.json + package-lock.json)
+   2025-07-26T21:25:12.55+0200 [STG/0] OUT up to date in 495ms
+   2025-07-26T21:25:12.55+0200 [STG/0] OUT 24 packages are looking for funding
+   2025-07-26T21:25:12.55+0200 [STG/0] OUT run `npm fund` for details
+   2025-07-26T21:25:13.20+0200 [STG/0] OUT Contrast Security no credentials found. Will not write environment files.
+   2025-07-26T21:25:21.40+0200 [STG/0] OUT Exit status 0
+   2025-07-26T21:25:21.40+0200 [STG/0] OUT Uploading droplet, build artifacts cache...
+   2025-07-26T21:25:21.40+0200 [STG/0] OUT Uploading droplet...
+   2025-07-26T21:25:21.40+0200 [STG/0] OUT Uploading build artifacts cache...
+   2025-07-26T21:25:21.42+0200 [STG/0] OUT Uploaded build artifacts cache (224B)
+   2025-07-26T21:25:22.18+0200 [API/6] OUT Creating droplet for app with guid c761e299-c55d-4c00-80a6-c595c18c944b
+   2025-07-26T21:25:24.24+0200 [STG/0] OUT Uploaded droplet (59.9M)
+   2025-07-26T21:25:24.26+0200 [STG/0] OUT Uploading complete
+   2025-07-26T21:25:24.64+0200 [STG/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 stopping instance d41feb87-7c19-45b9-8b17-7b54e0f4da3f
+   2025-07-26T21:25:24.64+0200 [STG/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 destroying container for instance d41feb87-7c19-45b9-8b17-7b54e0f4da3f
+   2025-07-26T21:25:27.12+0200 [STG/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 successfully destroyed container for instance d41feb87-7c19-45b9-8b17-7b54e0f4da3f
+   2025-07-26T21:25:33.62+0200 [API/6] OUT Updated app with guid c761e299-c55d-4c00-80a6-c595c18c944b ({:droplet_guid=>"647a682d-0770-47d1-824b-7f723329c583"})
+   2025-07-26T21:25:33.87+0200 [API/14] OUT Creating revision for app with guid c761e299-c55d-4c00-80a6-c595c18c944b
+   2025-07-26T21:25:33.91+0200 [API/14] OUT Starting app with guid c761e299-c55d-4c00-80a6-c595c18c944b
+   2025-07-26T21:25:34.11+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 creating container for instance d331fa00-0773-4844-5383-7b1c
+   2025-07-26T21:25:34.40+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:25:34.45+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 successfully created container for instance d331fa00-0773-4844-5383-7b1c
+   2025-07-26T21:25:34.65+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:25:37.63+0200 [CELL/0] OUT Downloaded droplet (59.9M)
+   2025-07-26T21:25:37.63+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:25:37.71+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:25:37.85+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:25:38.15+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:25:38.15+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:25:38.35+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:25:38.349Z","written_ts":1753557938349000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.3.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:25:38.63+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:25:38.632Z","written_ts":1753557938632000000,"csn_component":"-","correlation_id":"mdkn4czt","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.3.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkn4czt","msg":"Application router version 20.6.1"}
+   2025-07-26T21:25:38.63+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:25:38.635Z","written_ts":1753557938635000000,"csn_component":"-","correlation_id":"mdkn4czv","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.3.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkn4czv","msg":"No COOKIES environment variable"}
+   2025-07-26T21:25:38.63+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:25:38.63+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:25:38.63+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:25:38.63+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:25:38.64+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:25:38.70+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:25:44.96+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 stopping instance d331fa00-0773-4844-5383-7b1c
+   2025-07-26T21:25:44.96+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 destroying container for instance d331fa00-0773-4844-5383-7b1c
+   2025-07-26T21:25:44.96+0200 [API/15] OUT Process has crashed with type: "web"
+   2025-07-26T21:25:44.97+0200 [API/15] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"d331fa00-0773-4844-5383-7b1c", "index"=>0, "cell_id"=>"77283d80-dfa7-40ba-ba4e-265aef112085", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>1, "crash_timestamp"=>1753557944945334446, "version"=>"42a88af0-60b6-4e6b-af67-e32c58945d13"}
+   2025-07-26T21:25:45.03+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:25:45.03+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 creating container for instance c9ed3989-a489-4a93-7028-7552
+   2025-07-26T21:25:45.34+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:25:45.40+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 successfully created container for instance c9ed3989-a489-4a93-7028-7552
+   2025-07-26T21:25:45.78+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:25:46.37+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 successfully destroyed container for instance d331fa00-0773-4844-5383-7b1c
+   2025-07-26T21:25:48.82+0200 [CELL/0] OUT Downloaded droplet (59.9M)
+   2025-07-26T21:25:48.82+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:25:48.87+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:25:49.02+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:25:49.32+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:25:49.32+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:25:49.52+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:25:49.519Z","written_ts":1753557949519000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:25:49.81+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:25:49.816Z","written_ts":1753557949816000000,"csn_component":"-","correlation_id":"mdkn4lmg","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkn4lmg","msg":"Application router version 20.6.1"}
+   2025-07-26T21:25:49.81+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:25:49.819Z","written_ts":1753557949819000000,"csn_component":"-","correlation_id":"mdkn4lmj","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkn4lmj","msg":"No COOKIES environment variable"}
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:25:49.82+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:25:49.83+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:25:49.83+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:25:49.83+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:25:49.83+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:25:49.83+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:25:49.88+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:25:55.75+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 stopping instance c9ed3989-a489-4a93-7028-7552
+   2025-07-26T21:25:55.75+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 destroying container for instance c9ed3989-a489-4a93-7028-7552
+   2025-07-26T21:25:55.76+0200 [API/14] OUT Process has crashed with type: "web"
+   2025-07-26T21:25:55.77+0200 [API/14] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"c9ed3989-a489-4a93-7028-7552", "index"=>0, "cell_id"=>"c839c7b1-088e-41af-b9b7-66256aacd457", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>2, "crash_timestamp"=>1753557955742959821, "version"=>"42a88af0-60b6-4e6b-af67-e32c58945d13"}
+   2025-07-26T21:25:55.83+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 creating container for instance 36efd56a-58f7-444b-71e1-d674
+   2025-07-26T21:25:55.83+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:25:56.09+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:25:56.15+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 successfully created container for instance 36efd56a-58f7-444b-71e1-d674
+   2025-07-26T21:25:56.51+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:25:57.17+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 successfully destroyed container for instance c9ed3989-a489-4a93-7028-7552
+   2025-07-26T21:25:57.49+0200 [CELL/0] OUT Downloaded droplet
+   2025-07-26T21:25:57.49+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:25:57.53+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:25:57.68+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:25:57.98+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:25:57.98+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:25:58.18+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:25:58.180Z","written_ts":1753557958180000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.3.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:25:58.47+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:25:58.475Z","written_ts":1753557958475000000,"csn_component":"-","correlation_id":"mdkn4sb0","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.3.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkn4sb0","msg":"Application router version 20.6.1"}
+   2025-07-26T21:25:58.47+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:25:58.478Z","written_ts":1753557958478000000,"csn_component":"-","correlation_id":"mdkn4sb2","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.3.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkn4sb2","msg":"No COOKIES environment variable"}
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:25:58.48+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:25:58.49+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:25:58.49+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:25:58.49+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:25:58.49+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:25:58.49+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:25:58.54+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:26:04.76+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 stopping instance 36efd56a-58f7-444b-71e1-d674
+   2025-07-26T21:26:04.76+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 destroying container for instance 36efd56a-58f7-444b-71e1-d674
+   2025-07-26T21:26:04.78+0200 [API/7] OUT Process has crashed with type: "web"
+   2025-07-26T21:26:04.79+0200 [API/7] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"36efd56a-58f7-444b-71e1-d674", "index"=>0, "cell_id"=>"77283d80-dfa7-40ba-ba4e-265aef112085", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>3, "crash_timestamp"=>1753557964761708953, "version"=>"42a88af0-60b6-4e6b-af67-e32c58945d13"}
+   2025-07-26T21:26:04.83+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:26:06.11+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 successfully destroyed container for instance 36efd56a-58f7-444b-71e1-d674
+   2025-07-26T21:26:15.18+0200 [API/8] OUT Stopping app with guid c761e299-c55d-4c00-80a6-c595c18c944b
+   2025-07-26T21:26:15.34+0200 [API/17] OUT Starting app with guid c761e299-c55d-4c00-80a6-c595c18c944b
+   2025-07-26T21:26:15.52+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 creating container for instance 926cc063-eab2-4e34-6236-6795
+   2025-07-26T21:26:15.82+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:26:15.88+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 successfully created container for instance 926cc063-eab2-4e34-6236-6795
+   2025-07-26T21:26:16.13+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:26:19.07+0200 [CELL/0] OUT Downloaded droplet (59.9M)
+   2025-07-26T21:26:19.07+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:26:19.12+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:26:19.27+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:26:19.57+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:26:19.57+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:26:19.77+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:26:19.771Z","written_ts":1753557979771000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.3.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:26:20.05+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:26:20.056Z","written_ts":1753557980056000000,"csn_component":"-","correlation_id":"mdkn58yg","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.3.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkn58yg","msg":"Application router version 20.6.1"}
+   2025-07-26T21:26:20.05+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:26:20.058Z","written_ts":1753557980058000000,"csn_component":"-","correlation_id":"mdkn58yi","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.3.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkn58yi","msg":"No COOKIES environment variable"}
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:26:20.06+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:26:20.07+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:26:20.07+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:26:20.07+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:26:20.07+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:26:20.07+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:26:20.12+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-07-26T21:26:26.08+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 stopping instance 926cc063-eab2-4e34-6236-6795
+   2025-07-26T21:26:26.08+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 destroying container for instance 926cc063-eab2-4e34-6236-6795
+   2025-07-26T21:26:26.08+0200 [API/0] OUT Process has crashed with type: "web"
+   2025-07-26T21:26:26.09+0200 [API/0] OUT App instance exited with guid c761e299-c55d-4c00-80a6-c595c18c944b payload: {"instance"=>"926cc063-eab2-4e34-6236-6795", "index"=>0, "cell_id"=>"77283d80-dfa7-40ba-ba4e-265aef112085", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>1, "crash_timestamp"=>1753557986073024126, "version"=>"d03a344c-6c09-42f2-bc31-fc1dca4a1b8f"}
+   2025-07-26T21:26:26.15+0200 [PROXY/0] OUT Exit status 137
+   2025-07-26T21:26:26.17+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 creating container for instance 31b00d20-5df9-42d1-5749-30b3
+   2025-07-26T21:26:26.45+0200 [CELL/0] OUT Security group rules were updated
+   2025-07-26T21:26:26.49+0200 [CELL/0] OUT Cell c839c7b1-088e-41af-b9b7-66256aacd457 successfully created container for instance 31b00d20-5df9-42d1-5749-30b3
+   2025-07-26T21:26:27.15+0200 [CELL/0] OUT Downloading droplet...
+   2025-07-26T21:26:27.47+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 successfully destroyed container for instance 926cc063-eab2-4e34-6236-6795
+   2025-07-26T21:26:30.18+0200 [CELL/0] OUT Downloaded droplet (59.9M)
+   2025-07-26T21:26:30.18+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-07-26T21:26:30.23+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-07-26T21:26:30.37+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-07-26T21:26:30.67+0200 [APP/PROC/WEB/0] OUT > comsappmpmanalyzerfiori-approuter@1.0.0 start
+   2025-07-26T21:26:30.67+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-07-26T21:26:30.86+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:26:30.867Z","written_ts":1753557990867000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-07-26T21:26:31.15+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:26:31.153Z","written_ts":1753557991153000000,"csn_component":"-","correlation_id":"mdkn5hip","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkn5hip","msg":"Application router version 20.6.1"}
+   2025-07-26T21:26:31.15+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-07-26T19:26:31.156Z","written_ts":1753557991156000000,"csn_component":"-","correlation_id":"mdkn5his","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.2.6","component_type":"application","component_id":"c761e299-c55d-4c00-80a6-c595c18c944b","component_name":"comsappmpmanalyzerfiori-approuter","component_instance":-1,"source_instance":-1,"organization_id":"bc78c793-1287-4eb0-95d7-43558d566c34","organization_name":"dfa8bc11trial","space_id":"b1011f65-91ce-4a8e-aed0-123c6796a954","space_name":"dev","context_id":"mdkn5his","msg":"No COOKIES environment variable"}
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR ^
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR VError: html5-repo-credentials: Missing required property: grant_type
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR at /home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:125:21
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateFormat (/home/vcap/app/node_modules/tv4/tv4.js:642:58)
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:606:11)
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArrayItems (/home/vcap/app/node_modules/tv4/tv4.js:947:21)
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateArray (/home/vcap/app/node_modules/tv4/tv4.js:880:11)
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:602:11)
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObjectProperties (/home/vcap/app/node_modules/tv4/tv4.js:1010:21)
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateObject (/home/vcap/app/node_modules/tv4/tv4.js:961:11)
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR at ValidatorContext.validateAll (/home/vcap/app/node_modules/tv4/tv4.js:603:11) {
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'html5-repo-credentials: Missing required property: grant_type',
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR }
+   2025-07-26T21:26:31.16+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-07-26T21:26:31.17+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:26:31.17+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.1
+   2025-07-26T21:26:31.17+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.1
+   2025-07-26T21:26:31.17+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.1
+   2025-07-26T21:26:31.17+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-07-26T21:26:31.22+0200 [APP/PROC/WEB/0] OUT Exit status 1

@@ -76,7 +76,6 @@ modules:
         # The Approuter consumes the VCAP_SERVICES binding directly.
       - name: comsappmpmanalyzerfiori-uaa # Binds to the XSUAA service
       - name: backend-destination # Binds to the destination service
-      # ADDED: Explicitly require the backend_url_property
       - name: backend_url_property # This makes the backend URL available to this module
     properties:
       # Explicitly define the destinations environment variable for the Approuter
@@ -94,12 +93,10 @@ resources:
       service-plan: app-host
       # REMOVED: 'credentials' block is not supported here for managed service resources.
       # The Approuter will get its credentials via its binding to this service.
-      # credentials:
-      #   grant_type: client_credentials
+      # The HTML5 App Repo service instance gets its UAA credentials from its own binding.
+    # ADDED: Requires the main UAA service. This is how the HTML5 App Repo gets its UAA credentials.
     requires:
-      # Removed specific UAA dependency for HTML5 repo here.
-      # The Approuter's binding to html5-repo-host implicitly handles the UAA credentials.
-      - name: comsappmpmanalyzerfiori-uaa # Approuter will use its main UAA binding for HTML5 repo auth
+      - name: comsappmpmanalyzerfiori-uaa
 
   - name: comsappmpmanalyzerfiori-uaa
     type: org.cloudfoundry.managed-service
@@ -107,20 +104,6 @@ resources:
       path: ./xs-security.json
       service: xsuaa
       service-plan: application
-
-  # REMOVED: Separate UAA resource for HTML5 repo credentials.
-  # The Approuter's main UAA binding should suffice for HTML5 repo authentication.
-  # - name: comsappmpmanalyzerfiori-uaa-for-html5-repo
-  #   type: org.cloudfoundry.managed-service
-  #   parameters:
-  #     service: xsuaa
-  #     service-plan: application
-  #     config:
-  #       xsappname: comsappmpmanalyzerfiori-html5-repo-uaa
-  #       tenant-mode: dedicated
-  #       oauth2-configuration:
-  #         token-validity: 3600
-  #         redirect-uris: []
 
   # DESTINATION RESOURCE: This defines the destination service that will be created
   - name: backend-destination
