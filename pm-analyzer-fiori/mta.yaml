@@ -72,11 +72,14 @@ modules:
       memory: 256M
     requires:
       - name: comsappmpmanalyzerfiori-html5-repo-host # Binds to the HTML5 App Repository
+        # ADDED: Specify the group for html5-repo-host to ensure correct binding credentials
+        group: destinations # Approuter expects HTML5 repo credentials in 'destinations' format
+        properties:
+          name: ui5-app-repo # Name of the destination for the HTML5 repo
+          forwardAuthToken: true # Forward token to HTML5 repo if needed
       - name: comsappmpmanalyzerfiori-uaa # Binds to the XSUAA service
       - name: backend-destination # Binds to the destination service
-        # No 'group: destinations' here, as we're explicitly setting the env var
-      # ADDED: Explicitly require the backend_url_property
-      - name: backend_url_property # This is the provided property from pm-analyzer-backend
+      - name: comsappmpmanalyzerfiori-uaa-for-html5-repo # New UAA dependency for HTML5 repo
     properties:
       # Explicitly define the destinations environment variable for the Approuter
       destinations: '[{"name":"backend-api", "url":"~{backend_url_property/url}", "forwardAuthToken":true}]'
@@ -91,7 +94,24 @@ resources:
     parameters:
       service: html5-apps-repo
       service-plan: app-host
-  
+      # ADDED: Explicitly configure credentials for the HTML5 repo service
+      # This ensures the 'grant_type' is present for the Approuter
+      credentials:
+        # These values are typically provided by the platform, but explicitly
+        # defining them here ensures the structure is correct for the Approuter.
+        # You might need to retrieve actual clientid/clientsecret from a service key
+        # of a manually created html5-apps-repo service instance if this doesn't work.
+        # For trial, often the default binding is enough, but this error implies it's not.
+        grant_type: client_credentials
+        # Replace with actual clientid and clientsecret if needed,
+        # or leave as placeholders if they are derived by the platform.
+        # clientid: "your-html5-repo-client-id"
+        # clientsecret: "your-html5-repo-client-secret"
+        # url: "your-html5-repo-url" # Usually from VCAP_SERVICES for the service instance
+        # token_url: "your-uaa-token-url" # From XSUAA service binding
+    requires:
+      - name: comsappmpmanalyzerfiori-uaa-for-html5-repo # Requires the UAA service for its credentials
+
   - name: comsappmpmanalyzerfiori-uaa
     type: org.cloudfoundry.managed-service
     parameters:
@@ -99,13 +119,34 @@ resources:
       service: xsuaa
       service-plan: application
 
+  # NEW: Separate UAA resource for HTML5 repo credentials
+  - name: comsappmpmanalyzerfiori-uaa-for-html5-repo
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application # Or 'space' if you need a space-level UAA
+      config:
+        xsappname: comsappmpmanalyzerfiori-html5-repo-uaa # Unique name for this UAA instance
+        tenant-mode: dedicated
+        oauth2-configuration:
+          token-validity: 3600
+          redirect-uris: [] # No redirect URIs needed for client credentials
+    # This UAA is specifically for the HTML5 repo to get its grant_type credentials
+    provides:
+      - name: html5_repo_uaa_credentials
+        properties:
+          clientid: ${clientid}
+          clientsecret: ${clientsecret}
+          url: ${url}
+          token_url: ${url}/oauth/token
+
   # DESTINATION RESOURCE: This defines the destination service that will be created
   - name: backend-destination
     type: org.cloudfoundry.managed-service
     parameters:
       service: destination
       service-plan: lite
-      config: # URL should be nested under 'config' for the destination service
+      config: 
         URL: ~{backend_url_property/url} 
     requires:
-      - name: backend_url_property # Refers to the 'provides' name from the backend module
+      - name: backend_url_property
