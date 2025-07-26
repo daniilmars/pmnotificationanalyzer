@@ -46,8 +46,8 @@ jobs:
           CF_ORG: ${{ secrets.CF_ORG }}
           CF_SPACE: ${{ secrets.CF_SPACE }}
         run: |
-          # Download and install the CF CLI binary directly
-          wget -q -O cf-cli.tgz "https://packages.cloud.foundry.org/stable?release=linux64-binary&version=8.7.5"
+          # Download and install from GitHub Releases (more reliable)
+          wget -q -O cf-cli.tgz "https://github.com/cloudfoundry/cli/releases/download/v8.7.5/cf8-linux-amd64.tgz"
           tar -zxvf cf-cli.tgz
           sudo mv cf8 /usr/local/bin/cf
           
