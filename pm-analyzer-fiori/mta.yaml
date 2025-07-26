@@ -16,13 +16,14 @@ modules:
         parameters:
           content-target: true
       # This tells the frontend it needs the destination service
-      - name: backend-destination # Refers to the resource name
+      - name: backend-destination # Refers to the destination resource name
         group: destinations
         properties:
-          name: backend-api
-          # The URL here is provided by the 'backend-destination' resource itself
-          url: ~{destination_url} # Referencing the property provided by the destination resource
-          forwardAuthToken: true
+          name: backend-api # The name of the destination to be created
+          # REMOVED: The 'url' property here is not resolved by MTA build.
+          # The Approuter will resolve the URL at runtime via the destination service.
+          # url: ~{destination_url} 
+          forwardAuthToken: true 
     build-parameters:
       build-result: resources
       requires:
@@ -91,8 +92,9 @@ resources:
     # This resource requires the 'backend_url_property' provided by the 'pm-analyzer-backend' module
     requires:
       - name: backend_url_property # Refers to the 'provides' name from the backend module
-    # ADDED: This resource now provides its own URL for other modules to consume
-    provides:
-      - name: destination_url # A unique name for the property provided by this resource
-        properties:
-          destination_url: ${url} # Exposes the URL that was configured for the destination
+    # REMOVED: 'provides' is not a valid field for a resource in this context,
+    # as the destination URL is implicitly handled by the platform.
+    # provides:
+    #   - name: destination_url
+    #     properties:
+    #       destination_url: ${url}
