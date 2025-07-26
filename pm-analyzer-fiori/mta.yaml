@@ -15,12 +15,11 @@ modules:
       - name: comsappmpmanalyzerfiori-html5-repo-host
         parameters:
           content-target: true
-      # This tells the frontend it needs the destination service
-      - name: backend-destination # Refers to the destination resource name
+      - name: backend-destination
         group: destinations
         properties:
-          name: backend-api # The name of the destination to be created in the Approuter env
-          forwardAuthToken: true # Important for forwarding user's JWT token
+          name: backend-api
+          forwardAuthToken: true
     build-parameters:
       build-result: resources
       requires:
@@ -66,19 +65,18 @@ modules:
   #------------------- APPROUTER MODULE -------------------
   - name: comsappmpmanalyzerfiori-approuter
     type: nodejs 
-    path: ../approuter # Path to your approuter folder relative to mta.yaml
+    path: ../approuter
     parameters:
       disk-quota: 256M
       memory: 256M
     requires:
-      - name: comsappmpmanalyzerfiori-html5-repo-host # Binds to the HTML5 App Repository
-        # Removed 'group: destinations' and 'properties' from here.
-        # The Approuter consumes the VCAP_SERVICES binding directly.
-      - name: comsappmpmanalyzerfiori-uaa # Binds to the XSUAA service
-      - name: backend-destination # Binds to the destination service
-      - name: backend_url_property # This makes the backend URL available to this module
+      - name: comsappmpmanalyzerfiori-html5-repo-host
+      - name: comsappmpmanalyzerfiori-uaa
+      - name: backend-destination
+      - name: backend_url_property
     properties:
-      # Explicitly define the destinations environment variable for the Approuter
+      # FIX: This line prevents the "grant_type" error in trial environments
+      HTML5_SERVICE_AUTHENTICATION_METHOD: "none"
       destinations: '[{"name":"backend-api", "url":"~{backend_url_property/url}", "forwardAuthToken":true}]'
     build-parameters:
       builder: npm
@@ -91,10 +89,6 @@ resources:
     parameters:
       service: html5-apps-repo
       service-plan: app-host
-      # REMOVED: 'credentials' block is not supported here for managed service resources.
-      # The Approuter will get its credentials via its binding to this service.
-      # The HTML5 App Repo service instance gets its UAA credentials from its own binding.
-    # ADDED: Requires the main UAA service. This is how the HTML5 App Repo gets its UAA credentials.
     requires:
       - name: comsappmpmanalyzerfiori-uaa
 
@@ -105,7 +99,6 @@ resources:
       service: xsuaa
       service-plan: application
 
-  # DESTINATION RESOURCE: This defines the destination service that will be created
   - name: backend-destination
     type: org.cloudfoundry.managed-service
     parameters:
