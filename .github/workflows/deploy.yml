@@ -2,8 +2,8 @@ name: Build and Deploy to BTP
 
 on:
   push:
-    branches: [ "main" ] # This workflow runs when you push to the 'main' branch
-  workflow_dispatch: # Allows you to run this workflow manually from the Actions tab
+    branches: [ "main" ]
+  workflow_dispatch:
 
 jobs:
   build-and-deploy:
@@ -38,12 +38,17 @@ jobs:
         run: mbt build -p=cf
         working-directory: ./pm-analyzer-fiori
         
-      - name: Deploy to BTP Cloud Foundry
-        uses: sap-actions/cf-deploy@v2.2.0
-        with:
-          api: ${{ secrets.CF_API }}
-          org: ${{ secrets.CF_ORG }}
-          space: ${{ secrets.CF_SPACE }}
-          username: ${{ secrets.CF_USERNAME }}
-          password: ${{ secrets.CF_PASSWORD }}
-          mta_path: ./pm-analyzer-fiori/mta_archives/comsappmpmanalyzerfiori_0.0.1.mtar
+      # --- DEPLOYMENT STEPS (REPLACED) ---
+      - name: Install Cloud Foundry CLI
+        run: |
+          wget -q -O - https://packages.cloud.foundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+          echo "deb https://packages.cloud.foundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+          sudo apt-get update
+          sudo apt-get install cf8-cli
+
+      - name: Deploy to BTP Cloud Foundry using CLI
+        run: |
+          cf api "${{ secrets.CF_API }}"
+          cf auth "${{ secrets.CF_USERNAME }}" "${{ secrets.CF_PASSWORD }}" --client-credentials
+          cf target -o "${{ secrets.CF_ORG }}" -s "${{ secrets.CF_SPACE }}"
+          cf deploy ./pm-analyzer-fiori/mta_archives/comsappmpmanalyzerfiori_0.0.1.mtar -f
