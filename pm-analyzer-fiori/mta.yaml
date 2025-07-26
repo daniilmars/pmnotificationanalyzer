@@ -37,9 +37,9 @@ modules:
   #------------------- BACKEND MODULE (NEW) -------------------
   - name: pm-analyzer-backend
     type: application
-    # REMOVED: The 'path' property is not needed for Docker-based applications.
-    # Cloud Foundry will pull the image directly from the registry specified below.
-    # path: ../backend 
+    # RE-ADDED: The 'path' property is required by the MTA Build Tool (mbt)
+    # to correctly package the module, even if it's a Docker-based application.
+    path: ../backend 
     parameters:
       disk-quota: 512M
       memory: 256M
