@@ -15,11 +15,13 @@ modules:
       - name: comsappmpmanalyzerfiori-html5-repo-host
         parameters:
           content-target: true
-      - name: backend-destination
+      # This tells the frontend it needs the backend destination
+      # The managed Approuter will automatically handle routing based on this destination.
+      - name: backend-destination # Refers to the destination resource name
         group: destinations
         properties:
-          name: backend-api
-          forwardAuthToken: true
+          name: backend-api # The name of the destination to be created in the Approuter env
+          forwardAuthToken: true # Important for forwarding user's JWT token
     build-parameters:
       build-result: resources
       requires:
@@ -62,25 +64,23 @@ modules:
         properties:
           url: ${default-url}
 
-  #------------------- APPROUTER MODULE -------------------
-  - name: comsappmpmanalyzerfiori-approuter
-    type: nodejs 
-    path: ../approuter
-    parameters:
-      disk-quota: 256M
-      memory: 256M
-    requires:
-      - name: comsappmpmanalyzerfiori-html5-repo-host
-      - name: comsappmpmanalyzerfiori-uaa
-      - name: backend-destination
-      - name: backend_url_property
-    properties:
-      # FIX: This line prevents the "grant_type" error in trial environments
-      HTML5_SERVICE_AUTHENTICATION_METHOD: "none"
-      destinations: '[{"name":"backend-api", "url":"~{backend_url_property/url}", "forwardAuthToken":true}]'
-    build-parameters:
-      builder: npm
-      npm-args: "--production"
+  # REMOVED: The standalone Approuter module is no longer needed with a managed Approuter.
+  # - name: comsappmpmanalyzerfiori-approuter
+  #   type: nodejs 
+  #   path: ../approuter 
+  #   parameters:
+  #     disk-quota: 256M
+  #     memory: 256M
+  #   requires:
+  #     - name: comsappmpmanalyzerfiori-html5-repo-host
+  #     - name: comsappmpmanalyzerfiori-uaa
+  #     - name: backend-destination
+  #     - name: backend_url_property
+  #   properties:
+  #     destinations: '[{"name":"backend-api", "url":"~{backend_url_property/url}", "forwardAuthToken":true}]'
+  #   build-parameters:
+  #     builder: npm
+  #     npm-args: "--production"
 
 resources:
   #------------------- SERVICES -------------------------
@@ -89,8 +89,10 @@ resources:
     parameters:
       service: html5-apps-repo
       service-plan: app-host
-    requires:
-      - name: comsappmpmanalyzerfiori-uaa
+    # REMOVED: Direct UAA requirement for html5-repo-host.
+    # The managed Approuter handles its own UAA integration.
+    # requires:
+    #   - name: comsappmpmanalyzerfiori-uaa
 
   - name: comsappmpmanalyzerfiori-uaa
     type: org.cloudfoundry.managed-service
@@ -99,6 +101,7 @@ resources:
       service: xsuaa
       service-plan: application
 
+  # DESTINATION RESOURCE: This defines the destination service that will be created
   - name: backend-destination
     type: org.cloudfoundry.managed-service
     parameters:
