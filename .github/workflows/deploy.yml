@@ -31,16 +31,20 @@ jobs:
         with:
           node-version: '20'
 
-      # NEW STEP: Inject Docker Image Tag into MTA YAML
-      - name: Inject Docker Image Tag into MTA YAML
+      - name: Inject Docker Image Tag and Credentials into MTA YAML
         run: |
-          # Construct the full Docker image tag using the secret
+          # Construct the full Docker image tag
           DOCKER_IMAGE_FULL_TAG="${{ secrets.DOCKER_USERNAME }}/pm-analyzer-backend:latest"
           
-          # Replace the placeholder in mta.yaml with the actual tag
-          # We use '|' as a delimiter for sed to avoid issues with '/' in the image tag.
-          # The -i flag modifies the file in place.
+          # Replace the image tag placeholder
           sed -i "s|__DOCKER_IMAGE_FULL_TAG__|$DOCKER_IMAGE_FULL_TAG|g" mta.yaml
+
+          # Replace the Docker username placeholder for credentials
+          sed -i "s|__DOCKER_USERNAME_PLACEHOLDER__|${{ secrets.DOCKER_USERNAME }}|g" mta.yaml
+
+          # Replace the Docker token placeholder for credentials
+          # IMPORTANT: Ensure DOCKER_TOKEN is a Personal Access Token with read access
+          sed -i "s|__DOCKER_TOKEN_PLACEHOLDER__|${{ secrets.DOCKER_TOKEN }}|g" mta.yaml
           
           # Optional: Print the modified mta.yaml for debugging
           echo "--- Modified mta.yaml ---"
@@ -78,3 +82,6 @@ jobs:
         run: |
           cf login -a "$CF_API" -u "$CF_USERNAME" -p "$CF_PASSWORD" -o "$CF_ORG" -s "$CF_SPACE"
           cf deploy ./pm-analyzer-fiori/mta_archives/comsappmpmanalyzerfiori_0.0.1.mtar -f
+          # Add a step to download deployment logs if the process fails for better debugging
+          echo "Attempting to download deployment logs for ID: 2b2dc873-6a3f-11f0-849b-eeee0a8486ac"
+          cf dmol -i 2b2dc873-6a3f-11f0-849b-eeee0a8486ac || true # Use '|| true' to not fail the step if dmol fails
