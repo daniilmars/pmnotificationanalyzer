@@ -39,7 +39,7 @@ jobs:
         working-directory: ./pm-analyzer-fiori
         
       - name: Deploy to BTP Cloud Foundry
-        uses: sap-actions/cf-deploy@v2
+        uses: sap-actions/cf-deploy@v2.2.0
         with:
           api: ${{ secrets.CF_API }}
           org: ${{ secrets.CF_ORG }}
