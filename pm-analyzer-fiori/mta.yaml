@@ -15,13 +15,14 @@ modules:
       - name: comsappmpmanalyzerfiori-html5-repo-host
         parameters:
           content-target: true
-      # ADDED REQUIREMENT: This tells the frontend it needs the backend destination
-      - name: backend-destination 
+      # This tells the frontend it needs the destination service
+      - name: backend-destination # Refers to the resource name
         group: destinations
         properties:
           name: backend-api
-          url: ~{backend-url} # This uses the URL provided by the backend module
-          forwardAuthToken: true # Important for forwarding user's JWT token
+          # The URL here is provided by the 'backend-destination' resource itself
+          url: ~{destination_url} # Referencing the property provided by the destination resource
+          forwardAuthToken: true
     build-parameters:
       build-result: resources
       requires:
@@ -58,11 +59,11 @@ modules:
       API_AUDIENCE: __API_AUDIENCE_PLACEHOLDER__
     build-parameters:
       no-source: true
-    # ADDED PROVIDES SECTION: This exposes the backend's URL for other modules to use
+    # This module provides its default URL under a specific name
     provides:
-      - name: backend
+      - name: backend_url_property # A unique name for the provided property
         properties:
-          backend-url: ${default-url} # Exposes the backend's default route as 'backend-url'
+          url: ${default-url} # Exposes the backend's default route as 'url'
 
 resources:
   #------------------- SERVICES -------------------------
@@ -79,13 +80,19 @@ resources:
       service: xsuaa
       service-plan: application
 
-  # ADDED DESTINATION RESOURCE: This defines the destination service that will be created
+  # DESTINATION RESOURCE: This defines the destination service that will be created
   - name: backend-destination
     type: org.cloudfoundry.managed-service
     parameters:
       service: destination
       service-plan: lite
-    # ADDED: This requires the 'backend' provided by the 'pm-analyzer-backend' module
-    # making its properties (like backend-url) available to this resource.
+      config:
+        URL: ~{backend_url_property/url} # Reference the provided property from the backend module
+    # This resource requires the 'backend_url_property' provided by the 'pm-analyzer-backend' module
     requires:
-      - name: backend
+      - name: backend_url_property # Refers to the 'provides' name from the backend module
+    # ADDED: This resource now provides its own URL for other modules to consume
+    provides:
+      - name: destination_url # A unique name for the property provided by this resource
+        properties:
+          destination_url: ${url} # Exposes the URL that was configured for the destination
