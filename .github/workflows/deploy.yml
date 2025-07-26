@@ -38,17 +38,22 @@ jobs:
         run: mbt build -p=cf
         working-directory: ./pm-analyzer-fiori
         
-      # --- DEPLOYMENT STEPS (REPLACED) ---
-      - name: Install Cloud Foundry CLI
+      - name: Install CF CLI and Deploy to BTP
+        env:
+          CF_API: ${{ secrets.CF_API }}
+          CF_USERNAME: ${{ secrets.CF_USERNAME }}
+          CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
+          CF_ORG: ${{ secrets.CF_ORG }}
+          CF_SPACE: ${{ secrets.CF_SPACE }}
         run: |
-          wget -q -O - https://packages.cloud.foundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
-          echo "deb https://packages.cloud.foundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+          # Install CF CLI using the modern GPG method
+          wget -q -O - https://packages.cloud.foundry.org/debian/cli.cloudfoundry.org.key | gpg --dearmor | sudo tee /usr/share/keyrings/cloudfoundry-cli-archive-keyring.gpg > /dev/null
+          echo "deb [signed-by=/usr/share/keyrings/cloudfoundry-cli-archive-keyring.gpg] https://packages.cloud.foundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
           sudo apt-get update
-          sudo apt-get install cf8-cli
-
-      - name: Deploy to BTP Cloud Foundry using CLI
-        run: |
-          cf api "${{ secrets.CF_API }}"
-          cf auth "${{ secrets.CF_USERNAME }}" "${{ secrets.CF_PASSWORD }}" --client-credentials
-          cf target -o "${{ secrets.CF_ORG }}" -s "${{ secrets.CF_SPACE }}"
+          sudo apt-get install -y cf8-cli
+          
+          # Login and Deploy
+          cf api "$CF_API"
+          cf auth "$CF_USERNAME" "$CF_PASSWORD" --client-credentials
+          cf target -o "$CF_ORG" -s "$CF_SPACE"
           cf deploy ./pm-analyzer-fiori/mta_archives/comsappmpmanalyzerfiori_0.0.1.mtar -f
