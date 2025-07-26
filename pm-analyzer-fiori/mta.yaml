@@ -72,14 +72,12 @@ modules:
       memory: 256M
     requires:
       - name: comsappmpmanalyzerfiori-html5-repo-host # Binds to the HTML5 App Repository
-        # Specify the group for html5-repo-host to ensure correct binding credentials
-        group: destinations # Approuter expects HTML5 repo credentials in 'destinations' format
-        properties:
-          name: ui5-app-repo # Name of the destination for the HTML5 repo
-          forwardAuthToken: true # Forward token to HTML5 repo if needed
+        # Removed 'group: destinations' and 'properties' from here.
+        # The Approuter consumes the VCAP_SERVICES binding directly.
       - name: comsappmpmanalyzerfiori-uaa # Binds to the XSUAA service
       - name: backend-destination # Binds to the destination service
-      - name: comsappmpmanalyzerfiori-uaa-for-html5-repo # New UAA dependency for HTML5 repo
+      # ADDED: Explicitly require the backend_url_property
+      - name: backend_url_property # This makes the backend URL available to this module
     properties:
       # Explicitly define the destinations environment variable for the Approuter
       destinations: '[{"name":"backend-api", "url":"~{backend_url_property/url}", "forwardAuthToken":true}]'
@@ -94,14 +92,14 @@ resources:
     parameters:
       service: html5-apps-repo
       service-plan: app-host
-      # Explicitly configure credentials for the HTML5 repo service
-      # This ensures the 'grant_type' is present for the Approuter
-      credentials:
-        grant_type: client_credentials
-        # The clientid, clientsecret, url, and token_url will be populated by the platform
-        # from the bound 'comsappmpmanalyzerfiori-uaa-for-html5-repo' service instance.
+      # REMOVED: 'credentials' block is not supported here for managed service resources.
+      # The Approuter will get its credentials via its binding to this service.
+      # credentials:
+      #   grant_type: client_credentials
     requires:
-      - name: comsappmpmanalyzerfiori-uaa-for-html5-repo # Requires the UAA service for its credentials
+      # Removed specific UAA dependency for HTML5 repo here.
+      # The Approuter's binding to html5-repo-host implicitly handles the UAA credentials.
+      - name: comsappmpmanalyzerfiori-uaa # Approuter will use its main UAA binding for HTML5 repo auth
 
   - name: comsappmpmanalyzerfiori-uaa
     type: org.cloudfoundry.managed-service
@@ -110,27 +108,19 @@ resources:
       service: xsuaa
       service-plan: application
 
-  # Separate UAA resource for HTML5 repo credentials
-  - name: comsappmpmanalyzerfiori-uaa-for-html5-repo
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: xsuaa
-      service-plan: application # Or 'space' if you need a space-level UAA
-      config:
-        xsappname: comsappmpmanalyzerfiori-html5-repo-uaa # Unique name for this UAA instance
-        tenant-mode: dedicated
-        oauth2-configuration:
-          token-validity: 3600
-          redirect-uris: [] # No redirect URIs needed for client credentials
-    # REMOVED: 'provides' is not a valid field for a resource in this context.
-    # The credentials are implicitly provided to bound modules/resources.
-    # provides:
-    #   - name: html5_repo_uaa_credentials
-    #     properties:
-    #       clientid: ${clientid}
-    #       clientsecret: ${clientsecret}
-    #       url: ${url}
-    #       token_url: ${url}/oauth/token
+  # REMOVED: Separate UAA resource for HTML5 repo credentials.
+  # The Approuter's main UAA binding should suffice for HTML5 repo authentication.
+  # - name: comsappmpmanalyzerfiori-uaa-for-html5-repo
+  #   type: org.cloudfoundry.managed-service
+  #   parameters:
+  #     service: xsuaa
+  #     service-plan: application
+  #     config:
+  #       xsappname: comsappmpmanalyzerfiori-html5-repo-uaa
+  #       tenant-mode: dedicated
+  #       oauth2-configuration:
+  #         token-validity: 3600
+  #         redirect-uris: []
 
   # DESTINATION RESOURCE: This defines the destination service that will be created
   - name: backend-destination
