@@ -31,6 +31,23 @@ jobs:
         with:
           node-version: '20'
 
+      # NEW STEP: Inject Docker Image Tag into MTA YAML
+      - name: Inject Docker Image Tag into MTA YAML
+        run: |
+          # Construct the full Docker image tag using the secret
+          DOCKER_IMAGE_FULL_TAG="${{ secrets.DOCKER_USERNAME }}/pm-analyzer-backend:latest"
+          
+          # Replace the placeholder in mta.yaml with the actual tag
+          # We use '|' as a delimiter for sed to avoid issues with '/' in the image tag.
+          # The -i flag modifies the file in place.
+          sed -i "s|__DOCKER_IMAGE_FULL_TAG__|$DOCKER_IMAGE_FULL_TAG|g" mta.yaml
+          
+          # Optional: Print the modified mta.yaml for debugging
+          echo "--- Modified mta.yaml ---"
+          cat mta.yaml
+          echo "-------------------------"
+        working-directory: ./pm-analyzer-fiori # Crucial: ensure this targets the directory containing your mta.yaml
+
       - name: Install MTA Build Tool
         run: npm install -g mbt
 
@@ -47,11 +64,9 @@ jobs:
           
       - name: Install CF CLI MTA Plugin
         run: |
-          # Add the Cloud Foundry community plugin repository
           cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org/
-          # Install the multiapps-cli-plugin (MTA plugin)
           cf install-plugin -r CF-Community multiapps -f
-          cf plugins # Verify the plugin is installed
+          cf plugins
 
       - name: Login and Deploy to BTP
         env:
@@ -61,8 +76,5 @@ jobs:
           CF_ORG: ${{ secrets.CF_ORG }}
           CF_SPACE: ${{ secrets.CF_SPACE }}
         run: |
-          # Login with user credentials (no --client-credentials flag)
           cf login -a "$CF_API" -u "$CF_USERNAME" -p "$CF_PASSWORD" -o "$CF_ORG" -s "$CF_SPACE"
-          
-          # Deploy the application
           cf deploy ./pm-analyzer-fiori/mta_archives/comsappmpmanalyzerfiori_0.0.1.mtar -f
