@@ -42,13 +42,14 @@ modules:
       disk-quota: 512M
       memory: 256M
       docker:
-        # This placeholder will be replaced by the full Docker image tag (e.g., yourusername/imagename:latest)
+        # Placeholder for the full Docker image tag (e.g., yourusername/imagename:tag)
         image: __DOCKER_IMAGE_FULL_TAG__ 
-        # ADDED: Credentials for Docker Hub authentication
+        # ADDED: Explicitly define the Docker registry
+        registry: docker.io 
         credentials:
-          # This placeholder will be replaced by your Docker Hub username
+          # Placeholder for Docker Hub username (e.g., yourusername)
           username: __DOCKER_USERNAME_PLACEHOLDER__
-          # This placeholder will be replaced by your Docker Hub Personal Access Token (PAT)
+          # Placeholder for Docker Hub Personal Access Token (PAT)
           password: __DOCKER_TOKEN_PLACEHOLDER__ 
         
 resources:
