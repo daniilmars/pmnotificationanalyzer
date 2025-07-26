@@ -37,19 +37,17 @@ modules:
   #------------------- BACKEND MODULE (NEW) -------------------
   - name: pm-analyzer-backend
     type: application
-    path: ../backend # Path to your backend folder
+    # REMOVED: The 'path' property is not needed for Docker-based applications.
+    # Cloud Foundry will pull the image directly from the registry specified below.
+    # path: ../backend 
     parameters:
       disk-quota: 512M
       memory: 256M
       docker:
-        # Placeholder for the full Docker image tag (e.g., yourusername/imagename:tag)
         image: __DOCKER_IMAGE_FULL_TAG__ 
-        # ADDED: Explicitly define the Docker registry
         registry: docker.io 
         credentials:
-          # Placeholder for Docker Hub username (e.g., yourusername)
           username: __DOCKER_USERNAME_PLACEHOLDER__
-          # Placeholder for Docker Hub Personal Access Token (PAT)
           password: __DOCKER_TOKEN_PLACEHOLDER__ 
         
 resources:
