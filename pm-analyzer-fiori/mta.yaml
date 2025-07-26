@@ -15,6 +15,14 @@ modules:
       - name: comsappmpmanalyzerfiori-html5-repo-host
         parameters:
           content-target: true
+      # --- ADDED REQUIREMENT ---
+      # This tells the frontend it needs the backend destination
+      - name: backend-destination 
+        group: destinations
+        properties:
+          name: backend-api
+          url: ~{backend-url}
+          forwardAuthToken: true
     build-parameters:
       build-result: resources
       requires:
@@ -34,19 +42,20 @@ modules:
         - npm run build:cf
       supported-platforms: []
 
-  #------------------- BACKEND MODULE (NEW) -------------------
+  #------------------- BACKEND MODULE -------------------
   - name: pm-analyzer-backend
     type: application
     parameters:
       disk-quota: 512M
       memory: 256M
       docker:
-        image: __DOCKER_IMAGE_FULL_TAG__ 
-        registry: docker.io 
-        credentials:
-          username: __DOCKER_USERNAME_PLACEHOLDER__
-          password: __DOCKER_TOKEN_PLACEHOLDER__ 
-    # MOVED: Environment variables for the application should be under 'properties'
+        image: __DOCKER_IMAGE_FULL_TAG__
+    # --- ADDED PROVIDES SECTION ---
+    # This exposes the backend's URL for other modules to use
+    provides:
+      - name: backend
+        properties:
+          backend-url: ${default-url}
     properties:
       AUTH0_DOMAIN: __AUTH0_DOMAIN_PLACEHOLDER__
       API_AUDIENCE: __API_AUDIENCE_PLACEHOLDER__
@@ -67,3 +76,11 @@ resources:
       path: ./xs-security.json
       service: xsuaa
       service-plan: application
+
+  # --- ADDED DESTINATION RESOURCE ---
+  # This defines the destination service that will be created
+  - name: backend-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
