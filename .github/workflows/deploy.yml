@@ -72,7 +72,7 @@ jobs:
           cf install-plugin -r CF-Community multiapps -f
           cf plugins
 
-      - name: Login and Deploy to BTP
+      - name: CF CLI Login
         env:
           CF_API: ${{ secrets.CF_API }}
           CF_USERNAME: ${{ secrets.CF_USERNAME }}
@@ -81,7 +81,30 @@ jobs:
           CF_SPACE: ${{ secrets.CF_SPACE }}
         run: |
           cf login -a "$CF_API" -u "$CF_USERNAME" -p "$CF_PASSWORD" -o "$CF_ORG" -s "$CF_SPACE"
+
+      - name: Delete Backend App (if it exists)
+        env:
+          CF_API: ${{ secrets.CF_API }} # These are needed if cf login was in a separate step
+          CF_USERNAME: ${{ secrets.CF_USERNAME }}
+          CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
+          CF_ORG: ${{ secrets.CF_ORG }}
+          CF_SPACE: ${{ secrets.CF_SPACE }}
+        run: |
+          echo "Attempting to delete pm-analyzer-backend app if it exists..."
+          # The '|| true' ensures this step doesn't fail the workflow if the app is not found
+          cf delete pm-analyzer-backend -f || true 
+          echo "Deletion attempt complete."
+
+      - name: Deploy to BTP
+        env:
+          CF_API: ${{ secrets.CF_API }}
+          CF_USERNAME: ${{ secrets.CF_USERNAME }}
+          CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
+          CF_ORG: ${{ secrets.CF_ORG }}
+          CF_SPACE: ${{ secrets.CF_SPACE }}
+        run: |
+          # Deploy the application
           cf deploy ./pm-analyzer-fiori/mta_archives/comsappmpmanalyzerfiori_0.0.1.mtar -f
           # Add a step to download deployment logs if the process fails for better debugging
-          echo "Attempting to download deployment logs for ID: 2b2dc873-6a3f-11f0-849b-eeee0a8486ac"
-          cf dmol -i 2b2dc873-6a3f-11f0-849b-eeee0a8486ac || true # Use '|| true' to not fail the step if dmol fails
+          echo "Attempting to download deployment logs for ID: 0c94eb53-6a41-11f0-9108-eeee0a8c5caf"
+          cf dmol -i 0c94eb53-6a41-11f0-9108-eeee0a8c5caf || true # Use '|| true' to not fail the step if dmol fails
