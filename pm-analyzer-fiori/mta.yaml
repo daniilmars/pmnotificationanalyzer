@@ -63,7 +63,7 @@ modules:
         properties:
           url: ${default-url}
 
-  #------------------- RE-ADDED: APPROUTER MODULE -------------------
+  #------------------- APPROUTER MODULE -------------------
   - name: comsappmpmanalyzerfiori-approuter
     type: nodejs 
     path: ../approuter # Path to your approuter folder relative to mta.yaml
@@ -74,10 +74,10 @@ modules:
       - name: comsappmpmanalyzerfiori-html5-repo-host # Binds to the HTML5 App Repository
       - name: comsappmpmanalyzerfiori-uaa # Binds to the XSUAA service
       - name: backend-destination # Binds to the destination service
-        group: destinations
-        properties:
-          name: backend-api # The name of the destination to be created in the Approuter env
-          forwardAuthToken: true # Forward the user's JWT token to the backend
+        # No 'group: destinations' here, as we're explicitly setting the env var
+    # ADDED: Explicitly define the destinations environment variable for the Approuter
+    properties:
+      destinations: '[{"name":"backend-api", "url":"~{backend_url_property/url}", "forwardAuthToken":true}]'
     build-parameters:
       builder: npm
       npm-args: "--production"
