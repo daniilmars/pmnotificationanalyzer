@@ -3,9 +3,6 @@ metadata:
   name: com.sap.pm.pmanalyzerfiori
 type: application
 builder:
-  resources:
-    excludes:
-      - "/webapp/libs/**" # This line excludes the third-party libs folder
   customTasks:
     - name: ui5-task-zipper
       afterTask: generateCachebusterInfo
