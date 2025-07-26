@@ -1,5 +1,3 @@
-# In pm-analyzer-fiori/mta.yaml
-
 _schema-version: "3.2"
 ID: comsappmpmanalyzerfiori
 version: 0.0.1
@@ -44,8 +42,14 @@ modules:
       disk-quota: 512M
       memory: 256M
       docker:
-        # CHANGE THIS LINE:
-        image: __DOCKER_IMAGE_FULL_TAG__ # Placeholder for Docker image to be used
+        # This placeholder will be replaced by the full Docker image tag (e.g., yourusername/imagename:latest)
+        image: __DOCKER_IMAGE_FULL_TAG__ 
+        # ADDED: Credentials for Docker Hub authentication
+        credentials:
+          # This placeholder will be replaced by your Docker Hub username
+          username: __DOCKER_USERNAME_PLACEHOLDER__
+          # This placeholder will be replaced by your Docker Hub Personal Access Token (PAT)
+          password: __DOCKER_TOKEN_PLACEHOLDER__ 
         
 resources:
   #------------------- SERVICES -------------------------
