@@ -15,6 +15,12 @@ modules:
       - name: comsappmpmanalyzerfiori-html5-repo-host
         parameters:
           content-target: true
+      # This tells the frontend it needs the destination service
+      - name: backend-destination # Refers to the destination resource name
+        group: destinations
+        properties:
+          name: backend-api # The name of the destination to be created in the Approuter env
+          forwardAuthToken: true # Important for forwarding user's JWT token
     build-parameters:
       build-result: resources
       requires:
@@ -46,7 +52,7 @@ modules:
         registry: docker.io 
         credentials:
           username: __DOCKER_USERNAME_PLACEHOLDER__
-          password: __DOCKER_TOKEN_PLACEHOLDER__ 
+          password: __DOCKER_TOKEN_PLACEER__ 
     properties:
       AUTH0_DOMAIN: __AUTH0_DOMAIN_PLACEHOLDER__
       API_AUDIENCE: __API_AUDIENCE_PLACEHOLDER__
@@ -59,8 +65,9 @@ modules:
 
   #------------------- NEW: APPROUTER MODULE -------------------
   - name: comsappmpmanalyzerfiori-approuter
-    type: nodejs # Or com.sap.cloud.approuter for a managed Approuter
-    path: approuter # This will be a new folder you need to create
+    type: nodejs 
+    # CORRECTED PATH: The approuter folder is one level up from mta.yaml
+    path: ../approuter 
     parameters:
       disk-quota: 256M
       memory: 256M
@@ -73,7 +80,6 @@ modules:
           name: backend-api # The name of the destination to be created in the Approuter env
           forwardAuthToken: true # Forward the user's JWT token to the backend
     build-parameters:
-      # This tells the MTA build tool to include the Approuter's dependencies
       builder: npm
       npm-args: "--production"
 
