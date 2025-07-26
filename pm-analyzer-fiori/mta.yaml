@@ -75,8 +75,10 @@ modules:
       - name: comsappmpmanalyzerfiori-uaa # Binds to the XSUAA service
       - name: backend-destination # Binds to the destination service
         # No 'group: destinations' here, as we're explicitly setting the env var
-    # ADDED: Explicitly define the destinations environment variable for the Approuter
+      # ADDED: Explicitly require the backend_url_property
+      - name: backend_url_property # This is the provided property from pm-analyzer-backend
     properties:
+      # Explicitly define the destinations environment variable for the Approuter
       destinations: '[{"name":"backend-api", "url":"~{backend_url_property/url}", "forwardAuthToken":true}]'
     build-parameters:
       builder: npm
@@ -103,6 +105,7 @@ resources:
     parameters:
       service: destination
       service-plan: lite
-      URL: ~{backend_url_property/url} # Directly set the URL here
+      config: # URL should be nested under 'config' for the destination service
+        URL: ~{backend_url_property/url} 
     requires:
       - name: backend_url_property # Refers to the 'provides' name from the backend module
