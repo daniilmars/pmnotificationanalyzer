@@ -45,6 +45,14 @@ jobs:
           sudo mv cf8 /usr/local/bin/cf
           cf --version
           
+      - name: Install CF CLI MTA Plugin
+        run: |
+          # Add the Cloud Foundry community plugin repository
+          cf add-plugin-repo CF-Community https://plugins.cloudfoundry.org/
+          # Install the multiapps-cli-plugin (MTA plugin)
+          cf install-plugin -r CF-Community multiapps -f
+          cf plugins # Verify the plugin is installed
+
       - name: Login and Deploy to BTP
         env:
           CF_API: ${{ secrets.CF_API }}
