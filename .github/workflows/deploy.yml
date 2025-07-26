@@ -38,7 +38,14 @@ jobs:
         run: mbt build -p=cf
         working-directory: ./pm-analyzer-fiori
         
-      - name: Install CF CLI and Deploy to BTP
+      - name: Install CF CLI
+        run: |
+          wget -q -O cf-cli.tgz "https://github.com/cloudfoundry/cli/releases/download/v8.7.5/cf8-cli_8.7.5_linux_x86-64.tgz"
+          tar -zxvf cf-cli.tgz
+          sudo mv cf8 /usr/local/bin/cf
+          cf --version
+          
+      - name: Login and Deploy to BTP
         env:
           CF_API: ${{ secrets.CF_API }}
           CF_USERNAME: ${{ secrets.CF_USERNAME }}
@@ -46,14 +53,8 @@ jobs:
           CF_ORG: ${{ secrets.CF_ORG }}
           CF_SPACE: ${{ secrets.CF_SPACE }}
         run: |
-          # Download and install from GitHub Releases with the corrected filename
-          wget -q -O cf-cli.tgz "https://github.com/cloudfoundry/cli/releases/download/v8.7.5/cf8-cli_8.7.5_linux_x86-64.tgz"
-          tar -zxvf cf-cli.tgz
-          sudo mv cf8 /usr/local/bin/cf
+          # Login with user credentials (no --client-credentials flag)
+          cf login -a "$CF_API" -u "$CF_USERNAME" -p "$CF_PASSWORD" -o "$CF_ORG" -s "$CF_SPACE"
           
-          # Verify, Login, and Deploy
-          cf --version
-          cf api "$CF_API"
-          cf auth "$CF_USERNAME" "$CF_PASSWORD" --client-credentials
-          cf target -o "$CF_ORG" -s "$CF_SPACE"
+          # Deploy the application
           cf deploy ./pm-analyzer-fiori/mta_archives/comsappmpmanalyzerfiori_0.0.1.mtar -f
