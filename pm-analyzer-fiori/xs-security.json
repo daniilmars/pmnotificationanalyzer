@@ -1,5 +1,5 @@
 {
-  "xsappname": "com.sap.pm.pmanalyzerfiori",
+  "xsappname": "comsappmpmanalyzerfiori",
   "tenant-mode": "dedicated",
   "description": "Security profile of PM Notification Analyzer Fiori application",
   "scopes": [
@@ -18,8 +18,7 @@
       "description": "Viewer role for PM Notification Analyzer Fiori app",
       "scope-references": [
         "$XSAPPNAME.Viewer"
-      ],
-      "attribute-references": []
+      ]
     },
     {
       "name": "Admin",
@@ -27,8 +26,7 @@
       "scope-references": [
         "$XSAPPNAME.Admin",
         "$XSAPPNAME.Viewer"
-      ],
-      "attribute-references": []
+      ]
     }
   ]
 }
