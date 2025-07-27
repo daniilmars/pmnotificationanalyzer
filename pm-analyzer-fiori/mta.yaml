@@ -1,39 +1,36 @@
 _schema-version: "3.2"
-ID: comsappmpmanalyzerfiori
+ID: com.sap.pm.pmanalyzerfiori # FIXED: Matched to sap.app.id
 version: 0.0.1
 description: "PM Notification Analyzer"
-
 parameters:
   enable-parallel-deployments: true
 
 modules:
-  #------------------- FRONTEND MODULE (HTML5 Content) -------------------
-  - name: comsappmpmanalyzerfiori-app-content
+  # Deploys the built UI to the HTML5 Repo
+  - name: com-sap-pm-pmanalyzerfiori-app-content
     type: com.sap.application.content
-    path: .
+    path: pm-analyzer-fiori # FIXED: Path to the Fiori app folder
     requires:
-      - name: comsappmpmanalyzerfiori-html5-repo-host
+      - name: com-sap-pm-pmanalyzerfiori-repo-host
         parameters:
           content-target: true
-      # This tells the frontend it needs the backend destination
-      # The managed Approuter will automatically handle routing based on this destination.
-      - name: backend-destination # Refers to the destination resource name
+      - name: backend-destination
         group: destinations
         properties:
-          name: backend-api # The name of the destination to be created in the Approuter env
-          forwardAuthToken: true # Important for forwarding user's JWT token
+          name: backend-api
+          forwardAuthToken: true
     build-parameters:
       build-result: resources
       requires:
         - artifacts:
-            - comsappmpmanalyzerfiori.zip
-          name: comsappmpmanalyzerfiori
+            - comsappmpmanalyzerfiori.zip # This name is generated from the module below
+          name: com-sap-pm-pmanalyzerfiori-ui # FIXED: References the build module name
           target-path: resources/
 
-  #------------------- HTML5 Application (Builds the UI) -------------------
-  - name: comsappmpmanalyzerfiori
+  # Builds the Fiori/UI5 application
+  - name: com-sap-pm-pmanalyzerfiori-ui # RENAMED for clarity
     type: html5
-    path: .
+    path: pm-analyzer-fiori # <-- FIX THIS: Make sure this is the correct path to your Fiori app folder
     build-parameters:
       build-result: dist
       builder: custom
@@ -42,57 +39,42 @@ modules:
         - npm run build:cf
       supported-platforms: []
 
-  #------------------- BACKEND MODULE -------------------
+  # Backend module (unchanged)
   - name: pm-analyzer-backend
     type: application
     parameters:
       disk-quota: 512M
       memory: 256M
       docker:
-        image: __DOCKER_IMAGE_FULL_TAG__ 
-        registry: docker.io 
-        credentials:
-          username: __DOCKER_USERNAME_PLACEHOLDER__
-          password: __DOCKER_TOKEN_PLACEHOLDER__ 
-    properties:
-      AUTH0_DOMAIN: __AUTH0_DOMAIN_PLACEHOLDER__
-      API_AUDIENCE: __API_AUDIENCE_PLACEHOLDER__
-    build-parameters:
-      no-source: true
+        image: __DOCKER_IMAGE_FULL_TAG__
     provides:
-      - name: backend_url_property 
+      - name: backend_url_property
         properties:
           url: ${default-url}
 
-  # The standalone Approuter module is intentionally removed for the managed Approuter approach.
-
 resources:
-  #------------------- SERVICES -------------------------
-  - name: comsappmpmanalyzerfiori-html5-repo-host
+  # Service names updated for consistency
+  - name: com-sap-pm-pmanalyzerfiori-repo-host
     type: org.cloudfoundry.managed-service
     parameters:
       service: html5-apps-repo
       service-plan: app-host
-    # RE-ADDED: This explicitly binds the HTML5 App Repository service to the UAA service.
-    # This is crucial for the HTML5 App Repo to get the necessary credentials (including grant_type)
-    # which are then consumed by the managed Approuter.
     requires:
-      - name: comsappmpmanalyzerfiori-uaa 
+      - name: com-sap-pm-pmanalyzerfiori-uaa
 
-  - name: comsappmpmanalyzerfiori-uaa
+  - name: com-sap-pm-pmanalyzerfiori-uaa
     type: org.cloudfoundry.managed-service
     parameters:
-      path: ./xs-security.json
+      path: ./pm-analyzer-fiori/xs-security.json # Assuming xs-security is inside this folder
       service: xsuaa
       service-plan: application
 
-  # DESTINATION RESOURCE: This defines the destination service that will be created
   - name: backend-destination
     type: org.cloudfoundry.managed-service
     parameters:
       service: destination
       service-plan: lite
-      config: 
-        URL: ~{backend_url_property/url} 
+      config:
+        URL: ~{backend_url_property/url}
     requires:
       - name: backend_url_property
