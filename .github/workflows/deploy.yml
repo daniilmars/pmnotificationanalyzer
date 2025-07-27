@@ -64,7 +64,8 @@ jobs:
           cat ./pm-analyzer-fiori/webapp/manifest.json
           echo "----------------------------------------------------"
       
-       - name: Clean and Build MTA
+      # --- THIS STEP IS NOW CORRECTLY INDENTED ---
+      - name: Clean and Build MTA
         working-directory: ./pm-analyzer-fiori
         run: |
           echo "--- Performing a clean build ---"
