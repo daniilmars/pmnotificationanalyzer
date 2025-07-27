@@ -64,23 +64,7 @@ modules:
         properties:
           url: ${default-url}
 
-  # REMOVED: The standalone Approuter module is no longer needed with a managed Approuter.
-  # - name: comsappmpmanalyzerfiori-approuter
-  #   type: nodejs 
-  #   path: ../approuter 
-  #   parameters:
-  #     disk-quota: 256M
-  #     memory: 256M
-  #   requires:
-  #     - name: comsappmpmanalyzerfiori-html5-repo-host
-  #     - name: comsappmpmanalyzerfiori-uaa
-  #     - name: backend-destination
-  #     - name: backend_url_property
-  #   properties:
-  #     destinations: '[{"name":"backend-api", "url":"~{backend_url_property/url}", "forwardAuthToken":true}]'
-  #   build-parameters:
-  #     builder: npm
-  #     npm-args: "--production"
+  # The standalone Approuter module is intentionally removed for the managed Approuter approach.
 
 resources:
   #------------------- SERVICES -------------------------
@@ -89,10 +73,11 @@ resources:
     parameters:
       service: html5-apps-repo
       service-plan: app-host
-    # REMOVED: Direct UAA requirement for html5-repo-host.
-    # The managed Approuter handles its own UAA integration.
-    # requires:
-    #   - name: comsappmpmanalyzerfiori-uaa
+    # RE-ADDED: This explicitly binds the HTML5 App Repository service to the UAA service.
+    # This is crucial for the HTML5 App Repo to get the necessary credentials (including grant_type)
+    # which are then consumed by the managed Approuter.
+    requires:
+      - name: comsappmpmanalyzerfiori-uaa 
 
   - name: comsappmpmanalyzerfiori-uaa
     type: org.cloudfoundry.managed-service
