@@ -45,7 +45,7 @@ jobs:
           # Replace the Docker token placeholder for credentials
           sed -i "s|__DOCKER_TOKEN_PLACEHOLDER__|${{ secrets.DOCKER_TOKEN }}|g" mta.yaml
           
-          # ADDED: Replace Auth0 environment variable placeholders
+          # Replace Auth0 environment variable placeholders
           sed -i "s|__AUTH0_DOMAIN_PLACEHOLDER__|${{ secrets.AUTH0_DOMAIN }}|g" mta.yaml
           sed -i "s|__API_AUDIENCE_PLACEHOLDER__|${{ secrets.API_AUDIENCE }}|g" mta.yaml
           
@@ -58,6 +58,12 @@ jobs:
       - name: Install MTA Build Tool
         run: npm install -g mbt
 
+      - name: Display Manifest Content for Debugging
+        run: |
+          echo "--- Checking manifest.json content before build ---"
+          cat ./pm-analyzer-fiori/webapp/manifest.json
+          echo "----------------------------------------------------"
+      
       - name: Build MTA
         run: mbt build -p=cf
         working-directory: ./pm-analyzer-fiori
@@ -105,7 +111,6 @@ jobs:
           CF_ORG: ${{ secrets.CF_ORG }}
           CF_SPACE: ${{ secrets.CF_SPACE }}
         run: |
-          # --- THIS LINE IS FIXED ---
           cf deploy ./pm-analyzer-fiori/mta_archives/com.sap.pm.pmanalyzerfiori_0.0.1.mtar -f
           echo "Attempting to download deployment logs for ID: 23042875-6a48-11f0-9108-eeee0a8c5caf"
           cf dmol -i 23042875-6a48-11f0-9108-eeee0a8c5caf || true
