@@ -91,6 +91,9 @@ jobs:
         run: |
           cf login -a "$CF_API" -u "$CF_USERNAME" -p "$CF_PASSWORD" -o "$CF_ORG" -s "$CF_SPACE"
 
+      - name: Verify CF Target
+        run: cf target
+
       - name: Delete Backend App (if it exists)
         env:
           CF_API: ${{ secrets.CF_API }}
