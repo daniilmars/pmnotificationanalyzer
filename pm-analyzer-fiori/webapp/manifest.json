@@ -92,6 +92,6 @@
     },
     "sap.cloud": {
         "public": true,
-        "service": "comsappmpmanalyzerfiori"
+        "service": "com.sap.pm.pmanalyzerfiori"
     }
 }

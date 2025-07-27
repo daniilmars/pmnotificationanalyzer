@@ -1,5 +1,5 @@
 {
-  "xsappname": "comsappmpmanalyzerfiori",
+  "xsappname": "com.sap.pm.pmanalyzerfiori",
   "tenant-mode": "dedicated",
   "description": "Security profile of PM Notification Analyzer Fiori application",
   "scopes": [
