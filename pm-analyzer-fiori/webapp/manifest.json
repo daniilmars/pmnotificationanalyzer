@@ -13,7 +13,7 @@
         },
         "dataSources": {
             "mainService": {
-                "uri": "/sap/opu/odata/sap/ZPM_NOTIFICATION_SRV/",
+                "uri": "/backend-api/sap/opu/odata/sap/ZPM_NOTIFICATION_SRV/",
                 "type": "OData",
                 "settings": {
                     "odataVersion": "2.0",
