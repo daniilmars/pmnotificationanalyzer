@@ -7,6 +7,6 @@ builder:
     - name: ui5-task-zipper
       afterTask: generateCachebusterInfo
       configuration:
-        archiveName: comsappmpmanalyzerfiori
+        archiveName: com.sap.pm.pmanalyzerfiori
         additionalFiles:
           - xs-app.json
