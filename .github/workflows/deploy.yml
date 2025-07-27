@@ -43,7 +43,6 @@ jobs:
           sed -i "s|__DOCKER_USERNAME_PLACEHOLDER__|${{ secrets.DOCKER_USERNAME }}|g" mta.yaml
 
           # Replace the Docker token placeholder for credentials
-          # IMPORTANT: Ensure DOCKER_TOKEN is a Personal Access Token with read access
           sed -i "s|__DOCKER_TOKEN_PLACEHOLDER__|${{ secrets.DOCKER_TOKEN }}|g" mta.yaml
           
           # ADDED: Replace Auth0 environment variable placeholders
@@ -106,6 +105,7 @@ jobs:
           CF_ORG: ${{ secrets.CF_ORG }}
           CF_SPACE: ${{ secrets.CF_SPACE }}
         run: |
-          cf deploy ./pm-analyzer-fiori/mta_archives/comsappmpmanalyzerfiori_0.0.1.mtar -f
+          # --- THIS LINE IS FIXED ---
+          cf deploy ./pm-analyzer-fiori/mta_archives/com.sap.pm.pmanalyzerfiori_0.0.1.mtar -f
           echo "Attempting to download deployment logs for ID: 23042875-6a48-11f0-9108-eeee0a8c5caf"
-          cf dmol -i 23042875-6a48-11f0-9108-eeee0a8c5caf || true 
+          cf dmol -i 23042875-6a48-11f0-9108-eeee0a8c5caf || true
