@@ -1,5 +1,5 @@
 _schema-version: "3.2"
-ID: com.sap.pm.pmanalyzerfiori # This ID is correct and should NOT change
+ID: com.sap.pm.pmanalyzerfiori
 version: 0.0.1
 description: "PM Notification Analyzer"
 parameters:
@@ -8,9 +8,9 @@ parameters:
 modules:
   - name: com-sap-pm-pmanalyzerfiori-app-content
     type: com.sap.application.content
-    path: . # Ensure this path is correct for your project
+    path: . # <-- VERIFY THIS PATH
     requires:
-      - name: comsappmpmanalyzerfiori-repo-host # FIXED
+      - name: comsappmpmanalyzerfiori-repo-host
         parameters:
           content-target: true
       - name: backend-destination
@@ -28,7 +28,7 @@ modules:
 
   - name: com-sap-pm-pmanalyzerfiori-ui
     type: html5
-    path: . # Ensure this path is correct for your project
+    path: . # <-- VERIFY THIS PATH
     build-parameters:
       build-result: dist
       builder: custom
@@ -46,24 +46,28 @@ modules:
       memory: 256M
       docker:
         image: __DOCKER_IMAGE_FULL_TAG__
+    # --- THIS SECTION IS NOW FIXED ---
+    properties:
+      AUTH0_DOMAIN: __AUTH0_DOMAIN_PLACEHOLDER__
+      API_AUDIENCE: __API_AUDIENCE_PLACEHOLDER__
     provides:
       - name: backend_url_property
         properties:
           url: ${default-url}
 
 resources:
-  - name: comsappmpmanalyzerfiori-repo-host # FIXED: Name reverted
+  - name: comsappmpmanalyzerfiori-repo-host
     type: org.cloudfoundry.managed-service
     parameters:
       service: html5-apps-repo
       service-plan: app-host
     requires:
-      - name: comsappmpmanalyzerfiori-uaa # FIXED: Reference reverted
+      - name: comsappmpmanalyzerfiori-uaa
 
-  - name: comsappmpmanalyzerfiori-uaa # FIXED: Name reverted
+  - name: comsappmpmanalyzerfiori-uaa
     type: org.cloudfoundry.managed-service
     parameters:
-      path: ./xs-security.json # Ensure this path is correct
+      path: ./xs-security.json # <-- VERIFY THIS PATH
       service: xsuaa
       service-plan: application
 
