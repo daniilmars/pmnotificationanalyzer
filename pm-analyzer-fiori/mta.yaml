@@ -6,12 +6,11 @@ parameters:
   enable-parallel-deployments: true
 
 modules:
-  # Deploys the built UI to the HTML5 Repo
   - name: com-sap-pm-pmanalyzerfiori-app-content
     type: com.sap.application.content
     path: . # <-- VERIFY THIS PATH
     requires:
-      - name: comsappmpmanalyzerfiori-repo-host
+      - name: comsappmpmanalyzerfiori-repo-host-v2 # <-- CHANGED
         parameters:
           content-target: true
       - name: backend-destination
@@ -23,11 +22,10 @@ modules:
       build-result: resources
       requires:
         - artifacts:
-            - com.sap.pm.pmanalyzerfiori.zip # <-- THIS IS NOW CORRECTED
+            - com.sap.pm.pmanalyzerfiori.zip
           name: com-sap-pm-pmanalyzerfiori-ui
           target-path: resources/
 
-  # Builds the Fiori/UI5 application
   - name: com-sap-pm-pmanalyzerfiori-ui
     type: html5
     path: . # <-- VERIFY THIS PATH
@@ -39,7 +37,6 @@ modules:
         - npm run build:cf
       supported-platforms: []
 
-  # Backend module
   - name: pm-analyzer-backend
     type: application
     build-parameters:
@@ -58,15 +55,15 @@ modules:
           url: ${default-url}
 
 resources:
-  - name: comsappmpmanalyzerfiori-repo-host
+  - name: comsappmpmanalyzerfiori-repo-host-v2 # <-- CHANGED
     type: org.cloudfoundry.managed-service
     parameters:
       service: html5-apps-repo
       service-plan: app-host
     requires:
-      - name: comsappmpmanalyzerfiori-uaa
+      - name: comsappmpmanalyzerfiori-uaa-v2 # <-- CHANGED
 
-  - name: comsappmpmanalyzerfiori-uaa
+  - name: comsappmpmanalyzerfiori-uaa-v2 # <-- CHANGED
     type: org.cloudfoundry.managed-service
     parameters:
       path: ./xs-security.json # <-- VERIFY THIS PATH
