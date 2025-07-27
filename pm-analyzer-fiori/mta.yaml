@@ -6,6 +6,7 @@ parameters:
   enable-parallel-deployments: true
 
 modules:
+  # Deploys the built UI to the HTML5 Repo
   - name: com-sap-pm-pmanalyzerfiori-app-content
     type: com.sap.application.content
     path: . # <-- VERIFY THIS PATH
@@ -22,10 +23,11 @@ modules:
       build-result: resources
       requires:
         - artifacts:
-            - comsappmpmanalyzerfiori.zip
+            - com.sap.pm.pmanalyzerfiori.zip # <-- THIS IS NOW CORRECTED
           name: com-sap-pm-pmanalyzerfiori-ui
           target-path: resources/
 
+  # Builds the Fiori/UI5 application
   - name: com-sap-pm-pmanalyzerfiori-ui
     type: html5
     path: . # <-- VERIFY THIS PATH
@@ -37,6 +39,7 @@ modules:
         - npm run build:cf
       supported-platforms: []
 
+  # Backend module
   - name: pm-analyzer-backend
     type: application
     build-parameters:
@@ -46,7 +49,6 @@ modules:
       memory: 256M
       docker:
         image: __DOCKER_IMAGE_FULL_TAG__
-    # --- THIS SECTION IS NOW FIXED ---
     properties:
       AUTH0_DOMAIN: __AUTH0_DOMAIN_PLACEHOLDER__
       API_AUDIENCE: __API_AUDIENCE_PLACEHOLDER__
