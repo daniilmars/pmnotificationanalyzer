@@ -1,5 +1,5 @@
 {
-  "xsappname": "comsappmpmanalyzerfiori",
+  "xsappname": "comsappmpmanalyzerfiori-v2",
   "tenant-mode": "dedicated",
   "description": "Security profile of PM Notification Analyzer Fiori application",
   "scopes": [
