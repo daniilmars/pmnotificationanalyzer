@@ -1,17 +1,16 @@
 _schema-version: "3.2"
-ID: com.sap.pm.pmanalyzerfiori
+ID: com.sap.pm.pmanalyzerfiori # This ID is correct and should NOT change
 version: 0.0.1
 description: "PM Notification Analyzer"
 parameters:
   enable-parallel-deployments: true
 
 modules:
-  # Deploys the built UI to the HTML5 Repo
   - name: com-sap-pm-pmanalyzerfiori-app-content
     type: com.sap.application.content
-    path: .
+    path: . # Ensure this path is correct for your project
     requires:
-      - name: com-sap-pm-pmanalyzerfiori-repo-host
+      - name: comsappmpmanalyzerfiori-repo-host # FIXED
         parameters:
           content-target: true
       - name: backend-destination
@@ -23,14 +22,13 @@ modules:
       build-result: resources
       requires:
         - artifacts:
-            - comsappmpmanalyzerfiori.zip # This name is derived from the module below
+            - comsappmpmanalyzerfiori.zip
           name: com-sap-pm-pmanalyzerfiori-ui
           target-path: resources/
 
-  # Builds the Fiori/UI5 application
   - name: com-sap-pm-pmanalyzerfiori-ui
     type: html5
-    path: .
+    path: . # Ensure this path is correct for your project
     build-parameters:
       build-result: dist
       builder: custom
@@ -39,7 +37,6 @@ modules:
         - npm run build:cf
       supported-platforms: []
 
-  # Backend module
   - name: pm-analyzer-backend
     type: application
     build-parameters:
@@ -55,19 +52,18 @@ modules:
           url: ${default-url}
 
 resources:
-  # Service names updated for consistency
-  - name: com-sap-pm-pmanalyzerfiori-repo-host
+  - name: comsappmpmanalyzerfiori-repo-host # FIXED: Name reverted
     type: org.cloudfoundry.managed-service
     parameters:
       service: html5-apps-repo
       service-plan: app-host
     requires:
-      - name: com-sap-pm-pmanalyzerfiori-uaa
+      - name: comsappmpmanalyzerfiori-uaa # FIXED: Reference reverted
 
-  - name: com-sap-pm-pmanalyzerfiori-uaa
+  - name: comsappmpmanalyzerfiori-uaa # FIXED: Name reverted
     type: org.cloudfoundry.managed-service
     parameters:
-      path: ./xs-security.json
+      path: ./xs-security.json # Ensure this path is correct
       service: xsuaa
       service-plan: application
 
