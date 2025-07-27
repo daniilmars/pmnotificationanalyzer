@@ -92,6 +92,6 @@
     },
     "sap.cloud": {
         "public": true,
-        "service": "comsappmpmanalyzerfiori" # <--- CHANGED: Removed .service suffix
+        "service": "comsappmpmanalyzerfiori"
     }
 }
