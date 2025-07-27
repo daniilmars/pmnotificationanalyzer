@@ -1,5 +1,5 @@
 _schema-version: "3.2"
-ID: com.sap.pm.pmanalyzerfiori # FIXED: Matched to sap.app.id
+ID: com.sap.pm.pmanalyzerfiori
 version: 0.0.1
 description: "PM Notification Analyzer"
 parameters:
@@ -9,7 +9,7 @@ modules:
   # Deploys the built UI to the HTML5 Repo
   - name: com-sap-pm-pmanalyzerfiori-app-content
     type: com.sap.application.content
-    path: pm-analyzer-fiori # FIXED: Path to the Fiori app folder
+    path: .
     requires:
       - name: com-sap-pm-pmanalyzerfiori-repo-host
         parameters:
@@ -23,14 +23,14 @@ modules:
       build-result: resources
       requires:
         - artifacts:
-            - comsappmpmanalyzerfiori.zip # This name is generated from the module below
-          name: com-sap-pm-pmanalyzerfiori-ui # FIXED: References the build module name
+            - comsappmpmanalyzerfiori.zip # This name is derived from the module below
+          name: com-sap-pm-pmanalyzerfiori-ui
           target-path: resources/
 
   # Builds the Fiori/UI5 application
-  - name: com-sap-pm-pmanalyzerfiori-ui # RENAMED for clarity
+  - name: com-sap-pm-pmanalyzerfiori-ui
     type: html5
-    path: pm-analyzer-fiori # <-- FIX THIS: Make sure this is the correct path to your Fiori app folder
+    path: .
     build-parameters:
       build-result: dist
       builder: custom
@@ -39,9 +39,11 @@ modules:
         - npm run build:cf
       supported-platforms: []
 
-  # Backend module (unchanged)
+  # Backend module
   - name: pm-analyzer-backend
     type: application
+    build-parameters:
+      no-source: true
     parameters:
       disk-quota: 512M
       memory: 256M
@@ -65,7 +67,7 @@ resources:
   - name: com-sap-pm-pmanalyzerfiori-uaa
     type: org.cloudfoundry.managed-service
     parameters:
-      path: ./pm-analyzer-fiori/xs-security.json # Assuming xs-security is inside this folder
+      path: ./xs-security.json
       service: xsuaa
       service-plan: application
 
