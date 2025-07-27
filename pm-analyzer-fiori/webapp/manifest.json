@@ -3,7 +3,10 @@
     "sap.app": {
         "id": "com.sap.pm.pmanalyzerfiori",
         "type": "application",
-        "applicationVersion": { "version": "0.0.1" },
+        "i18n": "i18n/i18n.properties",
+        "applicationVersion": {
+            "version": "0.0.1"
+        },
         "title": "{{appTitle}}",
         "description": "{{appDescription}}",
         "resources": "resources.json",
@@ -11,19 +14,9 @@
             "id": "ui5-webide.basicTemplate",
             "version": "1.4.0"
         },
-        "dataSources": {
-            "mainService": {
-                "uri": "/backend-api/sap/opu/odata/sap/ZPM_NOTIFICATION_SRV/",
-                "type": "OData",
-                "settings": {
-                    "odataVersion": "2.0",
-                    "localUri": "localService/metadata.xml"
-                }
-            }
-        },
         "crossNavigation": {
             "inbounds": {
-                "com-sap-pm-pmanalyzerfiori-display": {
+                "PMAnalyzer-display": {
                     "semanticObject": "PMAnalyzer",
                     "action": "display",
                     "title": "{{appTitle}}",
@@ -39,34 +32,46 @@
     },
     "sap.ui": {
         "technology": "UI5",
-        "deviceTypes": { "desktop": true, "tablet": true, "phone": true }
+        "icons": {
+            "icon": "",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
+        "deviceTypes": {
+            "desktop": true,
+            "tablet": true,
+            "phone": true
+        }
     },
     "sap.ui5": {
+        "flexEnabled": true,
         "dependencies": {
             "minUI5Version": "1.108.0",
             "libs": {
                 "sap.m": {},
                 "sap.ui.core": {},
-                "sap.ui.layout": {},
-                "sap.ui.comp": {}
+                "sap.f": {},
+                "sap.suite.ui.generic.template": {},
+                "sap.ui.comp": {},
+                "sap.ui.generic.app": {},
+                "sap.ui.table": {},
+                "sap.ushell": {}
             }
         },
-        "contentDensities": { "compact": true, "cozy": true },
+        "contentDensities": {
+            "compact": true,
+            "cozy": true
+        },
         "models": {
             "i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
                 "settings": {
-                    "bundleName": "com.sap.pm.pmanalyzerfiori.i18n.i18n",
-                    "supportedLocales": ["en", "de"],
-                    "fallbackLocale": "en"
+                    "bundleName": "com.sap.pm.pmanalyzerfiori.i18n.i18n"
                 }
             }
-        },
-        "rootView": {
-            "viewName": "com.sap.pm.pmanalyzerfiori.view.App",
-            "type": "XML",
-            "async": true,
-            "id": "App"
         },
         "routing": {
             "config": {
@@ -79,15 +84,29 @@
                 "clearControlAggregation": false
             },
             "routes": [
-                { "name": "login", "pattern": "", "target": "login" },
-                { "name": "worklist", "pattern": "worklist", "target": "worklist" },
-                { "name": "object", "pattern": "Notifications/{notificationId}", "target": "object" }
+                {
+                    "name": "RouteApp",
+                    "pattern": ":?query:",
+                    "target": [
+                        "TargetApp"
+                    ]
+                }
             ],
             "targets": {
-                "login": { "viewName": "Login", "viewId": "login" },
-                "worklist": { "viewName": "Worklist", "viewId": "worklist" },
-                "object": { "viewName": "Object", "viewId": "object" }
+                "TargetApp": {
+                    "viewType": "XML",
+                    "transition": "slide",
+                    "clearControlAggregation": false,
+                    "viewId": "App",
+                    "viewName": "App"
+                }
             }
+        },
+        "rootView": {
+            "viewName": "com.sap.pm.pmanalyzerfiori.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "App"
         }
     },
     "sap.cloud": {
