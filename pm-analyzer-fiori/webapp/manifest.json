@@ -1,10 +1,41 @@
 {
+    "_version": "1.59.0",
     "sap.app": {
         "id": "com.sap.pm.pmanalyzerfiori",
         "type": "application",
         "applicationVersion": { "version": "0.0.1" },
         "title": "{{appTitle}}",
-        "description": "{{appDescription}}"
+        "description": "{{appDescription}}",
+        "resources": "resources.json",
+        "sourceTemplate": {
+            "id": "ui5-webide.basicTemplate",
+            "version": "1.4.0"
+        },
+        "dataSources": {
+            "mainService": {
+                "uri": "/sap/opu/odata/sap/ZPM_NOTIFICATION_SRV/",
+                "type": "OData",
+                "settings": {
+                    "odataVersion": "2.0",
+                    "localUri": "localService/metadata.xml"
+                }
+            }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "com-sap-pm-pmanalyzerfiori-display": {
+                    "semanticObject": "PMAnalyzer",
+                    "action": "display",
+                    "title": "{{appTitle}}",
+                    "subTitle": "{{appDescription}}",
+                    "icon": "sap-icon://task",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                }
+            }
+        }
     },
     "sap.ui": {
         "technology": "UI5",
@@ -58,5 +89,9 @@
                 "object": { "viewName": "Object", "viewId": "object" }
             }
         }
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "comsappmpmanalyzerfiori.service"
     }
 }
