@@ -8,9 +8,9 @@ parameters:
 modules:
   - name: com-sap-pm-pmanalyzerfiori-app-content
     type: com.sap.application.content
-    path: . # <-- VERIFY THIS PATH
+    path: pm-analyzer-fiori
     requires:
-      - name: comsappmpmanalyzerfiori-v2-repo-host # <-- CHANGED
+      - name: comsappmpmanalyzerfiori-v2-repo-host
         parameters:
           content-target: true
       - name: backend-destination
@@ -28,7 +28,7 @@ modules:
 
   - name: com-sap-pm-pmanalyzerfiori-ui
     type: html5
-    path: . # <-- VERIFY THIS PATH
+    path: pm-analyzer-fiori
     build-parameters:
       build-result: dist
       builder: custom
@@ -39,6 +39,7 @@ modules:
 
   - name: pm-analyzer-backend
     type: application
+    path: backend
     build-parameters:
       no-source: true
     parameters:
@@ -46,27 +47,26 @@ modules:
       memory: 256M
       docker:
         image: __DOCKER_IMAGE_FULL_TAG__
-    properties:
-      AUTH0_DOMAIN: __AUTH0_DOMAIN_PLACEHOLDER__
-      API_AUDIENCE: __API_AUDIENCE_PLACEHOLDER__
     provides:
       - name: backend_url_property
         properties:
           url: ${default-url}
+    requires:
+      - name: comsappmpmanalyzerfiori-v2-uaa
 
 resources:
-  - name: comsappmpmanalyzerfiori-v2-repo-host # <-- CHANGED
+  - name: comsappmpmanalyzerfiori-v2-repo-host
     type: org.cloudfoundry.managed-service
     parameters:
       service: html5-apps-repo
       service-plan: app-host
     requires:
-      - name: comsappmpmanalyzerfiori-v2-uaa # <-- CHANGED
+      - name: comsappmpmanalyzerfiori-v2-uaa
 
-  - name: comsappmpmanalyzerfiori-v2-uaa # <-- CHANGED
+  - name: comsappmpmanalyzerfiori-v2-uaa
     type: org.cloudfoundry.managed-service
     parameters:
-      path: ./xs-security.json # <-- VERIFY THIS PATH
+      path: ./pm-analyzer-fiori/xs-security.json
       service: xsuaa
       service-plan: application
 
