@@ -1,0 +1,32 @@
+{
+  "xsappname": "comsappmpmanalyzerfiori-v2",
+  "tenant-mode": "dedicated",
+  "description": "Security profile of PM Notification Analyzer Fiori application",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Viewer",
+      "description": "Viewer scope for PM Notification Analyzer Fiori app"
+    },
+    {
+      "name": "$XSAPPNAME.Admin",
+      "description": "Admin scope for PM Notification Analyzer Fiori app"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "Viewer",
+      "description": "Viewer role for PM Notification Analyzer Fiori app",
+      "scope-references": [
+        "$XSAPPNAME.Viewer"
+      ]
+    },
+    {
+      "name": "Admin",
+      "description": "Admin role for PM Notification Analyzer Fiori app",
+      "scope-references": [
+        "$XSAPPNAME.Admin",
+        "$XSAPPNAME.Viewer"
+      ]
+    }
+  ]
+}

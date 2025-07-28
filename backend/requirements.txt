@@ -1,0 +1,9 @@
+Flask
+Flask-Cors
+google-generativeai
+python-dotenv
+pydantic
+python-jose[cryptography]
+requests
+uvicorn
+fastapi
