@@ -31,10 +31,7 @@ modules:
     path: pm-analyzer-fiori
     build-parameters:
       build-result: dist
-      builder: custom
-      commands:
-        - npm install
-        - npm run build:cf
+      builder: npm
       supported-platforms: []
 
   - name: pm-analyzer-backend
