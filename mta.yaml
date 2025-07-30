@@ -23,6 +23,7 @@ modules:
       supported-platforms: [] # Skips the cloud build, as we build in the pipeline
     requires:
       - name: simple-fiori-app-html5-repo-host
+      - name: simple-fiori-app-xsuaa
 
 resources:
   - name: simple-fiori-app-html5-repo-host

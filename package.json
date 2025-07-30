@@ -1,0 +1,12 @@
+{
+  "name": "pmnotificationanalyzer-mta",
+  "version": "1.0.0",
+  "description": "Build and deployment scripts for pmnotificationanalyzer",
+  "scripts": {
+    "build": "mbt build -p=cf",
+    "deploy": "cf deploy mta_archives/*.mtar -f"
+  },
+  "devDependencies": {
+    "mbt": "^1.2.34"
+  }
+}
