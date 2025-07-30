@@ -19,24 +19,24 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install UI5 CLI
-        run: npm install -g @ui5/cli
+      - name: Install App Dependencies
+        run: npm install
+        working-directory: simple-fiori-app
 
       - name: Build UI5 App
         run: ui5 build --clean-dest --dest dist
-        working-directory: simple-fiori-app/webapp
+        working-directory: simple-fiori-app
 
-      - name: Install Cloud Foundry CLI v8
+      - name: Install Cloud Foundry CLI v8 and Multiapps Plugin
         run: |
           wget -q -O cf8-cli.tgz "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v8"
           tar -zxvf cf8-cli.tgz
           mv cf8 /usr/local/bin/cf
+          cf install-plugin -f multiapps
           cf --version
 
-      - name: Install MTA build tool (mbt) and CF multiapps plugin
-        run: |
-          npm install -g mbt
-          cf install-plugin -f multiapps
+      - name: Install MTA build tool (mbt)
+        run: npm install -g mbt
 
       - name: Login to SAP BTP
         run: |
