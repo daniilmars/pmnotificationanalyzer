@@ -1,23 +1,33 @@
-# ... (Login-Schritte bleiben gleich) ...
-- name: Setup Node.js
-  uses: actions/setup-node@v4
-  with:
-    node-version: '18'
+name: Deploy Simple Fiori App to BTP
 
-- name: Cache npm dependencies
-  uses: actions/cache@v4
-  with:
-    path: ~/.npm
-    key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+on:
+  push:
+    branches: [ feature/simple-btp-deploy ] # Löst nur bei Änderungen auf diesem Branch aus
+    paths:
+      - 'simple-fiori-app/**'
 
-- name: Install build and deploy tools
-  run: |
-    npm install -g mbt
-    cf install-plugin multiapps -f
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
 
-- name: Build MTA archive
-  run: mbt build -p=cf
-  working-directory: simple-fiori-app
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
 
-- name: Deploy to SAP BTP
-  run: cf deploy simple-fiori-app/mta_archives/*.mtar -f
+      - name: Install build and deploy tools
+        run: npm install -g mbt cf-cli-v8
+
+      - name: Login to SAP BTP
+        run: |
+          cf login -a "${{ secrets.BTP_CF_API_URL }}" -u "${{ secrets.BTP_CF_USERNAME }}" -p "${{ secrets.BTP_CF_PASSWORD }}" -o "${{ secrets.BTP_CF_ORG }}" -s "${{ secrets.BTP_CF_SPACE }}"
+
+      - name: Build MTA archive
+        run: mbt build -p=cf
+        working-directory: simple-fiori-app
+
+      - name: Deploy to SAP BTP
+        run: cf deploy simple-fiori-app/mta_archives/simple-fiori-app_1.0.0.mtar -f
