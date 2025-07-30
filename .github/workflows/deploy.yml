@@ -8,6 +8,9 @@ on:
       - 'approuter/**'
       - '.github/workflows/**'
       - 'mta.yaml'
+      - 'xs-security.json'
+      - 'package.json'
+      - 'package-lock.json'
 
 jobs:
   deploy:
