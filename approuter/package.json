@@ -1,0 +1,9 @@
+{
+  "name": "simple-fiori-app-router",
+  "dependencies": {
+    "@sap/approuter": "^15.3.0"
+  },
+  "scripts": {
+    "start": "node node_modules/@sap/approuter/approuter.js"
+  }
+}
