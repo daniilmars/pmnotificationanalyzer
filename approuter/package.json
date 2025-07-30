@@ -1,5 +1,6 @@
 {
   "name": "simple-fiori-app-router",
+  "version": "1.0.0",
   "dependencies": {
     "@sap/approuter": "^15.3.0"
   },

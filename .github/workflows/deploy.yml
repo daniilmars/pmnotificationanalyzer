@@ -27,16 +27,8 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
-      - name: Install Root Dependencies (MBT)
+      - name: Install All Dependencies
         run: npm install
-
-      - name: Install UI App Dependencies
-        run: npm install
-        working-directory: simple-fiori-app
-
-      - name: Install AppRouter Dependencies
-        run: npm install
-        working-directory: approuter
 
       - name: Build UI5 App
         run: npx ui5 build --clean-dest --dest dist
