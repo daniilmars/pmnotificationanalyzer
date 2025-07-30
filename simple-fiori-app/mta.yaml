@@ -13,6 +13,9 @@ modules:
       builder: custom
       commands:
         - echo "UI5 build is already done in a previous CI/CD step"
+    requires:
+      - name: simple-fiori-app-html5-repo-host
+      - name: simple-fiori-app-xsuaa
 
 resources:
   - name: simple-fiori-app-html5-repo-host

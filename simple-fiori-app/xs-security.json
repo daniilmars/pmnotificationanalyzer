@@ -1,5 +1,5 @@
 {
-  "xsappname": "simple-fiori-app",
+  "xsappname": "${xsappname}",
   "tenant-mode": "dedicated",
   "description": "Security profile for a simple Fiori application",
   "scopes": [
