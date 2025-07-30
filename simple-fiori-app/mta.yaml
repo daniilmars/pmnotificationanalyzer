@@ -1,0 +1,20 @@
+_schema-version: "3.2"
+ID: simple-fiori-app
+version: 1.0.0
+description: "A simple Fiori application for deployment."
+
+modules:
+  - name: simple-fiori-app-content
+    type: com.sap.application.content
+    path: .
+    requires:
+      - name: simple-fiori-app-html5-repo-host
+        parameters:
+          content-target: true
+
+resources:
+  - name: simple-fiori-app-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
