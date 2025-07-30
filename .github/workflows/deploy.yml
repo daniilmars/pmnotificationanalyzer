@@ -26,8 +26,10 @@ jobs:
           mv cf8 /usr/local/bin/cf
           cf --version
 
-      - name: Install MTA build tool (mbt)
-        run: npm install -g mbt
+      - name: Install MTA build tool (mbt) and CF multiapps plugin
+        run: |
+          npm install -g mbt
+          cf install-plugin -f multiapps
 
       - name: Login to SAP BTP
         run: |
