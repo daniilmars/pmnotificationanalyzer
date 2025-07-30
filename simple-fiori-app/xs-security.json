@@ -1,0 +1,18 @@
+{
+  "xsappname": "simple-fiori-app",
+  "tenant-mode": "dedicated",
+  "description": "Security profile for a simple Fiori application",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.User",
+      "description": "Basic user scope"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "User",
+      "description": "Role for basic application access",
+      "scope-references": ["$XSAPPNAME.User"]
+    }
+  ]
+}

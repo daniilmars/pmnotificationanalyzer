@@ -1,16 +1,18 @@
 _schema-version: "3.2"
 ID: simple-fiori-app
 version: 1.0.0
-description: "A simple Fiori application for deployment."
+description: "A simple Fiori application."
 
 modules:
   - name: simple-fiori-app-content
-    type: com.sap.application.content
-    path: dist
-    requires:
-      - name: simple-fiori-app-html5-repo-host
-        parameters:
-          content-target: true
+    type: html5
+    path: .
+    build-parameters:
+      # This tells the builder to use the 'dist' folder as the build result
+      build-result: dist
+      builder: custom
+      commands:
+        - echo "UI5 build is already done in a previous CI/CD step"
 
 resources:
   - name: simple-fiori-app-html5-repo-host
@@ -18,3 +20,24 @@ resources:
     parameters:
       service: html5-apps-repo
       service-plan: app-host
+
+  - name: simple-fiori-app-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+
+  - name: simple-fiori-app-xsuaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: simple-fiori-app-${org}-${space}
+        tenant-mode: dedicated
+        role-collections:
+          - name: "FioriAppUser"
+            description: "Basic user role for the Fiori App"
+            role-template-references:
+              - "$XSAPPNAME.User"
