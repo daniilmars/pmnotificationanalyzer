@@ -1,12 +1,7 @@
 {
   "name": "simple-fiori-app",
   "version": "1.0.0",
-  "scripts": {
-    "start": "npx @sap/html5-app-deployer"
-  },
   "devDependencies": {
-    "@ui5/cli": "^3.0.0",
-    "mbt": "^1.2.27",
-    "@sap/html5-app-deployer": "6.0.0"
+    "@ui5/cli": "^3.0.0"
   }
 }
