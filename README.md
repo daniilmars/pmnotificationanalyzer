@@ -62,3 +62,5 @@ npm install
 npx fiori run --open
 ```
 This command starts a local server and automatically opens your Fiori application in a web browser. The server is pre-configured in `ui5.yaml` to proxy API requests to your local backend. 
+
+
