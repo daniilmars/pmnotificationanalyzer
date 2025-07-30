@@ -1,0 +1,10 @@
+<mvc:View
+    controllerName="simple.fiori.app.controller.App"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m">
+    <Page title="{i18n>appTitle}">
+        <content>
+            <Title text="Hallo Welt, von der SAP BTP!" class="sapUiSmallMargin"/>
+        </content>
+    </Page>
+</mvc:View>
