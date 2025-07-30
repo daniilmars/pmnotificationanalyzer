@@ -31,7 +31,7 @@ jobs:
 
       - name: Login to SAP BTP
         run: |
-          cf login -a "${{ secrets.BTP_CF_API_URL }}" -u "${{ secrets.BTP_CF_USERNAME }}" -p "${{ secrets.BTP_CF_PASSWORD }}" -o "${{ secrets.BTP_CF_ORG }}" -s "${{ secrets.BTP_CF_SPACE }}"
+          cf login -a "${{ secrets.CF_API }}" -u "${{ secrets.CF_USERNAME }}" -p "${{ secrets.CF_PASSWORD }}" -o "${{ secrets.CF_ORG }}" -s "${{ secrets.CF_SPACE }}"
 
       - name: Build MTA archive
         run: mbt build -p=cf
