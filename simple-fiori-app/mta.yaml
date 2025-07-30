@@ -6,7 +6,7 @@ description: "A simple Fiori application for deployment."
 modules:
   - name: simple-fiori-app-content
     type: com.sap.application.content
-    path: webapp/dist
+    path: dist
     requires:
       - name: simple-fiori-app-html5-repo-host
         parameters:
