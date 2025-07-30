@@ -60,3 +60,6 @@ Thumbs.db
 
 # CSV test data file
 test_meldungen.csv
+
+# MTA build artifacts
+mta_archives/
