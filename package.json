@@ -2,11 +2,16 @@
   "name": "pmnotificationanalyzer-mta",
   "version": "1.0.0",
   "description": "Build and deployment scripts for pmnotificationanalyzer",
+  "workspaces": [
+    "approuter",
+    "simple-fiori-app"
+  ],
   "scripts": {
     "build": "mbt build -p=cf",
     "deploy": "cf deploy mta_archives/*.mtar -f"
   },
   "devDependencies": {
-    "mbt": "^1.2.34"
+    "mbt": "^1.2.34",
+    "@ui5/cli": "^3.0.0"
   }
 }
