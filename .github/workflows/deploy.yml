@@ -27,6 +27,9 @@ jobs:
           path: ~/.npm
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
 
+      - name: Install Root Dependencies (MBT)
+        run: npm install
+
       - name: Install UI App Dependencies
         run: npm install
         working-directory: simple-fiori-app
@@ -47,15 +50,12 @@ jobs:
           cf install-plugin -f multiapps
           cf --version
 
-      - name: Install MTA Build Tool (mbt)
-        run: npm install -g mbt
-
       - name: Login to SAP BTP
         run: |
           cf login -a "${{ secrets.CF_API }}" -u "${{ secrets.CF_USERNAME }}" -p "${{ secrets.CF_PASSWORD }}" -o "${{ secrets.CF_ORG }}" -s "${{ secrets.CF_SPACE }}"
 
       - name: Build MTA archive
-        run: mbt build -p=cf
+        run: npx mbt build -p=cf
 
       - name: Deploy to SAP BTP
         run: cf deploy mta_archives/*.mtar -f
