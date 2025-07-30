@@ -21,7 +21,6 @@ jobs:
 
       - name: Install App Dependencies
         run: npm install
-        working-directory: simple-fiori-app
 
       - name: Build UI5 App
         run: npx ui5 build --clean-dest --dest dist
