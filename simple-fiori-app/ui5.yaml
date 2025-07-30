@@ -1,0 +1,14 @@
+specVersion: '3.2'
+metadata:
+  name: simple.fiori.app
+type: application
+framework:
+  name: SAPUI5
+  version: "1.120.13"
+  libraries:
+    - name: sap.m
+    - name: sap.ui.core
+    - name: sap.f
+    - name: sap.ui.table
+    - name: sap.ushell
+    - name: themelib_sap_horizon

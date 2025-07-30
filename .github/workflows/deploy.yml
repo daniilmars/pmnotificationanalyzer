@@ -21,7 +21,6 @@ jobs:
 
       - name: Install App Dependencies
         run: npm install
-        working-directory: simple-fiori-app
 
       - name: Build UI5 App
         run: npx ui5 build --clean-dest --dest dist
@@ -35,12 +34,15 @@ jobs:
           cf install-plugin -f multiapps
           cf --version
 
+      - name: Install MTA build tool (mbt)
+        run: npm install -g mbt
+
       - name: Login to SAP BTP
         run: |
           cf login -a "${{ secrets.CF_API }}" -u "${{ secrets.CF_USERNAME }}" -p "${{ secrets.CF_PASSWORD }}" -o "${{ secrets.CF_ORG }}" -s "${{ secrets.CF_SPACE }}"
 
       - name: Build MTA archive
-        run: npx mbt build -p=cf
+        run: mbt build -p=cf
         working-directory: simple-fiori-app
 
       - name: Deploy to SAP BTP
