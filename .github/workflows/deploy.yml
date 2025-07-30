@@ -2,9 +2,10 @@ name: Deploy Simple Fiori App to BTP
 
 on:
   push:
-    branches: [ feature/simple-btp-deploy ] # Löst nur bei Änderungen auf diesem Branch aus
+    branches: [ feature/simple-btp-deploy ]
     paths:
       - 'simple-fiori-app/**'
+      - '.github/workflows/**' # NEU: Löst auch bei Änderungen am Workflow selbst aus
 
 jobs:
   deploy:
