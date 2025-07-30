@@ -11,6 +11,7 @@ on:
       - 'xs-security.json'
       - 'package.json'
       - 'package-lock.json'
+      - '.npmrc'
 
 jobs:
   deploy:
