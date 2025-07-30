@@ -5,7 +5,9 @@ on:
     branches: [ feature/simple-btp-deploy ]
     paths:
       - 'simple-fiori-app/**'
+      - 'approuter/**'
       - '.github/workflows/**'
+      - 'mta.yaml'
 
 jobs:
   deploy:
@@ -19,12 +21,16 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install App Dependencies
+      - name: Install UI App Dependencies
         run: npm install
         working-directory: simple-fiori-app
 
+      - name: Install AppRouter Dependencies
+        run: npm install
+        working-directory: approuter
+
       - name: Build UI5 App
-        run: npx ui5 build --clean-dest --dest resources
+        run: npx ui5 build --clean-dest --dest dist
         working-directory: simple-fiori-app
 
       - name: Install Cloud Foundry CLI v8 and Multiapps Plugin
@@ -35,13 +41,15 @@ jobs:
           cf install-plugin -f multiapps
           cf --version
 
+      - name: Install MTA Build Tool (mbt)
+        run: npm install -g mbt
+
       - name: Login to SAP BTP
         run: |
           cf login -a "${{ secrets.CF_API }}" -u "${{ secrets.CF_USERNAME }}" -p "${{ secrets.CF_PASSWORD }}" -o "${{ secrets.CF_ORG }}" -s "${{ secrets.CF_SPACE }}"
 
       - name: Build MTA archive
-        run: npx mbt build -p=cf
-        working-directory: simple-fiori-app
+        run: mbt build -p=cf
 
       - name: Deploy to SAP BTP
-        run: cf deploy simple-fiori-app/mta_archives/*.mtar -f
+        run: cf deploy mta_archives/*.mtar -f
