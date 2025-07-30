@@ -19,6 +19,13 @@ jobs:
         with:
           node-version: '18'
 
+      - name: Install UI5 CLI
+        run: npm install -g @ui5/cli
+
+      - name: Build UI5 App
+        run: ui5 build --clean-dest --dest dist
+        working-directory: simple-fiori-app/webapp
+
       - name: Install Cloud Foundry CLI v8
         run: |
           wget -q -O cf8-cli.tgz "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v8"
