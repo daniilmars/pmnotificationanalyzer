@@ -5,7 +5,7 @@ on:
     branches: [ feature/simple-btp-deploy ]
     paths:
       - 'simple-fiori-app/**'
-      - '.github/workflows/**' # NEU: Löst auch bei Änderungen am Workflow selbst aus
+      - '.github/workflows/**'
 
 jobs:
   deploy:
@@ -19,8 +19,15 @@ jobs:
         with:
           node-version: '18'
 
-      - name: Install build and deploy tools
-        run: npm install -g mbt cf-cli-v8
+      - name: Install Cloud Foundry CLI v8
+        run: |
+          wget -q -O cf8-cli.tgz "https://packages.cloudfoundry.org/stable?release=linux64-binary&version=v8"
+          tar -zxvf cf8-cli.tgz
+          mv cf8 /usr/local/bin/cf
+          cf --version
+
+      - name: Install MTA build tool (mbt)
+        run: npm install -g mbt
 
       - name: Login to SAP BTP
         run: |
