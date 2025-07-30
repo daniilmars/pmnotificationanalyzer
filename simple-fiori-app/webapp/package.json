@@ -1,5 +1,5 @@
 {
-  "name": "simple-fiori-app",
+  "name": "simple-fiori-webapp",
   "version": "1.0.0",
   "devDependencies": {
     "@ui5/cli": "^3.0.0"

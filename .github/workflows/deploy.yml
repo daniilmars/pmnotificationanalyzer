@@ -21,11 +21,11 @@ jobs:
 
       - name: Install App Dependencies
         run: npm install
-        working-directory: simple-fiori-app
+        working-directory: simple-fiori-app/webapp
 
       - name: Build UI5 App
         run: npx ui5 build --clean-dest --dest dist
-        working-directory: simple-fiori-app
+        working-directory: simple-fiori-app/webapp
 
       - name: Install Cloud Foundry CLI v8 and Multiapps Plugin
         run: |
