@@ -1,18 +1,15 @@
 {
-  "welcomeFile": "/pm-analyzer-fiori/index.html",
   "authenticationMethod": "none",
   "routes": [
     {
       "source": "^/api/(.*)$",
       "target": "$1",
-      "destination": "pm-analyzer-backend",
-      "authenticationType": "none"
+      "destination": "pm-analyzer-backend"
     },
     {
-      "source": "^/(.*)$",
+      "source": "^/pm-analyzer-fiori/(.*)$",
       "target": "$1",
-      "destination": "pm-analyzer-html5-repo-host",
-      "authenticationType": "none"
+      "localDir": "resources/pm-analyzer-fiori" 
     }
   ]
 }
