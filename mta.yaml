@@ -20,8 +20,8 @@ modules:
       # The App Router needs to know the backend URL, so it requires the backend module
       - name: pm-analyzer-backend # Approuter requires the backend module directly
         properties:
-          # Reference the URL provided by the backend module
-          backend_url: ~{pm-analyzer-backend/url}
+          # Reference the URL provided by the backend module's 'provides' section
+          backend_url: ~{pm-analyzer-backend/backend_url_property/url}
 
   # ------------------------------------------------------------
   # Fiori Frontend Module
@@ -71,8 +71,8 @@ modules:
     type: com.sap.cloud.container.docker
     path: backend
     parameters:
-      disk-quota: 512M
-      memory: 512M
+      disk-quota: 512M # Adjust as needed
+      memory: 512M # Adjust as needed
       docker:
         image: ${{ secrets.DOCKER_USERNAME }}/pm-analyzer-backend:latest
     # Explicitly provide the URL property for other modules to consume
@@ -83,12 +83,12 @@ modules:
     requires:
       - name: pm-analyzer-uaa
         properties:
-          # Reference the credentials from the XSUAA resource
-          xsuaa_credentials: ~{pm-analyzer-uaa/credentials}
+          # Reference the credentials from the XSUAA resource's provided property
+          xsuaa_credentials: ~{pm-analyzer-uaa/xsuaa_credentials_property}
       - name: pm-analyzer-destination
         properties:
-          # Reference the credentials from the Destination resource
-          destination_credentials: ~{pm-analyzer-destination/credentials}
+          # Reference the credentials from the Destination resource's provided property
+          destination_credentials: ~{pm-analyzer-destination/destination_credentials_property}
 
 
 resources:
@@ -101,6 +101,9 @@ resources:
       service: xsuaa
       service-plan: application
       path: ./pm-analyzer-fiori/xs-security.json
+    properties:
+      # Explicitly provide credentials as a property of the resource for other modules to consume
+      xsuaa_credentials_property: ${service.credentials}
 
   # ------------------------------------------------------------
   # HTML5 Application Repository Service (to host UI5 app)
@@ -119,3 +122,6 @@ resources:
     parameters:
       service: destination
       service-plan: lite
+    properties:
+      # Explicitly provide credentials as a property of the resource for other modules to consume
+      destination_credentials_property: ${service.credentials}
