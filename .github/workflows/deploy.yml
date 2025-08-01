@@ -62,21 +62,23 @@ jobs:
         env:
           CF_API_ENDPOINT_FULL: ${{ secrets.CF_API_ENDPOINT }}
         run: |
+          # Extract region from CF_API_ENDPOINT. Example: us10-001 from https://api.cf.us10-001.hana.ondemand.com
           REGION=$(echo "$CF_API_ENDPOINT_FULL" | sed -E 's/https:\/\/api\.cf\.([a-zA-Z0-9-]+)\.hana\.ondemand\.com.*/\1/')
           if [ -z "$REGION" ]; then
             echo "Error: Could not extract region from CF_API_ENDPOINT. Please check its format."
             exit 1
           fi
-          # Use a shorter prefix and only the last 5 digits of GITHUB_RUN_ID for uniqueness
-          RUN_ID_SHORT="${GITHUB_RUN_ID: -5}"
-          BACKEND_HOSTNAME="pmb-${RUN_ID_SHORT}-${{ secrets.CF_ORG_SHORT_NAME }}-${{ secrets.CF_SPACE_SHORT_NAME }}"
+
+          # Use a fixed hostname for the backend application
+          # This will be consistent across deployments to manage routes quota
+          FIXED_BACKEND_HOSTNAME="pm-analyzer-backend-${{ secrets.CF_ORG_SHORT_NAME }}-${{ secrets.CF_SPACE_SHORT_NAME }}"
           BACKEND_DOMAIN="cfapps.${REGION}.hana.ondemand.com"
 
-          echo "Generated Backend Hostname: ${BACKEND_HOSTNAME}"
-          echo "Generated Backend Domain: ${BACKEND_DOMAIN}"
+          echo "Using Fixed Backend Hostname: ${FIXED_BACKEND_HOSTNAME}"
+          echo "Using Backend Domain: ${BACKEND_DOMAIN}"
 
           # Set outputs for the next steps to consume
-          echo "backend_hostname=${BACKEND_HOSTNAME}" >> "$GITHUB_OUTPUT"
+          echo "backend_hostname=${FIXED_BACKEND_HOSTNAME}" >> "$GITHUB_OUTPUT"
           echo "backend_domain=${BACKEND_DOMAIN}" >> "$GITHUB_OUTPUT"
 
           # Push the backend application with --no-route
@@ -90,6 +92,10 @@ jobs:
           BACKEND_HOSTNAME="${{ steps.push_backend.outputs.backend_hostname }}"
           BACKEND_DOMAIN="${{ steps.push_backend.outputs.backend_domain }}"
           BACKEND_ROUTE="${BACKEND_HOSTNAME}.${BACKEND_DOMAIN}"
+
+          echo "Attempting to delete existing route (if any) to manage quota: ${BACKEND_ROUTE}"
+          # Delete route if it exists to avoid quota issues. '|| true' prevents step from failing.
+          cf delete-route "${BACKEND_DOMAIN}" -n "${BACKEND_HOSTNAME}" -f || true
 
           echo "Creating route: ${BACKEND_ROUTE}"
           cf create-route "${BACKEND_DOMAIN}" -n "${BACKEND_HOSTNAME}"
