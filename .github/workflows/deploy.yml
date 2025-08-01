@@ -51,18 +51,32 @@ jobs:
           CF_SPACE: ${{ secrets.CF_SPACE }}
           CF_API_ENDPOINT: ${{ secrets.CF_API_ENDPOINT }}
 
+      - name: Push Backend Application
+        run: |
+          # Navigate to the backend directory
+          cd backend
+          # Push the backend application
+          # The manifest.yml here is implicitly used, or you can create one.
+          # Ensure the app name 'pm-analyzer-backend' matches service-name in mta.yaml
+          cf push pm-analyzer-backend -f manifest.yml --no-start # Push but don't start yet
+        working-directory: ./backend # Set working directory for cf push
+
+      - name: Start Backend Application
+        run: |
+          # Start the backend application after push
+          cf start pm-analyzer-backend
+        working-directory: . # Run from root
+
       - name: Build MTA Archive
-        # Build the MTAR, it will generate in mta_archives/mta_archives/
         run: |
           mkdir -p mta_archives
           mbt build -p=cf --mtar mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar
-          # Move the file from the nested location to the correct top-level mta_archives
           mv mta_archives/mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar mta_archives/
         working-directory: .
 
-      - name: List MTAR files for debugging (after move)
+      - name: List MTAR files for debugging
         run: |
-          echo "--- Listing contents of mta_archives/ after move ---"
+          echo "--- Listing contents of mta_archives/ ---"
           ls -l mta_archives/
           echo "--- End of mta_archives/ listing ---"
         working-directory: .
