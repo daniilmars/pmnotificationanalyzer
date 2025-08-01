@@ -14,12 +14,17 @@ modules:
       disk-quota: 256M
       memory: 256M
     requires:
-      - name: pm-analyzer-html5-repo-host # App Router needs to bind to HTML5 App Repo (direct binding)
+      # Removed: pm-analyzer-html5-repo-host requirement
       - name: pm-analyzer-destination # App Router still needs the Destination service
-      # Removed the pm-analyzer-html5-repo-credentials-ups requirement as it's not needed if direct binding works.
+      - name: pm-analyzer-fiori # App Router now requires the Fiori module to embed its content
+        parameters:
+          # This tells the App Router to include the Fiori app's build output
+          # at the path '/pm-analyzer-fiori' within its own artifact.
+          # This path must match the 'target-path' in the Fiori module's build-parameters.
+          target-path: resources/pm-analyzer-fiori
 
   # ------------------------------------------------------------
-  # Fiori Frontend Module
+  # Fiori Frontend Module (now built directly into App Router)
   # ------------------------------------------------------------
   - name: pm-analyzer-fiori
     type: html5
@@ -29,48 +34,27 @@ modules:
       builder: custom
       commands:
         - npm install
-        - npm run build:cf
+        - npm run build:cf # This script will now output to the App Router's resources
       supported-platforms: []
+      # Define where the Fiori app's build output goes relative to the MTA archive structure
+      # It will be placed under the 'resources' folder within the App Router module's artifact.
+      target-path: resources/pm-analyzer-fiori # Output directly into approuter's resources
     properties:
       SAP_UI5_VERSION: 1.120.1
-    requires:
-      - name: pm-analyzer-html5-repo-host
-        parameters:
-          content-target: true
+    # Removed requires for html5-repo-host as it's no longer used for serving UI
     provides:
-      - name: pm-analyzer-fiori-content
+      - name: pm-analyzer-fiori-content # Still provided for internal MTA build consistency
 
-  # ------------------------------------------------------------
-  # Fiori App Content Deployer Module (deploys UI to HTML5 Repo)
-  # ------------------------------------------------------------
-  - name: pm-analyzer-fiori-app-content
-    type: com.sap.application.content
-    path: .
-    requires:
-      - name: pm-analyzer-html5-repo-host
-        parameters:
-          content-target: true
-    build-parameters:
-      build-result: resources
-      requires:
-        - artifacts:
-            - pm-analyzer-fiori.zip
-          name: pm-analyzer-fiori
-          target-path: resources/
+  # Removed pm-analyzer-fiori-app-content module.
+  # Its function (deploying to HTML5 Repo) is now obsolete.
 
   # Removed pm-analyzer-backend module entirely.
   # It will be deployed separately and referenced as an existing-service resource.
 
 
 resources:
-  # ------------------------------------------------------------
-  # HTML5 Application Repository Service (to host UI5 app)
-  # ------------------------------------------------------------
-  - name: pm-analyzer-html5-repo-host
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: html5-apps-repo
-      service-plan: app-host
+  # Removed: HTML5 Application Repository Service (pm-analyzer-html5-repo-host)
+  # as UI will be served directly by App Router.
 
   # ------------------------------------------------------------
   # Destination Service (to manage backend connectivity for App Router)
@@ -88,5 +72,3 @@ resources:
     type: org.cloudfoundry.existing-service # Treat backend as an existing service
     parameters:
       service-name: pm-analyzer-backend # The actual name of the CF app once deployed
-
-  # Removed pm-analyzer-html5-repo-credentials-ups resource as it's no longer needed.
