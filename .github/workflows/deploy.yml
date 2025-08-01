@@ -72,15 +72,19 @@ jobs:
           CF_API_ENDPOINT: ${{ secrets.CF_API_ENDPOINT }}
 
       - name: Build MTA Archive
-        run: mbt build -p=cf --mtar mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar
+        # Create the directory and then build the MTAR directly in the root, then move it
+        run: |
+          mkdir -p mta_archives
+          mbt build -p=cf --mtar com.sap.pm.pmanalyzer_1.0.0.mtar # Build in current directory
+          mv com.sap.pm.pmanalyzer_1.0.0.mtar mta_archives/ # Move to the target directory
         working-directory: .
 
-      - name: List MTAR files for debugging
+      - name: List MTAR files for debugging (after move)
         run: |
-          echo "--- Listing contents of mta_archives/ ---"
+          echo "--- Listing contents of mta_archives/ after move ---"
           ls -l mta_archives/
           echo "--- End of mta_archives/ listing ---"
-        working-directory: . # Ensure this runs from the root
+        working-directory: .
 
       - name: Deploy MTA Archive
         run: cf deploy mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar -f --retries 1
