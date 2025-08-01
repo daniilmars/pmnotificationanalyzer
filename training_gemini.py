@@ -19,27 +19,29 @@ def generate_training_data(project_root_dir="."):
         "backend/app/auth.py", # Placeholder file, still part of structure
         "backend/Dockerfile",
         "backend/requirements.txt",
-        "pm-analyzer-fiori/webapp/index.html", # Updated for no auth
-        "pm-analyzer-fiori/webapp/Component.js", # Updated for no auth
+        "backend/manifest.yml", # NEW: Added manifest.yml for backend push
+        "pm-analyzer-fiori/webapp/index.html",
+        "pm-analyzer-fiori/webapp/Component.js",
         "pm-analyzer-fiori/webapp/controller/App.controller.js",
         "pm-analyzer-fiori/webapp/controller/BaseController.js",
-        "pm-analyzer-fiori/webapp/controller/Login.controller.js", # Updated for no auth
-        "pm-analyzer-fiori/webapp/controller/Object.controller.js", # Updated for no auth
-        "pm-analyzer-fiori/webapp/controller/View1.controller.js", # Updated for no auth
-        "pm-analyzer-fiori/webapp/controller/Worklist.controller.js", # Updated for no auth
+        "pm-analyzer-fiori/webapp/controller/Login.controller.js",
+        "pm-analyzer-fiori/webapp/controller/Object.controller.js",
+        "pm-analyzer-fiori/webapp/controller/View1.controller.js",
+        "pm-analyzer-fiori/webapp/controller/Worklist.controller.js",
         "pm-analyzer-fiori/webapp/view/App.view.xml",
-        "pm-analyzer-fiori/webapp/view/Login.view.xml", # Updated for no auth
+        "pm-analyzer-fiori/webapp/view/Login.view.xml",
         "pm-analyzer-fiori/webapp/view/Object.view.xml",
-        "pm-analyzer-fiori/webapp/view/View1.view.xml", # Updated for no auth
-        "pm-analyzer-fiori/webapp/view/Worklist.view.xml", # Updated for no auth
-        "pm-analyzer-fiori/webapp/manifest.json", # Updated for no auth
-        "pm-analyzer-fiori/ui5.yaml", # Updated for minification exclusion
-        "pm-analyzer-fiori/ui5-deploy.yaml", # Updated for zipper and no minify
-        "pm-analyzer-fiori/package.json", # Updated build:cf script
+        "pm-analyzer-fiori/webapp/view/View1.view.xml",
+        "pm-analyzer-fiori/webapp/view/Worklist.view.xml",
+        "pm-analyzer-fiori/webapp/manifest.json",
+        "pm-analyzer-fiori/ui5.yaml",
+        "pm-analyzer-fiori/ui5-deploy.yaml",
+        "pm-analyzer-fiori/package.json",
         "mta.yaml", # The root mta.yaml
         "approuter/package.json",
-        "approuter/xs-app.json", # Updated for no auth
-        ".github/workflows/deploy.yml"
+        "approuter/xs-app.json",
+        ".github/workflows/deploy.yml",
+        "README.md" # Include the updated README.md
     ]
 
     # --- Remove existing output file if it exists ---
@@ -54,7 +56,8 @@ def generate_training_data(project_root_dir="."):
     try:
         os.chdir(project_root_dir)
         print(f"Generating project structure using 'tree -L 3' from {os.getcwd()}...")
-        tree_output = subprocess.check_output(["tree", "-L", "3"], text=True, stderr=subprocess.PIPE)
+        # Use --noreport to exclude the "X directories, Y files" summary line
+        tree_output = subprocess.check_output(["tree", "-L", "3", "--noreport"], text=True, stderr=subprocess.PIPE)
         print(f"Project structure generated.")
     except FileNotFoundError:
         print("Warning: 'tree' command not found. Falling back to 'git ls-files' for project structure.")
@@ -105,6 +108,4 @@ def generate_training_data(project_root_dir="."):
     print(f"All project data is located in the single file: '{output_file_name}' within your project root.")
 
 if __name__ == "__main__":
-    # Ensure you run this script from your project's root directory
-    # or specify the correct path to your project root.
-    generate_training_data(os.getcwd()) # Assumes script is run from project root
+    generate_training_data(os.getcwd())
