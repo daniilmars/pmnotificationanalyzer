@@ -67,6 +67,7 @@ jobs:
             echo "Error: Could not extract region from CF_API_ENDPOINT. Please check its format."
             exit 1
           fi
+          # Use a shorter prefix and only the last 5 digits of GITHUB_RUN_ID for uniqueness
           RUN_ID_SHORT="${GITHUB_RUN_ID: -5}"
           BACKEND_HOSTNAME="pmb-${RUN_ID_SHORT}-${{ secrets.CF_ORG_SHORT_NAME }}-${{ secrets.CF_SPACE_SHORT_NAME }}"
           BACKEND_DOMAIN="cfapps.${REGION}.hana.ondemand.com"
@@ -74,15 +75,18 @@ jobs:
           echo "Generated Backend Hostname: ${BACKEND_HOSTNAME}"
           echo "Generated Backend Domain: ${BACKEND_DOMAIN}"
 
+          # Set outputs for the next steps to consume
           echo "backend_hostname=${BACKEND_HOSTNAME}" >> "$GITHUB_OUTPUT"
           echo "backend_domain=${BACKEND_DOMAIN}" >> "$GITHUB_OUTPUT"
 
+          # Push the backend application with --no-route
           cd backend
           cf push pm-analyzer-backend -f manifest.yml --no-route --no-start
-        working-directory: .
+        working-directory: . # Run from root to ensure 'backend' directory is found
 
       - name: Create and Map Backend Route
         run: |
+          # Get outputs from the previous step
           BACKEND_HOSTNAME="${{ steps.push_backend.outputs.backend_hostname }}"
           BACKEND_DOMAIN="${{ steps.push_backend.outputs.backend_domain }}"
           BACKEND_ROUTE="${BACKEND_HOSTNAME}.${BACKEND_DOMAIN}"
@@ -96,31 +100,18 @@ jobs:
 
       - name: Start Backend Application
         run: |
+          # Start the backend application after push and route mapping
           cf start pm-analyzer-backend
         working-directory: .
 
-      - name: Create HTML5 Repo Credentials UPS
-        run: |
-          # Get the HTML5 App Repo service key output in plain text
-          SERVICE_KEY_OUTPUT=$(cf service-key pm-analyzer-html5-repo-host html5-repo-key | tail -n +2)
-
-          # Add the "grant_type" property to the JSON string.
-          # This uses 'jq' to add the property, as it's the most reliable way to manipulate JSON.
-          CREDENTIALS_JSON=$(echo "$SERVICE_KEY_OUTPUT" | jq '. + {grant_type: "client_credentials"}')
-
-          echo "Attempting to create UPS with JSON: $CREDENTIALS_JSON"
-          cf create-user-provided-service pm-analyzer-html5-repo-credentials -p "$CREDENTIALS_JSON"
-        working-directory: .
-
-      - name: Bind HTML5 Repo Credentials UPS to App Router
-        run: cf bind-service pm-analyzer-approuter pm-analyzer-html5-repo-credentials
-        working-directory: .
+      # Removed: Create HTML5 Repo Credentials UPS step
+      # Removed: Bind HTML5 Repo Credentials UPS to App Router step
 
       - name: Build MTA Archive
         run: |
           mkdir -p mta_archives
           mbt build -p=cf --mtar mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar
-          mv mta_archives/mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar mta_archives/
+          # Removed the 'mv' command as mbt now outputs directly to the correct path
         working-directory: .
 
       - name: List MTAR files for debugging

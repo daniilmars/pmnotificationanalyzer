@@ -14,10 +14,9 @@ modules:
       disk-quota: 256M
       memory: 256M
     requires:
-      # Removed direct requirement for pm-analyzer-html5-repo-host.
-      # It will now require the user-provided service for HTML5 repo credentials.
-      - name: pm-analyzer-html5-repo-credentials-ups # New requirement for UPS
+      - name: pm-analyzer-html5-repo-host # App Router needs to bind to HTML5 App Repo (direct binding)
       - name: pm-analyzer-destination # App Router still needs the Destination service
+      # Removed the pm-analyzer-html5-repo-credentials-ups requirement as it's not needed if direct binding works.
 
   # ------------------------------------------------------------
   # Fiori Frontend Module
@@ -90,10 +89,4 @@ resources:
     parameters:
       service-name: pm-analyzer-backend # The actual name of the CF app once deployed
 
-  # ------------------------------------------------------------
-  # User-Provided Service for HTML5 App Repo Credentials (Workaround)
-  # ------------------------------------------------------------
-  - name: pm-analyzer-html5-repo-credentials-ups # New resource for the UPS
-    type: org.cloudfoundry.user-provided-service # Type for User-Provided Service
-    parameters:
-      service-name: pm-analyzer-html5-repo-credentials # Name of the UPS instance
+  # Removed pm-analyzer-html5-repo-credentials-ups resource as it's no longer needed.
