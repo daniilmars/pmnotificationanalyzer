@@ -14,8 +14,9 @@ modules:
       disk-quota: 256M
       memory: 256M
     requires:
-      # Removed explicit binding for pm-analyzer-html5-repo-host to bypass build error.
-      # This service will need to be manually bound after deployment.
+      # Removed direct requirement for pm-analyzer-html5-repo-host.
+      # It will now require the user-provided service for HTML5 repo credentials.
+      - name: pm-analyzer-html5-repo-credentials-ups # New requirement for UPS
       - name: pm-analyzer-destination # App Router still needs the Destination service
 
   # ------------------------------------------------------------
@@ -88,3 +89,11 @@ resources:
     type: org.cloudfoundry.existing-service # Treat backend as an existing service
     parameters:
       service-name: pm-analyzer-backend # The actual name of the CF app once deployed
+
+  # ------------------------------------------------------------
+  # User-Provided Service for HTML5 App Repo Credentials (Workaround)
+  # ------------------------------------------------------------
+  - name: pm-analyzer-html5-repo-credentials-ups # New resource for the UPS
+    type: org.cloudfoundry.user-provided-service # Type for User-Provided Service
+    parameters:
+      service-name: pm-analyzer-html5-repo-credentials # Name of the UPS instance
