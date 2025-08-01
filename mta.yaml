@@ -17,12 +17,8 @@ modules:
       - name: pm-analyzer-html5-repo-host
       - name: pm-analyzer-uaa
       - name: pm-analyzer-destination
-      # The App Router needs to know the backend URL, so it requires the backend module
-      - name: pm-analyzer-backend # Approuter requires the backend module directly
-        properties:
-          # Reference the URL directly from the backend module.
-          # Modules implicitly provide a 'url' property at their top level.
-          backend_url: ~{pm-analyzer-backend/url}
+      # Removed direct 'requires' for pm-analyzer-backend and its URL property.
+      # The App Router will use the 'destination' service to find the backend.
 
   # ------------------------------------------------------------
   # Fiori Frontend Module
@@ -76,18 +72,12 @@ modules:
       memory: 512M # Adjust as needed
       docker:
         image: ${{ secrets.DOCKER_USERNAME }}/pm-analyzer-backend:latest
-    # Removed explicit 'provides' for 'url' as modules implicitly provide it.
+    # Removed 'provides' section for URL as it's not needed for direct binding
     requires:
+      # Bind XSUAA service directly. Credentials will be in VCAP_SERVICES.
       - name: pm-analyzer-uaa
-        group: destinations # Use a group to inject credentials as environment variables
-        properties:
-          name: pm-analyzer-uaa-binding # This name will be used in VCAP_SERVICES
-          binding: ~{pm-analyzer-uaa} # Bind to the XSUAA service
+      # Bind Destination service directly. Credentials will be in VCAP_SERVICES.
       - name: pm-analyzer-destination
-        group: destinations # Use a group to inject credentials as environment variables
-        properties:
-          name: pm-analyzer-destination-binding # This name will be used in VCAP_SERVICES
-          binding: ~{pm-analyzer-destination} # Bind to the Destination service
 
 
 resources:
