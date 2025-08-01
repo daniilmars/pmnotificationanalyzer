@@ -69,8 +69,9 @@ jobs:
           fi
 
           # Construct a unique hostname for the backend application
-          # Using GITHUB_RUN_ID for uniqueness
-          BACKEND_HOSTNAME="pm-analyzer-backend-${GITHUB_RUN_ID}-${{ secrets.CF_ORG_SHORT_NAME }}-${{ secrets.CF_SPACE_SHORT_NAME }}"
+          # Use a shorter prefix and only the last 5 digits of GITHUB_RUN_ID for uniqueness
+          RUN_ID_SHORT="${GITHUB_RUN_ID: -5}" # Take last 5 characters of run ID
+          BACKEND_HOSTNAME="pmb-${RUN_ID_SHORT}-${{ secrets.CF_ORG_SHORT_NAME }}-${{ secrets.CF_SPACE_SHORT_NAME }}"
           BACKEND_DOMAIN="cfapps.${REGION}.hana.ondemand.com"
 
           echo "Generated Backend Hostname: ${BACKEND_HOSTNAME}"
