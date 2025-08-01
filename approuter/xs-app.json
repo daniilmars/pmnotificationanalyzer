@@ -1,5 +1,5 @@
 {
-  "welcomeFile": "/comsappmpmanalyzerfiori/index.html",
+  "welcomeFile": "/pm-analyzer-fiori/index.html",
   "authenticationMethod": "none",
   "routes": [
     {
@@ -9,9 +9,9 @@
       "authenticationType": "none"
     },
     {
-      "source": "^(.*)$",
+      "source": "^/(.*)$",
       "target": "$1",
-      "service": "html5-apps-repo-rt",
+      "destination": "pm-analyzer-html5-repo-host",
       "authenticationType": "none"
     }
   ]
