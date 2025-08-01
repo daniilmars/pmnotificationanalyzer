@@ -20,5 +20,9 @@ builder:
         relativePaths: true
         additionalFiles:
           - xs-app.json
-  # Removed the 'tasks' section as it's causing the "must not be provided here" error.
-  # Minification behavior will revert to default.
+  settings: # Minify configuration for standard tasks goes under 'settings'
+    # Configure the 'minify' task to exclude specific files
+    minify:
+      excludes:
+        - "**/auth0-spa-js.production.js"
+        - "**/auth0-spa-js.js" # Also exclude the non-production version just in case
