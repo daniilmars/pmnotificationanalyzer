@@ -20,9 +20,9 @@ modules:
       # The App Router needs to know the backend URL, so it requires the backend module
       - name: pm-analyzer-backend # Approuter requires the backend module directly
         properties:
-          # Reference the URL provided by the backend module's 'provides' section
-          # This should be the most direct way to get the URL
-          backend_url: ~{pm-analyzer-backend/url} # Referencing the 'url' property directly from the backend module
+          # Reference the URL directly from the backend module.
+          # Modules implicitly provide a 'url' property at their top level.
+          backend_url: ~{pm-analyzer-backend/url}
 
   # ------------------------------------------------------------
   # Fiori Frontend Module
@@ -76,11 +76,7 @@ modules:
       memory: 512M # Adjust as needed
       docker:
         image: ${{ secrets.DOCKER_USERNAME }}/pm-analyzer-backend:latest
-    # Explicitly provide the URL property for other modules to consume
-    provides:
-      - name: url # Provide the URL directly as 'url'
-        properties:
-          url: "${{self.url}}" # 'self.url' exposes the module's own URL
+    # Removed explicit 'provides' for 'url' as modules implicitly provide it.
     requires:
       - name: pm-analyzer-uaa
         group: destinations # Use a group to inject credentials as environment variables
