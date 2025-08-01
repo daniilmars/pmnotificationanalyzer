@@ -54,15 +54,16 @@ jobs:
       # --- Cloud Foundry Deployment Steps ---
       - name: Login to Cloud Foundry
         run: |
-          cf api ${{ secrets.CF_API_ENDPOINT }}
-          cf auth "${{ secrets.CF_USERNAME }}" "${{ secrets.CF_PASSWORD }}"
-          cf target -o "${{ secrets.CF_ORG }}" -s "${{ secrets.CF_SPACE }}"
+          echo "Attempting CF login with API endpoint: $CF_API_ENDPOINT" # Debugging line
+          cf api $CF_API_ENDPOINT
+          cf auth "$CF_USERNAME" "$CF_PASSWORD"
+          cf target -o "$CF_ORG" -s "$CF_SPACE"
         env:
           CF_USERNAME: ${{ secrets.CF_USERNAME }}
           CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
           CF_ORG: ${{ secrets.CF_ORG }}
           CF_SPACE: ${{ secrets.CF_SPACE }}
-          CF_API_ENDPOINT: ${{ secrets.CF_API_ENDPOINT }}
+          CF_API_ENDPOINT: ${{ secrets.CF_API_ENDPOINT }} # Ensure this secret is set in GitHub
 
       - name: Build MTA Archive
         run: mbt build -p=cf --mtar archive
