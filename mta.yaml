@@ -15,11 +15,10 @@ modules:
       memory: 256M
     requires:
       - name: pm-analyzer-html5-repo-host
-      # Removed: - name: pm-analyzer-uaa # No longer needed for authentication
-      - name: pm-analyzer-destination
-      - name: pm-analyzer-backend # Approuter requires the backend module directly
-        properties:
-          backend_url: ~{pm-analyzer-backend/url} # Reference the URL directly from the backend module.
+      - name: pm-analyzer-destination # App Router still needs the Destination service
+      # Removed: Direct requirement for pm-analyzer-backend and its URL property.
+      # The App Router will find the backend via the 'pm-analyzer-backend' destination at runtime.
+      # The 'backend_url' property that was causing issues is now removed from here.
 
   # ------------------------------------------------------------
   # Fiori Frontend Module
@@ -37,7 +36,6 @@ modules:
     properties:
       SAP_UI5_VERSION: 1.120.1
     requires:
-      # Removed: - name: pm-analyzer-uaa # No longer needed for authentication
       - name: pm-analyzer-html5-repo-host
         parameters:
           content-target: true
@@ -73,17 +71,12 @@ modules:
       memory: 512M # Adjust as needed
       docker:
         image: ${{ secrets.DOCKER_USERNAME }}/pm-analyzer-backend:latest
-    provides:
-      - name: url # Provide the URL directly as 'url'
-        properties:
-          url: "${{self.url}}" # 'self.url' exposes the module's own URL
+    # Removed 'provides' for 'url' as it's not consumed at build-time anymore
     requires:
-      # Removed: - name: pm-analyzer-uaa # No longer needed for authentication
-      - name: pm-analyzer-destination
+      - name: pm-analyzer-destination # Backend still needs Destination service if it creates destinations
 
 
 resources:
-  # Removed: XSUAA Service (pm-analyzer-uaa) as authentication is removed
   # ------------------------------------------------------------
   # HTML5 Application Repository Service (to host UI5 app)
   # ------------------------------------------------------------
