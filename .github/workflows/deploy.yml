@@ -1,0 +1,69 @@
+name: Deploy to SAP BTP Cloud Foundry
+
+on:
+  push:
+    branches:
+      - main # Trigger on push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # Use a fresh Ubuntu environment for each job
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4 # Checkout the latest code from the repository
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4 # Install Node.js, required for mbt
+        with:
+          node-version: '18' # Use a stable LTS version of Node.js
+
+      - name: Install Cloud Foundry CLI
+        run: |
+          # Download the Cloud Foundry CLI binary
+          wget -q -O cf-cli-installer.deb "https://packages.cloudfoundry.org/stable?release=debian64&version=8.7.6&source=github"
+          # Install the CLI
+          sudo dpkg -i cf-cli-installer.deb
+          # Verify installation
+          cf version
+
+      - name: Install MTA Build Tool (MBT)
+        run: npm install -g mbt # Install the Multi-Target Application Build Tool globally
+
+      # --- Docker Build and Push Steps ---
+      - name: Log in to Docker Hub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_TOKEN }}
+
+      - name: Build and Push Docker image
+        id: docker_build
+        uses: docker/build-push-action@v5
+        with:
+          context: ./backend # Path to the directory containing your Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_USERNAME }}/pm-analyzer-backend:latest # IMPORTANT: Use your Docker Hub username here
+          cache-from: type=gha # Cache Docker layers using GitHub Actions cache
+          cache-to: type=gha,mode=max
+
+      # --- Cloud Foundry Deployment Steps ---
+      - name: Login to Cloud Foundry
+        run: |
+          cf api ${{ secrets.CF_API_ENDPOINT }}
+          cf auth "${{ secrets.CF_USERNAME }}" "${{ secrets.CF_PASSWORD }}"
+          cf target -o "${{ secrets.CF_ORG }}" -s "${{ secrets.CF_SPACE }}"
+        env:
+          CF_USERNAME: ${{ secrets.CF_USERNAME }}
+          CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
+          CF_ORG: ${{ secrets.CF_ORG }}
+          CF_SPACE: ${{ secrets.CF_SPACE }}
+          CF_API_ENDPOINT: ${{ secrets.CF_API_ENDPOINT }}
+
+      - name: Build MTA Archive
+        run: mbt build -p=cf --mtar archive
+
+      - name: Deploy MTA Archive
+        run: cf deploy mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar -f --retries 1
+        # Ensure the filename matches your MTA ID and version from mta.yaml
+        # (ID: com.sap.pm.pmanalyzer, Version: 1.0.0)

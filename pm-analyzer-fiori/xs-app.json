@@ -1,41 +1,19 @@
 {
-  "welcomeFile": "/index.html",
+  "welcomeFile": "/pm-analyzer-fiori/index.html",
   "authenticationMethod": "route",
   "routes": [
     {
-      "source": "^/here/(.*)$",
-      "target": "/here/$1",
-      "destination": "PM-BACKEND",
-      "authenticationType": "ias",
-      "csrfProtection": false
-    },
-    {
-      "source": "^/resources/(.*)$",
-      "target": "/resources/$1",
-      "authenticationType": "none",
-      "destination": "ui5"
-    },
-    {
-      "source": "^/test-resources/(.*)$",
-      "target": "/test-resources/$1",
-      "authenticationType": "none",
-      "destination": "ui5"
-    },
-    {
-      "source": "^/logout-page.html$",
-      "service": "app-front",
-      "authenticationType": "none"
-    },
-    {
-      "source": "^/index.html$",
-      "service": "app-front",
-      "cacheControl": "no-cache, no-store, must-revalidate"
+      "source": "^/api/(.*)$",
+      "target": "$1",
+      "destination": "pm-analyzer-backend",
+      "authenticationType": "xsuaa",
+      "httpMethods": ["GET", "POST", "PUT", "DELETE", "PATCH"]
     },
     {
       "source": "^(.*)$",
       "target": "$1",
-      "service": "app-front",
-      "authenticationType": "ias"
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
     }
   ]
 }

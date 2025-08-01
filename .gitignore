@@ -1,62 +1,34 @@
-# Byte-compiled / optimized / DLL files
+# Python
 __pycache__/
-*.py[cod]
-*$py.class
-
-# C extensions
-*.so
-
-# Distribution / packaging
+*.pyc
+*.pyo
 .Python
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-.eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
-wheels/
-pip-wheel-metadata/
-share/python-wheels/
-*.egg-info/
-.installed.cfg
-*.egg
-MANIFEST
-
-# Pytest
-.pytest_cache/
-.coverage
-.tox/
-
-# Virtual Environments
-.venv/
 venv/
-myenv/
-ENV/
-env.bak/
-env/
 .env
 
-# IDE / Editor specific files
-.idea/
+# Node.js
+node_modules/
+dist/
+build/
+.cache/
+
+# SAP Fiori/UI5
+resources/
+test-resources/
+.project.json
+.ui5/
+.tmp/
 .vscode/
+.env.local
+target/ # Output of mbt build
+
+# Logs and temporary files
+*.log
+*.tmp
+*.bak
 *.swp
 *.swo
 
-# OS-specific files
+# OS generated files
 .DS_Store
 Thumbs.db
-
-# Secrets / Environment
-.env
-*.env
-
-# Log files
-*.log
-
-# CSV test data file
-test_meldungen.csv
