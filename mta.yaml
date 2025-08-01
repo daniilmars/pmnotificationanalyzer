@@ -45,22 +45,18 @@ modules:
   # Fiori App Content Deployer Module (deploys UI to HTML5 Repo)
   # ------------------------------------------------------------
   - name: pm-analyzer-fiori-app-content
-    type: com.sap.application.content # Re-added this module
-    path: .
+    type: com.sap.application.content
+    path: pm-analyzer-fiori # Change path to the fiori folder
     requires:
       - name: pm-analyzer-html5-repo-host
         parameters:
           content-target: true
     build-parameters:
-      build-result: resources
+      build-result: dist # Point to the 'dist' folder created by the build
       requires:
-        - artifacts:
-            - pm-analyzer-fiori.zip # Name of the archive created by the Fiori build
+        - artifacts: [] # This is now handled by the path and build-result
           name: pm-analyzer-fiori
-          target-path: resources/ # Target path within the MTAR for the zip
-
-  # Removed pm-analyzer-backend module entirely.
-  # It will be deployed separately and referenced as an existing-service resource.
+          target-path: . # Target path is now the root of the dist folder
 
 
 resources:
