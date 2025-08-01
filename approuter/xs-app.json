@@ -1,18 +1,17 @@
 {
-  "welcomeFile": "/pm-analyzer-fiori/index.html",
+  "welcomeFile": "/comsappmpmanalyzerfiori/index.html",
   "authenticationMethod": "none",
   "routes": [
     {
       "source": "^/api/(.*)$",
       "target": "$1",
       "destination": "pm-analyzer-backend",
-      "authenticationType": "none",
-      "httpMethods": ["GET", "POST", "PUT", "DELETE", "PATCH"]
+      "authenticationType": "none"
     },
     {
-      "source": "^/pm-analyzer-fiori/(.*)$",
+      "source": "^(.*)$",
       "target": "$1",
-      "destination": "pm-analyzer-html5-repo-host",
+      "service": "html5-apps-repo-rt",
       "authenticationType": "none"
     }
   ]
