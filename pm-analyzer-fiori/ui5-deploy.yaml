@@ -20,7 +20,7 @@ builder:
         relativePaths: true
         additionalFiles:
           - xs-app.json
-    # Add an explicit minify task configuration to exclude the Auth0 SDK
+  tasks: # Moved minify configuration here
     - name: minify
       afterTask: replaceCopyright # This task typically runs after copyright replacement
       configuration:
