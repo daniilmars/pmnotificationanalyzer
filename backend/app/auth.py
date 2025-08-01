@@ -7,14 +7,40 @@ from urllib.request import urlopen
 from flask import request, jsonify
 from jose import jwt
 
-# Load Auth0 configuration from environment variables for better security and flexibility.
-# Ensure these are set in your environment (e.g., in a .env file loaded by your run script).
-AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
-API_AUDIENCE = os.environ.get("API_AUDIENCE")
-ALGORITHMS = ["RS256"]
+# --- Load XSUAA configuration from VCAP_SERVICES ---
+# VCAP_SERVICES is an environment variable provided by Cloud Foundry
+# that contains details of bound services.
+vcap_services = json.loads(os.getenv('VCAP_SERVICES', '{}'))
 
-if not AUTH0_DOMAIN or not API_AUDIENCE:
-    raise RuntimeError("AUTH0_DOMAIN and API_AUDIENCE must be set as environment variables.")
+# Find the XSUAA service binding by its offering name or name from mta.yaml
+XSUAA_CREDENTIALS = None
+if 'xsuaa' in vcap_services:
+    for service in vcap_services['xsuaa']:
+        # Match the service name defined in mta.yaml for the binding
+        if service.get('name') == 'pm-analyzer-uaa-binding':
+            XSUAA_CREDENTIALS = service['credentials']
+            break
+
+if not XSUAA_CREDENTIALS:
+    # Fallback for local development or if XSUAA is not bound
+    # In local development, you might still use .env for Auth0 details
+    AUTH0_DOMAIN = os.environ.get("AUTH0_DOMAIN")
+    API_AUDIENCE = os.environ.get("API_AUDIENCE")
+    if not AUTH0_DOMAIN or not API_AUDIENCE:
+        raise RuntimeError("CRITICAL: XSUAA service not bound and Auth0 environment variables not set. Cannot proceed with authentication.")
+    else:
+        # Use Auth0 details for local testing if XSUAA is not available
+        print("WARNING: XSUAA service not found in VCAP_SERVICES. Falling back to Auth0 environment variables for local development.")
+        XSUAA_ISSUER = f"https://{AUTH0_DOMAIN}/"
+        XSUAA_AUDIENCE = API_AUDIENCE
+        JWKS_URI = f"https://{AUTH0_DOMAIN}/.well-known/jwks.json"
+else:
+    # Use XSUAA credentials from BTP
+    XSUAA_ISSUER = XSUAA_CREDENTIALS.get("url") # XSUAA's URL is the issuer
+    XSUAA_AUDIENCE = XSUAA_CREDENTIALS.get("xsappname") # xsappname is the audience for XSUAA tokens
+    JWKS_URI = f"{XSUAA_ISSUER}/.well-known/jwks.json" # JWKS endpoint from XSUAA URL
+
+ALGORITHMS = ["RS256"]
 
 # --- Caching for JWKS ---
 jwks_cache = {
@@ -25,17 +51,20 @@ CACHE_LIFETIME_SECONDS = 3600 # Cache keys for 1 hour
 
 def get_jwks():
     """
-    Retrieves the JSON Web Key Set from Auth0, caching it to avoid excessive requests.
+    Retrieves the JSON Web Key Set from the configured JWKS_URI, caching it.
     """
     now = time.time()
     if jwks_cache["keys"] and jwks_cache["expiry"] > now:
         return jwks_cache["keys"]
 
-    jsonurl = urlopen(f"https://{AUTH0_DOMAIN}/.well-known/jwks.json")
-    new_jwks = json.loads(jsonurl.read())
-    jwks_cache["keys"] = new_jwks
-    jwks_cache["expiry"] = now + CACHE_LIFETIME_SECONDS
-    return new_jwks
+    try:
+        jsonurl = urlopen(JWKS_URI)
+        new_jwks = json.loads(jsonurl.read())
+        jwks_cache["keys"] = new_jwks
+        jwks_cache["expiry"] = now + CACHE_LIFETIME_SECONDS
+        return new_jwks
+    except Exception as e:
+        raise RuntimeError(f"Failed to retrieve JWKS from {JWKS_URI}: {e}")
 
 # Decorator to protect endpoints
 def token_required(f):
@@ -79,7 +108,8 @@ def token_required(f):
             }), 401
 
         try:
-            jwt.decode(token, rsa_key, algorithms=ALGORITHMS, audience=API_AUDIENCE, issuer=f"https://{AUTH0_DOMAIN}/")
+            # Validate the token using XSUAA's issuer and xsappname as audience
+            jwt.decode(token, rsa_key, algorithms=ALGORITHMS, audience=XSUAA_AUDIENCE, issuer=XSUAA_ISSUER)
         except jwt.ExpiredSignatureError:
             return jsonify({
                 "error": {"code": "TOKEN_EXPIRED", "message": "Token is expired"}
@@ -89,6 +119,13 @@ def token_required(f):
                 "error": {
                     "code": "INVALID_TOKEN_CLAIMS",
                     "message": f"Invalid token claims: {str(e)}"
+                }
+            }), 401
+        except Exception as e:
+            return jsonify({
+                "error": {
+                    "code": "AUTHENTICATION_FAILED",
+                    "message": f"Authentication failed: {str(e)}"
                 }
             }), 401
 
