@@ -5,4 +5,7 @@ applications:
   command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
   memory: 512M
   disk_quota: 512M
-  # Removed 'routes' section. The route will be provided via 'cf push -r' in GitHub Actions.
+  routes:
+  - route: pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com # FIXED ROUTE: Adjust domain if needed
+  # IMPORTANT: This route must be unique in your CF landscape.
+  # If you need a different fixed name, change 'pm-analyzer-backend-dev' here.
