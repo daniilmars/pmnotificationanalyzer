@@ -1,12 +1,8 @@
 _schema-version: "3.2"
 ID: com.sap.pm.pmanalyzer
-description: "Intelligent SAP PM Quality Analyzer"
 version: 1.0.0
 
 modules:
-  # ------------------------------------------------------------
-  # App Router Module (serves the UI and proxies to backend)
-  # ------------------------------------------------------------
   - name: pm-analyzer-approuter
     type: approuter.nodejs
     path: approuter
@@ -17,9 +13,6 @@ modules:
       - name: pm-analyzer-html5-repo-host
       - name: pm-analyzer-destination
 
-  # ------------------------------------------------------------
-  # Fiori Frontend Module (deployed to HTML5 App Repo)
-  # ------------------------------------------------------------
   - name: pm-analyzer-fiori-build
     type: html5
     path: pm-analyzer-fiori
@@ -30,48 +23,35 @@ modules:
         - npm run build:cf
       supported-platforms: []
 
-  # ------------------------------------------------------------
-  # Fiori App Content Deployer Module (deploys UI to HTML5 Repo)
-  # ------------------------------------------------------------
   - name: pm-analyzer-fiori-app-content
     type: com.sap.application.content
-    path: . # Stays at root level
+    path: .
     requires:
       - name: pm-analyzer-html5-repo-host
         parameters:
           content-target: true
     build-parameters:
-      build-result: resources # Looks for a 'resources' folder
+      build-result: resources
       requires:
-        - name: pm-analyzer-fiori-build # Requires the build module above
+        - name: pm-analyzer-fiori-build
           artifacts:
-            - "dist/comsappmpmanalyzerfiori.zip" # The exact zip file to find
-          target-path: resources/ # Places the zip into the 'resources' folder
-
+            - "dist/comsappmpmanalyzerfiori.zip"
+          target-path: resources/
 
 resources:
-  # ------------------------------------------------------------
-  # HTML5 Application Repository Service (to host UI5 app)
-  # ------------------------------------------------------------
   - name: pm-analyzer-html5-repo-host
-    type: org.cloudfoundry.managed-service # This is the original, correct line
+    type: org.cloudfoundry.managed-service
     parameters:
       service: html5-apps-repo
       service-plan: app-host
 
-  # ------------------------------------------------------------
-  # Destination Service (to manage backend connectivity for App Router)
-  # ------------------------------------------------------------
   - name: pm-analyzer-destination
     type: org.cloudfoundry.managed-service
     parameters:
       service: destination
       service-plan: lite
 
-  # ------------------------------------------------------------
-  # Existing Backend Application as a Resource
-  # ------------------------------------------------------------
-  - name: pm-analyzer-backend-app # This name references the actual deployed app
-    type: org.cloudfoundry.existing-service # Treat backend as an existing service
+  - name: pm-analyzer-backend-app
+    type: org.cloudfoundry.existing-service
     parameters:
-      service-name: pm-analyzer-backend # The actual name of the CF app once deployed
+      service-name: pm-analyzer-backend
