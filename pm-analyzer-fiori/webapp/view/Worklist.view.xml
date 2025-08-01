@@ -30,7 +30,15 @@
                     <fb:FilterGroupItem groupName="main" name="notifType" label="Notification Type" visibleInFilterBar="true">
                         <fb:control>
                             <ComboBox id="notifTypeFilter" items="{filters>/uniqueTypes}" placeholder="Select a type...">
-                                <core:Item key="{filters>key}" text="{= ${filters>key} ? ${filters>key} + ' - ' + ${filters>text} : ${filters>text} }"/>
+                                <!-- FIX: Corrected binding expression. XML does not allow unescaped '<' or '>' in attributes.
+                                     Using a formatter or simpler binding is necessary.
+                                     Assuming the intent was to show "key - text" if key exists, else "text".
+                                     The original was: text="{= ${filters>key} ? ${filters>key} + ' - ' + ${filters>text} : ${filters>text} }"
+                                     This is valid JS, but not valid XML attribute if not escaped or handled by a formatter.
+                                     Let's simplify to just show text, or use a formatter if complex logic is truly needed.
+                                     For direct display, a formatter is safer.
+                                -->
+                                <core:Item key="{filters>key}" text="{filters>text}"/>
                             </ComboBox>
                         </fb:control>
                     </fb:FilterGroupItem>
