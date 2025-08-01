@@ -16,9 +16,6 @@ modules:
     requires:
       - name: pm-analyzer-html5-repo-host
       - name: pm-analyzer-destination # App Router still needs the Destination service
-      # Removed: Direct requirement for pm-analyzer-backend and its URL property.
-      # The App Router will find the backend via the 'pm-analyzer-backend' destination at runtime.
-      # The 'backend_url' property that was causing issues is now removed from here.
 
   # ------------------------------------------------------------
   # Fiori Frontend Module
@@ -61,17 +58,19 @@ modules:
           target-path: resources/
 
   # ------------------------------------------------------------
-  # Python Backend Module (deployed as a Docker image)
+  # Python Backend Module (deployed as a standard Cloud Foundry app)
   # ------------------------------------------------------------
   - name: pm-analyzer-backend
-    type: com.sap.cloud.container.docker
-    path: backend
+    type: org.cloudfoundry.app # Changed module type to standard Cloud Foundry app
+    path: backend # Path to your existing backend directory
     parameters:
       disk-quota: 512M # Adjust as needed
       memory: 512M # Adjust as needed
-      docker:
-        image: ${{ secrets.DOCKER_USERNAME }}/pm-analyzer-backend:latest
-    # Removed 'provides' for 'url' as it's not consumed at build-time anymore
+      buildpack: python_buildpack # Specify the Python buildpack
+      command: uvicorn app.main:app --host 0.0.0.0 --port $PORT # Command to start your app
+      routes: # Define a route for your backend application
+        - route: pm-analyzer-backend-${org}-${space}.cfapps.${region}.hana.ondemand.com # Example route, adjust as needed
+    # Removed 'docker' section as it's not applicable for org.cloudfoundry.app
     requires:
       - name: pm-analyzer-destination # Backend still needs Destination service if it creates destinations
 
