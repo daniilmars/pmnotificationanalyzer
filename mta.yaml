@@ -14,49 +14,39 @@ modules:
       disk-quota: 256M
       memory: 256M
     requires:
-      - name: pm-analyzer-html5-repo-host # App Router needs to bind to HTML5 App Repo
-      - name: pm-analyzer-destination # App Router still needs the Destination service
-      # Removed: pm-analyzer-fiori-content requirement (as Fiori is now deployed separately)
+      - name: pm-analyzer-html5-repo-host
+      - name: pm-analyzer-destination
 
   # ------------------------------------------------------------
   # Fiori Frontend Module (deployed to HTML5 App Repo)
   # ------------------------------------------------------------
-  - name: pm-analyzer-fiori
-    type: html5 # Reverted type to html5
+  - name: pm-analyzer-fiori-build
+    type: html5
     path: pm-analyzer-fiori
     build-parameters:
-      build-result: dist
       builder: custom
       commands:
         - npm install
-        - npm run build:cf # This script will output to 'dist' for the app-content module
+        - npm run build:cf
       supported-platforms: []
-      # Removed target-path as it's not needed when deploying to HTML5 App Repo
-    properties:
-      SAP_UI5_VERSION: 1.120.1
-    requires:
-      - name: pm-analyzer-html5-repo-host # Fiori module requires HTML5 App Repo for content deployment
-        parameters:
-          content-target: true # This tells the deployer to push content to this repo
-    provides:
-      - name: pm-analyzer-fiori-content # Provided as content for the app-content module
 
   # ------------------------------------------------------------
   # Fiori App Content Deployer Module (deploys UI to HTML5 Repo)
   # ------------------------------------------------------------
   - name: pm-analyzer-fiori-app-content
     type: com.sap.application.content
-    path: pm-analyzer-fiori # Change path to the fiori folder
+    path: . # Stays at root level
     requires:
       - name: pm-analyzer-html5-repo-host
         parameters:
           content-target: true
     build-parameters:
-      build-result: dist # Point to the 'dist' folder created by the build
+      build-result: resources # Looks for a 'resources' folder
       requires:
-        - artifacts: [] # This is now handled by the path and build-result
-          name: pm-analyzer-fiori
-          target-path: . # Target path is now the root of the dist folder
+        - name: pm-analyzer-fiori-build # Requires the build module above
+          artifacts:
+            - "dist/comsappmpmanalyzerfiori.zip" # The exact zip file to find
+          target-path: resources/ # Places the zip into the 'resources' folder
 
 
 resources:
