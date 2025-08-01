@@ -29,8 +29,8 @@ jobs:
 
       - name: Install Cloud Foundry MultiApps Plugin
         run: |
-          # Install the MultiApps plugin for cf deploy command
-          cf install-plugin -f https://github.com/cloudfoundry/multiapps-cli-plugin/releases/latest/download/multiapps-cli-plugin-linux64
+          # Install the MultiApps plugin from the CF Community repository
+          cf install-plugin -r CF-Community "multiapps" -f
           # Verify plugin installation
           cf plugins
 
