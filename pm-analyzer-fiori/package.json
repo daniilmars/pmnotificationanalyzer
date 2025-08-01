@@ -25,7 +25,7 @@
     "@ui5/cli": "^3.0.0",
     "rimraf": "^3.0.2",
     "ui5-task-zipper": "^0.5.0",
-    "fs-extra": "^11.1.0" # This dependency is still needed if you use 'fs-extra' elsewhere, but not for this specific script line
+    "fs-extra": "^11.1.0"
   },
   "ui5": {
     "dependencies": [
