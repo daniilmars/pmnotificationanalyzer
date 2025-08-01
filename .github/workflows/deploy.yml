@@ -37,25 +37,23 @@ jobs:
       - name: Install MTA Build Tool (MBT)
         run: npm install -g mbt@1.2.0
 
-      # --- Docker Build and Push Steps ---
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_TOKEN }}
-
-      - name: Build and Push Docker image
-        id: docker_build
-        uses: docker/build-push-action@v5
-        with:
-          context: ./backend
-          push: true
-          tags: ${{ secrets.DOCKER_USERNAME }}/pm-analyzer-backend:latest
-          cache-from: type=gha,scope=buildx-cache
-          cache-to: type=gha,mode=max,scope=buildx-cache
+      # --- Removed Docker Build and Push Steps ---
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v3
+      # - name: Log in to Docker Hub
+      #   uses: docker/login-action@v3
+      #   with:
+      #     username: ${{ secrets.DOCKER_USERNAME }}
+      #     password: ${{ secrets.DOCKER_TOKEN }}
+      # - name: Build and Push Docker image
+      #   id: docker_build
+      #   uses: docker/build-push-action@v5
+      #   with:
+      #     context: ./backend
+      #     push: true
+      #     tags: ${{ secrets.DOCKER_USERNAME }}/pm-analyzer-backend:latest
+      #     cache-from: type=gha,scope=buildx-cache
+      #     cache-to: type=gha,mode=max,scope=buildx-cache
 
       # --- Cloud Foundry Deployment Steps ---
       - name: Login to Cloud Foundry
@@ -72,16 +70,15 @@ jobs:
           CF_API_ENDPOINT: ${{ secrets.CF_API_ENDPOINT }}
 
       - name: Build MTA Archive
-        # Build the MTAR, it will generate in mta_archives/mta_archives/
+        # Build the MTAR directly into mta_archives. Removed the 'mv' as it's not needed.
         run: |
+          mkdir -p mta_archives
           mbt build -p=cf --mtar mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar
-          # Move the file from the nested location to the correct top-level mta_archives
-          mv mta_archives/mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar mta_archives/
         working-directory: .
 
-      - name: List MTAR files for debugging (after move)
+      - name: List MTAR files for debugging
         run: |
-          echo "--- Listing contents of mta_archives/ after move ---"
+          echo "--- Listing contents of mta_archives/ ---"
           ls -l mta_archives/
           echo "--- End of mta_archives/ listing ---"
         working-directory: .
