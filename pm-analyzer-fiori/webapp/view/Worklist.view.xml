@@ -80,10 +80,8 @@
                         <ObjectAttribute text="Equipment: {EquipmentNumber}" />
                         <ObjectAttribute text="Type: {NotificationTypeText}" />
                         <ObjectAttribute text="Created By: {CreatedByUser}" />
-                        <ObjectAttribute text="Created On: {
-                            path: 'CreationDate',
-                            formatter: '.formatter.formatDateTime'
-                        }" />
+                        <!-- FIX: Ensure the binding for Created On is on a single line -->
+                        <ObjectAttribute text="{path: 'CreationDate', formatter: '.formatter.formatDateTime'}" />
                     </attributes>
                 </ObjectListItem>
             </List>
