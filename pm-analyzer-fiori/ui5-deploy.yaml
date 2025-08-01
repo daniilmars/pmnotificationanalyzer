@@ -13,12 +13,6 @@ builder:
       - /test/**
       - /localService/**
   customTasks:
-    # Add the custom task to delete Auth0 files
-    - name: deleteAuth0Files
-      beforeTask: minify # Ensure this runs before minification
-      # Define the path to your custom task script
-      # The path is relative to the ui5-deploy.yaml file
-      task: ./tasks/deleteAuth0Files.js
     - name: ui5-task-zipper
       afterTask: generateCachebusterInfo
       configuration:
