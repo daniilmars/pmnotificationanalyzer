@@ -10,11 +10,9 @@
             "analysisApi": {
                 "uri": "/api/",
                 "type": "REST"
-                # For a REST service, you typically don't need "settings" like odataVersion.
-                # If your backend were OData, you'd configure it here.
             },
             "notificationsMockData": {
-                "uri": "mock_data_en.json", # Default to English mock data
+                "uri": "mock_data_en.json",
                 "type": "JSON"
             }
         }
@@ -43,14 +41,14 @@
                     "fallbackLocale": "en"
                 }
             },
-            "": { # This is the default model, used by Worklist.controller.js
+            "": {
                 "type": "sap.ui.model.json.JSONModel",
-                "dataSource": "notificationsMockData", # Link to the dataSource defined above
-                "preload": true # Load data synchronously with the app
+                "dataSource": "notificationsMockData",
+                "preload": true
             },
-            "analysis": { # Model for AI analysis results (managed by controllers)
+            "analysis": {
                 "type": "sap.ui.model.json.JSONModel",
-                "uri": "" # No URI needed, as it's populated dynamically by controllers
+                "uri": ""
             }
         },
         "rootView": {
