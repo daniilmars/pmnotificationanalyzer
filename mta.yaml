@@ -18,10 +18,7 @@ modules:
       - name: pm-analyzer-uaa
       - name: pm-analyzer-destination
         properties:
-          # This property will be available to the approuter for dynamic routing
-          # The service name 'pm-analyzer-backend' refers to the actual backend application
-          # deployed as a separate module.
-          # The 'url' property will be dynamically resolved by BTP.
+          # Corrected: Get URL directly from the backend module
           backend_url: ~{pm-analyzer-backend/url}
 
   # ------------------------------------------------------------
@@ -83,11 +80,11 @@ modules:
     requires:
       - name: pm-analyzer-uaa # Backend needs XSUAA for token validation
         properties:
-          # Expose the XSUAA service credentials to the backend application
-          # This will be available as an environment variable (VCAP_SERVICES)
+          # Corrected: Get credentials directly from the XSUAA resource
           xsuaa_credentials: ~{pm-analyzer-uaa/credentials}
       - name: pm-analyzer-destination # Backend might need to create destinations (optional)
         properties:
+          # Corrected: Get credentials directly from the destination resource
           destination_credentials: ~{pm-analyzer-destination/credentials}
 
 
