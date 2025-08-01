@@ -99,34 +99,12 @@ jobs:
       - name: Create HTML5 Repo Credentials UPS
         run: |
           # Get the HTML5 App Repo service credentials
+          # This command might need adjustment for trial accounts if it doesn't output JSON directly.
+          # Refer to the comments in the previous Canvas for potential workarounds if this fails.
           HTML5_REPO_CREDENTIALS=$(cf service-key pm-analyzer-html5-repo-host html5-repo-key --json | jq '.[0].credentials')
           # Create the UPS with the required grant_type
           cf create-user-provided-service pm-analyzer-html5-repo-credentials -p "$HTML5_REPO_CREDENTIALS"
-        env:
-          # Ensure jq is installed in the runner
-          # Add a step to install jq if it's not present: sudo apt-get install jq
-          # Or, ensure it's available in the base image.
-          # For trial accounts, service-key might not output JSON directly, might need parsing.
-          # If 'jq' is not available or service-key doesn't output JSON, this step needs adjustment.
-          # For trial accounts, sometimes service-key might output plain text.
-          # In that case, you might need to parse it manually or use a different approach.
-          # Example for parsing plain text:
-          # HTML5_REPO_CREDENTIALS=$(cf service-key pm-analyzer-html5-repo-host html5-repo-key | tail -n +2 | jq -s '.')
-          # This is a common workaround for trial accounts where service-key --json doesn't work.
-          # If the above fails, you might need to manually inspect 'cf service-key' output
-          # and construct the JSON string with 'grant_type: "client_credentials"' manually.
-          # Example:
-          # CF_HTML5_REPO_CLIENTID=$(echo "$HTML5_REPO_CREDENTIALS" | jq -r '.clientid')
-          # CF_HTML5_REPO_CLIENTSECRET=$(echo "$HTML5_REPO_CREDENTIALS" | jq -r '.clientsecret')
-          # CF_HTML5_REPO_URI=$(echo "$HTML5_REPO_CREDENTIALS" | jq -r '.uri')
-          # CF_HTML5_REPO_UAAURL=$(echo "$HTML5_REPO_CREDENTIALS" | jq -r '.uaa.url')
-          # CF_HTML5_REPO_UAA_CLIENTID=$(echo "$HTML5_REPO_CREDENTIALS" | jq -r '.uaa.clientid')
-          # CF_HTML5_REPO_UAA_CLIENTSECRET=$(echo "$HTML5_REPO_CREDENTIALS" | jq -r '.uaa.clientsecret')
-          # CF_HTML5_REPO_UAA_CERTURL=$(echo "$HTML5_REPO_CREDENTIALS" | jq -r '.uaa.certurl')
-          # CF_HTML5_REPO_UAA_URL=$(echo "$HTML5_REPO_CREDENTIALS" | jq -r '.uaa.url')
-          #
-          # CREDENTIALS_JSON="{ \"clientid\": \"$CF_HTML5_REPO_CLIENTID\", \"clientsecret\": \"$CF_HTML5_REPO_CLIENTSECRET\", \"uri\": \"$CF_HTML5_REPO_URI\", \"uaa\": { \"clientid\": \"$CF_HTML5_REPO_UAA_CLIENTID\", \"clientsecret\": \"$CF_HTML5_REPO_UAA_CLIENTSECRET\", \"certurl\": \"$CF_HTML5_REPO_UAA_CERTURL\", \"url\": \"$CF_HTML5_REPO_UAA_URL\" }, \"grant_type\": \"client_credentials\" }"
-          # cf create-user-provided-service pm-analyzer-html5-repo-credentials -p "$CREDENTIALS_JSON"
+        working-directory: .
 
       - name: Bind HTML5 Repo Credentials UPS to App Router
         run: cf bind-service pm-analyzer-approuter pm-analyzer-html5-repo-credentials
