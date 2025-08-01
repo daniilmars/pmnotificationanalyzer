@@ -18,6 +18,4 @@ builder:
       configuration:
         archiveName: comsappmpmanalyzerfiori
         relativePaths: true
-        additionalFiles:
-          - xs-app.json
-# Removed the 'settings' section with minify configuration, as it's now in ui5.yaml
+        # Removed additionalFiles: - xs-app.json as it's no longer in this directory
