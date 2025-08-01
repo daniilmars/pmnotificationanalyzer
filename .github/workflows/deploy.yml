@@ -52,18 +52,39 @@ jobs:
           CF_API_ENDPOINT: ${{ secrets.CF_API_ENDPOINT }}
 
       - name: Push Backend Application
+        id: push_backend # Add an ID to this step to capture outputs
+        env:
+          # Define the region based on your CF API endpoint
+          # Example: us10-001 for api.cf.us10-001.hana.ondemand.com
+          # You might need to adjust this logic based on your specific endpoint structure
+          CF_REGION: ${{ secrets.CF_API_ENDPOINT }} # This will be the full URL. We need to extract region.
         run: |
-          # Push the backend application
-          # The manifest.yml here is implicitly used, or you can create one.
-          # Ensure the app name 'pm-analyzer-backend' matches service-name in mta.yaml
-          cf push pm-analyzer-backend -f manifest.yml --no-start # Push but don't start yet
-        working-directory: ./backend # Set working directory for cf push
+          # Extract region from CF_API_ENDPOINT. Example: us10-001 from https://api.cf.us10-001.hana.ondemand.com
+          REGION=$(echo "${{ secrets.CF_API_ENDPOINT }}" | sed -E 's/https:\/\/api\.cf\.([a-zA-Z0-9-]+)\.hana\.ondemand\.com.*/\1/')
+          if [ -z "$REGION" ]; then
+            echo "Error: Could not extract region from CF_API_ENDPOINT. Please check its format."
+            exit 1
+          fi
+
+          # Construct a unique hostname for the backend application
+          # Using GITHUB_RUN_ID for uniqueness
+          BACKEND_HOSTNAME="pm-analyzer-backend-${GITHUB_RUN_ID}-${{ secrets.CF_ORG_SHORT_NAME }}-${{ secrets.CF_SPACE_SHORT_NAME }}"
+          BACKEND_ROUTE="${BACKEND_HOSTNAME}.cfapps.${REGION}.hana.ondemand.com"
+
+          echo "Generated Backend Route: ${BACKEND_ROUTE}"
+          # Set the output for the next steps to consume
+          echo "backend_route=${BACKEND_ROUTE}" >> "$GITHUB_OUTPUT"
+
+          # Push the backend application with the dynamically generated route
+          cd backend
+          cf push pm-analyzer-backend -f manifest.yml -d cfapps.${REGION}.hana.ondemand.com -n ${BACKEND_HOSTNAME} --no-start
+        working-directory: . # Run from root to ensure 'backend' directory is found
 
       - name: Start Backend Application
         run: |
           # Start the backend application after push
           cf start pm-analyzer-backend
-        working-directory: . # Run from root
+        working-directory: .
 
       - name: Build MTA Archive
         run: |
