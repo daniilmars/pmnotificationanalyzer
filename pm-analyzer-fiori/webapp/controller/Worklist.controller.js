@@ -67,15 +67,7 @@ sap.ui.define([
             });
         },
  
-        onLogout: async function () {
-            const oComponent = this.getOwnerComponent();
-            const auth0Client = await oComponent.getAuth0Client();
-            auth0Client.logout({
-                logoutParams: {
-                    returnTo: window.location.origin + window.location.pathname
-                }
-            });
-        },
+        // Removed onLogout as logout is no longer required
 
         onLanguageChange: function(oEvent) {
             const sLanguage = oEvent.getParameter("selectedItem").getKey();

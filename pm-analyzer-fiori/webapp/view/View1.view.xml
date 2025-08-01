@@ -6,25 +6,11 @@
     displayBlock="true">
     <Page id="page" title="{i18n>title}" busy="{ui>/isBusy}">
         <headerContent>
-            <!-- Login button, visible only when not authenticated -->
-            <Button
-                id="loginButton"
-                text="{i18n>loginButtonText}"
-                press="onLogin"
-                visible="{= !${ui>/isAuthenticated} }" />
-
-            <!-- User information and Logout button, visible only when authenticated -->
-            <HBox visible="{ui>/isAuthenticated}" alignItems="Center">
-                <Text text="{ui>/userProfile/name}" class="sapUiSmallMarginEnd" />
-                <Button
-                    id="logoutButton"
-                    text="{i18n>logoutButtonText}"
-                    press="onLogout" />
-            </HBox>
+            <!-- Removed Login/Logout buttons and user info as authentication is removed -->
         </headerContent>
         <content>
-            <!-- The main content of the application is only visible after successful login -->
-            <VBox class="sapUiSmallMargin" visible="{ui>/isAuthenticated}">
+            <!-- Content is always visible as no authentication check is needed -->
+            <VBox class="sapUiSmallMargin">
                 <Label text="{i18n>view1.inputLabel}" labelFor="pmTextInput" />
                 <TextArea
                     id="pmTextInput"

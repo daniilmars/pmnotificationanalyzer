@@ -3,36 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>PM Notification Analyzer</title>
-    <style>
-        html, body, #content {
-            height: 100%;
-        }
-    </style>
-
-    <script src="https://unpkg.com/@auth0/auth0-spa-js@2.1.3/dist/auth0-spa-js.production.js"></script>
-
-    <script
-        id="sap-ui-bootstrap"
+    <title>PM Notification Quality Analyzer</title>
+    <script id="sap-ui-bootstrap"
         src="resources/sap-ui-core.js"
+        data-sap-ui-libs="sap.m, sap.ui.layout, sap.ui.comp"
         data-sap-ui-theme="sap_horizon"
-        data-sap-ui-resourceroots='{
-            "com.sap.pm.pmanalyzerfiori": "./"
-        }'
         data-sap-ui-compatVersion="edge"
         data-sap-ui-async="true"
-        data-sap-ui-oninit="module:sap/ui/core/ComponentSupport"
-        data-sap-ui-frameOptions="trusted">
+        data-sap-ui-resourceroots='{"com.sap.pm.pmanalyzerfiori": "./"}'
+        data-sap-ui-onInit="module:sap/ui/core/ComponentSupport">
     </script>
 </head>
-<body class="sapUiBody sapUiSizeCompact" id="content">
-    <div
-        data-sap-ui-component
-        data-name="com.sap.pm.pmanalyzerfiori"
-        data-id="container"
-        data-settings='{"id" : "pmanalyzerfiori"}'
-        data-handle-validation="true"
-    ></div>
+<body class="sapUiBody" id="content">
+    <div data-sap-ui-component data-name="com.sap.pm.pmanalyzerfiori" data-id="container" data-settings='{"id" : "com.sap.pm.pmanalyzerfiori"}' style="height: 100%"></div>
 </body>
 </html>

@@ -8,8 +8,8 @@
 
     <Page id="worklistPage" title="{i18n>worklistTitle}" busy="{ui>/isBusy}">
         <headerContent>
-            <HBox visible="{ui>/isAuthenticated}" alignItems="Center">
-                <Text text="{ui>/userProfile/name}" class="sapUiSmallMarginEnd" />
+            <!-- Removed user info and Logout button as authentication is removed -->
+            <HBox alignItems="Center">
                 <Select
                     id="languageSelect"
                     change=".onLanguageChange"
@@ -17,10 +17,6 @@
                     <core:Item key="en" text="English" />
                     <core:Item key="de" text="Deutsch" />
                 </Select>
-                <Button
-                    id="logoutButton"
-                    text="{i18n>logoutButtonText}"
-                    press="onLogout" />
             </HBox>
         </headerContent>
         <content>
@@ -65,7 +61,7 @@
             <List
                 id="list"
                 items="{/Notifications}"
-                visible="{ui>/isAuthenticated}"
+                visible="true" <!-- Always visible as no authentication check is needed -->
                 noDataText="No notifications found.">
                 <ObjectListItem
                     type="Navigation"

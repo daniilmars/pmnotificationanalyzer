@@ -6,15 +6,10 @@ sap.ui.define([
 
     return Controller.extend("com.sap.pm.pmanalyzerfiori.controller.Login", {
 
-        onLoginPress: async function () {
-            try {
-                const oComponent = this.getOwnerComponent();
-                const auth0Client = await oComponent.getAuth0Client();
-                await auth0Client.loginWithRedirect();
-            } catch (error) {
-                MessageBox.error("Could not initiate login process. Please try again later.");
-                console.error("Login failed", error);
-            }
+        onInit: function () {
+            // Automatically navigate to worklist if no authentication is needed
+            this.getOwnerComponent().getRouter().navTo("worklist", {}, true);
         }
+        // Removed onLoginPress as login is no longer required
     });
 });
