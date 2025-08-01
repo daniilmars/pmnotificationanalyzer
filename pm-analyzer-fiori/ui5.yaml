@@ -1,33 +1,29 @@
-specVersion: "3.1" # Changed from "2.6" for consistency
-metadata:
-  name: com.sap.pm.pmanalyzerfiori
-type: application
-framework:
-  name: SAPUI5
-  version: "1.120.13"
-  libraries:
-    - name: sap.m
-    - name: sap.ui.core
-    - name: sap.ui.layout
-    - name: sap.ui.comp
-    - name: themelib_sap_horizon
-server:
-  customMiddleware:
-    - name: fiori-tools-appreload
-      afterMiddleware: compression
-      configuration:
-        port: 35729
-        path: webapp
-        delay: 300
-    - name: fiori-tools-proxy
-      afterMiddleware: compression
-      configuration:
-        backend:
-          - path: /api
-            url: http://localhost:5001
-builder: # Added builder section
-  settings: # Added settings for standard tasks
-    minify:
-      excludes:
-        - "**/auth0-spa-js.production.js"
-        - "**/auth0-spa-js.js" # Also exclude the non-production version just in case
+    specVersion: "3.1"
+    metadata:
+      name: com.sap.pm.pmanalyzerfiori
+    type: application
+    framework:
+      name: SAPUI5
+      version: "1.120.13"
+      libraries:
+        - name: sap.m
+        - name: sap.ui.core
+        - name: sap.ui.layout
+        - name: sap.ui.comp
+        - name: themelib_sap_horizon
+    server:
+      customMiddleware:
+        - name: fiori-tools-appreload
+          afterMiddleware: compression
+          configuration:
+            port: 35729
+            path: webapp
+            delay: 300
+        - name: fiori-tools-proxy
+          afterMiddleware: compression
+          configuration:
+            backend:
+              - path: /api
+                url: http://localhost:5001
+    # Removed the builder.settings.minify section
+    
