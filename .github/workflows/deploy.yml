@@ -69,9 +69,10 @@ jobs:
             exit 1
           fi
 
-          # Use a fixed hostname for the backend application
+          # Use a fixed, simple hostname for the backend application
           # This will be consistent across deployments to manage routes quota
-          FIXED_BACKEND_HOSTNAME="pm-analyzer-backend-${{ secrets.CF_ORG_SHORT_NAME }}-${{ secrets.CF_SPACE_SHORT_NAME }}"
+          # IMPORTANT: Ensure this hostname is unique in your CF landscape.
+          FIXED_BACKEND_HOSTNAME="pm-analyzer-backend-dev" # Simplified to a static value
           BACKEND_DOMAIN="cfapps.${REGION}.hana.ondemand.com"
 
           echo "Using Fixed Backend Hostname: ${FIXED_BACKEND_HOSTNAME}"
@@ -95,6 +96,7 @@ jobs:
 
           echo "Attempting to delete existing route (if any) to manage quota: ${BACKEND_ROUTE}"
           # Delete route if it exists to avoid quota issues. '|| true' prevents step from failing.
+          # This is crucial for managing the fixed route.
           cf delete-route "${BACKEND_DOMAIN}" -n "${BACKEND_HOSTNAME}" -f || true
 
           echo "Creating route: ${BACKEND_ROUTE}"
