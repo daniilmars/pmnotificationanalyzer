@@ -51,6 +51,9 @@ jobs:
           CF_SPACE: ${{ secrets.CF_SPACE }}
           CF_API_ENDPOINT: ${{ secrets.CF_API_ENDPOINT }}
 
+      - name: Delete Existing Backend Application (if any)
+        run: cf delete -f pm-analyzer-backend || true # Delete if exists, '|| true' prevents step from failing if app doesn't exist
+
       - name: Push Backend Application
         id: push_backend # Add an ID to this step to capture outputs
         env:
