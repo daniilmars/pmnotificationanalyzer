@@ -8,7 +8,6 @@
 
     <Page id="worklistPage" title="{i18n>worklistTitle}" busy="{ui>/isBusy}">
         <headerContent>
-            <!-- Removed user info and Logout button as authentication is removed -->
             <HBox alignItems="Center">
                 <Select
                     id="languageSelect"
@@ -30,14 +29,6 @@
                     <fb:FilterGroupItem groupName="main" name="notifType" label="Notification Type" visibleInFilterBar="true">
                         <fb:control>
                             <ComboBox id="notifTypeFilter" items="{filters>/uniqueTypes}" placeholder="Select a type...">
-                                <!-- FIX: Corrected binding expression. XML does not allow unescaped '<' or '>' in attributes.
-                                     Using a formatter or simpler binding is necessary.
-                                     Assuming the intent was to show "key - text" if key exists, else "text".
-                                     The original was: text="{= ${filters>key} ? ${filters>key} + ' - ' + ${filters>text} : ${filters>text} }"
-                                     This is valid JS, but not valid XML attribute if not escaped or handled by a formatter.
-                                     Let's simplify to just show text, or use a formatter if complex logic is truly needed.
-                                     For direct display, a formatter is safer.
-                                -->
                                 <core:Item key="{filters>key}" text="{filters>text}"/>
                             </ComboBox>
                         </fb:control>
@@ -69,7 +60,7 @@
             <List
                 id="list"
                 items="{/Notifications}"
-                visible="true" <!-- Always visible as no authentication check is needed -->
+                visible="true" 
                 noDataText="No notifications found.">
                 <ObjectListItem
                     type="Navigation"
@@ -80,7 +71,6 @@
                         <ObjectAttribute text="Equipment: {EquipmentNumber}" />
                         <ObjectAttribute text="Type: {NotificationTypeText}" />
                         <ObjectAttribute text="Created By: {CreatedByUser}" />
-                        <!-- FIX: Ensure the binding for Created On is on a single line -->
                         <ObjectAttribute text="{path: 'CreationDate', formatter: '.formatter.formatDateTime'}" />
                     </attributes>
                 </ObjectListItem>
