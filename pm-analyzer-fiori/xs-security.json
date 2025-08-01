@@ -1,7 +1,33 @@
 {
   "xsappname": "comsappmpmanalyzerfiori",
   "tenant-mode": "dedicated",
-  "description": "Security profile of called application",
-  "scopes": [],
-  "role-templates": []
+  "description": "Security profile for PM Notification Quality Analyzer",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Analyze",
+      "description": "Allows analysis of PM notifications"
+    },
+    {
+      "name": "uaa.user",
+      "description": "UAA"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "PMAnalyzer_User",
+      "description": "User role for PM Notification Quality Analyzer",
+      "scope-references": [
+        "$XSAPPNAME.Analyze",
+        "uaa.user"
+      ]
+    }
+  ],
+  "oauth2-configuration": {
+    "token-validity": 3600,
+    "redirect-uris": [
+      "https://*.hana.ondemand.com/**",
+      "http://localhost:5000/**",
+      "http://localhost:8080/**"
+    ]
+  }
 }

@@ -1,0 +1,82 @@
+File: pm-analyzer-fiori/webapp/view/Object.view.xml
+
+<mvc:View
+    controllerName="com.sap.pm.pmanalyzerfiori.controller.Object"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:core="sap.ui.core">
+    <Page
+        id="page"
+        title="{parts: ['i18n>objectPageTitle', 'NotificationId'], formatter: 'jQuery.sap.formatMessage'}"
+        showNavButton="true"
+        navButtonPress=".onNavBack">
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <f:SimpleForm
+                    id="SimpleFormDisplay"
+                    editable="false"
+                    layout="ResponsiveGridLayout">
+                    <f:content>
+                        <Label text="{i18n>object.descriptionLabel}"/>
+                        <Text id="descriptionText" text="{Description}" />
+                        
+                        <Label text="Functional Location"/>
+                        <Text text="{FunctionalLocation}" />
+                        <Label text="Equipment"/>
+                        <Text text="{EquipmentNumber}" />
+                        
+                        <Label text="{i18n>object.typeLabel}"/>
+                        <Text id="typeText" text="{NotificationTypeText}" />
+                        <Label text="{i18n>object.userLabel}"/>
+                        <Text id="userText" text="{CreatedByUser}" />
+                        <Label text="{i18n>object.longTextLabel}"/>
+                        <TextArea id="longText" value="{LongText}" growing="true" width="100%" editable="false"/>
+                        <Label text="{i18n>object.activitiesLabel}"/>
+                        <TextArea id="activitiesText" value="{Activities}" growing="true" width="100%" editable="false"/>
+                    </f:content>
+                </f:SimpleForm>
+
+                <Button
+                    id="analyzeButton"
+                    text="{i18n>object.analyzeButtonText}"
+                    type="Emphasized"
+                    press=".onAnalyzePress"
+                    class="sapUiSmallMarginTop"
+                    icon="sap-icon://activate" />
+
+                <Panel id="resultsPanel" visible="{analysis>/resultsVisible}" class="sapUiSmallMarginTop" expandable="true" expanded="true" width="auto" busy="{analysis>/busy}">
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="{i18n>object.resultsPanelTitle}"/>
+                        </Toolbar>
+                    </headerToolbar>
+                    <content>
+                        <f:SimpleForm layout="ResponsiveGridLayout">
+                            <f:content>
+                                <Label text="{i18n>object.scoreLabel}"/>
+                                <ProgressIndicator
+                                    id="scoreIndicator"
+                                    percentValue="{analysis>/score}"
+                                    displayValue="{analysis>/score}/100"
+                                    showValue="true"
+                                    state="None" />
+
+                                <Label text="{i18n>object.problemsLabel}"/>
+                                <List
+                                    id="problemsList"
+                                    items="{analysis>/problems}"
+                                    noDataText="{i18n>noProblemsFound}">
+                                    <StandardListItem title="{analysis>}" type="Inactive" />
+                                </List>
+
+                                <Label text="{i18n>object.summaryLabel}"/>
+                                <Text id="summaryText" text="{analysis>/summary}" />
+                            </f:content>
+                        </f:SimpleForm>
+                    </content>
+                </Panel>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>
