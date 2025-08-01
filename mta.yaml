@@ -14,9 +14,12 @@ modules:
       disk-quota: 256M
       memory: 256M
     requires:
-      - name: pm-analyzer-html5-repo-host
+      - name: pm-analyzer-html5-repo-host # App Router needs to bind to HTML5 App Repo
+        group: destinations # Use group to inject credentials as environment variables
+        properties:
+          name: html5-repo-binding # Name for the binding in VCAP_SERVICES
+          binding: ~{pm-analyzer-html5-repo-host} # Bind to the HTML5 App Repo service
       - name: pm-analyzer-destination # App Router still needs the Destination service
-      # Removed direct backend module requirement. App Router uses destination.
 
   # ------------------------------------------------------------
   # Fiori Frontend Module
