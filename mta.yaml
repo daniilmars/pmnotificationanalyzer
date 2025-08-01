@@ -16,6 +16,7 @@ modules:
     requires:
       - name: pm-analyzer-html5-repo-host
       - name: pm-analyzer-destination # App Router still needs the Destination service
+      # Removed direct backend module requirement. App Router uses destination.
 
   # ------------------------------------------------------------
   # Fiori Frontend Module
@@ -57,28 +58,8 @@ modules:
           name: pm-analyzer-fiori
           target-path: resources/
 
-  # ------------------------------------------------------------
-  # Python Backend Module (deployed as a standard Cloud Foundry app using generic type)
-  # ------------------------------------------------------------
-  - name: pm-analyzer-backend
-    type: com.sap.xs.nodejs # Changed module type to a more generic one for CF apps
-    path: backend # Path to your existing backend directory
-    parameters:
-      disk-quota: 512M
-      memory: 512M
-      buildpack: python_buildpack # Specify the Python buildpack
-      command: uvicorn app.main:app --host 0.0.0.0 --port $PORT # Command to start your app
-      routes: # Define a route for your backend application
-        - route: pm-analyzer-backend-${org}-${space}.cfapps.${region}.hana.ondemand.com # Example route, adjust as needed
-    build-parameters:
-      builder: custom
-      commands:
-        - pip install -r requirements.txt # Install Python dependencies during build
-        - echo "Backend build finished." # Simple confirmation
-      requirements:
-        - name: backend/requirements.txt # Reference the requirements file
-    requires:
-      - name: pm-analyzer-destination # Backend still needs Destination service if it creates destinations
+  # Removed pm-analyzer-backend module entirely.
+  # It will be deployed separately and referenced as an existing-service resource.
 
 
 resources:
@@ -99,3 +80,11 @@ resources:
     parameters:
       service: destination
       service-plan: lite
+
+  # ------------------------------------------------------------
+  # Existing Backend Application as a Resource
+  # ------------------------------------------------------------
+  - name: pm-analyzer-backend-app # This name references the actual deployed app
+    type: org.cloudfoundry.existing-service # Treat backend as an existing service
+    parameters:
+      service-name: pm-analyzer-backend # The actual name of the CF app once deployed
