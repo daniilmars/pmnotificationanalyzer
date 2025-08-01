@@ -27,6 +27,13 @@ jobs:
           # Verify installation
           cf version
 
+      - name: Install Cloud Foundry MultiApps Plugin
+        run: |
+          # Install the MultiApps plugin for cf deploy command
+          cf install-plugin -f https://github.com/cloudfoundry/multiapps-cli-plugin/releases/latest/download/multiapps-cli-plugin-linux64
+          # Verify plugin installation
+          cf plugins
+
       - name: Install MTA Build Tool (MBT)
         # Explicitly install a specific version of MBT to avoid potential bugs in latest
         run: npm install -g mbt@1.2.0 # Trying a specific version
