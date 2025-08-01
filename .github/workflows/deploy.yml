@@ -67,6 +67,7 @@ jobs:
 
       - name: Build MTA Archive
         run: mbt build -p=cf --mtar archive
+        working-directory: . # Ensure mbt build runs from the repository root
 
       - name: Deploy MTA Archive
         run: cf deploy mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar -f --retries 1
