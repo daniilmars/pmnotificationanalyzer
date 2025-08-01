@@ -72,20 +72,9 @@ jobs:
           CF_API_ENDPOINT: ${{ secrets.CF_API_ENDPOINT }}
 
       - name: Build MTA Archive
-        run: mbt build -p=cf --mtar archive
+        # FIX: Specify the exact output filename for the MTAR archive
+        run: mbt build -p=cf --mtar mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar
         working-directory: .
-
-      # Debugging step: Print content of the problematic XML file
-      - name: Debug Worklist.view.xml content
-        run: |
-          echo "--- Content of Worklist.view.xml on runner ---"
-          cat pm-analyzer-fiori/webapp/view/Worklist.view.xml
-          echo "--- End of Worklist.view.xml content ---"
-        # This step will run even if the previous one (mbt build) failed,
-        # but it's best to place it before the Fiori build step in case
-        # mbt build itself is failing before calling npm run build:cf.
-        # However, the error is from 'npm run build:cf', so placing it before
-        # 'mbt build' is more logical to ensure the file exists.
 
       - name: Deploy MTA Archive
         run: cf deploy mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar -f --retries 1
