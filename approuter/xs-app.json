@@ -10,15 +10,9 @@
       "httpMethods": ["GET", "POST", "PUT", "DELETE", "PATCH"]
     },
     {
-      "source": "^/pm-analyzer-fiori/(.*)$", 
-      "target": "$1",
-      "localDir": "resources/pm-analyzer-fiori", 
-      "authenticationType": "none"
-    },
-    {
       "source": "^(.*)$",
       "target": "$1",
-      "service": "html5-apps-repo-rt",
+      "service": "html5-apps-repo-rt", 
       "authenticationType": "none"
     }
   ]

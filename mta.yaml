@@ -14,32 +14,50 @@ modules:
       disk-quota: 256M
       memory: 256M
     requires:
-      - name: pm-analyzer-html5-repo-host # App Router needs to bind to HTML5 App Repo (direct binding)
+      - name: pm-analyzer-html5-repo-host # App Router needs to bind to HTML5 App Repo
       - name: pm-analyzer-destination # App Router still needs the Destination service
-      - name: pm-analyzer-fiori-content # App Router now requires the content module directly
+      # Removed: pm-analyzer-fiori-content requirement (as Fiori is now deployed separately)
 
   # ------------------------------------------------------------
-  # Fiori Frontend Module (now built as application content)
+  # Fiori Frontend Module (deployed to HTML5 App Repo)
   # ------------------------------------------------------------
   - name: pm-analyzer-fiori
-    type: com.sap.application.content # Changed type to application content
+    type: html5 # Reverted type to html5
     path: pm-analyzer-fiori
     build-parameters:
       build-result: dist
       builder: custom
       commands:
         - npm install
-        - npm run build:cf # This script will output to the App Router's resources
+        - npm run build:cf # This script will output to 'dist' for the app-content module
       supported-platforms: []
-      target-path: resources/pm-analyzer-fiori # Output directly into approuter's resources
+      # Removed target-path as it's not needed when deploying to HTML5 App Repo
     properties:
       SAP_UI5_VERSION: 1.120.1
-    # Removed requires for html5-repo-host as it's no longer used for serving UI
+    requires:
+      - name: pm-analyzer-html5-repo-host # Fiori module requires HTML5 App Repo for content deployment
+        parameters:
+          content-target: true # This tells the deployer to push content to this repo
     provides:
-      - name: pm-analyzer-fiori-content # Provided as content for the App Router
+      - name: pm-analyzer-fiori-content # Provided as content for the app-content module
 
-  # Removed pm-analyzer-fiori-app-content module.
-  # Its function (deploying to HTML5 Repo) is now obsolete.
+  # ------------------------------------------------------------
+  # Fiori App Content Deployer Module (deploys UI to HTML5 Repo)
+  # ------------------------------------------------------------
+  - name: pm-analyzer-fiori-app-content
+    type: com.sap.application.content # Re-added this module
+    path: .
+    requires:
+      - name: pm-analyzer-html5-repo-host
+        parameters:
+          content-target: true
+    build-parameters:
+      build-result: resources
+      requires:
+        - artifacts:
+            - pm-analyzer-fiori.zip # Name of the archive created by the Fiori build
+          name: pm-analyzer-fiori
+          target-path: resources/ # Target path within the MTAR for the zip
 
   # Removed pm-analyzer-backend module entirely.
   # It will be deployed separately and referenced as an existing-service resource.
