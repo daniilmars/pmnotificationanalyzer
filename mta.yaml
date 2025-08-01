@@ -15,10 +15,8 @@ modules:
       memory: 256M
     requires:
       - name: pm-analyzer-html5-repo-host # App Router needs to bind to HTML5 App Repo
-        group: destinations # Use group to inject credentials as environment variables
-        properties:
-          name: html5-repo-binding # Name for the binding in VCAP_SERVICES
-          binding: ~{pm-analyzer-html5-repo-host} # Bind to the HTML5 App Repo service
+      # Removed: group: destinations and properties for binding.
+      # App Router will find html5-repo-host credentials in VCAP_SERVICES by default.
       - name: pm-analyzer-destination # App Router still needs the Destination service
 
   # ------------------------------------------------------------
