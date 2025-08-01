@@ -20,9 +20,4 @@ builder:
         relativePaths: true
         additionalFiles:
           - xs-app.json
-  settings: # Minify configuration for standard tasks goes under 'settings'
-    # Configure the 'minify' task to exclude specific files
-    minify:
-      excludes:
-        - "**/auth0-spa-js.production.js"
-        - "**/auth0-spa-js.js" # Also exclude the non-production version just in case
+# Removed the 'settings' section with minify configuration, as it's now in ui5.yaml
