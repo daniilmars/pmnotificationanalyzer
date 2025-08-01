@@ -15,7 +15,7 @@
     "build": "ui5 build --clean-dest --config ui5.yaml",
     "deploy": "fiori verify",
     "deploy-config": "fiori add deploy-config",
-    "build:cf": "ui5 build preload --clean-dest --config ui5-deploy.yaml --include-task=generateCachebusterInfo",
+    "build:cf": "node -e \"require('fs').rmSync('webapp/libs/auth0-spa-js.production.js', { force: true }); require('fs').rmSync('webapp/libs/auth0-spa-js.js', { force: true });\" && ui5 build preload --clean-dest --config ui5-deploy.yaml --include-task=generateCachebusterInfo",
     "postbuild:cf": "rimraf ../approuter/resources/pm-analyzer-fiori && mkdir -p ../approuter/resources/pm-analyzer-fiori && cp -r dist/* ../approuter/resources/pm-analyzer-fiori",
     "build:mta": "rimraf resources webapp/resources webapp/test-resources dist && mbt build --mtar archive",
     "start-mock": "fiori run --config ./ui5-mock.yaml --open 'test/flpSandbox.html?sap-ui-xx-viewCache=false'",
