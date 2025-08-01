@@ -53,8 +53,6 @@ jobs:
 
       - name: Push Backend Application
         run: |
-          # Navigate to the backend directory
-          cd backend
           # Push the backend application
           # The manifest.yml here is implicitly used, or you can create one.
           # Ensure the app name 'pm-analyzer-backend' matches service-name in mta.yaml
