@@ -1,0 +1,202 @@
+Retrieving logs for app pm-analyzer-backend in org dfa8bc11trial_trial3-f5tqczxd / space dev as daniilmarszallek@yahoo.de...
+
+   2025-08-02T01:21:46.58+0200 [API/11] OUT Added process: "web"
+   2025-08-02T01:21:46.59+0200 [API/11] OUT Created app with guid 7d674459-d96b-4e4c-8f70-c90035646a2d
+   2025-08-02T01:21:46.60+0200 [API/11] OUT Applied manifest to app with guid 7d674459-d96b-4e4c-8f70-c90035646a2d (---
+   2025-08-02T01:21:46.60+0200 [API/11] OUT applications:
+   2025-08-02T01:21:46.60+0200 [API/11] OUT - name: pm-analyzer-backend
+   2025-08-02T01:21:46.60+0200 [API/11] OUT disk-quota: 512M
+   2025-08-02T01:21:46.60+0200 [API/11] OUT path: "."
+   2025-08-02T01:21:46.60+0200 [API/11] OUT memory: 512M
+   2025-08-02T01:21:46.60+0200 [API/11] OUT no-route: true
+   2025-08-02T01:21:46.60+0200 [API/11] OUT buildpack: python_buildpack
+   2025-08-02T01:21:46.60+0200 [API/11] OUT command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+   2025-08-02T01:21:46.60+0200 [API/11] OUT routes:
+   2025-08-02T01:21:46.60+0200 [API/11] OUT - route: pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com
+   2025-08-02T01:21:46.60+0200 [API/11] OUT )
+   2025-08-02T01:21:46.67+0200 [API/0] OUT Updating process: "web"
+   2025-08-02T01:21:46.70+0200 [API/0] OUT Scaling process: "web"
+   2025-08-02T01:21:46.73+0200 [API/0] OUT Updated app with guid 7d674459-d96b-4e4c-8f70-c90035646a2d ({"lifecycle"=>{"data"=>{"buildpacks"=>["python_buildpack"]}}})
+   2025-08-02T01:21:46.74+0200 [API/0] OUT Updated app with guid 7d674459-d96b-4e4c-8f70-c90035646a2d ({"environment_variables"=>"[PRIVATE DATA HIDDEN]"})
+   2025-08-02T01:21:49.97+0200 [API/1] OUT Uploading app package for app with guid 7d674459-d96b-4e4c-8f70-c90035646a2d
+   2025-08-02T01:21:57.05+0200 [API/9] OUT Creating build for app with guid 7d674459-d96b-4e4c-8f70-c90035646a2d
+   2025-08-02T01:21:57.36+0200 [STG/0] OUT Downloading python_buildpack...
+   2025-08-02T01:22:09.57+0200 [STG/0] OUT Downloaded python_buildpack (507.7M)
+   2025-08-02T01:22:09.57+0200 [STG/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 creating container for instance 30d57fb3-d267-4245-a3fa-f893e908c1c0
+   2025-08-02T01:22:10.37+0200 [STG/0] OUT Security group rules were updated
+   2025-08-02T01:22:10.48+0200 [STG/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully created container for instance 30d57fb3-d267-4245-a3fa-f893e908c1c0
+   2025-08-02T01:22:11.15+0200 [STG/0] OUT Downloading app package...
+   2025-08-02T01:22:11.22+0200 [STG/0] OUT Downloaded app package (9.4K)
+   2025-08-02T01:22:11.33+0200 [STG/0] OUT -----> Python Buildpack version 1.8.37
+   2025-08-02T01:22:11.33+0200 [STG/0] OUT -----> Supplying Python
+   2025-08-02T01:22:11.33+0200 [STG/0] OUT -----> Installing python 3.10.17
+   2025-08-02T01:22:11.33+0200 [STG/0] OUT Copy [/tmp/buildpacks/87ed74aa05fa0fec/dependencies/de1a3447c373723a7b43256b7f524c77/python_3.10.17_linux_x64_cflinuxfs4_12a761c6.tgz]
+   2025-08-02T01:22:15.03+0200 [STG/0] OUT Using python's pip module
+   2025-08-02T01:22:17.43+0200 [STG/0] OUT pip 23.0.1 from /tmp/contents3138917772/deps/0/python/lib/python3.10/site-packages/pip (python 3.10)
+   2025-08-02T01:22:17.52+0200 [STG/0] OUT -----> Running Pip Install (Unvendored)
+   2025-08-02T01:22:17.52+0200 [STG/0] OUT python -m pip install -r /tmp/app/requirements.txt --ignore-installed --exists-action=w --src=/tmp/contents3138917772/deps/0/src --disable-pip-version-check --no-warn-script-location
+   2025-08-02T01:22:18.96+0200 [STG/0] OUT Collecting Flask
+   2025-08-02T01:22:19.03+0200 [STG/0] OUT Downloading flask-3.1.1-py3-none-any.whl (103 kB)
+   2025-08-02T01:22:19.07+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 103.3/103.3 kB 2.7 MB/s eta 0:00:00
+   2025-08-02T01:22:19.14+0200 [STG/0] OUT Collecting Flask-Cors
+   2025-08-02T01:22:19.14+0200 [STG/0] OUT Downloading flask_cors-6.0.1-py3-none-any.whl (13 kB)
+   2025-08-02T01:22:19.19+0200 [STG/0] OUT Collecting google-generativeai
+   2025-08-02T01:22:19.20+0200 [STG/0] OUT Downloading google_generativeai-0.8.5-py3-none-any.whl (155 kB)
+   2025-08-02T01:22:19.22+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.4/155.4 kB 14.7 MB/s eta 0:00:00
+   2025-08-02T01:22:19.27+0200 [STG/0] OUT Collecting python-dotenv
+   2025-08-02T01:22:19.28+0200 [STG/0] OUT Downloading python_dotenv-1.1.1-py3-none-any.whl (20 kB)
+   2025-08-02T01:22:19.82+0200 [STG/0] OUT Collecting pydantic
+   2025-08-02T01:22:19.84+0200 [STG/0] OUT Downloading pydantic-2.11.7-py3-none-any.whl (444 kB)
+   2025-08-02T01:22:19.86+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 444.8/444.8 kB 41.4 MB/s eta 0:00:00
+   2025-08-02T01:22:19.90+0200 [STG/0] OUT Collecting python-jose[cryptography]
+   2025-08-02T01:22:19.90+0200 [STG/0] OUT Downloading python_jose-3.5.0-py2.py3-none-any.whl (34 kB)
+   2025-08-02T01:22:20.00+0200 [STG/0] OUT Collecting requests
+   2025-08-02T01:22:20.00+0200 [STG/0] OUT Downloading requests-2.32.4-py3-none-any.whl (64 kB)
+   2025-08-02T01:22:20.03+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 64.8/64.8 kB 9.5 MB/s eta 0:00:00
+   2025-08-02T01:22:20.11+0200 [STG/0] OUT Collecting uvicorn
+   2025-08-02T01:22:20.12+0200 [STG/0] OUT Downloading uvicorn-0.35.0-py3-none-any.whl (66 kB)
+   2025-08-02T01:22:20.13+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 66.4/66.4 kB 11.4 MB/s eta 0:00:00
+   2025-08-02T01:22:20.20+0200 [STG/0] OUT Collecting click>=8.1.3
+   2025-08-02T01:22:20.21+0200 [STG/0] OUT Downloading click-8.2.1-py3-none-any.whl (102 kB)
+   2025-08-02T01:22:20.22+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 102.2/102.2 kB 15.1 MB/s eta 0:00:00
+   2025-08-02T01:22:20.28+0200 [STG/0] OUT Collecting jinja2>=3.1.2
+   2025-08-02T01:22:20.28+0200 [STG/0] OUT Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+   2025-08-02T01:22:20.30+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 134.9/134.9 kB 21.1 MB/s eta 0:00:00
+   2025-08-02T01:22:20.33+0200 [STG/0] OUT Collecting itsdangerous>=2.2.0
+   2025-08-02T01:22:20.34+0200 [STG/0] OUT Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+   2025-08-02T01:22:20.57+0200 [STG/0] OUT Collecting markupsafe>=2.1.1
+   2025-08-02T01:22:20.58+0200 [STG/0] OUT Downloading MarkupSafe-3.0.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (20 kB)
+   2025-08-02T01:22:20.67+0200 [STG/0] OUT Collecting werkzeug>=3.1.0
+   2025-08-02T01:22:20.68+0200 [STG/0] OUT Downloading werkzeug-3.1.3-py3-none-any.whl (224 kB)
+   2025-08-02T01:22:20.70+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 224.5/224.5 kB 26.6 MB/s eta 0:00:00
+   2025-08-02T01:22:20.73+0200 [STG/0] OUT Collecting blinker>=1.9.0
+   2025-08-02T01:22:20.74+0200 [STG/0] OUT Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
+   2025-08-02T01:22:20.96+0200 [STG/0] OUT Collecting google-api-core
+   2025-08-02T01:22:20.97+0200 [STG/0] OUT Downloading google_api_core-2.25.1-py3-none-any.whl (160 kB)
+   2025-08-02T01:22:20.98+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 160.8/160.8 kB 21.9 MB/s eta 0:00:00
+   2025-08-02T01:22:21.04+0200 [STG/0] OUT Collecting google-ai-generativelanguage==0.6.15
+   2025-08-02T01:22:21.04+0200 [STG/0] OUT Downloading google_ai_generativelanguage-0.6.15-py3-none-any.whl (1.3 MB)
+   2025-08-02T01:22:21.08+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 43.0 MB/s eta 0:00:00
+   2025-08-02T01:22:21.31+0200 [STG/0] OUT Collecting google-api-python-client
+   2025-08-02T01:22:21.32+0200 [STG/0] OUT Downloading google_api_python_client-2.177.0-py3-none-any.whl (13.7 MB)
+   2025-08-02T01:22:21.61+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.7/13.7 MB 50.3 MB/s eta 0:00:00
+   2025-08-02T01:22:22.43+0200 [STG/0] OUT Collecting protobuf
+   2025-08-02T01:22:22.44+0200 [STG/0] OUT Downloading protobuf-6.31.1-cp39-abi3-manylinux2014_x86_64.whl (321 kB)
+   2025-08-02T01:22:22.45+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 321.1/321.1 kB 35.1 MB/s eta 0:00:00
+   2025-08-02T01:22:22.61+0200 [STG/0] OUT Collecting tqdm
+   2025-08-02T01:22:22.62+0200 [STG/0] OUT Downloading tqdm-4.67.1-py3-none-any.whl (78 kB)
+   2025-08-02T01:22:22.63+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.5/78.5 kB 12.6 MB/s eta 0:00:00
+   2025-08-02T01:22:22.83+0200 [STG/0] OUT Collecting google-auth>=2.15.0
+   2025-08-02T01:22:22.84+0200 [STG/0] OUT Downloading google_auth-2.40.3-py2.py3-none-any.whl (216 kB)
+   2025-08-02T01:22:22.85+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 216.1/216.1 kB 28.4 MB/s eta 0:00:00
+   2025-08-02T01:22:22.92+0200 [STG/0] OUT Collecting typing-extensions
+   2025-08-02T01:22:22.92+0200 [STG/0] OUT Downloading typing_extensions-4.14.1-py3-none-any.whl (43 kB)
+   2025-08-02T01:22:22.93+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 43.9/43.9 kB 6.4 MB/s eta 0:00:00
+   2025-08-02T01:22:23.10+0200 [STG/0] OUT Collecting proto-plus<2.0.0dev,>=1.22.3
+   2025-08-02T01:22:23.10+0200 [STG/0] OUT Downloading proto_plus-1.26.1-py3-none-any.whl (50 kB)
+   2025-08-02T01:22:23.11+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50.2/50.2 kB 6.7 MB/s eta 0:00:00
+   2025-08-02T01:22:23.26+0200 [STG/0] OUT Collecting protobuf
+   2025-08-02T01:22:23.28+0200 [STG/0] OUT Downloading protobuf-5.29.5-cp38-abi3-manylinux2014_x86_64.whl (319 kB)
+   2025-08-02T01:22:23.28+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 319.9/319.9 kB 39.0 MB/s eta 0:00:00
+   2025-08-02T01:22:23.38+0200 [STG/0] OUT Collecting typing-inspection>=0.4.0
+   2025-08-02T01:22:23.38+0200 [STG/0] OUT Downloading typing_inspection-0.4.1-py3-none-any.whl (14 kB)
+   2025-08-02T01:22:23.43+0200 [STG/0] OUT Collecting annotated-types>=0.6.0
+   2025-08-02T01:22:23.44+0200 [STG/0] OUT Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
+   2025-08-02T01:22:26.58+0200 [STG/0] OUT Collecting pydantic-core==2.33.2
+   2025-08-02T01:22:26.60+0200 [STG/0] OUT Downloading pydantic_core-2.33.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.0 MB)
+   2025-08-02T01:22:26.65+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 57.4 MB/s eta 0:00:00
+   2025-08-02T01:22:26.74+0200 [STG/0] OUT Collecting rsa!=4.1.1,!=4.4,<5.0,>=4.0
+   2025-08-02T01:22:26.75+0200 [STG/0] OUT Downloading rsa-4.9.1-py3-none-any.whl (34 kB)
+   2025-08-02T01:22:26.80+0200 [STG/0] OUT Collecting ecdsa!=0.15
+   2025-08-02T01:22:26.81+0200 [STG/0] OUT Downloading ecdsa-0.19.1-py2.py3-none-any.whl (150 kB)
+   2025-08-02T01:22:26.82+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 150.6/150.6 kB 15.3 MB/s eta 0:00:00
+   2025-08-02T01:22:26.89+0200 [STG/0] OUT Collecting pyasn1>=0.5.0
+   2025-08-02T01:22:26.90+0200 [STG/0] OUT Downloading pyasn1-0.6.1-py3-none-any.whl (83 kB)
+   2025-08-02T01:22:26.91+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 83.1/83.1 kB 11.9 MB/s eta 0:00:00
+   2025-08-02T01:22:27.84+0200 [STG/0] OUT Collecting cryptography>=3.4.0
+   2025-08-02T01:22:27.86+0200 [STG/0] OUT Downloading cryptography-45.0.5-cp37-abi3-manylinux_2_34_x86_64.whl (4.4 MB)
+   2025-08-02T01:22:27.94+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 55.2 MB/s eta 0:00:00
+   2025-08-02T01:22:28.02+0200 [STG/0] OUT Collecting idna<4,>=2.5
+   2025-08-02T01:22:28.03+0200 [STG/0] OUT Downloading idna-3.10-py3-none-any.whl (70 kB)
+   2025-08-02T01:22:28.05+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 70.4/70.4 kB 5.6 MB/s eta 0:00:00
+   2025-08-02T01:22:28.11+0200 [STG/0] OUT Collecting certifi>=2017.4.17
+   2025-08-02T01:22:28.12+0200 [STG/0] OUT Downloading certifi-2025.7.14-py3-none-any.whl (162 kB)
+   2025-08-02T01:22:28.14+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 162.7/162.7 kB 13.1 MB/s eta 0:00:00
+   2025-08-02T01:22:28.26+0200 [STG/0] OUT Collecting urllib3<3,>=1.21.1
+   2025-08-02T01:22:28.27+0200 [STG/0] OUT Downloading urllib3-2.5.0-py3-none-any.whl (129 kB)
+   2025-08-02T01:22:28.28+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 129.8/129.8 kB 11.2 MB/s eta 0:00:00
+   2025-08-02T01:22:28.63+0200 [STG/0] OUT Collecting charset_normalizer<4,>=2
+   2025-08-02T01:22:28.64+0200 [STG/0] OUT Downloading charset_normalizer-3.4.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (149 kB)
+   2025-08-02T01:22:28.66+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 149.5/149.5 kB 9.2 MB/s eta 0:00:00
+   2025-08-02T01:22:28.74+0200 [STG/0] OUT Collecting h11>=0.8
+   2025-08-02T01:22:28.75+0200 [STG/0] OUT Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+   2025-08-02T01:22:29.33+0200 [STG/0] OUT Collecting cffi>=1.14
+   2025-08-02T01:22:29.34+0200 [STG/0] OUT Downloading cffi-1.17.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (446 kB)
+   2025-08-02T01:22:29.37+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 446.2/446.2 kB 22.3 MB/s eta 0:00:00
+   2025-08-02T01:22:29.43+0200 [STG/0] OUT Collecting six>=1.9.0
+   2025-08-02T01:22:29.44+0200 [STG/0] OUT Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+   2025-08-02T01:22:29.58+0200 [STG/0] OUT Collecting cachetools<6.0,>=2.0.0
+   2025-08-02T01:22:29.58+0200 [STG/0] OUT Downloading cachetools-5.5.2-py3-none-any.whl (10 kB)
+   2025-08-02T01:22:29.67+0200 [STG/0] OUT Collecting pyasn1-modules>=0.2.1
+   2025-08-02T01:22:29.68+0200 [STG/0] OUT Downloading pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
+   2025-08-02T01:22:29.71+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 181.3/181.3 kB 7.7 MB/s eta 0:00:00
+   2025-08-02T01:22:30.12+0200 [STG/0] OUT Collecting googleapis-common-protos<2.0.0,>=1.56.2
+   2025-08-02T01:22:30.13+0200 [STG/0] OUT Downloading googleapis_common_protos-1.70.0-py3-none-any.whl (294 kB)
+   2025-08-02T01:22:30.15+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 294.5/294.5 kB 20.1 MB/s eta 0:00:00
+   2025-08-02T01:22:30.30+0200 [STG/0] OUT Collecting google-auth-httplib2<1.0.0,>=0.2.0
+   2025-08-02T01:22:30.31+0200 [STG/0] OUT Downloading google_auth_httplib2-0.2.0-py2.py3-none-any.whl (9.3 kB)
+   2025-08-02T01:22:30.37+0200 [STG/0] OUT Collecting httplib2<1.0.0,>=0.19.0
+   2025-08-02T01:22:30.38+0200 [STG/0] OUT Downloading httplib2-0.22.0-py3-none-any.whl (96 kB)
+   2025-08-02T01:22:30.40+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 96.9/96.9 kB 8.6 MB/s eta 0:00:00
+   2025-08-02T01:22:30.51+0200 [STG/0] OUT Collecting uritemplate<5,>=3.0.1
+   2025-08-02T01:22:30.52+0200 [STG/0] OUT Downloading uritemplate-4.2.0-py3-none-any.whl (11 kB)
+   2025-08-02T01:22:30.62+0200 [STG/0] OUT Collecting pycparser
+   2025-08-02T01:22:30.63+0200 [STG/0] OUT Downloading pycparser-2.22-py3-none-any.whl (117 kB)
+   2025-08-02T01:22:30.65+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 117.6/117.6 kB 10.2 MB/s eta 0:00:00
+   2025-08-02T01:22:33.19+0200 [STG/0] OUT Collecting grpcio<2.0.0,>=1.33.2
+   2025-08-02T01:22:33.21+0200 [STG/0] OUT Downloading grpcio-1.74.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (6.2 MB)
+   2025-08-02T01:22:33.33+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.2/6.2 MB 53.2 MB/s eta 0:00:00
+   2025-08-02T01:22:33.63+0200 [STG/0] OUT Collecting grpcio-status<2.0.0,>=1.33.2
+   2025-08-02T01:22:33.64+0200 [STG/0] OUT Downloading grpcio_status-1.74.0-py3-none-any.whl (14 kB)
+   2025-08-02T01:22:33.81+0200 [STG/0] OUT Collecting pyparsing!=3.0.0,!=3.0.1,!=3.0.2,!=3.0.3,<4,>=2.4.2
+   2025-08-02T01:22:33.82+0200 [STG/0] OUT Downloading pyparsing-3.2.3-py3-none-any.whl (111 kB)
+   2025-08-02T01:22:33.83+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 111.1/111.1 kB 9.1 MB/s eta 0:00:00
+   2025-08-02T01:22:34.22+0200 [STG/0] OUT Collecting grpcio-status<2.0.0,>=1.33.2
+   2025-08-02T01:22:34.22+0200 [STG/0] OUT Downloading grpcio_status-1.73.1-py3-none-any.whl (14 kB)
+   2025-08-02T01:22:34.36+0200 [STG/0] OUT Downloading grpcio_status-1.73.0-py3-none-any.whl (14 kB)
+   2025-08-02T01:22:34.42+0200 [STG/0] OUT Downloading grpcio_status-1.72.2-py3-none-any.whl (14 kB)
+   2025-08-02T01:22:34.46+0200 [STG/0] OUT Downloading grpcio_status-1.72.1-py3-none-any.whl (14 kB)
+   2025-08-02T01:22:34.49+0200 [STG/0] OUT Downloading grpcio_status-1.71.2-py3-none-any.whl (14 kB)
+   2025-08-02T01:22:35.09+0200 [STG/0] OUT Installing collected packages: urllib3, uritemplate, typing-extensions, tqdm, six, python-dotenv, pyparsing, pycparser, pyasn1, protobuf, markupsafe, itsdangerous, idna, h11, grpcio, click, charset_normalizer, certifi, cachetools, blinker, annotated-types, werkzeug, uvicorn, typing-inspection, rsa, requests, pydantic-core, pyasn1-modules, proto-plus, jinja2, httplib2, googleapis-common-protos, ecdsa, cffi, python-jose, pydantic, grpcio-status, google-auth, Flask, cryptography, google-auth-httplib2, google-api-core, Flask-Cors, google-api-python-client, google-ai-generativelanguage, google-generativeai
+   2025-08-02T01:22:42.58+0200 [STG/0] OUT Successfully installed Flask-3.1.1 Flask-Cors-6.0.1 annotated-types-0.7.0 blinker-1.9.0 cachetools-5.5.2 certifi-2025.7.14 cffi-1.17.1 charset_normalizer-3.4.2 click-8.2.1 cryptography-45.0.5 ecdsa-0.19.1 google-ai-generativelanguage-0.6.15 google-api-core-2.25.1 google-api-python-client-2.177.0 google-auth-2.40.3 google-auth-httplib2-0.2.0 google-generativeai-0.8.5 googleapis-common-protos-1.70.0 grpcio-1.74.0 grpcio-status-1.71.2 h11-0.16.0 httplib2-0.22.0 idna-3.10 itsdangerous-2.2.0 jinja2-3.1.6 markupsafe-3.0.2 proto-plus-1.26.1 protobuf-5.29.5 pyasn1-0.6.1 pyasn1-modules-0.4.2 pycparser-2.22 pydantic-2.11.7 pydantic-core-2.33.2 pyparsing-3.2.3 python-dotenv-1.1.1 python-jose-3.5.0 requests-2.32.4 rsa-4.9.1 six-1.17.0 tqdm-4.67.1 typing-extensions-4.14.1 typing-inspection-0.4.1 uritemplate-4.2.0 urllib3-2.5.0 uvicorn-0.35.0 werkzeug-3.1.3
+   2025-08-02T01:22:43.91+0200 [STG/0] ERR No start command specified by buildpack or via Procfile.
+   2025-08-02T01:22:43.91+0200 [STG/0] ERR App will not start unless a command is provided at runtime.
+   2025-08-02T01:23:04.48+0200 [STG/0] OUT Exit status 0
+   2025-08-02T01:23:04.48+0200 [STG/0] OUT Uploading droplet, build artifacts cache...
+   2025-08-02T01:23:04.48+0200 [STG/0] OUT Uploading build artifacts cache...
+   2025-08-02T01:23:04.48+0200 [STG/0] OUT Uploading droplet...
+   2025-08-02T01:23:05.19+0200 [STG/0] OUT Uploaded build artifacts cache (34.7M)
+   2025-08-02T01:23:06.32+0200 [API/10] OUT Creating droplet for app with guid 7d674459-d96b-4e4c-8f70-c90035646a2d
+   2025-08-02T01:23:08.42+0200 [STG/0] OUT Uploaded droplet (97.1M)
+   2025-08-02T01:23:08.46+0200 [STG/0] OUT Uploading complete
+   2025-08-02T01:23:09.19+0200 [STG/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 stopping instance 30d57fb3-d267-4245-a3fa-f893e908c1c0
+   2025-08-02T01:23:09.19+0200 [STG/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 destroying container for instance 30d57fb3-d267-4245-a3fa-f893e908c1c0
+   2025-08-02T01:23:10.79+0200 [API/15] OUT Updated app with guid 7d674459-d96b-4e4c-8f70-c90035646a2d ({:droplet_guid=>"7caf7614-7d32-4ec6-807d-78aaae038686"})
+   2025-08-02T01:23:10.87+0200 [API/9] OUT Creating revision for app with guid 7d674459-d96b-4e4c-8f70-c90035646a2d
+   2025-08-02T01:23:10.91+0200 [API/9] OUT Starting app with guid 7d674459-d96b-4e4c-8f70-c90035646a2d
+   2025-08-02T01:23:11.09+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 creating container for instance c1d34208-8cc2-4d4d-5ed5-fb29
+   2025-08-02T01:23:11.37+0200 [STG/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully destroyed container for instance 30d57fb3-d267-4245-a3fa-f893e908c1c0
+   2025-08-02T01:23:11.95+0200 [CELL/0] OUT Security group rules were updated
+   2025-08-02T01:23:12.07+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully created container for instance c1d34208-8cc2-4d4d-5ed5-fb29
+   2025-08-02T01:23:12.93+0200 [CELL/0] OUT Downloading droplet...
+   2025-08-02T01:23:20.09+0200 [CELL/0] OUT Downloaded droplet (97.1M)
+   2025-08-02T01:23:20.09+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-08-02T01:23:20.23+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-08-02T01:23:20.33+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-08-02T01:23:21.53+0200 [APP/PROC/WEB/0] ERR INFO:     Started server process [7]
+   2025-08-02T01:23:21.53+0200 [APP/PROC/WEB/0] ERR INFO:     Waiting for application startup.
+   2025-08-02T01:23:21.53+0200 [APP/PROC/WEB/0] ERR INFO:     ASGI 'lifespan' protocol appears unsupported.
+   2025-08-02T01:23:21.53+0200 [APP/PROC/WEB/0] ERR INFO:     Application startup complete.
+   2025-08-02T01:23:21.53+0200 [APP/PROC/WEB/0] ERR INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+   2025-08-02T01:23:23.55+0200 [CELL/0] OUT Container became healthy
+   2025-08-02T01:23:23.57+0200 [API/2] OUT Process became ready with guid 7d674459-d96b-4e4c-8f70-c90035646a2d payload: {"instance"=>"c1d34208-8cc2-4d4d-5ed5-fb29", "index"=>0, "cell_id"=>"66bf8157-2666-4d64-b2ba-4e673aee0466", "ready"=>true, "version"=>"b5a19a4a-9319-42c2-8526-0ceb7bce90ce"}
