@@ -61,16 +61,22 @@ modules:
   # Python Backend Module (deployed as a standard Cloud Foundry app)
   # ------------------------------------------------------------
   - name: pm-analyzer-backend
-    type: org.cloudfoundry.app # Changed module type to standard Cloud Foundry app
+    type: org.cloudfoundry.app # Module type remains org.cloudfoundry.app
     path: backend # Path to your existing backend directory
     parameters:
-      disk-quota: 512M # Adjust as needed
-      memory: 512M # Adjust as needed
-      buildpack: python_buildpack # Specify the Python buildpack
-      command: uvicorn app.main:app --host 0.0.0.0 --port $PORT # Command to start your app
-      routes: # Define a route for your backend application
-        - route: pm-analyzer-backend-${org}-${space}.cfapps.${region}.hana.ondemand.com # Example route, adjust as needed
-    # Removed 'docker' section as it's not applicable for org.cloudfoundry.app
+      disk-quota: 512M
+      memory: 512M
+      buildpack: python_buildpack
+      command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+      routes:
+        - route: pm-analyzer-backend-${org}-${space}.cfapps.${region}.hana.ondemand.com # Adjust as needed
+    build-parameters: # Added build-parameters section for org.cloudfoundry.app
+      builder: custom
+      commands:
+        - pip install -r requirements.txt # Install Python dependencies during build
+        - echo "Backend build finished." # Simple confirmation
+      requirements:
+        - name: backend/requirements.txt # Reference the requirements file
     requires:
       - name: pm-analyzer-destination # Backend still needs Destination service if it creates destinations
 
