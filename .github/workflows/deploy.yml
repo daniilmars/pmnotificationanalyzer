@@ -28,12 +28,13 @@ jobs:
           cf version
 
       - name: Install MTA Build Tool (MBT)
-        run: npm install -g mbt # Install the Multi-Target Application Build Tool globally
+        # Explicitly install a specific version of MBT to avoid potential bugs in latest
+        run: npm install -g mbt@1.2.0 # Trying a specific version
+        # If 1.2.0 also fails, you might try other versions like 1.1.0 or 1.2.33
 
       # --- Docker Build and Push Steps ---
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3 # This action sets up the Buildx builder
-        # No configuration needed here, it defaults to a suitable driver
 
       - name: Log in to Docker Hub
         uses: docker/login-action@v3
@@ -54,7 +55,7 @@ jobs:
       # --- Cloud Foundry Deployment Steps ---
       - name: Login to Cloud Foundry
         run: |
-          echo "Attempting CF login with API endpoint: $CF_API_ENDPOINT" # Debugging line
+          echo "Attempting CF login with API endpoint: $CF_API_ENDPOINT"
           cf api $CF_API_ENDPOINT
           cf auth "$CF_USERNAME" "$CF_PASSWORD"
           cf target -o "$CF_ORG" -s "$CF_SPACE"
@@ -63,7 +64,7 @@ jobs:
           CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
           CF_ORG: ${{ secrets.CF_ORG }}
           CF_SPACE: ${{ secrets.CF_SPACE }}
-          CF_API_ENDPOINT: ${{ secrets.CF_API_ENDPOINT }} # Ensure this secret is set in GitHub
+          CF_API_ENDPOINT: ${{ secrets.CF_API_ENDPOINT }}
 
       - name: Build MTA Archive
         run: mbt build -p=cf --mtar archive
