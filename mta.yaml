@@ -9,7 +9,7 @@ modules:
   # ------------------------------------------------------------
   - name: pm-analyzer-approuter
     type: approuter.nodejs
-    path: approuter # This directory will contain the approuter configuration
+    path: approuter
     parameters:
       disk-quota: 256M
       memory: 256M
@@ -17,8 +17,10 @@ modules:
       - name: pm-analyzer-html5-repo-host
       - name: pm-analyzer-uaa
       - name: pm-analyzer-destination
+      # The App Router needs to know the backend URL, so it requires the backend module
+      - name: pm-analyzer-backend # Approuter requires the backend module directly
         properties:
-          # Corrected: Get URL directly from the backend module
+          # Reference the URL provided by the backend module
           backend_url: ~{pm-analyzer-backend/url}
 
   # ------------------------------------------------------------
@@ -26,25 +28,23 @@ modules:
   # ------------------------------------------------------------
   - name: pm-analyzer-fiori
     type: html5
-    path: pm-analyzer-fiori # Path to your existing Fiori app directory
+    path: pm-analyzer-fiori
     build-parameters:
       build-result: dist
       builder: custom
       commands:
         - npm install
-        - npm run build:cf # Ensure this script exists in pm-analyzer-fiori/package.json
+        - npm run build:cf
       supported-platforms: []
     properties:
-      # This property makes the build output available for the HTML5 App Host
-      # The 'target-path' should match the 'path' in the app-content module's requires section
-      SAP_UI5_VERSION: 1.120.1 # Specify your UI5 version or remove for latest
+      SAP_UI5_VERSION: 1.120.1
     requires:
-      - name: pm-analyzer-uaa # Required for local UI5 tooling (mock server, etc.)
+      - name: pm-analyzer-uaa
       - name: pm-analyzer-html5-repo-host
         parameters:
           content-target: true
     provides:
-      - name: pm-analyzer-fiori-content # Used by the app-content module
+      - name: pm-analyzer-fiori-content
 
   # ------------------------------------------------------------
   # Fiori App Content Deployer Module (deploys UI to HTML5 Repo)
@@ -60,7 +60,7 @@ modules:
       build-result: resources
       requires:
         - artifacts:
-            - pm-analyzer-fiori.zip # Name of the archive created by the Fiori build
+            - pm-analyzer-fiori.zip
           name: pm-analyzer-fiori
           target-path: resources/
 
@@ -68,23 +68,26 @@ modules:
   # Python Backend Module (deployed as a Docker image)
   # ------------------------------------------------------------
   - name: pm-analyzer-backend
-    type: com.sap.cloud.container.docker # Use this type for Docker-based applications
-    path: backend # Path to your existing backend directory
+    type: com.sap.cloud.container.docker
+    path: backend
     parameters:
-      disk-quota: 512M # Adjust as needed
-      memory: 512M # Adjust as needed
+      disk-quota: 512M
+      memory: 512M
       docker:
-        # IMPORTANT: This image tag MUST match the one pushed by your GitHub Actions workflow.
-        # It uses the DOCKER_USERNAME secret from GitHub to form the full image name.
         image: ${{ secrets.DOCKER_USERNAME }}/pm-analyzer-backend:latest
+    # Explicitly provide the URL property for other modules to consume
+    provides:
+      - name: backend_url_property # This name is arbitrary, but must be consistent
+        properties:
+          url: "${{self.url}}" # 'self.url' exposes the module's own URL
     requires:
-      - name: pm-analyzer-uaa # Backend needs XSUAA for token validation
+      - name: pm-analyzer-uaa
         properties:
-          # Corrected: Get credentials directly from the XSUAA resource
+          # Reference the credentials from the XSUAA resource
           xsuaa_credentials: ~{pm-analyzer-uaa/credentials}
-      - name: pm-analyzer-destination # Backend might need to create destinations (optional)
+      - name: pm-analyzer-destination
         properties:
-          # Corrected: Get credentials directly from the destination resource
+          # Reference the credentials from the Destination resource
           destination_credentials: ~{pm-analyzer-destination/credentials}
 
 
@@ -97,7 +100,7 @@ resources:
     parameters:
       service: xsuaa
       service-plan: application
-      path: ./pm-analyzer-fiori/xs-security.json # Path to your xs-security.json
+      path: ./pm-analyzer-fiori/xs-security.json
 
   # ------------------------------------------------------------
   # HTML5 Application Repository Service (to host UI5 app)
@@ -115,4 +118,4 @@ resources:
     type: org.cloudfoundry.managed-service
     parameters:
       service: destination
-      service-plan: lite # Or 'standard' depending on requirements
+      service-plan: lite
