@@ -20,3 +20,13 @@ builder:
         relativePaths: true
         additionalFiles:
           - xs-app.json
+    # Add an explicit minify task configuration to exclude the Auth0 SDK
+    - name: minify
+      afterTask: replaceCopyright # This task typically runs after copyright replacement
+      configuration:
+        # Exclude the Auth0 SDK from minification.
+        # The path here is relative to the webapp folder, so '**/auth0-spa-js.production.js'
+        # will match it wherever it might be included in the build output.
+        excludes:
+          - "**/auth0-spa-js.production.js"
+          - "**/auth0-spa-js.js" # Also exclude the non-production version just in case
