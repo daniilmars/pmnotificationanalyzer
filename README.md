@@ -3,11 +3,14 @@ This project is a full-stack application designed to analyze the quality of Plan
 
 Project Structure
 .
-├── backend/         # Python Flask Backend
+├── approuter/         # Node.js App Router (serves UI, proxies to backend)
+├── backend/           # Python Flask Backend
 └── pm-analyzer-fiori/ # SAP Fiori Frontend
 
 Application Overview
-The PM Notification Quality Assistant aims to proactively enhance the quality of Plant Maintenance notifications, particularly in highly regulated environments like pharmaceutical production. By leveraging Artificial Intelligence, the application identifies deficiencies in documentation, provides actionable insights, and supports a continuous improvement process (KVP). It's designed for a range of users, from maintenance technicians and quality managers to GMP auditors, ensuring that maintenance records are audit-proof and compliant with stringent data integrity principles (ALCOA+).
+The PM Notification Quality Assistant aims to proactively enhance the quality of Plant Maintenance notifications, particularly in highly regulated environments like pharmaceutical production. By leveraging Artificial Intelligence, the application identifies deficiencies in documentation, provides actionable insights, and supports a continuous improvement process (KVP). It's designed for a range of users, ensuring that maintenance records are audit-proof and compliant with stringent data integrity principles (ALCOA+).
+
+Note: This version of the application has authentication completely removed for simplified deployment and demonstration purposes.
 
 Key Features
 AI-Powered Quality Analysis: Automated evaluation of maintenance notification texts based on Good Manufacturing Practice (GMP) and ALCOA+ principles.
@@ -20,8 +23,6 @@ Summarized Expert Assessment: A concise summary explains the AI's findings and r
 
 Multi-language Support: The application supports analysis in both English and German, with the ability to switch languages in the frontend.
 
-User Authentication: Secure access to the application and its analysis capabilities via Auth0.
-
 Notification Management: View, filter, and search through a list of PM notifications.
 
 Detailed Notification View: Access comprehensive details of individual notifications and trigger on-demand AI analysis.
@@ -29,100 +30,99 @@ Detailed Notification View: Access comprehensive details of individual notificat
 Visual Score Indicator: A clear visual indicator (progress bar with color coding) provides immediate feedback on the notification's quality score.
 
 Architecture Deep Dive
-The application follows a client-server architecture, with a distinct separation between the backend and frontend components.
+The application follows a client-server architecture, with a distinct separation between the backend and frontend components, deployed as a Multi-Target Application (MTA) on SAP Business Technology Platform (BTP) Cloud Foundry.
 
 Backend (Python/Flask)
 
-The backend is a lightweight Flask application responsible for handling API requests, authenticating users, and performing the core AI-driven text analysis.
+The backend is a lightweight Flask application responsible for handling API requests and performing the core AI-driven text analysis.
 
-main.py: The central Flask application file. It defines API routes (/health for status checks and /api/analyze for text analysis), handles incoming requests, and orchestrates calls to other services. It includes robust error handling and integrates the authentication decorator.
+Deployment Type: Deployed as a standard Cloud Foundry application (org.cloudfoundry.app type within the MTA).
 
-app/services/analysis_service.py: This is where the AI magic happens. It integrates with the Google Gemini API (gemini-1.5-flash-latest) to analyze the input text. It uses a meticulously crafted prompt that instructs the AI to act as a GMP auditor, applying a predefined scoring matrix based on GMP and ALCOA+ principles. It also parses the AI's raw text response into a structured format.
+main.py: The central Flask application file. It defines API routes (/health and /api/analyze), handles incoming requests, and orchestrates calls to the AI service. Authentication middleware has been removed.
 
-app/auth.py: Implements the authentication logic. It uses the python-jose library to validate JSON Web Tokens (JWTs) received from the frontend against Auth0's public keys (JWKS). It includes caching for JWKS to optimize performance and ensures secure access to protected API endpoints via the @token_required decorator.
+app/services/analysis_service.py: Integrates with the Google Gemini API (gemini-1.5-flash-latest) for text analysis using a detailed prompt.
 
-app/models.py: Defines Pydantic BaseModel classes for AnalysisRequest (input payload for analysis) and AnalysisResponse (structured output from the analysis service), ensuring clear data contracts and validation.
+app/models.py: Defines Pydantic data models (AnalysisRequest, AnalysisResponse).
 
-Technology Stack: Flask, Pydantic, python-jose, Google Gemini API, dotenv for environment variable management.
+app/auth.py: Placeholder file; authentication logic has been removed.
+
+Dockerfile: Used for local Docker-based development/testing, but not for the BTP Cloud Foundry deployment (which uses a buildpack).
+
+requirements.txt: Lists Python dependencies, including uvicorn for serving the Flask app.
+
+manifest.yml: Defines the Cloud Foundry application properties (buildpack, command, memory, disk, and fixed route).
+
+Technology Stack: Flask, Pydantic, Google Gemini API, uvicorn.
 
 Frontend (SAP Fiori/UI5)
 
 The frontend is an SAP Fiori application built with SAP UI5, providing an intuitive and enterprise-grade user interface.
 
-webapp/controller/App.controller.js: The main application controller, typically used for global initialization logic.
+Deployment Type: The UI5 application's static content is embedded directly within the App Router's build artifact and served by the App Router itself. This bypasses the HTML5 Application Repository runtime service for the UI content.
 
-webapp/controller/BaseController.js: A base controller providing common utility functions, such as getRouter, for other controllers to extend.
+App Router (approuter/): A Node.js application that acts as the single entry point. It serves the static Fiori UI content and proxies API calls to the backend via the Destination service. Authentication is completely disabled.
 
-webapp/controller/Login.controller.js: Manages the login process. It uses the Auth0 client to initiate a login redirect, ensuring users are authenticated before accessing the application's features.
+xs-app.json: Configures routing rules. It now includes a localDir route to serve the Fiori app's content directly from its embedded location (resources/pm-analyzer-fiori) and continues to proxy /api calls to the backend.
 
-webapp/controller/Worklist.controller.js: Controls the main list view of PM notifications. It populates filter options (creators, types, locations, equipment) dynamically from the loaded data. It handles filtering and searching of notifications and manages language changes. It also handles navigation to the detailed Object view.
+UI5 Application (pm-analyzer-fiori/webapp/):
 
-webapp/controller/Object.controller.js: Manages the detailed view of a single PM notification. It collects relevant text fields (description, long text, activities) and sends them to the backend's /api/analyze endpoint for AI analysis, including the selected language. It then displays the structured analysis results (score, problems, summary) and updates a visual progress indicator based on the score.
+index.html: The main entry point for the UI5 application; Auth0 script removed.
 
-webapp/view/Login.view.xml: Defines the user interface for the login page, featuring a prominent login button.
+Component.js: Core UI5 component definition; Auth0 initialization and authentication logic removed.
 
-webapp/view/Worklist.view.xml: Lays out the worklist page, including a header with user information, logout button, and language selector. It contains a filter bar with various input controls (SearchField, ComboBoxes) and a List control to display PM notifications using ObjectListItems.
+Controllers (controller/): Handle UI logic and backend calls. All authentication-related logic (login/logout, token fetching) has been removed.
 
-webapp/view/Object.view.xml: Designs the detailed notification view. It uses SimpleForm to display notification attributes and TextArea for inputting long text and activities. It includes an "Analyze" button and a Panel to show the AI analysis results, complete with a ProgressIndicator for the score, a List for identified problems, and a Text control for the summary.
+Views (view/): Define UI layout; authentication-related UI elements removed.
 
-Technology Stack: SAP UI5, Auth0 SDK (implicitly used via Component.js), Fetch API for backend communication, sap.m and sap.ui.layout libraries for UI controls.
+manifest.json: UI5 application descriptor. Updated to reflect no authentication and correct data source URLs.
 
-User Interface (UI) Walkthrough
-The application provides a streamlined user experience across its different views:
+ui5.yaml: UI5 tooling configuration. Configured to exclude auth0-spa-js.production.js from minification during generateComponentPreload.
 
-Login Page:
+ui5-deploy.yaml: UI5 deployment configuration for the build process.
 
-A clean, centered page with a welcoming title and an introductory text.
+package.json: Defines Node.js dependencies and build scripts. The build:cf script now builds the Fiori app and a postbuild:cf script copies the output into the App Router's directory.
 
-A single, emphasized "Login" button (sap-icon://log) to initiate the authentication flow.
+Technology Stack: SAP UI5, Node.js App Router, Fetch API.
 
-Worklist Page:
+SAP BTP Deployment Strategy (CI/CD with GitHub Actions)
 
-Header: Displays the authenticated user's name, a "Logout" button, and a language selection dropdown (English/Deutsch).
+The application is deployed to SAP BTP Cloud Foundry using a GitHub Actions workflow.
 
-Filter Bar: A powerful tool for narrowing down the list of notifications. Users can:
+mta.yaml (Project Root): The central Multi-Target Application descriptor.
 
-Search for keywords in the "Short Text" of notifications.
+Defines pm-analyzer-approuter (App Router), pm-analyzer-fiori (Fiori UI content module), and pm-analyzer-fiori-app-content (content deployer for HTML5 App Repo).
 
-Filter by "Notification Type" (e.g., M1, M2).
+Backend as existing-service: The pm-analyzer-backend is declared as an org.cloudfoundry.existing-service resource. This means the backend application is pushed separately by cf push in the workflow.
 
-Filter by "Created By" user.
+UI as Embedded Content: The pm-analyzer-fiori module (type com.sap.application.content) is built directly into the App Router's artifact (target-path: resources/pm-analyzer-fiori), bypassing the HTML5 App Repo runtime service for the UI content.
 
-Filter by "Functional Location".
+Service Requirements: App Router requires pm-analyzer-destination and pm-analyzer-html5-repo-host.
 
-Filter by "Equipment".
+.github/workflows/deploy.yml: GitHub Actions workflow orchestrates the deployment.
 
-"Restore" and "Clear" buttons are available for filter management.
+Prerequisites: Installs Node.js, CF CLI, multiapps plugin, jq, and mbt.
 
-Notification List: Displays PM notifications as ObjectListItems, showing:
+Backend Deployment:
 
-Notification ID and Description as the title.
+Deletes any existing pm-analyzer-backend application for a clean push.
 
-Attributes like Functional Location, Equipment, Type, Created By, and Creation Date.
+Pushes the pm-analyzer-backend application using cf push -f manifest.yml --no-route --no-start (route defined in backend/manifest.yml).
 
-Interaction: Tapping on any notification item navigates the user to the detailed "Object" view.
+Starts the pm-analyzer-backend application using cf start.
 
-Object Detail Page:
+MTA Deployment:
 
-Header: Features a dynamic title that includes the Notification ID and a "Back" button to return to the Worklist.
+Builds the MTA archive (.mtar) using mbt build.
 
-Notification Details: Presents all relevant information about the selected notification in a clear, readable form, including:
+Moves the generated .mtar file to the correct location for cf deploy.
 
-Description, Functional Location, Equipment.
+Deploys the MTA using cf deploy. This step creates/updates the App Router and deploys the Fiori UI content.
 
-Notification Type and the user who created it.
+Route Management: The backend uses a fixed route defined in backend/manifest.yml. The App Router's route is automatically generated by BTP.
 
-"Long Text" and "Activities" are displayed in text areas, allowing for easy review.
+Manual Post-Deployment Steps:
 
-Analyze Button: A prominent "Analyze" button (sap-icon://activate) triggers the AI analysis of the notification's content.
-
-Analysis Results Panel: This section becomes visible after the analysis is performed. It's an expandable panel that shows:
-
-Score: A ProgressIndicator visually represents the quality score (e.g., "95/100"). The indicator's color dynamically changes to green (Success), yellow (Warning), or red (Error) based on the score, providing immediate visual feedback.
-
-Problems: A list of specific issues identified by the AI in the notification text.
-
-Summary: A concise textual summary of the AI's overall assessment.
+Backend Destination: After successful deployment, you will need to manually create a Destination in your SAP BTP subaccount named pm-analyzer-backend. This destination should point to the URL of your deployed pm-analyzer-backend application (e.g., https://pm-analyzer-backend-dev.cfapps.<your-region>.hana.ondemand.com). This is how your App Router will find the backend.
 
 Quick Start: Running the Application Locally
 You will need two separate terminal windows to run both the backend and frontend servers simultaneously.
@@ -133,11 +133,7 @@ Node.js (LTS version recommended)
 
 Python 3.8+
 
-A .env file in the backend/ directory containing the following keys:
-
-GOOGLE_API_KEY (for the analysis service)
-
-AUTH0_DOMAIN and API_AUDIENCE (from your Auth0 API settings)
+A .env file in the backend/ directory containing GOOGLE_API_KEY for the analysis service.
 
 1. Start the Backend Server
 
@@ -161,7 +157,7 @@ pip install -r requirements.txt
 # 4. Run the backend server
 python3 -m app.main
 
-The backend will now be running on http://localhost:5000.
+The backend will now be running on http://localhost:5001 (or the port specified in your .env).
 
 2. Start the Frontend Application
 
@@ -174,131 +170,8 @@ cd pm-analyzer-fiori/
 npm install
 
 # 3. Start the frontend server
-npx fiori run --open
+# This will use ui5.yaml to proxy API requests to your local backend.
+npx fiori run --open 'test/flpSandbox.html?sap-ui-xx-viewCache=false'
 
 This command starts a local server and automatically opens your Fiori application in a web browser. The server is pre-configured in ui5.yaml to proxy API requests to your local backend.
-
-
-Recommended Project Structure for SAP BTP Deployment
-For deployment to SAP BTP as a Multi-Target Application (MTA), your project should be organized to clearly separate the different components (frontend, backend) and their respective build artifacts. The mta.yaml file at the project root acts as the blueprint for how these components are assembled and deployed.
-
-.
-├── .github/                     # GitHub Actions workflows for CI/CD
-│   └── workflows/
-│       └── deploy.yml           # Workflow for building and deploying to BTP
-├── backend/                     # Python Flask Backend Module
-│   ├── app/                     # Flask application source code
-│   │   ├── auth.py              # Authentication logic
-│   │   ├── main.py              # Main Flask app, API routes
-│   │   ├── models.py            # Pydantic data models
-│   │   └── services/            # Business logic, e.g., analysis_service.py
-│   │       └── analysis_service.py
-│   ├── Dockerfile               # Dockerfile for containerizing the backend
-│   ├── requirements.txt         # Python dependencies
-│   ├── run.py                   # Entry point script (optional, can be in Dockerfile)
-│   ├── scripts/                 # Utility scripts (e.g., test data generation)
-│   │   ├── __init__.py
-│   │   ├── generate_test_data.py
-│   │   └── local_test.py
-│   └── tests/                   # Unit/integration tests for backend
-│       ├── __init__.py
-│       └── services/
-├── pm-analyzer-fiori/           # SAP Fiori/UI5 Frontend Module
-│   ├── webapp/                  # UI5 application source code
-│   │   ├── Component.js         # UI5 component definition
-│   │   ├── config.json          # Frontend configuration
-│   │   ├── controller/          # UI5 controllers
-│   │   │   ├── App.controller.js
-│   │   │   ├── BaseController.js
-│   │   │   ├── Login.controller.js
-│   │   │   ├── Object.controller.js
-│   │   │   ├── View1.controller.js
-│   │   │   └── Worklist.controller.js
-│   │   ├── css/                 # Custom CSS files
-│   │   ├── i18n/                # Internationalization (i18n) resource bundles
-│   │   │   ├── i18n.properties
-│   │   │   ├── i18n_de.properties
-│   │   │   └── i18n_en.properties
-│   │   ├── index.html           # Main HTML entry point for local development
-│   │   ├── libs/                # External UI5 libraries (if any)
-│   │   ├── localService/        # Local mock data/services for UI5 development
-│   │   │   └── mockdata.json
-│   │   ├── manifest.json        # UI5 application descriptor
-│   │   ├── mock_data_de.json    # Localized mock data for frontend
-│   │   ├── mock_data_en.json    # Localized mock data for frontend
-│   │   ├── model/               # UI5 models (e.g., formatter.js)
-│   │   │   └── formatter.js
-│   │   └── view/                # UI5 views (XML)
-│   │       ├── App.view.xml
-│   │       ├── Login.view.xml
-│   │       ├── Object.view.xml
-│   │       ├── View1.view.xml
-│   │       └── Worklist.view.xml
-│   ├── mta.yaml                 # MTA descriptor for the Fiori app (will be merged into root mta.yaml)
-│   ├── package.json             # Node.js dependencies for UI5 build
-│   ├── package-lock.json        # Locked Node.js dependencies
-│   ├── README.md                # Frontend specific README (optional)
-│   ├── ui5-deploy.yaml           # UI5 deployment configuration
-│   ├── ui5-local.yaml           # UI5 local development configuration
-│   ├── ui5-mock.yaml            # UI5 mock server configuration
-│   ├── ui5.yaml                 # UI5 tooling configuration
-│   ├── xs-app.json              # App Router configuration
-│   └── xs-security.json         # XSUAA security descriptor for the frontend
-├── .gitignore                   # Specifies intentionally untracked files
-├── mta.yaml                     # **Main Multi-Target Application (MTA) descriptor**
-├── project_structure.txt        # (Your temporary file)
-├── README.md                    # Overall project README
-└── venv/                        # Python virtual environment (ignored by Git)
-
-Key Principles and Best Practices
-
-Single MTA Project (mta.yaml at Root):
-
-The most critical file for BTP deployment is the mta.yaml at the project root. This file defines all the modules (your Fiori app, your Python backend, and any required services like XSUAA, Destination, HTML5 Application Repository).
-
-It specifies how each module is built, what resources it consumes, and how they relate to each other.
-
-Your current mta.yaml is inside pm-analyzer-fiori/. For a multi-module MTA, it's best practice to have the main mta.yaml at the project root (.) and then reference the sub-modules. The pm-analyzer-fiori/mta.yaml can be used for local fiori run commands or as a sub-descriptor that gets merged by the main one. However, for CI/CD, a single root mta.yaml is cleaner.
-
-Modularization:
-
-Each distinct part of your application (frontend, backend) should reside in its own top-level directory (e.g., pm-analyzer-fiori/, backend/).
-
-This promotes clear separation of concerns, independent development, and easier management.
-
-Frontend (SAP Fiori/UI5) Best Practices:
-
-webapp/: This is the standard directory for UI5 application source code. All UI5-specific files (views, controllers, models, i18n, manifest.json) belong here.
-
-manifest.json: The application descriptor. It defines the app's metadata, dependencies, routing, and data sources. Crucially, it will define the backend service as a dataSource and reference the xsuaa and destination services.
-
-xs-app.json: Used by the App Router (a BTP service) to define routing rules, including forwarding API calls to your backend service.
-
-xs-security.json: Defines the security configuration for your XSUAA service, including scopes and role templates.
-
-ui5.yaml files: These are for UI5 tooling (local development, mock server, build). They are essential for local development but usually not directly part of the deployed artifact (their build output is).
-
-Build Process: The mta.yaml will define an html5 module type that uses npm install and npm run build:cf (or similar) to create the deployable dist folder.
-
-Backend (Python/Flask) Best Practices:
-
-Dockerfile: Essential for containerizing your Python application. This allows it to be deployed as a Cloud Foundry docker application type. The Dockerfile should specify the base image, install dependencies, copy your application code, and define the command to run your Flask app.
-
-requirements.txt: Lists all Python dependencies. This is used by the Dockerfile to install packages.
-
-app/ directory: Contains your core Flask application code, separated into logical modules (auth, models, services).
-
-Environment Variables: Ensure sensitive information (like GOOGLE_API_KEY, AUTH0_DOMAIN, API_AUDIENCE) is read from environment variables (e.g., using python-dotenv locally) and managed as service bindings or user-provided variables in BTP.
-
-No Hardcoding: Avoid hardcoding URLs or credentials. Use relative paths or environment variables for service discovery in BTP.
-
-Service Bindings and Resources in mta.yaml:
-
-xsuaa: Your frontend will bind to an XSUAA service for authentication and authorization.
-
-destination: If your frontend needs to call external services (like your backend, if it's deployed separately or needs dynamic routing), a Destination service can be used.
-
-app-router: The SAP HTML5 Application Repository service typically requires an App Router to serve your UI5 application and handle authentication and routing to backend services.
-
-Backend as a Service: Your Python backend will be defined as a backend module in mta.yaml, likely of type com.sap.xs.hdi-container or org.cloudfoundry.user-provided-service if you manage the database externally. For a simple Flask app, org.cloudfoundry.app or com.sap.xs.nodejs (if using a Node.js buildpack) or a custom buildpack/docker image is used. In your case, a docker type for the backend is appropriate.
 

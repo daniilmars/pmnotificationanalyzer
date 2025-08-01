@@ -68,10 +68,9 @@ resources:
   # HTML5 Application Repository Service (to host UI5 app)
   # ------------------------------------------------------------
   - name: pm-analyzer-html5-repo-host
-    type: org.cloudfoundry.managed-service
+    type: org.cloudfoundry.existing-service # Change type to existing-service
     parameters:
-      service: html5-apps-repo
-      service-plan: app-host
+      service-name: pm-analyzer-html5-repo-credentials
 
   # ------------------------------------------------------------
   # Destination Service (to manage backend connectivity for App Router)
