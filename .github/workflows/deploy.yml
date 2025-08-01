@@ -34,6 +34,9 @@ jobs:
           # Verify plugin installation
           cf plugins
 
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq # Install jq for JSON parsing
+
       - name: Install MTA Build Tool (MBT)
         run: npm install -g mbt@1.2.0
 
@@ -49,7 +52,7 @@ jobs:
           CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
           CF_ORG: ${{ secrets.CF_ORG }}
           CF_SPACE: ${{ secrets.CF_SPACE }}
-          CF_API_ENDPOINT: ${{ secrets.CF_API_ENDPOINT }} # Corrected secret name
+          CF_API_ENDPOINT: ${{ secrets.CF_API_ENDPOINT }}
 
       - name: Delete Existing Backend Application (if any)
         run: cf delete -f pm-analyzer-backend || true # Delete if exists, '|| true' prevents step from failing if app doesn't exist
@@ -99,38 +102,11 @@ jobs:
       - name: Create HTML5 Repo Credentials UPS
         run: |
           # Get the HTML5 App Repo service key output in plain text
-          # We expect output like:
-          # Getting service key html5-repo-key for service instance pm-analyzer-html5-repo-host as ...
-          # {
-          #  "clientid": "...",
-          #  "clientsecret": "...",
-          #  "uri": "...",
-          #  "uaa": {
-          #    "clientid": "...",
-          #    "clientsecret": "...",
-          #    "url": "...",
-          #    "certurl": "...",
-          #    "identityzone": "...",
-          #    "sburl": "..."
-          #  }
-          # }
-          SERVICE_KEY_OUTPUT=$(cf service-key pm-analyzer-html5-repo-host html5-repo-key | tail -n +2) # Skip header line
+          SERVICE_KEY_OUTPUT=$(cf service-key pm-analyzer-html5-repo-host html5-repo-key | tail -n +2)
 
-          # Extract credentials manually using sed for robustness
-          CLIENT_ID=$(echo "$SERVICE_KEY_OUTPUT" | sed -n 's/.*"clientid": "\(.*\)".*/\1/p')
-          CLIENT_SECRET=$(echo "$SERVICE_KEY_OUTPUT" | sed -n 's/.*"clientsecret": "\(.*\)".*/\1/p')
-          URI=$(echo "$SERVICE_KEY_OUTPUT" | sed -n 's/.*"uri": "\(.*\)".*/\1/p')
-          UAA_URL=$(echo "$SERVICE_KEY_OUTPUT" | sed -n 's/.*"url": "\(.*\)".*/\1/p')
-          UAA_CLIENTID=$(echo "$SERVICE_KEY_OUTPUT" | sed -n 's/.*"uaa.clientid": "\(.*\)".*/\1/p')
-          UAA_CLIENTSECRET=$(echo "$SERVICE_KEY_OUTPUT" | sed -n 's/.*"uaa.clientsecret": "\(.*\)".*/\1/p')
-          UAA_CERTURL=$(echo "$SERVICE_KEY_OUTPUT" | sed -n 's/.*"certurl": "\(.*\)".*/\1/p')
-          UAA_IDENTITYZONE=$(echo "$SERVICE_KEY_OUTPUT" | sed -n 's/.*"identityzone": "\(.*\)".*/\1/p')
-          UAA_SBURL=$(echo "$SERVICE_KEY_OUTPUT" | sed -n 's/.*"sburl": "\(.*\)".*/\1/p')
-
-
-          # Construct the JSON payload for the User-Provided Service
-          # Ensure all extracted values are correctly quoted and escaped for JSON
-          CREDENTIALS_JSON="{ \\\"clientid\\\": \\\"${CLIENT_ID}\\\", \\\"clientsecret\\\": \\\"${CLIENT_SECRET}\\\", \\\"uri\\\": \\\"${URI}\\\", \\\"uaa\\\": { \\\"clientid\\\": \\\"${UAA_CLIENTID}\\\", \\\"clientsecret\\\": \\\"${UAA_CLIENTSECRET}\\\", \\\"certurl\\\": \\\"${UAA_CERTURL}\\\", \\\"identityzone\\\": \\\"${UAA_IDENTITYZONE}\\\", \\\"sburl\\\": \\\"${UAA_SBURL}\\\", \\\"url\\\": \\\"${UAA_URL}\\\" }, \\\"grant_type\\\": \\\"client_credentials\\\" }"
+          # Add the "grant_type" property to the JSON string.
+          # This uses 'jq' to add the property, as it's the most reliable way to manipulate JSON.
+          CREDENTIALS_JSON=$(echo "$SERVICE_KEY_OUTPUT" | jq '. + {grant_type: "client_credentials"}')
 
           echo "Attempting to create UPS with JSON: $CREDENTIALS_JSON"
           cf create-user-provided-service pm-analyzer-html5-repo-credentials -p "$CREDENTIALS_JSON"
