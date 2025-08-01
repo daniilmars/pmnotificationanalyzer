@@ -21,21 +21,8 @@ sap.ui.define([
             // and is available automatically in this view.
         },
  
-        onLogin: async function () {
-            const oComponent = this.getOwnerComponent();
-            const auth0Client = await oComponent.getAuth0Client();
-            await auth0Client.loginWithRedirect();
-        },
- 
-        onLogout: async function () {
-            const oComponent = this.getOwnerComponent();
-            const auth0Client = await oComponent.getAuth0Client();
-            auth0Client.logout({
-                logoutParams: {
-                    returnTo: window.location.origin + window.location.pathname
-                }
-            });
-        },
+        // Removed onLogin as login is no longer required
+        // Removed onLogout as logout is no longer required
  
         onAnalyzePress: async function () {
             const oComponent = this.getOwnerComponent();
@@ -52,8 +39,8 @@ sap.ui.define([
             oAnalysisModel.setProperty("/resultsVisible", false);
  
             try {
-                const auth0Client = await oComponent.getAuth0Client();
-                const response = await this._callAnalysisApi(sTextToAnalyze, auth0Client);
+                // No auth0Client needed anymore
+                const response = await this._callAnalysisApi(sTextToAnalyze);
  
                 const { score, problems, summary } = await response.json();
                 oAnalysisModel.setProperty("/score", score);
@@ -64,13 +51,7 @@ sap.ui.define([
                 this._updateScoreIndicator(score);
  
             } catch (error) {
-                if (error.error === 'login_required' || error.error === 'consent_required') {
-                    // If login is required, redirect the user and stop further execution.
-                    const auth0Client = await oComponent.getAuth0Client();
-                    await auth0Client.loginWithRedirect();
-                    return;
-                }
-                // For all other types of errors, display a message to the user.
+                // Removed specific error handling for login_required/consent_required
                 MessageBox.error(error.message);
             } finally {
                 oAnalysisModel.setProperty("/busy", false);
@@ -80,18 +61,16 @@ sap.ui.define([
         /**
          * Calls the backend API to analyze the text.
          * @param {string} sText The text to analyze.
-         * @param {object} auth0Client The initialized Auth0 client instance.
          * @returns {Promise<Response>} A promise that resolves with the fetch response.
          * @private
          */
-        _callAnalysisApi: async function(sText, auth0Client) {
-            const accessToken = await auth0Client.getTokenSilently();
- 
+        _callAnalysisApi: async function(sText) {
+            // No accessToken needed anymore
             const response = await fetch("/api/analyze", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${accessToken}`
+                    "Content-Type": "application/json"
+                    // Removed Authorization header as no authentication is needed
                 },
                 body: JSON.stringify({ text: sText })
             });
@@ -99,15 +78,11 @@ sap.ui.define([
             if (!response.ok) {
                 let errorMessage = `Server error: ${response.status} ${response.statusText}`;
                 try {
-                    // Try to parse a structured error from the backend
                     const errorData = await response.json();
                     if (errorData.error && errorData.error.message) {
                         errorMessage = errorData.error.message;
                     }
                 } catch (e) {
-                    // This catch block handles the "Unexpected end of JSON input" error
-                    // if the response body is empty or not valid JSON.
-                    // We will proceed with the generic server error message.
                     console.error("Could not parse error response as JSON.", e);
                 }
                 throw new Error(errorMessage);
@@ -121,8 +96,6 @@ sap.ui.define([
          */
         _updateScoreIndicator: function(score) {
             const oScoreIndicator = this.getView().byId("scoreIndicator");
-            // The percentValue and displayValue are already bound to the model.
-            // We only need to set the color state.
             if (score >= 90) {
                 oScoreIndicator.setState(sap.ui.core.ValueState.Success); // Green
             } else if (score >= 70) {

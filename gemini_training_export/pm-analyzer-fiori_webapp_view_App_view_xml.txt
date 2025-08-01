@@ -1,9 +1,0 @@
-File: pm-analyzer-fiori/webapp/view/App.view.xml
-
-<mvc:View
-    controllerName="com.sap.pm.pmanalyzerfiori.controller.App"
-    xmlns:mvc="sap.ui.core.mvc"
-    xmlns="sap.m"
-    displayBlock="true">
-    <App id="app" />
-</mvc:View>

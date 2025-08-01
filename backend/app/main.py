@@ -10,7 +10,7 @@ load_dotenv()
 
 from app.services.analysis_service import analyze_text
 from app.models import AnalysisResponse
-from app.auth import token_required
+# Removed: from app.auth import token_required # No longer needed
 
 app = Flask(__name__)
 CORS(app)
@@ -22,7 +22,7 @@ def health_check() -> Tuple[str, int]:
 
 
 @app.route('/api/analyze', methods=['POST'])
-@token_required
+# Removed: @token_required # No longer needed
 def analyze() -> Tuple[str, int]:
     data = request.get_json()
     if not data or not data.get('text'):
@@ -54,7 +54,7 @@ def analyze() -> Tuple[str, int]:
         return jsonify({
             "error": {
                 "code": "INTERNAL_SERVER_ERROR",
-                "message": f"An unexpected error occurred: {str(e)}"
+                "message": f"An unexpected error occurred: {str(e)}"\
             }
         }), 500
 

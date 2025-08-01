@@ -69,10 +69,8 @@ sap.ui.define([
             try {
                 // Get the current language to send to the backend
                 const sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
-                const auth0Client = await oComponent.getAuth0Client();
-
-                // Pass the language to the API call function
-                const response = await this._callAnalysisApi(sTextToAnalyze, auth0Client, sLanguage);
+                // No auth0Client needed anymore
+                const response = await this._callAnalysisApi(sTextToAnalyze, sLanguage);
                 const result = await response.json();
                 this._displayAnalysisResult(result);
  
@@ -83,24 +81,15 @@ sap.ui.define([
             }
         },
 
-        onLogout: async function () {
-            const oComponent = this.getOwnerComponent();
-            const auth0Client = await oComponent.getAuth0Client();
-            auth0Client.logout({
-                logoutParams: {
-                    returnTo: window.location.origin + window.location.pathname
-                }
-            });
-        },
+        // Removed onLogout as logout is no longer required
 
-        _callAnalysisApi: async function(sText, auth0Client, sLanguage) {
-            const accessToken = await auth0Client.getTokenSilently();
- 
+        _callAnalysisApi: async function(sText, sLanguage) {
+            // No accessToken needed anymore
             const response = await fetch("/api/analyze", {
                 method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${accessToken}`
+                    "Content-Type": "application/json"
+                    // Removed Authorization header as no authentication is needed
                 },
                 // Add the language to the request body
                 body: JSON.stringify({ text: sText, language: sLanguage })

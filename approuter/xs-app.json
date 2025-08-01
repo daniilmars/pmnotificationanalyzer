@@ -1,20 +1,19 @@
+{
+  "welcomeFile": "/pm-analyzer-fiori/index.html",
+  "authenticationMethod": "none", # Changed to 'none' for no authentication
+  "routes": [
     {
-      "welcomeFile": "/pm-analyzer-fiori/index.html",
-      "authenticationMethod": "route",
-      "routes": [
-        {
-          "source": "^/api/(.*)$",
-          "target": "$1",
-          "destination": "pm-analyzer-backend",
-          "authenticationType": "xsuaa",
-          "httpMethods": ["GET", "POST", "PUT", "DELETE", "PATCH"]
-        },
-        {
-          "source": "^(.*)$",
-          "target": "$1",
-          "service": "html5-apps-repo-rt",
-          "authenticationType": "xsuaa"
-        }
-      ]
+      "source": "^/api/(.*)$",
+      "target": "$1",
+      "destination": "pm-analyzer-backend",
+      "authenticationType": "none", # Changed to 'none'
+      "httpMethods": ["GET", "POST", "PUT", "DELETE", "PATCH"]
+    },
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "none" # Changed to 'none'
     }
-    
+  ]
+}
