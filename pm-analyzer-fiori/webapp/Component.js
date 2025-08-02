@@ -18,8 +18,8 @@ function (UIComponent, Device, JSONModel, ResourceModel) {
 
             // Set the device model
             this.setModel(new JSONModel(Device), "device");
-            
-            // --- START: CORRECTED MULTILINGUAL DATA LOADING ---
+
+            // --- START: FINAL DATA LOADING & STRUURING ---
             // Determine which language file to load
             let sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
             if (sLanguage !== "de") {
@@ -27,15 +27,16 @@ function (UIComponent, Device, JSONModel, ResourceModel) {
             }
             const sMockDataPath = sap.ui.require.toUrl(`com/sap/pm/pmanalyzerfiori/mock_data_${sLanguage}.json`);
             
-            // Set the main data model by loading the correct JSON file
-            const oModel = new JSONModel(sMockDataPath);
+            const oModel = new JSONModel();
             this.setModel(oModel);
 
-            // Wait for the data to be loaded before initializing the router
-            oModel.dataLoaded().then(() => {
+            // Wait for the data to be loaded, THEN restructure it and initialize the router
+            oModel.loadData(sMockDataPath).then(() => {
+                const aNotifications = oModel.getData(); // This is the flat array
+                oModel.setData({ Notifications: aNotifications }); // Restructure into an object
                 this.getRouter().initialize();
             });
-            // --- END: CORRECTED MULTILINGUAL DATA LOADING ---
+            // --- END: FINAL DATA LOADING & STRUURING ---
 
             // Check for stored language and set it
             const sStoredLanguage = localStorage.getItem("appLanguage");

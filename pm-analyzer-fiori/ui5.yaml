@@ -4,7 +4,7 @@ metadata:
 type: application
 framework:
   name: SAPUI5
-  version: "1.120.13"
+  version: "1.120.13" # Or your desired version
   libraries:
     - name: sap.m
     - name: sap.ui.core
@@ -25,13 +25,3 @@ server:
         backend:
           - path: /api
             url: http://localhost:5001
-builder:
-  # Configure the generateComponentPreload task to exclude auth0-spa-js.production.js
-  # This is the most targeted way to prevent minification issues for this specific file.
-  customTasks:
-    - name: generateComponentPreload
-      beforeTask: replaceVersion # Ensure this runs after version replacement
-      configuration:
-        excludes:
-          - "**/auth0-spa-js.production.js"
-          - "**/auth0-spa-js.js" # Also exclude the non-production version just in case
