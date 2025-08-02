@@ -1,4 +1,5 @@
 {
+  "welcomeFile": "index.html",
   "authenticationMethod": "none",
   "routes": [
     {
@@ -7,9 +8,9 @@
       "destination": "pm-analyzer-backend"
     },
     {
-      "source": "^/pm-analyzer-fiori/(.*)$",
+      "source": "^/(.*)$",
       "target": "$1",
-      "localDir": "resources/pm-analyzer-fiori" 
+      "localDir": "resources/pm-analyzer-fiori/dist"
     }
   ]
 }
