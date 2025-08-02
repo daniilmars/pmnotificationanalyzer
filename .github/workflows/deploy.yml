@@ -74,4 +74,4 @@ jobs:
           mv mta_archives/mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar mta_archives/
 
       - name: Deploy MTA Archive
-        run: cf deploy mta_archives/com.sap.pm.pmanalygizer_1.0.0.mtar -f --retries 1
+        run: cf deploy mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar -f --retries 1
