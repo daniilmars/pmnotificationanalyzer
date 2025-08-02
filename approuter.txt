@@ -1,0 +1,728 @@
+Retrieving logs for app pm-analyzer-approuter in org dfa8bc11trial_trial3-f5tqczxd / space dev as daniilmarszallek@yahoo.de...
+
+   2025-08-02T16:31:38.35+0200 [RTR/0] OUT dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com - [2025-08-02T14:31:38.337868677Z] "GET /Component-preload.js.map HTTP/2.0" 200 0 4253 "https://dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com/index.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15" "10.0.72.1:12076" "10.32.3.7:61009" x_forwarded_for:"31.165.131.254, 10.0.72.1" x_forwarded_proto:"https" vcap_request_id:"ab417e46-f8e1-46a6-745a-406496fa2b2c" response_time:0.013017 gorouter_time:0.000235 app_id:"18bda6f6-cb4a-4f85-a257-1af2e815cf27" app_index:"0" instance_id:"220d38bc-8315-41a6-466e-6e68" failed_attempts:0 failed_attempts_time:"-" dns_time:0.000000 dial_time:0.000871 tls_time:0.006085 backend_time:0.012782 local_address:"10.0.65.8:5470" x_cf_routererror:"-" x_correlationid:"-" tenantid:"-" sap_passport:"-" x_scp_request_id:"f5c3bfa5-6a26-4e3f-b72f-a2640ccef589-688E213D-B95B8C7" x_cf_app_instance:"-" x_forwarded_host:"-" x_custom_host:"-" x_ssl_client:"-" x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-" x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-" x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-" x_cf_true_client_ip:"31.165.131.254" x_request_id:"-" x_b3_traceid:"ab417e46f8e146a6745a406496fa2b2c" x_b3_spanid:"745a406496fa2b2c" x_b3_parentspanid:"-" b3:"ab417e46f8e146a6745a406496fa2b2c-745a406496fa2b2c"
+   2025-08-02T16:31:40.28+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c destroying container for instance 224a6349-918c-4768-58dd-ba8c
+   2025-08-02T16:31:40.37+0200 [PROXY/0] OUT Exit status 137
+   2025-08-02T16:31:42.79+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c successfully destroyed container for instance 224a6349-918c-4768-58dd-ba8c
+   2025-08-02T16:33:08.54+0200 [API/3] OUT Stopping app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T16:33:08.57+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c stopping instance 220d38bc-8315-41a6-466e-6e68
+   2025-08-02T16:33:08.78+0200 [API/0] OUT Starting app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T16:33:08.95+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 creating container for instance c6b0756d-e155-4bf1-6e78-c76a
+   2025-08-02T16:33:09.25+0200 [CELL/0] OUT Security group rules were updated
+   2025-08-02T16:33:09.30+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 successfully created container for instance c6b0756d-e155-4bf1-6e78-c76a
+   2025-08-02T16:33:09.44+0200 [CELL/0] OUT Downloading droplet...
+   2025-08-02T16:33:16.02+0200 [CELL/0] OUT Downloaded droplet (99.7M)
+   2025-08-02T16:33:16.02+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-08-02T16:33:16.07+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-08-02T16:33:16.22+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-08-02T16:33:16.52+0200 [APP/PROC/WEB/0] OUT > start
+   2025-08-02T16:33:16.52+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-08-02T16:33:16.72+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:33:16.723Z","written_ts":1754145196723000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.3.6","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-08-02T16:33:16.96+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:33:16.964Z","written_ts":1754145196964000000,"csn_component":"-","correlation_id":"mducrcf9","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.3.6","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mducrcf9","msg":"Application router version 14.4.3"}
+   2025-08-02T16:33:16.96+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:33:16.965Z","written_ts":1754145196965000000,"csn_component":"-","correlation_id":"mducrcf9.1","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.3.6","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mducrcf9.1","msg":"Using empty destinations to run"}
+   2025-08-02T16:33:16.96+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:33:16.966Z","written_ts":1754145196966000000,"csn_component":"-","correlation_id":"mducrcf9.1","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.3.6","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mducrcf9.1","msg":"No COOKIES environment variable"}
+   2025-08-02T16:33:16.97+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:33:16.970Z","written_ts":1754145196970000000,"csn_component":"-","correlation_id":"mducrcfe","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"warning","container_id":"10.32.3.6","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mducrcfe","msg":"No authentication will be used when accessing backends. Scopes defined in routes will be ignored."}
+   2025-08-02T16:33:16.97+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:33:16.970Z","written_ts":1754145196970000000,"csn_component":"-","correlation_id":"mducrcfe","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.3.6","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mducrcfe","msg":"Replacing $XSAPPNAME will not take place - 'xsappname' property not found in UAA configuration."}
+   2025-08-02T16:33:16.98+0200 [APP/PROC/WEB/0] ERR (node:226) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+   2025-08-02T16:33:16.98+0200 [APP/PROC/WEB/0] ERR (Use `node --trace-deprecation ...` to show where the warning was created)
+   2025-08-02T16:33:17.00+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:33:17.009Z","written_ts":1754145197009000000,"csn_component":"-","correlation_id":"mducrcf9","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.3.6","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mducrcf9","msg":"Application router is listening on port: 8080"}
+   2025-08-02T16:33:19.48+0200 [CELL/0] OUT Container became healthy
+   2025-08-02T16:33:19.50+0200 [API/14] OUT Process became ready with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 payload: {"instance"=>"c6b0756d-e155-4bf1-6e78-c76a", "index"=>0, "cell_id"=>"77283d80-dfa7-40ba-ba4e-265aef112085", "ready"=>true, "version"=>"9ac8836e-a90e-498e-bb52-41b2bf431d1d"}
+   2025-08-02T16:34:15.24+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c destroying container for instance 220d38bc-8315-41a6-466e-6e68
+   2025-08-02T16:34:15.38+0200 [PROXY/0] OUT Exit status 137
+   2025-08-02T16:34:17.83+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c successfully destroyed container for instance 220d38bc-8315-41a6-466e-6e68
+   2025-08-02T16:38:53.21+0200 [API/12] OUT Updated app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 ({"environment_variables"=>"[PRIVATE DATA HIDDEN]"})
+   2025-08-02T16:39:19.90+0200 [API/12] OUT Uploading app package for app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T16:39:20.12+0200 [API/12] OUT Updated app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 ({"environment_variables"=>"[PRIVATE DATA HIDDEN]"})
+   2025-08-02T16:39:30.13+0200 [API/7] OUT Stopping app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T16:39:30.17+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 stopping instance c6b0756d-e155-4bf1-6e78-c76a
+   2025-08-02T16:39:30.48+0200 [API/6] OUT Creating build for app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T16:39:31.09+0200 [STG/0] OUT Downloading zero_trust_sidecar_buildpack_1_10...
+   2025-08-02T16:39:31.09+0200 [STG/0] OUT Downloading python_buildpack...
+   2025-08-02T16:39:31.09+0200 [STG/0] OUT Downloading sap_java_buildpack_jakarta...
+   2025-08-02T16:39:31.09+0200 [STG/0] OUT Downloading nodejs_buildpack...
+   2025-08-02T16:39:31.09+0200 [STG/0] OUT Downloading java_buildpack...
+   2025-08-02T16:39:31.13+0200 [STG/0] OUT Downloaded python_buildpack
+   2025-08-02T16:39:31.13+0200 [STG/0] OUT Downloading sap_java_buildpack...
+   2025-08-02T16:39:31.13+0200 [STG/0] OUT Downloaded nodejs_buildpack
+   2025-08-02T16:39:31.13+0200 [STG/0] OUT Downloading sap_java_buildpack_1_114...
+   2025-08-02T16:39:31.13+0200 [STG/0] OUT Downloaded zero_trust_sidecar_buildpack_1_10
+   2025-08-02T16:39:31.13+0200 [STG/0] OUT Downloading sap_java_buildpack_1_113...
+   2025-08-02T16:39:31.13+0200 [STG/0] OUT Downloaded sap_java_buildpack_jakarta
+   2025-08-02T16:39:31.13+0200 [STG/0] OUT Downloading go_buildpack...
+   2025-08-02T16:39:31.14+0200 [STG/0] OUT Downloaded java_buildpack
+   2025-08-02T16:39:31.14+0200 [STG/0] OUT Downloading binary_buildpack...
+   2025-08-02T16:39:31.15+0200 [STG/0] OUT Downloaded go_buildpack
+   2025-08-02T16:39:31.15+0200 [STG/0] OUT Downloading sap_java_buildpack_jakarta_2_32...
+   2025-08-02T16:39:31.15+0200 [STG/0] OUT Downloaded sap_java_buildpack_1_113
+   2025-08-02T16:39:31.15+0200 [STG/0] OUT Downloading php_buildpack...
+   2025-08-02T16:39:31.17+0200 [STG/0] OUT Downloaded sap_java_buildpack
+   2025-08-02T16:39:31.17+0200 [STG/0] OUT Downloading sap_java_buildpack_jakarta_2_35...
+   2025-08-02T16:39:31.17+0200 [STG/0] OUT Downloaded php_buildpack
+   2025-08-02T16:39:31.17+0200 [STG/0] OUT Downloading nginx_buildpack...
+   2025-08-02T16:39:31.17+0200 [STG/0] OUT Downloaded binary_buildpack
+   2025-08-02T16:39:31.17+0200 [STG/0] OUT Downloading sap_java_buildpack_jakarta_2_33...
+   2025-08-02T16:39:31.17+0200 [STG/0] OUT Downloaded sap_java_buildpack_1_114
+   2025-08-02T16:39:31.17+0200 [STG/0] OUT Downloading zero_trust_sidecar_buildpack_1_8...
+   2025-08-02T16:39:31.19+0200 [STG/0] OUT Downloaded sap_java_buildpack_jakarta_2_35
+   2025-08-02T16:39:31.19+0200 [STG/0] OUT Downloaded sap_java_buildpack_jakarta_2_33
+   2025-08-02T16:39:31.19+0200 [STG/0] OUT Downloading zero_trust_sidecar_buildpack_1_9...
+   2025-08-02T16:39:31.19+0200 [STG/0] OUT Downloading zero_trust_sidecar_buildpack...
+   2025-08-02T16:39:31.19+0200 [STG/0] OUT Downloaded zero_trust_sidecar_buildpack_1_8
+   2025-08-02T16:39:31.19+0200 [STG/0] OUT Downloading staticfile_buildpack...
+   2025-08-02T16:39:31.21+0200 [STG/0] OUT Downloaded zero_trust_sidecar_buildpack
+   2025-08-02T16:39:31.21+0200 [STG/0] OUT Downloaded zero_trust_sidecar_buildpack_1_9
+   2025-08-02T16:39:31.21+0200 [STG/0] OUT Downloaded nginx_buildpack
+   2025-08-02T16:39:31.22+0200 [STG/0] OUT Downloaded sap_java_buildpack_jakarta_2_32
+   2025-08-02T16:39:31.23+0200 [STG/0] OUT Downloaded staticfile_buildpack
+   2025-08-02T16:39:31.23+0200 [STG/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c creating container for instance 1e4ec6dc-5628-42f3-9fe2-14ede7fd6256
+   2025-08-02T16:39:31.55+0200 [STG/0] OUT Security group rules were updated
+   2025-08-02T16:39:31.61+0200 [STG/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c successfully created container for instance 1e4ec6dc-5628-42f3-9fe2-14ede7fd6256
+   2025-08-02T16:39:31.81+0200 [STG/0] OUT Downloading app package...
+   2025-08-02T16:39:31.81+0200 [STG/0] OUT Downloading build artifacts cache...
+   2025-08-02T16:39:31.86+0200 [STG/0] OUT Downloaded build artifacts cache (225B)
+   2025-08-02T16:39:32.64+0200 [STG/0] OUT Downloaded app package (7.4M)
+   2025-08-02T16:39:33.11+0200 [STG/0] OUT -----> Nodejs Buildpack version 1.8.38
+   2025-08-02T16:39:33.37+0200 [STG/0] OUT -----> Bootstrapping python
+   2025-08-02T16:39:33.37+0200 [STG/0] OUT -----> Installing python 3.11.12
+   2025-08-02T16:39:33.37+0200 [STG/0] OUT Copy [/tmp/buildpacks/03e689130b2c3e18/dependencies/3f5f5c003ac7b91f9e1a85daf492f112/python_3.11.12_linux_x64_cflinuxfs4_51adfd88.tgz]
+   2025-08-02T16:39:36.35+0200 [STG/0] OUT -----> Installing binaries
+   2025-08-02T16:39:36.35+0200 [STG/0] OUT engines.node (package.json): unspecified
+   2025-08-02T16:39:36.35+0200 [STG/0] OUT engines.npm (package.json): unspecified (use default)
+   2025-08-02T16:39:36.35+0200 [STG/0] OUT [31;1m**WARNING**[0m Node version not specified in package.json or .nvmrc. See: http://docs.cloudfoundry.org/buildpacks/node/node-tips.html
+   2025-08-02T16:39:36.35+0200 [STG/0] OUT -----> Installing node 22.16.0
+   2025-08-02T16:39:36.35+0200 [STG/0] OUT Copy [/tmp/buildpacks/03e689130b2c3e18/dependencies/0a5b2807f2f20788823b197d52c24f05/node_22.16.0_linux_x64_cflinuxfs4_13829c62.tgz]
+   2025-08-02T16:39:38.05+0200 [STG/0] OUT Using default npm version: 10.9.2
+   2025-08-02T16:39:38.05+0200 [STG/0] OUT -----> Installing yarn 1.22.22
+   2025-08-02T16:39:38.05+0200 [STG/0] OUT Copy [/tmp/buildpacks/03e689130b2c3e18/dependencies/ff849eb7696d3a7f463752a272c9a88e/yarn_1.22.22_linux_noarch_any-stack_83bda680.tgz]
+   2025-08-02T16:39:38.29+0200 [STG/0] OUT Installed yarn 1.22.22
+   2025-08-02T16:39:38.29+0200 [STG/0] OUT -----> Creating runtime environment
+   2025-08-02T16:39:38.29+0200 [STG/0] OUT NODE_ENV=production
+   2025-08-02T16:39:38.29+0200 [STG/0] OUT NODE_HOME=/tmp/contents3140923337/deps/0/node
+   2025-08-02T16:39:38.29+0200 [STG/0] OUT NODE_MODULES_CACHE=true
+   2025-08-02T16:39:38.29+0200 [STG/0] OUT NODE_VERBOSE=false
+   2025-08-02T16:39:38.29+0200 [STG/0] OUT NPM_CONFIG_LOGLEVEL=error
+   2025-08-02T16:39:38.29+0200 [STG/0] OUT NPM_CONFIG_PRODUCTION=true
+   2025-08-02T16:39:38.29+0200 [STG/0] OUT -----> Building dependencies
+   2025-08-02T16:39:38.29+0200 [STG/0] OUT Prebuild detected (node_modules already exists)
+   2025-08-02T16:39:38.29+0200 [STG/0] OUT Rebuilding any native modules
+   2025-08-02T16:39:38.84+0200 [STG/0] OUT rebuilt dependencies successfully
+   2025-08-02T16:39:38.84+0200 [STG/0] OUT npm notice
+   2025-08-02T16:39:38.84+0200 [STG/0] OUT npm notice New major version of npm available! 10.9.2 -> 11.5.2
+   2025-08-02T16:39:38.84+0200 [STG/0] OUT npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+   2025-08-02T16:39:38.84+0200 [STG/0] OUT npm notice To update run: npm install -g npm@11.5.2
+   2025-08-02T16:39:38.84+0200 [STG/0] OUT npm notice
+   2025-08-02T16:39:38.89+0200 [STG/0] OUT Installing any new modules (package.json + package-lock.json)
+   2025-08-02T16:39:39.46+0200 [STG/0] OUT up to date in 510ms
+   2025-08-02T16:39:39.46+0200 [STG/0] OUT 17 packages are looking for funding
+   2025-08-02T16:39:39.46+0200 [STG/0] OUT run `npm fund` for details
+   2025-08-02T16:39:40.16+0200 [STG/0] OUT Contrast Security no credentials found. Will not write environment files.
+   2025-08-02T16:39:48.52+0200 [STG/0] OUT Exit status 0
+   2025-08-02T16:39:48.52+0200 [STG/0] OUT Uploading droplet, build artifacts cache...
+   2025-08-02T16:39:48.52+0200 [STG/0] OUT Uploading build artifacts cache...
+   2025-08-02T16:39:48.52+0200 [STG/0] OUT Uploading droplet...
+   2025-08-02T16:39:48.54+0200 [STG/0] OUT Uploaded build artifacts cache (226B)
+   2025-08-02T16:39:49.40+0200 [API/18] OUT Creating droplet for app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T16:39:53.46+0200 [STG/0] OUT Uploaded droplet (60.2M)
+   2025-08-02T16:39:53.48+0200 [STG/0] OUT Uploading complete
+   2025-08-02T16:39:53.70+0200 [STG/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c stopping instance 1e4ec6dc-5628-42f3-9fe2-14ede7fd6256
+   2025-08-02T16:39:53.70+0200 [STG/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c destroying container for instance 1e4ec6dc-5628-42f3-9fe2-14ede7fd6256
+   2025-08-02T16:39:55.32+0200 [STG/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c successfully destroyed container for instance 1e4ec6dc-5628-42f3-9fe2-14ede7fd6256
+   2025-08-02T16:39:59.90+0200 [API/7] OUT Updated app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 ({:droplet_guid=>"75abd1f8-3fbe-430e-b254-b11700fbe2ba"})
+   2025-08-02T16:40:00.18+0200 [API/18] OUT Creating revision for app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T16:40:00.21+0200 [API/18] OUT Starting app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T16:40:00.38+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c creating container for instance eac06e26-9286-4d7d-7292-c138
+   2025-08-02T16:40:00.70+0200 [CELL/0] OUT Security group rules were updated
+   2025-08-02T16:40:00.75+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c successfully created container for instance eac06e26-9286-4d7d-7292-c138
+   2025-08-02T16:40:01.03+0200 [CELL/0] OUT Downloading droplet...
+   2025-08-02T16:40:04.13+0200 [CELL/0] OUT Downloaded droplet (60.2M)
+   2025-08-02T16:40:04.13+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-08-02T16:40:04.17+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-08-02T16:40:04.32+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-08-02T16:40:04.63+0200 [APP/PROC/WEB/0] OUT > start
+   2025-08-02T16:40:04.63+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-08-02T16:40:04.83+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:40:04.832Z","written_ts":1754145604832000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.3.7","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:40:05.081Z","written_ts":1754145605081000000,"csn_component":"-","correlation_id":"mdud03bt","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.3.7","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud03bt","msg":"Application router version 14.4.3"}
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:40:05.083Z","written_ts":1754145605083000000,"csn_component":"-","correlation_id":"mdud03bw","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.3.7","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud03bw","msg":"No COOKIES environment variable"}
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR ^
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR VError: xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR at Object.validateXsApp (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:149:15)
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR at exports.loadConfiguration (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/app-config.js:21:14)
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR at module.exports.load (/home/vcap/app/node_modules/@sap/approuter/lib/configuration.js:21:34)
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR at bootstrap (/home/vcap/app/node_modules/@sap/approuter/lib/bootstrap.js:64:38)
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR at Approuter.start (/home/vcap/app/node_modules/@sap/approuter/approuter.js:68:13)
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR at Object.<anonymous> (/home/vcap/app/node_modules/@sap/approuter/approuter.js:146:6)
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR at Module._compile (node:internal/modules/cjs/loader:1730:14)
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR at Object..js (node:internal/modules/cjs/loader:1895:10)
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR at Module.load (node:internal/modules/cjs/loader:1465:32) {
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)',
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR }
+   2025-08-02T16:40:05.08+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-08-02T16:40:05.09+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:40:05.09+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.2
+   2025-08-02T16:40:05.09+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+   2025-08-02T16:40:05.09+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.2
+   2025-08-02T16:40:05.09+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:40:05.15+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-08-02T16:40:11.64+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c stopping instance eac06e26-9286-4d7d-7292-c138
+   2025-08-02T16:40:11.64+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c destroying container for instance eac06e26-9286-4d7d-7292-c138
+   2025-08-02T16:40:11.64+0200 [API/9] OUT Process has crashed with type: "web"
+   2025-08-02T16:40:11.66+0200 [API/9] OUT App instance exited with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 payload: {"instance"=>"eac06e26-9286-4d7d-7292-c138", "index"=>0, "cell_id"=>"96551837-0584-466a-86d3-1738a901d40c", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>1, "crash_timestamp"=>1754145611628189276, "version"=>"b471bf2c-720f-4d54-ba65-239419b708f5"}
+   2025-08-02T16:40:11.71+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 creating container for instance 24bea011-350e-4d26-50ee-da4c
+   2025-08-02T16:40:11.72+0200 [PROXY/0] OUT Exit status 137
+   2025-08-02T16:40:12.00+0200 [CELL/0] OUT Security group rules were updated
+   2025-08-02T16:40:12.06+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully created container for instance 24bea011-350e-4d26-50ee-da4c
+   2025-08-02T16:40:12.29+0200 [CELL/0] OUT Downloading droplet...
+   2025-08-02T16:40:12.96+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c successfully destroyed container for instance eac06e26-9286-4d7d-7292-c138
+   2025-08-02T16:40:15.26+0200 [CELL/0] OUT Downloaded droplet (60.2M)
+   2025-08-02T16:40:15.26+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-08-02T16:40:15.31+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-08-02T16:40:15.45+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-08-02T16:40:15.76+0200 [APP/PROC/WEB/0] OUT > start
+   2025-08-02T16:40:15.76+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-08-02T16:40:15.97+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:40:15.968Z","written_ts":1754145615968000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.2.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-08-02T16:40:16.21+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:40:16.217Z","written_ts":1754145616217000000,"csn_component":"-","correlation_id":"mdud0bx5","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.2.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud0bx5","msg":"Application router version 14.4.3"}
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:40:16.220Z","written_ts":1754145616220000000,"csn_component":"-","correlation_id":"mdud0bx8","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.2.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud0bx8","msg":"No COOKIES environment variable"}
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR ^
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR VError: xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR at Object.validateXsApp (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:149:15)
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR at exports.loadConfiguration (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/app-config.js:21:14)
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR at module.exports.load (/home/vcap/app/node_modules/@sap/approuter/lib/configuration.js:21:34)
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR at bootstrap (/home/vcap/app/node_modules/@sap/approuter/lib/bootstrap.js:64:38)
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR at Approuter.start (/home/vcap/app/node_modules/@sap/approuter/approuter.js:68:13)
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR at Object.<anonymous> (/home/vcap/app/node_modules/@sap/approuter/approuter.js:146:6)
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR at Module._compile (node:internal/modules/cjs/loader:1730:14)
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR at Object..js (node:internal/modules/cjs/loader:1895:10)
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR at Module.load (node:internal/modules/cjs/loader:1465:32) {
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)',
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR }
+   2025-08-02T16:40:16.22+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-08-02T16:40:16.23+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:40:16.23+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.2
+   2025-08-02T16:40:16.23+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+   2025-08-02T16:40:16.23+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.2
+   2025-08-02T16:40:16.23+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:40:16.29+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-08-02T16:40:22.41+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 stopping instance 24bea011-350e-4d26-50ee-da4c
+   2025-08-02T16:40:22.41+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 destroying container for instance 24bea011-350e-4d26-50ee-da4c
+   2025-08-02T16:40:22.41+0200 [API/18] OUT Process has crashed with type: "web"
+   2025-08-02T16:40:22.42+0200 [API/18] OUT App instance exited with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 payload: {"instance"=>"24bea011-350e-4d26-50ee-da4c", "index"=>0, "cell_id"=>"66bf8157-2666-4d64-b2ba-4e673aee0466", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>2, "crash_timestamp"=>1754145622395822847, "version"=>"b471bf2c-720f-4d54-ba65-239419b708f5"}
+   2025-08-02T16:40:22.48+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c creating container for instance 71a19c59-8a8d-48a3-787a-3359
+   2025-08-02T16:40:22.49+0200 [PROXY/0] OUT Exit status 137
+   2025-08-02T16:40:22.77+0200 [CELL/0] OUT Security group rules were updated
+   2025-08-02T16:40:22.82+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c successfully created container for instance 71a19c59-8a8d-48a3-787a-3359
+   2025-08-02T16:40:23.19+0200 [CELL/0] OUT Downloading droplet...
+   2025-08-02T16:40:23.77+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully destroyed container for instance 24bea011-350e-4d26-50ee-da4c
+   2025-08-02T16:40:24.22+0200 [CELL/0] OUT Downloaded droplet
+   2025-08-02T16:40:24.22+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-08-02T16:40:24.27+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-08-02T16:40:24.42+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-08-02T16:40:24.72+0200 [APP/PROC/WEB/0] OUT > start
+   2025-08-02T16:40:24.72+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-08-02T16:40:24.92+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:40:24.926Z","written_ts":1754145624926000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.3.7","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-08-02T16:40:25.16+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:40:25.166Z","written_ts":1754145625166000000,"csn_component":"-","correlation_id":"mdud0itq","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.3.7","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud0itq","msg":"Application router version 14.4.3"}
+   2025-08-02T16:40:25.16+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:40:25.169Z","written_ts":1754145625169000000,"csn_component":"-","correlation_id":"mdud0itt","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.3.7","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud0itt","msg":"No COOKIES environment variable"}
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR ^
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR VError: xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR at Object.validateXsApp (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:149:15)
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR at exports.loadConfiguration (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/app-config.js:21:14)
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR at module.exports.load (/home/vcap/app/node_modules/@sap/approuter/lib/configuration.js:21:34)
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR at bootstrap (/home/vcap/app/node_modules/@sap/approuter/lib/bootstrap.js:64:38)
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR at Approuter.start (/home/vcap/app/node_modules/@sap/approuter/approuter.js:68:13)
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR at Object.<anonymous> (/home/vcap/app/node_modules/@sap/approuter/approuter.js:146:6)
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR at Module._compile (node:internal/modules/cjs/loader:1730:14)
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR at Object..js (node:internal/modules/cjs/loader:1895:10)
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR at Module.load (node:internal/modules/cjs/loader:1465:32) {
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)',
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR }
+   2025-08-02T16:40:25.17+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-08-02T16:40:25.18+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:40:25.18+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.2
+   2025-08-02T16:40:25.18+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+   2025-08-02T16:40:25.18+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.2
+   2025-08-02T16:40:25.18+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:40:25.23+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-08-02T16:40:31.35+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c stopping instance 71a19c59-8a8d-48a3-787a-3359
+   2025-08-02T16:40:31.35+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c destroying container for instance 71a19c59-8a8d-48a3-787a-3359
+   2025-08-02T16:40:31.37+0200 [API/5] OUT Process has crashed with type: "web"
+   2025-08-02T16:40:31.38+0200 [API/5] OUT App instance exited with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 payload: {"instance"=>"71a19c59-8a8d-48a3-787a-3359", "index"=>0, "cell_id"=>"96551837-0584-466a-86d3-1738a901d40c", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>3, "crash_timestamp"=>1754145631353344936, "version"=>"b471bf2c-720f-4d54-ba65-239419b708f5"}
+   2025-08-02T16:40:31.44+0200 [PROXY/0] OUT Exit status 137
+   2025-08-02T16:40:32.73+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c successfully destroyed container for instance 71a19c59-8a8d-48a3-787a-3359
+   2025-08-02T16:40:36.42+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 destroying container for instance c6b0756d-e155-4bf1-6e78-c76a
+   2025-08-02T16:40:36.49+0200 [PROXY/0] OUT Exit status 137
+   2025-08-02T16:40:38.86+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 successfully destroyed container for instance c6b0756d-e155-4bf1-6e78-c76a
+   2025-08-02T16:40:43.12+0200 [API/9] OUT Stopping app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T16:40:43.27+0200 [API/4] OUT Starting app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T16:40:43.44+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c creating container for instance d5044f5c-59c0-4960-7497-1be5
+   2025-08-02T16:40:43.77+0200 [CELL/0] OUT Security group rules were updated
+   2025-08-02T16:40:43.82+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c successfully created container for instance d5044f5c-59c0-4960-7497-1be5
+   2025-08-02T16:40:44.13+0200 [CELL/0] OUT Downloading droplet...
+   2025-08-02T16:40:47.15+0200 [CELL/0] OUT Downloaded droplet (60.2M)
+   2025-08-02T16:40:47.15+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-08-02T16:40:47.20+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-08-02T16:40:47.35+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-08-02T16:40:47.66+0200 [APP/PROC/WEB/0] OUT > start
+   2025-08-02T16:40:47.66+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-08-02T16:40:47.86+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:40:47.861Z","written_ts":1754145647861000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.3.7","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-08-02T16:40:48.10+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:40:48.104Z","written_ts":1754145648104000000,"csn_component":"-","correlation_id":"mdud10iw","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.3.7","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud10iw","msg":"Application router version 14.4.3"}
+   2025-08-02T16:40:48.10+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:40:48.107Z","written_ts":1754145648107000000,"csn_component":"-","correlation_id":"mdud10iz","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.3.7","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud10iz","msg":"No COOKIES environment variable"}
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR ^
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR VError: xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR at Object.validateXsApp (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:149:15)
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR at exports.loadConfiguration (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/app-config.js:21:14)
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR at module.exports.load (/home/vcap/app/node_modules/@sap/approuter/lib/configuration.js:21:34)
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR at bootstrap (/home/vcap/app/node_modules/@sap/approuter/lib/bootstrap.js:64:38)
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR at Approuter.start (/home/vcap/app/node_modules/@sap/approuter/approuter.js:68:13)
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR at Object.<anonymous> (/home/vcap/app/node_modules/@sap/approuter/approuter.js:146:6)
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR at Module._compile (node:internal/modules/cjs/loader:1730:14)
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR at Object..js (node:internal/modules/cjs/loader:1895:10)
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR at Module.load (node:internal/modules/cjs/loader:1465:32) {
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)',
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR }
+   2025-08-02T16:40:48.11+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-08-02T16:40:48.12+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:40:48.12+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.2
+   2025-08-02T16:40:48.12+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+   2025-08-02T16:40:48.12+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.2
+   2025-08-02T16:40:48.12+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:40:48.17+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-08-02T16:40:54.06+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c stopping instance d5044f5c-59c0-4960-7497-1be5
+   2025-08-02T16:40:54.06+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c destroying container for instance d5044f5c-59c0-4960-7497-1be5
+   2025-08-02T16:40:54.06+0200 [API/4] OUT Process has crashed with type: "web"
+   2025-08-02T16:40:54.07+0200 [API/4] OUT App instance exited with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 payload: {"instance"=>"d5044f5c-59c0-4960-7497-1be5", "index"=>0, "cell_id"=>"96551837-0584-466a-86d3-1738a901d40c", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>1, "crash_timestamp"=>1754145654045015904, "version"=>"f3724c7c-98d6-4a29-a29b-35aa9235fbc6"}
+   2025-08-02T16:40:54.13+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 creating container for instance f201ecd4-ba6d-473d-570a-9116
+   2025-08-02T16:40:54.14+0200 [PROXY/0] OUT Exit status 137
+   2025-08-02T16:40:54.44+0200 [CELL/0] OUT Security group rules were updated
+   2025-08-02T16:40:54.50+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully created container for instance f201ecd4-ba6d-473d-570a-9116
+   2025-08-02T16:40:54.78+0200 [CELL/0] OUT Downloading droplet...
+   2025-08-02T16:40:55.39+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c successfully destroyed container for instance d5044f5c-59c0-4960-7497-1be5
+   2025-08-02T16:40:57.83+0200 [CELL/0] OUT Downloaded droplet (60.2M)
+   2025-08-02T16:40:57.83+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-08-02T16:40:57.88+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-08-02T16:40:58.03+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-08-02T16:40:58.34+0200 [APP/PROC/WEB/0] OUT > start
+   2025-08-02T16:40:58.34+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-08-02T16:40:58.54+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:40:58.542Z","written_ts":1754145658542000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.2.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-08-02T16:40:58.78+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:40:58.787Z","written_ts":1754145658787000000,"csn_component":"-","correlation_id":"mdud18rn","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.2.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud18rn","msg":"Application router version 14.4.3"}
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:40:58.790Z","written_ts":1754145658790000000,"csn_component":"-","correlation_id":"mdud18rq","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.2.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud18rq","msg":"No COOKIES environment variable"}
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR ^
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR VError: xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR at Object.validateXsApp (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:149:15)
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR at exports.loadConfiguration (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/app-config.js:21:14)
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR at module.exports.load (/home/vcap/app/node_modules/@sap/approuter/lib/configuration.js:21:34)
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR at bootstrap (/home/vcap/app/node_modules/@sap/approuter/lib/bootstrap.js:64:38)
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR at Approuter.start (/home/vcap/app/node_modules/@sap/approuter/approuter.js:68:13)
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR at Object.<anonymous> (/home/vcap/app/node_modules/@sap/approuter/approuter.js:146:6)
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR at Module._compile (node:internal/modules/cjs/loader:1730:14)
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR at Object..js (node:internal/modules/cjs/loader:1895:10)
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR at Module.load (node:internal/modules/cjs/loader:1465:32) {
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)',
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR }
+   2025-08-02T16:40:58.79+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-08-02T16:40:58.80+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:40:58.80+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.2
+   2025-08-02T16:40:58.80+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+   2025-08-02T16:40:58.80+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.2
+   2025-08-02T16:40:58.80+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:40:58.86+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-08-02T16:41:04.70+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 stopping instance f201ecd4-ba6d-473d-570a-9116
+   2025-08-02T16:41:04.70+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 destroying container for instance f201ecd4-ba6d-473d-570a-9116
+   2025-08-02T16:41:04.71+0200 [API/10] OUT Process has crashed with type: "web"
+   2025-08-02T16:41:04.72+0200 [API/10] OUT App instance exited with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 payload: {"instance"=>"f201ecd4-ba6d-473d-570a-9116", "index"=>0, "cell_id"=>"66bf8157-2666-4d64-b2ba-4e673aee0466", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>2, "crash_timestamp"=>1754145664691814056, "version"=>"f3724c7c-98d6-4a29-a29b-35aa9235fbc6"}
+   2025-08-02T16:41:04.78+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c creating container for instance 281ca179-d980-42de-6eae-6f44
+   2025-08-02T16:41:04.79+0200 [PROXY/0] OUT Exit status 137
+   2025-08-02T16:41:05.08+0200 [CELL/0] OUT Security group rules were updated
+   2025-08-02T16:41:05.14+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c successfully created container for instance 281ca179-d980-42de-6eae-6f44
+   2025-08-02T16:41:05.33+0200 [CELL/0] OUT Downloading droplet...
+   2025-08-02T16:41:06.07+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully destroyed container for instance f201ecd4-ba6d-473d-570a-9116
+   2025-08-02T16:41:06.36+0200 [CELL/0] OUT Downloaded droplet
+   2025-08-02T16:41:06.36+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-08-02T16:41:06.41+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-08-02T16:41:06.56+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-08-02T16:41:06.86+0200 [APP/PROC/WEB/0] OUT > start
+   2025-08-02T16:41:06.86+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-08-02T16:41:07.07+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:41:07.072Z","written_ts":1754145667072000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.3.7","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:41:07.322Z","written_ts":1754145667322000000,"csn_component":"-","correlation_id":"mdud1fcr","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.3.7","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud1fcr","msg":"Application router version 14.4.3"}
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:41:07.325Z","written_ts":1754145667325000000,"csn_component":"-","correlation_id":"mdud1fct","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.3.7","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud1fct","msg":"No COOKIES environment variable"}
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR ^
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR VError: xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR at Object.validateXsApp (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:149:15)
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR at exports.loadConfiguration (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/app-config.js:21:14)
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR at module.exports.load (/home/vcap/app/node_modules/@sap/approuter/lib/configuration.js:21:34)
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR at bootstrap (/home/vcap/app/node_modules/@sap/approuter/lib/bootstrap.js:64:38)
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR at Approuter.start (/home/vcap/app/node_modules/@sap/approuter/approuter.js:68:13)
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR at Object.<anonymous> (/home/vcap/app/node_modules/@sap/approuter/approuter.js:146:6)
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR at Module._compile (node:internal/modules/cjs/loader:1730:14)
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR at Object..js (node:internal/modules/cjs/loader:1895:10)
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR at Module.load (node:internal/modules/cjs/loader:1465:32) {
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)',
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR }
+   2025-08-02T16:41:07.32+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-08-02T16:41:07.34+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:41:07.34+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.2
+   2025-08-02T16:41:07.34+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+   2025-08-02T16:41:07.34+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.2
+   2025-08-02T16:41:07.34+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:41:07.39+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-08-02T16:41:13.39+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c stopping instance 281ca179-d980-42de-6eae-6f44
+   2025-08-02T16:41:13.39+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c destroying container for instance 281ca179-d980-42de-6eae-6f44
+   2025-08-02T16:41:13.41+0200 [API/11] OUT Process has crashed with type: "web"
+   2025-08-02T16:41:13.42+0200 [API/11] OUT App instance exited with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 payload: {"instance"=>"281ca179-d980-42de-6eae-6f44", "index"=>0, "cell_id"=>"96551837-0584-466a-86d3-1738a901d40c", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>3, "crash_timestamp"=>1754145673394237100, "version"=>"f3724c7c-98d6-4a29-a29b-35aa9235fbc6"}
+   2025-08-02T16:41:13.49+0200 [PROXY/0] OUT Exit status 137
+   2025-08-02T16:41:14.68+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c successfully destroyed container for instance 281ca179-d980-42de-6eae-6f44
+   2025-08-02T16:41:53.83+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 creating container for instance 71ff314e-b7aa-4edf-6c91-7e12
+   2025-08-02T16:41:54.15+0200 [CELL/0] OUT Security group rules were updated
+   2025-08-02T16:41:54.21+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully created container for instance 71ff314e-b7aa-4edf-6c91-7e12
+   2025-08-02T16:41:54.49+0200 [CELL/0] OUT Downloading droplet...
+   2025-08-02T16:41:55.49+0200 [CELL/0] OUT Downloaded droplet
+   2025-08-02T16:41:55.49+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-08-02T16:41:55.54+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-08-02T16:41:55.69+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-08-02T16:41:56.00+0200 [APP/PROC/WEB/0] OUT > start
+   2025-08-02T16:41:56.00+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-08-02T16:41:56.20+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:41:56.201Z","written_ts":1754145716201000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.2.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-08-02T16:41:56.44+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:41:56.449Z","written_ts":1754145716449000000,"csn_component":"-","correlation_id":"mdud2h9d","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.2.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud2h9d","msg":"Application router version 14.4.3"}
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:41:56.452Z","written_ts":1754145716452000000,"csn_component":"-","correlation_id":"mdud2h9g","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.2.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud2h9g","msg":"No COOKIES environment variable"}
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR ^
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR VError: xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR at Object.validateXsApp (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:149:15)
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR at exports.loadConfiguration (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/app-config.js:21:14)
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR at module.exports.load (/home/vcap/app/node_modules/@sap/approuter/lib/configuration.js:21:34)
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR at bootstrap (/home/vcap/app/node_modules/@sap/approuter/lib/bootstrap.js:64:38)
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR at Approuter.start (/home/vcap/app/node_modules/@sap/approuter/approuter.js:68:13)
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR at Object.<anonymous> (/home/vcap/app/node_modules/@sap/approuter/approuter.js:146:6)
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR at Module._compile (node:internal/modules/cjs/loader:1730:14)
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR at Object..js (node:internal/modules/cjs/loader:1895:10)
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR at Module.load (node:internal/modules/cjs/loader:1465:32) {
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)',
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR }
+   2025-08-02T16:41:56.45+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-08-02T16:41:56.46+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:41:56.46+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.2
+   2025-08-02T16:41:56.46+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+   2025-08-02T16:41:56.46+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.2
+   2025-08-02T16:41:56.46+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:41:56.52+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-08-02T16:42:02.34+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 stopping instance 71ff314e-b7aa-4edf-6c91-7e12
+   2025-08-02T16:42:02.34+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 destroying container for instance 71ff314e-b7aa-4edf-6c91-7e12
+   2025-08-02T16:42:02.35+0200 [API/16] OUT Process has crashed with type: "web"
+   2025-08-02T16:42:02.37+0200 [API/16] OUT App instance exited with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 payload: {"instance"=>"71ff314e-b7aa-4edf-6c91-7e12", "index"=>0, "cell_id"=>"66bf8157-2666-4d64-b2ba-4e673aee0466", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>4, "crash_timestamp"=>1754145722341778630, "version"=>"f3724c7c-98d6-4a29-a29b-35aa9235fbc6"}
+   2025-08-02T16:42:02.43+0200 [PROXY/0] OUT Exit status 137
+   2025-08-02T16:42:03.87+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully destroyed container for instance 71ff314e-b7aa-4edf-6c91-7e12
+   2025-08-02T16:43:25.95+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c creating container for instance 65162498-08e7-447a-4d25-b4b3
+   2025-08-02T16:43:26.26+0200 [CELL/0] OUT Security group rules were updated
+   2025-08-02T16:43:26.31+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c successfully created container for instance 65162498-08e7-447a-4d25-b4b3
+   2025-08-02T16:43:26.66+0200 [CELL/0] OUT Downloading droplet...
+   2025-08-02T16:43:27.70+0200 [CELL/0] OUT Downloaded droplet
+   2025-08-02T16:43:27.70+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-08-02T16:43:27.74+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-08-02T16:43:27.89+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-08-02T16:43:28.20+0200 [APP/PROC/WEB/0] OUT > start
+   2025-08-02T16:43:28.20+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-08-02T16:43:28.40+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:43:28.400Z","written_ts":1754145808400000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.3.7","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-08-02T16:43:28.64+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:43:28.644Z","written_ts":1754145808644000000,"csn_component":"-","correlation_id":"mdud4gec","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.3.7","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud4gec","msg":"Application router version 14.4.3"}
+   2025-08-02T16:43:28.64+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:43:28.647Z","written_ts":1754145808647000000,"csn_component":"-","correlation_id":"mdud4gef","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.3.7","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud4gef","msg":"No COOKIES environment variable"}
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR ^
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR VError: xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR at Object.validateXsApp (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:149:15)
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR at exports.loadConfiguration (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/app-config.js:21:14)
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR at module.exports.load (/home/vcap/app/node_modules/@sap/approuter/lib/configuration.js:21:34)
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR at bootstrap (/home/vcap/app/node_modules/@sap/approuter/lib/bootstrap.js:64:38)
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR at Approuter.start (/home/vcap/app/node_modules/@sap/approuter/approuter.js:68:13)
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR at Object.<anonymous> (/home/vcap/app/node_modules/@sap/approuter/approuter.js:146:6)
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR at Module._compile (node:internal/modules/cjs/loader:1730:14)
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR at Object..js (node:internal/modules/cjs/loader:1895:10)
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR at Module.load (node:internal/modules/cjs/loader:1465:32) {
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)',
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR }
+   2025-08-02T16:43:28.65+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-08-02T16:43:28.66+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:43:28.66+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.2
+   2025-08-02T16:43:28.66+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+   2025-08-02T16:43:28.66+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.2
+   2025-08-02T16:43:28.66+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:43:28.71+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-08-02T16:43:34.80+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c stopping instance 65162498-08e7-447a-4d25-b4b3
+   2025-08-02T16:43:34.80+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c destroying container for instance 65162498-08e7-447a-4d25-b4b3
+   2025-08-02T16:43:34.81+0200 [API/2] OUT Process has crashed with type: "web"
+   2025-08-02T16:43:34.82+0200 [API/2] OUT App instance exited with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 payload: {"instance"=>"65162498-08e7-447a-4d25-b4b3", "index"=>0, "cell_id"=>"96551837-0584-466a-86d3-1738a901d40c", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>5, "crash_timestamp"=>1754145814797055922, "version"=>"f3724c7c-98d6-4a29-a29b-35aa9235fbc6"}
+   2025-08-02T16:43:34.87+0200 [PROXY/0] OUT Exit status 137
+   2025-08-02T16:43:36.14+0200 [CELL/0] OUT Cell 96551837-0584-466a-86d3-1738a901d40c successfully destroyed container for instance 65162498-08e7-447a-4d25-b4b3
+   2025-08-02T16:45:59.47+0200 [CELL/0] OUT Cell 40a73ee2-c30d-4beb-931c-937f2cbb923b creating container for instance 9c15d8b2-d365-4233-4acb-e838
+   2025-08-02T16:45:59.79+0200 [CELL/0] OUT Security group rules were updated
+   2025-08-02T16:45:59.84+0200 [CELL/0] OUT Cell 40a73ee2-c30d-4beb-931c-937f2cbb923b successfully created container for instance 9c15d8b2-d365-4233-4acb-e838
+   2025-08-02T16:46:00.26+0200 [CELL/0] OUT Downloading droplet...
+   2025-08-02T16:46:03.36+0200 [CELL/0] OUT Downloaded droplet (60.2M)
+   2025-08-02T16:46:03.36+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-08-02T16:46:03.41+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-08-02T16:46:03.56+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-08-02T16:46:03.87+0200 [APP/PROC/WEB/0] OUT > start
+   2025-08-02T16:46:03.87+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-08-02T16:46:04.07+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:46:04.072Z","written_ts":1754145964072000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.3.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:46:04.321Z","written_ts":1754145964321000000,"csn_component":"-","correlation_id":"mdud7sip","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.3.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud7sip","msg":"Application router version 14.4.3"}
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:46:04.324Z","written_ts":1754145964324000000,"csn_component":"-","correlation_id":"mdud7sis","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.3.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdud7sis","msg":"No COOKIES environment variable"}
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR ^
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR VError: xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR at Object.validateXsApp (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:149:15)
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR at exports.loadConfiguration (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/app-config.js:21:14)
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR at module.exports.load (/home/vcap/app/node_modules/@sap/approuter/lib/configuration.js:21:34)
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR at bootstrap (/home/vcap/app/node_modules/@sap/approuter/lib/bootstrap.js:64:38)
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR at Approuter.start (/home/vcap/app/node_modules/@sap/approuter/approuter.js:68:13)
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR at Object.<anonymous> (/home/vcap/app/node_modules/@sap/approuter/approuter.js:146:6)
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR at Module._compile (node:internal/modules/cjs/loader:1730:14)
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR at Object..js (node:internal/modules/cjs/loader:1895:10)
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR at Module.load (node:internal/modules/cjs/loader:1465:32) {
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)',
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR }
+   2025-08-02T16:46:04.32+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-08-02T16:46:04.34+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:46:04.34+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.2
+   2025-08-02T16:46:04.34+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+   2025-08-02T16:46:04.34+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.2
+   2025-08-02T16:46:04.34+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:46:04.39+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-08-02T16:46:10.40+0200 [CELL/0] OUT Cell 40a73ee2-c30d-4beb-931c-937f2cbb923b stopping instance 9c15d8b2-d365-4233-4acb-e838
+   2025-08-02T16:46:10.40+0200 [CELL/0] OUT Cell 40a73ee2-c30d-4beb-931c-937f2cbb923b destroying container for instance 9c15d8b2-d365-4233-4acb-e838
+   2025-08-02T16:46:10.41+0200 [API/3] OUT Process has crashed with type: "web"
+   2025-08-02T16:46:10.42+0200 [API/3] OUT App instance exited with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 payload: {"instance"=>"9c15d8b2-d365-4233-4acb-e838", "index"=>0, "cell_id"=>"40a73ee2-c30d-4beb-931c-937f2cbb923b", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>6, "crash_timestamp"=>1754145970396976339, "version"=>"f3724c7c-98d6-4a29-a29b-35aa9235fbc6"}
+   2025-08-02T16:46:10.47+0200 [PROXY/0] OUT Exit status 137
+   2025-08-02T16:46:11.71+0200 [CELL/0] OUT Cell 40a73ee2-c30d-4beb-931c-937f2cbb923b successfully destroyed container for instance 9c15d8b2-d365-4233-4acb-e838
+   2025-08-02T16:50:08.62+0200 [API/6] OUT Updated app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 ({"environment_variables"=>"[PRIVATE DATA HIDDEN]"})
+   2025-08-02T16:50:35.94+0200 [CELL/0] OUT Cell d1cc041a-d5a1-41d6-b9f6-6cda736ce3f0 creating container for instance 699cfc30-7f85-4ae5-42a7-cb0e
+   2025-08-02T16:50:36.25+0200 [CELL/0] OUT Security group rules were updated
+   2025-08-02T16:50:36.30+0200 [CELL/0] OUT Cell d1cc041a-d5a1-41d6-b9f6-6cda736ce3f0 successfully created container for instance 699cfc30-7f85-4ae5-42a7-cb0e
+   2025-08-02T16:50:36.61+0200 [CELL/0] OUT Downloading droplet...
+   2025-08-02T16:50:39.67+0200 [CELL/0] OUT Downloaded droplet (60.2M)
+   2025-08-02T16:50:39.67+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-08-02T16:50:39.72+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-08-02T16:50:39.87+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-08-02T16:50:40.18+0200 [APP/PROC/WEB/0] OUT > start
+   2025-08-02T16:50:40.18+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-08-02T16:50:40.38+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:50:40.384Z","written_ts":1754146240384000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.1.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-08-02T16:50:40.62+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:50:40.628Z","written_ts":1754146240628000000,"csn_component":"-","correlation_id":"mduddppx","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.1.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mduddppx","msg":"Application router version 14.4.3"}
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:50:40.631Z","written_ts":1754146240631000000,"csn_component":"-","correlation_id":"mduddppz","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.1.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mduddppz","msg":"No COOKIES environment variable"}
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR /home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR throw new VError('%s%s: %s',
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR ^
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR VError: xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR at JsonValidator.validate (/home/vcap/app/node_modules/@sap/approuter/lib/utils/JsonValidator.js:30:11)
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR at Object.validateXsApp (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/validators.js:149:15)
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR at exports.loadConfiguration (/home/vcap/app/node_modules/@sap/approuter/lib/configuration/app-config.js:21:14)
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR at module.exports.load (/home/vcap/app/node_modules/@sap/approuter/lib/configuration.js:21:34)
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR at bootstrap (/home/vcap/app/node_modules/@sap/approuter/lib/bootstrap.js:64:38)
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR at Approuter.start (/home/vcap/app/node_modules/@sap/approuter/approuter.js:68:13)
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR at Object.<anonymous> (/home/vcap/app/node_modules/@sap/approuter/approuter.js:146:6)
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR at Module._compile (node:internal/modules/cjs/loader:1730:14)
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR at Object..js (node:internal/modules/cjs/loader:1895:10)
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR at Module.load (node:internal/modules/cjs/loader:1465:32) {
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR jse_shortmsg: 'xs-app.json/routes/1: Format validation failed (/home/vcap/app/resources/pm-analyzer-fiori/dist is not a directory)',
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR jse_info: {},
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR cause: [Function: ve_cause]
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR }
+   2025-08-02T16:50:40.63+0200 [APP/PROC/WEB/0] ERR Node.js v22.16.0
+   2025-08-02T16:50:40.64+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:50:40.64+0200 [APP/PROC/WEB/0] ERR npm notice New major version of npm available! 10.9.2 -> 11.5.2
+   2025-08-02T16:50:40.64+0200 [APP/PROC/WEB/0] ERR npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+   2025-08-02T16:50:40.64+0200 [APP/PROC/WEB/0] ERR npm notice To update run: npm install -g npm@11.5.2
+   2025-08-02T16:50:40.64+0200 [APP/PROC/WEB/0] ERR npm notice
+   2025-08-02T16:50:40.70+0200 [APP/PROC/WEB/0] OUT Exit status 1
+   2025-08-02T16:50:43.35+0200 [API/5] OUT Uploading app package for app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T16:50:43.56+0200 [API/12] OUT Updated app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 ({"environment_variables"=>"[PRIVATE DATA HIDDEN]"})
+   2025-08-02T16:50:46.80+0200 [CELL/0] OUT Cell d1cc041a-d5a1-41d6-b9f6-6cda736ce3f0 stopping instance 699cfc30-7f85-4ae5-42a7-cb0e
+   2025-08-02T16:50:46.80+0200 [CELL/0] OUT Cell d1cc041a-d5a1-41d6-b9f6-6cda736ce3f0 destroying container for instance 699cfc30-7f85-4ae5-42a7-cb0e
+   2025-08-02T16:50:46.82+0200 [API/11] OUT Process has crashed with type: "web"
+   2025-08-02T16:50:46.83+0200 [API/11] OUT App instance exited with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 payload: {"instance"=>"699cfc30-7f85-4ae5-42a7-cb0e", "index"=>0, "cell_id"=>"d1cc041a-d5a1-41d6-b9f6-6cda736ce3f0", "reason"=>"CRASHED", "exit_description"=>"APP/PROC/WEB: Exited with status 1", "crash_count"=>7, "crash_timestamp"=>1754146246804196400, "version"=>"f3724c7c-98d6-4a29-a29b-35aa9235fbc6"}
+   2025-08-02T16:50:46.88+0200 [PROXY/0] OUT Exit status 137
+   2025-08-02T16:50:48.11+0200 [CELL/0] OUT Cell d1cc041a-d5a1-41d6-b9f6-6cda736ce3f0 successfully destroyed container for instance 699cfc30-7f85-4ae5-42a7-cb0e
+   2025-08-02T16:51:22.38+0200 [API/17] OUT Stopping app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T16:51:22.60+0200 [API/16] OUT Creating build for app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T16:51:23.23+0200 [STG/0] OUT Downloading zero_trust_sidecar_buildpack_1_10...
+   2025-08-02T16:51:23.23+0200 [STG/0] OUT Downloading nodejs_buildpack...
+   2025-08-02T16:51:23.23+0200 [STG/0] OUT Downloading staticfile_buildpack...
+   2025-08-02T16:51:23.23+0200 [STG/0] OUT Downloading java_buildpack...
+   2025-08-02T16:51:23.23+0200 [STG/0] OUT Downloading sap_java_buildpack_jakarta...
+   2025-08-02T16:51:23.26+0200 [STG/0] OUT Downloaded java_buildpack
+   2025-08-02T16:51:23.26+0200 [STG/0] OUT Downloading go_buildpack...
+   2025-08-02T16:51:23.26+0200 [STG/0] OUT Downloaded staticfile_buildpack
+   2025-08-02T16:51:23.26+0200 [STG/0] OUT Downloading python_buildpack...
+   2025-08-02T16:51:23.27+0200 [STG/0] OUT Downloaded nodejs_buildpack
+   2025-08-02T16:51:23.27+0200 [STG/0] OUT Downloading php_buildpack...
+   2025-08-02T16:51:23.27+0200 [STG/0] OUT Downloaded sap_java_buildpack_jakarta
+   2025-08-02T16:51:23.27+0200 [STG/0] OUT Downloading nginx_buildpack...
+   2025-08-02T16:51:23.27+0200 [STG/0] OUT Downloaded zero_trust_sidecar_buildpack_1_10
+   2025-08-02T16:51:23.27+0200 [STG/0] OUT Downloading binary_buildpack...
+   2025-08-02T16:51:23.30+0200 [STG/0] OUT Downloaded python_buildpack
+   2025-08-02T16:51:23.30+0200 [STG/0] OUT Downloading sap_java_buildpack...
+   2025-08-02T16:51:23.30+0200 [STG/0] OUT Downloaded nginx_buildpack
+   2025-08-02T16:51:23.30+0200 [STG/0] OUT Downloading sap_java_buildpack_1_114...
+   2025-08-02T16:51:23.31+0200 [STG/0] OUT Downloaded go_buildpack
+   2025-08-02T16:51:23.31+0200 [STG/0] OUT Downloading sap_java_buildpack_1_113...
+   2025-08-02T16:51:23.31+0200 [STG/0] OUT Downloaded php_buildpack
+   2025-08-02T16:51:23.31+0200 [STG/0] OUT Downloading zero_trust_sidecar_buildpack_1_9...
+   2025-08-02T16:51:23.31+0200 [STG/0] OUT Downloaded binary_buildpack
+   2025-08-02T16:51:23.31+0200 [STG/0] OUT Downloading sap_java_buildpack_jakarta_2_35...
+   2025-08-02T16:51:23.33+0200 [STG/0] OUT Downloaded sap_java_buildpack
+   2025-08-02T16:51:23.33+0200 [STG/0] OUT Downloading sap_java_buildpack_jakarta_2_33...
+   2025-08-02T16:51:23.34+0200 [STG/0] OUT Downloaded sap_java_buildpack_1_114
+   2025-08-02T16:51:23.34+0200 [STG/0] OUT Downloading sap_java_buildpack_jakarta_2_32...
+   2025-08-02T16:51:23.34+0200 [STG/0] OUT Downloaded sap_java_buildpack_1_113
+   2025-08-02T16:51:23.34+0200 [STG/0] OUT Downloading zero_trust_sidecar_buildpack...
+   2025-08-02T16:51:23.35+0200 [STG/0] OUT Downloaded sap_java_buildpack_jakarta_2_35
+   2025-08-02T16:51:23.35+0200 [STG/0] OUT Downloading zero_trust_sidecar_buildpack_1_8...
+   2025-08-02T16:51:23.36+0200 [STG/0] OUT Downloaded zero_trust_sidecar_buildpack_1_9
+   2025-08-02T16:51:23.36+0200 [STG/0] OUT Downloaded zero_trust_sidecar_buildpack
+   2025-08-02T16:51:23.37+0200 [STG/0] OUT Downloaded sap_java_buildpack_jakarta_2_32
+   2025-08-02T16:51:23.38+0200 [STG/0] OUT Downloaded zero_trust_sidecar_buildpack_1_8
+   2025-08-02T16:51:23.39+0200 [STG/0] OUT Downloaded sap_java_buildpack_jakarta_2_33
+   2025-08-02T16:51:23.39+0200 [STG/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 creating container for instance c2418cd2-30f1-41b5-890e-6bd9127b7692
+   2025-08-02T16:51:23.71+0200 [STG/0] OUT Security group rules were updated
+   2025-08-02T16:51:23.76+0200 [STG/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully created container for instance c2418cd2-30f1-41b5-890e-6bd9127b7692
+   2025-08-02T16:51:24.06+0200 [STG/0] OUT Downloading app package...
+   2025-08-02T16:51:24.06+0200 [STG/0] OUT Downloading build artifacts cache...
+   2025-08-02T16:51:24.11+0200 [STG/0] OUT Downloaded build artifacts cache (226B)
+   2025-08-02T16:51:29.04+0200 [STG/0] OUT Downloaded app package (60.6M)
+   2025-08-02T16:51:30.43+0200 [STG/0] OUT -----> Nodejs Buildpack version 1.8.38
+   2025-08-02T16:51:32.00+0200 [STG/0] OUT -----> Bootstrapping python
+   2025-08-02T16:51:32.00+0200 [STG/0] OUT -----> Installing python 3.11.12
+   2025-08-02T16:51:32.00+0200 [STG/0] OUT Copy [/tmp/buildpacks/03e689130b2c3e18/dependencies/3f5f5c003ac7b91f9e1a85daf492f112/python_3.11.12_linux_x64_cflinuxfs4_51adfd88.tgz]
+   2025-08-02T16:51:34.82+0200 [STG/0] OUT -----> Installing binaries
+   2025-08-02T16:51:34.82+0200 [STG/0] OUT engines.node (package.json): unspecified
+   2025-08-02T16:51:34.82+0200 [STG/0] OUT engines.npm (package.json): unspecified (use default)
+   2025-08-02T16:51:34.82+0200 [STG/0] OUT [31;1m**WARNING**[0m Node version not specified in package.json or .nvmrc. See: http://docs.cloudfoundry.org/buildpacks/node/node-tips.html
+   2025-08-02T16:51:34.82+0200 [STG/0] OUT -----> Installing node 22.16.0
+   2025-08-02T16:51:34.82+0200 [STG/0] OUT Copy [/tmp/buildpacks/03e689130b2c3e18/dependencies/0a5b2807f2f20788823b197d52c24f05/node_22.16.0_linux_x64_cflinuxfs4_13829c62.tgz]
+   2025-08-02T16:51:36.51+0200 [STG/0] OUT Using default npm version: 10.9.2
+   2025-08-02T16:51:36.51+0200 [STG/0] OUT -----> Installing yarn 1.22.22
+   2025-08-02T16:51:36.51+0200 [STG/0] OUT Copy [/tmp/buildpacks/03e689130b2c3e18/dependencies/ff849eb7696d3a7f463752a272c9a88e/yarn_1.22.22_linux_noarch_any-stack_83bda680.tgz]
+   2025-08-02T16:51:36.75+0200 [STG/0] OUT Installed yarn 1.22.22
+   2025-08-02T16:51:36.75+0200 [STG/0] OUT -----> Creating runtime environment
+   2025-08-02T16:51:36.75+0200 [STG/0] OUT NODE_ENV=production
+   2025-08-02T16:51:36.75+0200 [STG/0] OUT NODE_HOME=/tmp/contents3004272939/deps/0/node
+   2025-08-02T16:51:36.75+0200 [STG/0] OUT NODE_MODULES_CACHE=true
+   2025-08-02T16:51:36.75+0200 [STG/0] OUT NODE_VERBOSE=false
+   2025-08-02T16:51:36.75+0200 [STG/0] OUT NPM_CONFIG_LOGLEVEL=error
+   2025-08-02T16:51:36.75+0200 [STG/0] OUT NPM_CONFIG_PRODUCTION=true
+   2025-08-02T16:51:36.75+0200 [STG/0] OUT -----> Building dependencies
+   2025-08-02T16:51:36.75+0200 [STG/0] OUT Prebuild detected (node_modules already exists)
+   2025-08-02T16:51:36.75+0200 [STG/0] OUT Rebuilding any native modules
+   2025-08-02T16:51:37.33+0200 [STG/0] OUT rebuilt dependencies successfully
+   2025-08-02T16:51:37.33+0200 [STG/0] OUT npm notice
+   2025-08-02T16:51:37.33+0200 [STG/0] OUT npm notice New major version of npm available! 10.9.2 -> 11.5.2
+   2025-08-02T16:51:37.33+0200 [STG/0] OUT npm notice Changelog: https://github.com/npm/cli/releases/tag/v11.5.2
+   2025-08-02T16:51:37.33+0200 [STG/0] OUT npm notice To update run: npm install -g npm@11.5.2
+   2025-08-02T16:51:37.33+0200 [STG/0] OUT npm notice
+   2025-08-02T16:51:37.38+0200 [STG/0] OUT Installing any new modules (package.json + package-lock.json)
+   2025-08-02T16:51:37.92+0200 [STG/0] OUT up to date in 487ms
+   2025-08-02T16:51:37.92+0200 [STG/0] OUT 17 packages are looking for funding
+   2025-08-02T16:51:37.92+0200 [STG/0] OUT run `npm fund` for details
+   2025-08-02T16:51:40.48+0200 [STG/0] OUT Contrast Security no credentials found. Will not write environment files.
+   2025-08-02T16:51:59.16+0200 [STG/0] OUT Exit status 0
+   2025-08-02T16:51:59.16+0200 [STG/0] OUT Uploading droplet, build artifacts cache...
+   2025-08-02T16:51:59.16+0200 [STG/0] OUT Uploading droplet...
+   2025-08-02T16:51:59.16+0200 [STG/0] OUT Uploading build artifacts cache...
+   2025-08-02T16:51:59.19+0200 [STG/0] OUT Uploaded build artifacts cache (226B)
+   2025-08-02T16:52:00.38+0200 [API/11] OUT Creating droplet for app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T16:52:02.47+0200 [STG/0] OUT Uploaded droplet (99.7M)
+   2025-08-02T16:52:02.50+0200 [STG/0] OUT Uploading complete
+   2025-08-02T16:52:02.70+0200 [STG/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 stopping instance c2418cd2-30f1-41b5-890e-6bd9127b7692
+   2025-08-02T16:52:02.70+0200 [STG/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 destroying container for instance c2418cd2-30f1-41b5-890e-6bd9127b7692
+   2025-08-02T16:52:06.91+0200 [STG/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully destroyed container for instance c2418cd2-30f1-41b5-890e-6bd9127b7692
+   2025-08-02T16:52:12.20+0200 [API/10] OUT Updated app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 ({:droplet_guid=>"6b7374ba-987b-415b-a9d2-1c7d004addfc"})
+   2025-08-02T16:52:12.46+0200 [API/18] OUT Creating revision for app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T16:52:12.48+0200 [API/18] OUT Starting app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T16:52:12.64+0200 [CELL/0] OUT Cell d1cc041a-d5a1-41d6-b9f6-6cda736ce3f0 creating container for instance 4b143234-8510-411a-6dc8-12f9
+   2025-08-02T16:52:12.95+0200 [CELL/0] OUT Security group rules were updated
+   2025-08-02T16:52:13.00+0200 [CELL/0] OUT Cell d1cc041a-d5a1-41d6-b9f6-6cda736ce3f0 successfully created container for instance 4b143234-8510-411a-6dc8-12f9
+   2025-08-02T16:52:13.29+0200 [CELL/0] OUT Downloading droplet...
+   2025-08-02T16:52:19.90+0200 [CELL/0] OUT Downloaded droplet (99.7M)
+   2025-08-02T16:52:19.90+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-08-02T16:52:19.95+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-08-02T16:52:20.09+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-08-02T16:52:20.39+0200 [APP/PROC/WEB/0] OUT > start
+   2025-08-02T16:52:20.39+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-08-02T16:52:20.59+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:52:20.597Z","written_ts":1754146340597000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.1.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-08-02T16:52:20.84+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:52:20.843Z","written_ts":1754146340843000000,"csn_component":"-","correlation_id":"mdudfv1n","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.1.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdudfv1n","msg":"Application router version 14.4.3"}
+   2025-08-02T16:52:20.84+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:52:20.846Z","written_ts":1754146340846000000,"csn_component":"-","correlation_id":"mdudfv1q","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.1.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdudfv1q","msg":"No COOKIES environment variable"}
+   2025-08-02T16:52:20.85+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:52:20.850Z","written_ts":1754146340850000000,"csn_component":"-","correlation_id":"mdudfv1u","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"warning","container_id":"10.32.1.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdudfv1u","msg":"No authentication will be used when accessing backends. Scopes defined in routes will be ignored."}
+   2025-08-02T16:52:20.85+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:52:20.850Z","written_ts":1754146340850000000,"csn_component":"-","correlation_id":"mdudfv1u","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.1.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdudfv1u","msg":"Replacing $XSAPPNAME will not take place - 'xsappname' property not found in UAA configuration."}
+   2025-08-02T16:52:20.86+0200 [APP/PROC/WEB/0] ERR (node:227) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+   2025-08-02T16:52:20.86+0200 [APP/PROC/WEB/0] ERR (Use `node --trace-deprecation ...` to show where the warning was created)
+   2025-08-02T16:52:20.89+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T14:52:20.889Z","written_ts":1754146340889000000,"csn_component":"-","correlation_id":"mdudfv1n","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.1.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdudfv1n","msg":"Application router is listening on port: 8080"}
+   2025-08-02T16:52:23.30+0200 [CELL/0] OUT Container became healthy
+   2025-08-02T16:52:23.32+0200 [API/12] OUT Process became ready with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 payload: {"instance"=>"4b143234-8510-411a-6dc8-12f9", "index"=>0, "cell_id"=>"d1cc041a-d5a1-41d6-b9f6-6cda736ce3f0", "ready"=>true, "version"=>"72a1228d-e864-401a-a8f9-3c4875b49db7"}
+   2025-08-02T17:04:56.56+0200 [RTR/0] OUT dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com - [2025-08-02T15:04:56.553006445Z] "GET / HTTP/2.0" 302 0 0 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15" "10.0.72.0:44690" "10.32.1.5:61010" x_forwarded_for:"31.165.131.254, 10.0.72.0" x_forwarded_proto:"https" vcap_request_id:"a87fa8e2-02c8-45bb-56b6-f92cdf91a291" response_time:0.012922 gorouter_time:0.000055 app_id:"18bda6f6-cb4a-4f85-a257-1af2e815cf27" app_index:"0" instance_id:"4b143234-8510-411a-6dc8-12f9" failed_attempts:0 failed_attempts_time:"-" dns_time:0.000000 dial_time:0.000413 tls_time:0.006086 backend_time:0.012867 local_address:"10.0.65.8:13262" x_cf_routererror:"-" x_correlationid:"-" tenantid:"-" sap_passport:"-" x_scp_request_id:"9da285b7-e221-4fad-a5bd-6764a901c5ea-688E2918-C589EA2" x_cf_app_instance:"-" x_forwarded_host:"-" x_custom_host:"-" x_ssl_client:"-" x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-" x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-" x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-" x_cf_true_client_ip:"31.165.131.254" x_request_id:"-" x_b3_traceid:"a87fa8e202c845bb56b6f92cdf91a291" x_b3_spanid:"56b6f92cdf91a291" x_b3_parentspanid:"-" b3:"a87fa8e202c845bb56b6f92cdf91a291-56b6f92cdf91a291"
+   2025-08-02T17:04:56.75+0200 [RTR/5] OUT dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com - [2025-08-02T15:04:56.740442972Z] "GET /index.html HTTP/2.0" 200 0 841 "-" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15" "10.0.72.0:33924" "10.32.1.5:61010" x_forwarded_for:"31.165.131.254, 10.0.72.0" x_forwarded_proto:"https" vcap_request_id:"e0ef51af-ceb7-4bb1-6a5e-9b5c3c9e8de4" response_time:0.016259 gorouter_time:0.000097 app_id:"18bda6f6-cb4a-4f85-a257-1af2e815cf27" app_index:"0" instance_id:"4b143234-8510-411a-6dc8-12f9" failed_attempts:0 failed_attempts_time:"-" dns_time:0.000000 dial_time:0.000836 tls_time:0.006120 backend_time:0.016162 local_address:"10.0.193.9:13000" x_cf_routererror:"-" x_correlationid:"-" tenantid:"-" sap_passport:"-" x_scp_request_id:"9da285b7-e221-4fad-a5bd-6764a901c5ea-688E2918-C589EC8" x_cf_app_instance:"-" x_forwarded_host:"-" x_custom_host:"-" x_ssl_client:"-" x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-" x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-" x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-" x_cf_true_client_ip:"31.165.131.254" x_request_id:"-" x_b3_traceid:"e0ef51afceb74bb16a5e9b5c3c9e8de4" x_b3_spanid:"6a5e9b5c3c9e8de4" x_b3_parentspanid:"-" b3:"e0ef51afceb74bb16a5e9b5c3c9e8de4-6a5e9b5c3c9e8de4"
+   2025-08-02T17:04:58.46+0200 [RTR/0] OUT dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com - [2025-08-02T15:04:58.459790160Z] "GET /manifest.json?sap-language=DE HTTP/2.0" 200 0 752 "https://dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com/index.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15" "10.0.72.0:28280" "10.32.1.5:61010" x_forwarded_for:"31.165.131.254, 10.0.72.0" x_forwarded_proto:"https" vcap_request_id:"15af90a0-3380-4784-64f0-7b9045a36ca3" response_time:0.006373 gorouter_time:0.000113 app_id:"18bda6f6-cb4a-4f85-a257-1af2e815cf27" app_index:"0" instance_id:"4b143234-8510-411a-6dc8-12f9" failed_attempts:0 failed_attempts_time:"-" dns_time:0.000000 dial_time:0.000000 tls_time:0.000000 backend_time:0.006260 local_address:"10.0.65.8:13262" x_cf_routererror:"-" x_correlationid:"-" tenantid:"-" sap_passport:"-" x_scp_request_id:"9da285b7-e221-4fad-a5bd-6764a901c5ea-688E2918-C58A05F" x_cf_app_instance:"-" x_forwarded_host:"-" x_custom_host:"-" x_ssl_client:"-" x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-" x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-" x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-" x_cf_true_client_ip:"31.165.131.254" x_request_id:"-" x_b3_traceid:"15af90a03380478464f07b9045a36ca3" x_b3_spanid:"64f07b9045a36ca3" x_b3_parentspanid:"-" b3:"15af90a03380478464f07b9045a36ca3-64f07b9045a36ca3"
+   2025-08-02T17:04:58.62+0200 [RTR/1] OUT dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com - [2025-08-02T15:04:58.617699860Z] "GET /Component-preload.js HTTP/2.0" 200 0 5287 "https://dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com/index.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15" "10.0.72.0:64472" "10.32.1.5:61010" x_forwarded_for:"31.165.131.254, 10.0.72.0" x_forwarded_proto:"https" vcap_request_id:"9c66f888-fe82-4e9f-7626-0e5e11b78abd" response_time:0.011458 gorouter_time:0.000061 app_id:"18bda6f6-cb4a-4f85-a257-1af2e815cf27" app_index:"0" instance_id:"4b143234-8510-411a-6dc8-12f9" failed_attempts:0 failed_attempts_time:"-" dns_time:0.000000 dial_time:0.000425 tls_time:0.005782 backend_time:0.011397 local_address:"10.0.65.9:53852" x_cf_routererror:"-" x_correlationid:"-" tenantid:"-" sap_passport:"-" x_scp_request_id:"9da285b7-e221-4fad-a5bd-6764a901c5ea-688E291A-C58A07B" x_cf_app_instance:"-" x_forwarded_host:"-" x_custom_host:"-" x_ssl_client:"-" x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-" x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-" x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-" x_cf_true_client_ip:"31.165.131.254" x_request_id:"-" x_b3_traceid:"9c66f888fe824e9f76260e5e11b78abd" x_b3_spanid:"76260e5e11b78abd" x_b3_parentspanid:"-" b3:"9c66f888fe824e9f76260e5e11b78abd-76260e5e11b78abd"
+   2025-08-02T17:04:58.91+0200 [RTR/0] OUT dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com - [2025-08-02T15:04:58.907160806Z] "GET /mock_data_de.json HTTP/2.0" 200 0 2291 "https://dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com/index.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15" "10.0.72.0:28280" "10.32.1.5:61010" x_forwarded_for:"31.165.131.254, 10.0.72.0" x_forwarded_proto:"https" vcap_request_id:"78c740cb-4b41-410b-6e32-932a5fde8538" response_time:0.004695 gorouter_time:0.000064 app_id:"18bda6f6-cb4a-4f85-a257-1af2e815cf27" app_index:"0" instance_id:"4b143234-8510-411a-6dc8-12f9" failed_attempts:0 failed_attempts_time:"-" dns_time:0.000000 dial_time:0.000000 tls_time:0.000000 backend_time:0.004631 local_address:"10.0.65.8:13262" x_cf_routererror:"-" x_correlationid:"-" tenantid:"-" sap_passport:"-" x_scp_request_id:"9da285b7-e221-4fad-a5bd-6764a901c5ea-688E291A-C58A0C0" x_cf_app_instance:"-" x_forwarded_host:"-" x_custom_host:"-" x_ssl_client:"-" x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-" x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-" x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-" x_cf_true_client_ip:"31.165.131.254" x_request_id:"-" x_b3_traceid:"78c740cb4b41410b6e32932a5fde8538" x_b3_spanid:"6e32932a5fde8538" x_b3_parentspanid:"-" b3:"78c740cb4b41410b6e32932a5fde8538-6e32932a5fde8538"
+   2025-08-02T17:05:02.51+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T15:05:02.512Z","written_ts":1754147102512000000,"csn_component":"-","correlation_id":"4d315267-9336-4d70-7ab0-9821c70968ae","type":"log","logger":"nodejs-logger","layer":"/Handler","level":"error","container_id":"10.32.1.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","request_id":"4d315267-9336-4d70-7ab0-9821c70968ae","msg":"POST request to /api/analyze completed with status 500 Error while retrieving destination pm-analyzer-backend from destination service. HTTP status code: 404, token details: {\"subdomain\":\"trial3-f5tqczxd\",\"serviceInstanceId\":\"e7675745-6b88-43b3-9e76-20a0acb2a523\",\"clientId\":\"sb-clonee76757456b8843b39e7620a0acb2a523!b490740|destination-xsappname!b62\",\"expiration\":1754189541}"}
+   2025-08-02T17:05:02.51+0200 [RTR/4] OUT dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com - [2025-08-02T15:05:02.446274973Z] "POST /api/analyze HTTP/2.0" 500 864 21 "https://dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com/index.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15" "10.0.72.0:24104" "10.32.1.5:61010" x_forwarded_for:"31.165.131.254, 10.0.72.0" x_forwarded_proto:"https" vcap_request_id:"4d315267-9336-4d70-7ab0-9821c70968ae" response_time:0.067815 gorouter_time:0.000078 app_id:"18bda6f6-cb4a-4f85-a257-1af2e815cf27" app_index:"0" instance_id:"4b143234-8510-411a-6dc8-12f9" failed_attempts:0 failed_attempts_time:"-" dns_time:0.000000 dial_time:0.000750 tls_time:0.005923 backend_time:0.067737 local_address:"10.0.193.8:31052" x_cf_routererror:"-" x_correlationid:"-" tenantid:"-" sap_passport:"-" x_scp_request_id:"9da285b7-e221-4fad-a5bd-6764a901c5ea-688E291A-C58A56C" x_cf_app_instance:"-" x_forwarded_host:"-" x_custom_host:"-" x_ssl_client:"-" x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-" x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-" x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-" x_cf_true_client_ip:"31.165.131.254" x_request_id:"-" x_b3_traceid:"4d31526793364d707ab09821c70968ae" x_b3_spanid:"7ab09821c70968ae" x_b3_parentspanid:"-" b3:"4d31526793364d707ab09821c70968ae-7ab09821c70968ae"
+   2025-08-02T17:05:13.00+0200 [RTR/4] OUT dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com - [2025-08-02T15:05:13.001301673Z] "GET /Component-preload.js.map HTTP/2.0" 200 0 4253 "https://dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com/index.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15" "10.0.72.0:48012" "10.32.1.5:61010" x_forwarded_for:"31.165.131.254, 10.0.72.0" x_forwarded_proto:"https" vcap_request_id:"de30d650-0cee-49bd-6c90-432c7793642d" response_time:0.007920 gorouter_time:0.000094 app_id:"18bda6f6-cb4a-4f85-a257-1af2e815cf27" app_index:"0" instance_id:"4b143234-8510-411a-6dc8-12f9" failed_attempts:0 failed_attempts_time:"-" dns_time:0.000000 dial_time:0.000000 tls_time:0.000000 backend_time:0.007825 local_address:"10.0.193.8:31052" x_cf_routererror:"-" x_correlationid:"-" tenantid:"-" sap_passport:"-" x_scp_request_id:"9da285b7-e221-4fad-a5bd-6764a901c5ea-688E291E-C58B189" x_cf_app_instance:"-" x_forwarded_host:"-" x_custom_host:"-" x_ssl_client:"-" x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-" x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-" x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-" x_cf_true_client_ip:"31.165.131.254" x_request_id:"-" x_b3_traceid:"de30d6500cee49bd6c90432c7793642d" x_b3_spanid:"6c90432c7793642d" x_b3_parentspanid:"-" b3:"de30d6500cee49bd6c90432c7793642d-6c90432c7793642d"
+   2025-08-02T17:06:30.63+0200 [API/1] OUT Stopping app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T17:06:30.66+0200 [CELL/0] OUT Cell d1cc041a-d5a1-41d6-b9f6-6cda736ce3f0 stopping instance 4b143234-8510-411a-6dc8-12f9
+   2025-08-02T17:06:30.86+0200 [API/10] OUT Starting app with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27
+   2025-08-02T17:06:31.04+0200 [CELL/0] OUT Cell 40a73ee2-c30d-4beb-931c-937f2cbb923b creating container for instance 2f015be8-aa29-42cc-797f-c03b
+   2025-08-02T17:06:31.35+0200 [CELL/0] OUT Security group rules were updated
+   2025-08-02T17:06:31.40+0200 [CELL/0] OUT Cell 40a73ee2-c30d-4beb-931c-937f2cbb923b successfully created container for instance 2f015be8-aa29-42cc-797f-c03b
+   2025-08-02T17:06:31.67+0200 [CELL/0] OUT Downloading droplet...
+   2025-08-02T17:06:38.37+0200 [CELL/0] OUT Downloaded droplet (99.7M)
+   2025-08-02T17:06:38.37+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-08-02T17:06:38.42+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-08-02T17:06:38.57+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-08-02T17:06:38.87+0200 [APP/PROC/WEB/0] OUT > start
+   2025-08-02T17:06:38.87+0200 [APP/PROC/WEB/0] OUT > node node_modules/@sap/approuter/approuter.js
+   2025-08-02T17:06:39.07+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T15:06:39.074Z","written_ts":1754147199074000000,"csn_component":"-","correlation_id":"-","type":"log","logger":"nodejs-logger","layer":"/LoggingLibrary","level":"warning","container_id":"10.32.3.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"","msg":"Dynamic log level switching not available"}
+   2025-08-02T17:06:39.31+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T15:06:39.317Z","written_ts":1754147199317000000,"csn_component":"-","correlation_id":"mdudy9g5","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.3.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdudy9g5","msg":"Application router version 14.4.3"}
+   2025-08-02T17:06:39.32+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T15:06:39.320Z","written_ts":1754147199320000000,"csn_component":"-","correlation_id":"mdudy9g8","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.3.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdudy9g8","msg":"No COOKIES environment variable"}
+   2025-08-02T17:06:39.32+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T15:06:39.323Z","written_ts":1754147199323000000,"csn_component":"-","correlation_id":"mdudy9gb","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"warning","container_id":"10.32.3.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdudy9gb","msg":"No authentication will be used when accessing backends. Scopes defined in routes will be ignored."}
+   2025-08-02T17:06:39.32+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T15:06:39.324Z","written_ts":1754147199324000000,"csn_component":"-","correlation_id":"mdudy9gb","type":"log","logger":"nodejs-logger","layer":"/Configuration","level":"info","container_id":"10.32.3.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdudy9gb","msg":"Replacing $XSAPPNAME will not take place - 'xsappname' property not found in UAA configuration."}
+   2025-08-02T17:06:39.33+0200 [APP/PROC/WEB/0] ERR (node:227) [DEP0060] DeprecationWarning: The `util._extend` API is deprecated. Please use Object.assign() instead.
+   2025-08-02T17:06:39.33+0200 [APP/PROC/WEB/0] ERR (Use `node --trace-deprecation ...` to show where the warning was created)
+   2025-08-02T17:06:39.36+0200 [APP/PROC/WEB/0] OUT {"written_at":"2025-08-02T15:06:39.363Z","written_ts":1754147199363000000,"csn_component":"-","correlation_id":"mdudy9g5","type":"log","logger":"nodejs-logger","layer":"/approuter","level":"info","container_id":"10.32.3.5","component_type":"application","component_id":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instance":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name":"dev","context_id":"mdudy9g5","msg":"Application router is listening on port: 8080"}
+   2025-08-02T17:06:41.78+0200 [CELL/0] OUT Container became healthy
+   2025-08-02T17:06:41.81+0200 [API/13] OUT Process became ready with guid 18bda6f6-cb4a-4f85-a257-1af2e815cf27 payload: {"instance"=>"2f015be8-aa29-42cc-797f-c03b", "index"=>0, "cell_id"=>"40a73ee2-c30d-4beb-931c-937f2cbb923b", "ready"=>true, "version"=>"828054ee-19f5-4860-b898-78fc28ad55f1"}

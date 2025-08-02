@@ -37,6 +37,16 @@ resources:
     parameters:
       service: destination
       service-plan: lite
+      config:
+        init_data:
+          instance:
+            destinations:
+              - Name: pm-analyzer-backend
+                Type: HTTP
+                URL: https://pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com
+                ProxyType: Internet
+                Authentication: NoAuthentication
+            existing_destinations_policy: update
 
   - name: pm-analyzer-backend-app
     type: org.cloudfoundry.existing-service
