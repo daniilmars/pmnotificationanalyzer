@@ -18,7 +18,7 @@ modules:
             - .
           target-path: resources/
 
-   - name: pm-analyzer-fiori-build
+  - name: pm-analyzer-fiori-build
     type: html5
     path: pm-analyzer-fiori
     build-parameters:
@@ -28,7 +28,7 @@ modules:
         - npm run build:cf
       supported-platforms: []
     parameters:
-      memory: 1G  # Request 1GB of memory for the build
+      memory: 1G
       disk-quota: 1G
 
 resources:
