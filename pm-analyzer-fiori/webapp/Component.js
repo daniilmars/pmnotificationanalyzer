@@ -20,15 +20,26 @@ function (UIComponent, Device, JSONModel, MessageBox, ResourceModel) {
             // Set the device model
             this.setModel(new JSONModel(Device), "device");
 
+            // --- START: NEW DATA MODEL INITIALIZATION ---
+            // Explicitly create and set the main data model
+            var oModel = new JSONModel();
+            this.setModel(oModel); // Set as the default model
+
+            // Load the mock data into the model
+            var sMockDataPath = sap.ui.require.toUrl("com/sap/pm/pmanalyzerfiori/mock_data_en.json");
+            oModel.loadData(sMockDataPath);
+            // --- END: NEW DATA MODEL INITIALIZATION ---
+
+
             // Check for stored language and set it
             const sStoredLanguage = localStorage.getItem("appLanguage");
             if (sStoredLanguage) {
                 sap.ui.getCore().getConfiguration().setLanguage(sStoredLanguage);
             }
 
-            // Initialize the UI model (simplified, no longer tracking authentication state)
+            // Initialize the UI model
             const oUiModel = new JSONModel({
-                isBusy: false // No longer busy due to auth, just general app loading
+                isBusy: false
             });
             this.setModel(oUiModel, "ui");
 
@@ -40,10 +51,8 @@ function (UIComponent, Device, JSONModel, MessageBox, ResourceModel) {
             });
             this.setModel(i18nModel, "i18n");
 
-            // Initialize the router directly, as no authentication is needed
+            // Initialize the router
             this.getRouter().initialize();
-
-            // No Auth0 client initialization or handling needed
         }
     });
 });

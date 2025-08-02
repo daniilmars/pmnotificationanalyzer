@@ -42,9 +42,7 @@
                 }
             },
             "": {
-                "type": "sap.ui.model.json.JSONModel",
-                "dataSource": "notificationsMockData",
-                "preload": true
+                "type": "sap.ui.model.json.JSONModel"
             },
             "analysis": {
                 "type": "sap.ui.model.json.JSONModel",
