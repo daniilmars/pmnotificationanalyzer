@@ -11,31 +11,24 @@ jobs:
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4 # Checkout the latest code from the repository
+        uses: actions/checkout@v4
 
       - name: Setup Node.js
-        uses: actions/setup-node@v4 # Install Node.js, required for mbt
+        uses: actions/setup-node@v4
         with:
-          node-version: '18' # Use a stable LTS version of Node.js
+          node-version: '18'
 
       - name: Install Cloud Foundry CLI
         run: |
-          # Download the Cloud Foundry CLI binary
           wget -q -O cf-cli-installer.deb "https://packages.cloudfoundry.org/stable?release=debian64&version=8.7.6&source=github"
-          # Install the CLI
           sudo dpkg -i cf-cli-installer.deb
-          # Verify installation
           cf version
 
       - name: Install Cloud Foundry MultiApps Plugin
-        run: |
-          # Install the MultiApps plugin from the CF Community repository
-          cf install-plugin -r CF-Community "multiapps" -f
-          # Verify plugin installation
-          cf plugins
+        run: cf install-plugin -r CF-Community "multiapps" -f
 
       - name: Install jq
-        run: sudo apt-get update && sudo apt-get install -y jq # Install jq for JSON parsing
+        run: sudo apt-get update && sudo apt-get install -y jq
 
       - name: Install MTA Build Tool (MBT)
         run: npm install -g mbt@1.2.0
@@ -43,10 +36,9 @@ jobs:
       # --- Cloud Foundry Deployment Steps ---
       - name: Login to Cloud Foundry
         run: |
-          echo "Attempting CF login with API endpoint: $CF_API_ENDPOINT"
-          cf api $CF_API_ENDPOINT
-          cf auth "$CF_USERNAME" "$CF_PASSWORD"
-          cf target -o "$CF_ORG" -s "$CF_SPACE"
+          cf api ${{ secrets.CF_API_ENDPOINT }}
+          cf auth ${{ secrets.CF_USERNAME }} ${{ secrets.CF_PASSWORD }}
+          cf target -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE }}
         env:
           CF_USERNAME: ${{ secrets.CF_USERNAME }}
           CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
@@ -55,53 +47,31 @@ jobs:
           CF_API_ENDPOINT: ${{ secrets.CF_API_ENDPOINT }}
 
       - name: Delete Existing Backend Application (if any)
-        run: cf delete -f pm-analyzer-backend || true # Delete if exists, '|| true' prevents step from failing if app doesn't exist
+        run: cf delete -f pm-analyzer-backend || true
 
-      - name: Push Backend Application
-        id: push_backend # Add an ID to this step to capture outputs
-        env:
-          CF_API_ENDPOINT_FULL: ${{ secrets.CF_API_ENDPOINT }}
+      # --- MODIFIED: Push backend using the route from manifest.yml ---
+      - name: Push Backend (without starting)
         run: |
-          REGION=$(echo "$CF_API_ENDPOINT_FULL" | sed -E 's/https:\/\/api\.cf\.([a-zA-Z0-9-]+)\.hana\.ondemand\.com.*/\1/')
-          if [ -z "$REGION" ]; then
-            echo "Error: Could not extract region from CF_API_ENDPOINT. Please check its format."
-            exit 1
-          fi
-
-          # Use a fixed, simple hostname for the backend application
-          FIXED_BACKEND_HOSTNAME="pm-analyzer-backend-dev" # Simplified to a static value
-          BACKEND_DOMAIN="cfapps.${REGION}.hana.ondemand.com"
-
-          echo "Using Fixed Backend Hostname: ${FIXED_BACKEND_HOSTNAME}"
-          echo "Using Backend Domain: ${BACKEND_DOMAIN}"
-
-          # Set outputs for the next steps to consume
-          echo "backend_hostname=${FIXED_BACKEND_HOSTNAME}" >> "$GITHUB_OUTPUT"
-          echo "backend_domain=${BACKEND_DOMAIN}" >> "$GITHUB_OUTPUT"
-
           cd backend
-          cf push pm-analyzer-backend -f manifest.yml --no-route --no-start
-        working-directory: .
+          # The --no-route flag is REMOVED. CF will now use the route from manifest.yml.
+          # The --no-start flag keeps the app stopped so we can set env vars before it runs.
+          cf push pm-analyzer-backend -f manifest.yml --no-start
 
-      - name: Start Backend Application
-        run: |
-          cf start pm-analyzer-backend
-        working-directory: .
+      # --- NEW: Set environment variable from GitHub Secret and restage ---
+      - name: Set Google API Key for Backend
+        run: cf set-env pm-analyzer-backend GOOGLE_API_KEY ${{ secrets.GOOGLE_API_KEY }}
 
+      - name: Restage Backend to Apply Environment Variables
+        # Restage will re-run the staging process and start the app, applying the new env var.
+        # This replaces the old "cf start" step.
+        run: cf restage pm-analyzer-backend
+
+      # --- MTA steps for frontend remain the same ---
       - name: Build MTA Archive
-        # Build the MTAR, it will generate in mta_archives/mta_archives/
         run: |
           mkdir -p mta_archives
           mbt build -p=cf --mtar mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar
           mv mta_archives/mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar mta_archives/
-        working-directory: .
-
-      - name: List MTAR files for debugging
-        run: |
-          echo "--- Listing contents of mta_archives/ ---"
-          ls -l mta_archives/
-          echo "--- End of mta_archives/ listing ---"
-        working-directory: .
 
       - name: Deploy MTA Archive
-        run: cf deploy mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar -f --retries 1
+        run: cf deploy mta_archives/com.sap.pm.pmanalygizer_1.0.0.mtar -f --retries 1

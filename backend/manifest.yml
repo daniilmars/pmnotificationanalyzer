@@ -6,6 +6,4 @@ applications:
   memory: 512M
   disk_quota: 512M
   routes:
-  - route: pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com # FIXED ROUTE: Adjust domain if needed
-  # IMPORTANT: This route must be unique in your CF landscape.
-  # If you need a different fixed name, change 'pm-analyzer-backend-dev' here.
+  - route: pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com 
