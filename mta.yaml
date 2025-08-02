@@ -11,12 +11,8 @@ modules:
       memory: 512M
     requires:
       - name: pm-analyzer-destination
-    build-parameters:
-      requires:
-        - name: pm-analyzer-fiori-build
-          artifacts:
-            - .
-          target-path: resources/
+    properties:
+      destinations: '[{"name":"pm-analyzer-backend-url","url":"https://pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com","forwardAuthToken": false}]'
 
   - name: pm-analyzer-fiori-build
     type: html5
@@ -37,16 +33,6 @@ resources:
     parameters:
       service: destination
       service-plan: lite
-      config:
-        init_data:
-          instance:
-            destinations:
-              - Name: pm-analyzer-backend
-                Type: HTTP
-                URL: https://pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com
-                ProxyType: Internet
-                Authentication: NoAuthentication
-            existing_destinations_policy: update
 
   - name: pm-analyzer-backend-app
     type: org.cloudfoundry.existing-service
