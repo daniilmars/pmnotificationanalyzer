@@ -175,3 +175,56 @@ npx fiori run --open 'test/flpSandbox.html?sap-ui-xx-viewCache=false'
 
 This command starts a local server and automatically opens your Fiori application in a web browser. The server is pre-configured in ui5.yaml to proxy API requests to your local backend.
 
+
+
+Deploying a full-stack application with a Python backend and a SAP Fiori frontend to the SAP BTP Cloud Foundry environment involved several specific challenges. This section captures the key lessons learned during the process to aid future deployments.
+
+1. SAPUI5 Versioning on CDNs is Critical
+
+The initial "empty page" issue, which showed 404 Not Found errors in the browser console for UI5 resources, was caused by an incorrect CDN bootstrap URL in the index.html file.
+
+Lesson: For SAP Fiori applications, it is best practice to use the versioned SAPUI5 CDN (https://ui5.sap.com/<version>/...) instead of the OpenUI5 CDN (https://sdk.openui5.org/...).
+
+Best Practice: Use an "evergreen" URL that specifies the major/minor version (e.g., /1.120/) instead of a specific patch version (e.g., /1.120.13/). This ensures the application always receives the latest available, secure, and non-deprecated patch for your chosen maintenance version, protecting it from future patch removals by SAP.
+
+Example: <script src="https://ui5.sap.com/1.120/resources/sap-ui-core.js" ...>
+
+2. Frontend Deployment Strategy: Embedded vs. HTML5 Repo
+
+The initial deployment strategy used the standard HTML5 Application Repository service. This led to a series of complex, difficult-to-debug authentication issues between the Approuter and the repository service.
+
+Challenge: The managed html5-apps-repo service in the trial environment provided credentials that were incompatible with the Approuter's validation (Missing grant_type error). Workarounds involving manual or declarative destinations also failed due to conflicting requirements between the runtime Approuter and the deployment-time content uploader.
+
+Lesson: A simpler and more robust deployment pattern for standalone Fiori applications is to embed the UI directly into the Approuter. This makes the Approuter a self-contained web server for both the application's static files and its API proxying.
+
+Implementation:
+
+The mta.yaml was simplified to remove the html5-apps-repo service and the content-deployer module. Instead, the pm-analyzer-approuter module was configured to require the build artifacts from the pm-analyzer-fiori-build module.
+
+The pm-analyzer-fiori/package.json was updated with a postbuild:cf script (mkdir -p ... && cp -r ...) to copy the built Fiori app into the Approuter's resources folder.
+
+The approuter/xs-app.json was changed to serve the UI content from a localDir instead of from a service or destination.
+
+3. Backend Environment Variables in Cloud Foundry
+
+The backend application failed with an "Internal Server Error" after the initial deployment.
+
+Lesson: Unlike local development where a .env file is used, in Cloud Foundry, secrets like the GOOGLE_API_KEY must be explicitly set as environment variables for the application.
+
+Implementation: This was fixed by running cf set-env pm-analyzer-backend GOOGLE_API_KEY <your-key> followed by a cf restage pm-analyzer-backend. The restage is critical for the application to pick up the new variable.
+
+4. Fiori Routing for Standalone Apps
+
+With the login view removed, the application initially loaded an empty page.
+
+Lesson: The default route in a Fiori application's manifest.json must be explicitly configured to load the main view.
+
+Implementation: The routing.routes array in pm-analyzer-fiori/webapp/manifest.json was updated to make the route with pattern: "" target the "worklist" view directly.
+
+5. MTA Build Tool and Memory Allocation
+
+During one deployment attempt, the MTA build itself failed.
+
+Lesson: The npm install and ui5 build processes for the Fiori application can be memory-intensive. In constrained environments like the BTP Trial, the default memory allocation for the build task may not be sufficient.
+
+Implementation: The mta.yaml file was updated to include parameters: { memory: 1G, disk-quota: 1G } for the pm-analyzer-fiori-build module, which resolved the staging error.

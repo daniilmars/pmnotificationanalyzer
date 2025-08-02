@@ -12,7 +12,7 @@
                 "type": "REST"
             },
             "notificationsMockData": {
-                "uri": "mock_data_en.json",
+                "uri": "./mock_data_en.json",
                 "type": "JSON"
             }
         }
