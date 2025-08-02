@@ -72,14 +72,26 @@
                 "clearControlAggregation": false
             },
             "routes": [
-                { "name": "login", "pattern": "", "target": "login" },
-                { "name": "worklist", "pattern": "worklist", "target": "worklist" },
-                { "name": "object", "pattern": "Notifications/{notificationId}", "target": "object" }
+                {
+                    "name": "worklist",
+                    "pattern": "",
+                    "target": "worklist"
+                },
+                {
+                    "name": "object",
+                    "pattern": "Notifications/{notificationId}",
+                    "target": "object"
+                }
             ],
             "targets": {
-                "login": { "viewName": "Login", "viewId": "login" },
-                "worklist": { "viewName": "Worklist", "viewId": "worklist" },
-                "object": { "viewName": "Object", "viewId": "object" }
+                "worklist": {
+                    "viewName": "Worklist",
+                    "viewId": "worklist"
+                },
+                "object": {
+                    "viewName": "Object",
+                    "viewId": "object"
+                }
             }
         }
     }
