@@ -4,7 +4,7 @@
   "routes": [
     {
       "source": "^/api/(.*)$",
-      "target": "$1",
+      "target": "/api/$1",
       "destination": "pm-analyzer-backend"
     },
     {
