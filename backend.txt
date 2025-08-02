@@ -1,202 +1,217 @@
 Retrieving logs for app pm-analyzer-backend in org dfa8bc11trial_trial3-f5tqczxd / space dev as daniilmarszallek@yahoo.de...
 
-   2025-08-02T16:48:26.69+0200 [API/6] OUT Added process: "web"
-   2025-08-02T16:48:26.70+0200 [API/6] OUT Created app with guid 8f7c18c7-c79a-43c2-8b67-7ed00a8ef44d
-   2025-08-02T16:48:26.70+0200 [API/6] OUT Applied manifest to app with guid 8f7c18c7-c79a-43c2-8b67-7ed00a8ef44d (---
-   2025-08-02T16:48:26.71+0200 [API/6] OUT applications:
-   2025-08-02T16:48:26.71+0200 [API/6] OUT - name: pm-analyzer-backend
-   2025-08-02T16:48:26.71+0200 [API/6] OUT disk-quota: 512M
-   2025-08-02T16:48:26.71+0200 [API/6] OUT path: "."
-   2025-08-02T16:48:26.71+0200 [API/6] OUT memory: 512M
-   2025-08-02T16:48:26.71+0200 [API/6] OUT no-route: true
-   2025-08-02T16:48:26.71+0200 [API/6] OUT buildpack: python_buildpack
-   2025-08-02T16:48:26.71+0200 [API/6] OUT command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
-   2025-08-02T16:48:26.71+0200 [API/6] OUT routes:
-   2025-08-02T16:48:26.71+0200 [API/6] OUT - route: pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com
-   2025-08-02T16:48:26.71+0200 [API/6] OUT )
-   2025-08-02T16:48:26.77+0200 [API/1] OUT Updating process: "web"
-   2025-08-02T16:48:26.80+0200 [API/1] OUT Scaling process: "web"
-   2025-08-02T16:48:26.83+0200 [API/1] OUT Updated app with guid 8f7c18c7-c79a-43c2-8b67-7ed00a8ef44d ({"lifecycle"=>{"data"=>{"buildpacks"=>["python_buildpack"]}}})
-   2025-08-02T16:48:26.84+0200 [API/1] OUT Updated app with guid 8f7c18c7-c79a-43c2-8b67-7ed00a8ef44d ({"environment_variables"=>"[PRIVATE DATA HIDDEN]"})
-   2025-08-02T16:48:30.17+0200 [API/3] OUT Uploading app package for app with guid 8f7c18c7-c79a-43c2-8b67-7ed00a8ef44d
-   2025-08-02T16:48:37.40+0200 [API/11] OUT Creating build for app with guid 8f7c18c7-c79a-43c2-8b67-7ed00a8ef44d
-   2025-08-02T16:48:37.74+0200 [STG/0] OUT Downloading python_buildpack...
-   2025-08-02T16:48:37.78+0200 [STG/0] OUT Downloaded python_buildpack
-   2025-08-02T16:48:37.78+0200 [STG/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 creating container for instance 9b5a63dc-2bf0-4127-8b0f-6544bd806b9a
-   2025-08-02T16:48:38.04+0200 [STG/0] OUT Security group rules were updated
-   2025-08-02T16:48:38.10+0200 [STG/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully created container for instance 9b5a63dc-2bf0-4127-8b0f-6544bd806b9a
-   2025-08-02T16:48:38.54+0200 [STG/0] OUT Downloading app package...
-   2025-08-02T16:48:38.59+0200 [STG/0] OUT Downloaded app package (9.4K)
-   2025-08-02T16:48:38.63+0200 [STG/0] OUT -----> Python Buildpack version 1.8.37
-   2025-08-02T16:48:38.63+0200 [STG/0] OUT -----> Supplying Python
-   2025-08-02T16:48:38.63+0200 [STG/0] OUT -----> Installing python 3.10.17
-   2025-08-02T16:48:38.63+0200 [STG/0] OUT Copy [/tmp/buildpacks/87ed74aa05fa0fec/dependencies/de1a3447c373723a7b43256b7f524c77/python_3.10.17_linux_x64_cflinuxfs4_12a761c6.tgz]
-   2025-08-02T16:48:40.78+0200 [STG/0] OUT Using python's pip module
-   2025-08-02T16:48:41.96+0200 [STG/0] OUT pip 23.0.1 from /tmp/contents3264840429/deps/0/python/lib/python3.10/site-packages/pip (python 3.10)
-   2025-08-02T16:48:41.99+0200 [STG/0] OUT -----> Running Pip Install (Unvendored)
-   2025-08-02T16:48:41.99+0200 [STG/0] OUT python -m pip install -r /tmp/app/requirements.txt --ignore-installed --exists-action=w --src=/tmp/contents3264840429/deps/0/src --disable-pip-version-check --no-warn-script-location
-   2025-08-02T16:48:42.76+0200 [STG/0] OUT Collecting Flask
-   2025-08-02T16:48:42.79+0200 [STG/0] OUT Downloading flask-3.1.1-py3-none-any.whl (103 kB)
-   2025-08-02T16:48:42.82+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 103.3/103.3 kB 3.8 MB/s eta 0:00:00
-   2025-08-02T16:48:42.86+0200 [STG/0] OUT Collecting Flask-Cors
-   2025-08-02T16:48:42.87+0200 [STG/0] OUT Downloading flask_cors-6.0.1-py3-none-any.whl (13 kB)
-   2025-08-02T16:48:42.93+0200 [STG/0] OUT Collecting google-generativeai
-   2025-08-02T16:48:42.93+0200 [STG/0] OUT Downloading google_generativeai-0.8.5-py3-none-any.whl (155 kB)
-   2025-08-02T16:48:42.96+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 155.4/155.4 kB 5.0 MB/s eta 0:00:00
-   2025-08-02T16:48:43.01+0200 [STG/0] OUT Collecting python-dotenv
-   2025-08-02T16:48:43.01+0200 [STG/0] OUT Downloading python_dotenv-1.1.1-py3-none-any.whl (20 kB)
-   2025-08-02T16:48:43.29+0200 [STG/0] OUT Collecting pydantic
-   2025-08-02T16:48:43.29+0200 [STG/0] OUT Downloading pydantic-2.11.7-py3-none-any.whl (444 kB)
-   2025-08-02T16:48:43.31+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 444.8/444.8 kB 26.5 MB/s eta 0:00:00
-   2025-08-02T16:48:43.34+0200 [STG/0] OUT Collecting python-jose[cryptography]
-   2025-08-02T16:48:43.34+0200 [STG/0] OUT Downloading python_jose-3.5.0-py2.py3-none-any.whl (34 kB)
-   2025-08-02T16:48:43.41+0200 [STG/0] OUT Collecting requests
-   2025-08-02T16:48:43.41+0200 [STG/0] OUT Downloading requests-2.32.4-py3-none-any.whl (64 kB)
-   2025-08-02T16:48:43.43+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 64.8/64.8 kB 6.6 MB/s eta 0:00:00
-   2025-08-02T16:48:43.48+0200 [STG/0] OUT Collecting uvicorn
-   2025-08-02T16:48:43.48+0200 [STG/0] OUT Downloading uvicorn-0.35.0-py3-none-any.whl (66 kB)
-   2025-08-02T16:48:43.49+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 66.4/66.4 kB 6.7 MB/s eta 0:00:00
-   2025-08-02T16:48:43.53+0200 [STG/0] OUT Collecting jinja2>=3.1.2
-   2025-08-02T16:48:43.54+0200 [STG/0] OUT Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
-   2025-08-02T16:48:43.55+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 134.9/134.9 kB 13.7 MB/s eta 0:00:00
-   2025-08-02T16:48:43.59+0200 [STG/0] OUT Collecting click>=8.1.3
-   2025-08-02T16:48:43.59+0200 [STG/0] OUT Downloading click-8.2.2-py3-none-any.whl (103 kB)
-   2025-08-02T16:48:43.60+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 103.9/103.9 kB 10.5 MB/s eta 0:00:00
-   2025-08-02T16:48:43.63+0200 [STG/0] OUT Collecting itsdangerous>=2.2.0
-   2025-08-02T16:48:43.63+0200 [STG/0] OUT Downloading itsdangerous-2.2.0-py3-none-any.whl (16 kB)
-   2025-08-02T16:48:43.69+0200 [STG/0] OUT Collecting werkzeug>=3.1.0
-   2025-08-02T16:48:43.70+0200 [STG/0] OUT Downloading werkzeug-3.1.3-py3-none-any.whl (224 kB)
-   2025-08-02T16:48:43.71+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 224.5/224.5 kB 15.3 MB/s eta 0:00:00
-   2025-08-02T16:48:43.74+0200 [STG/0] OUT Collecting blinker>=1.9.0
-   2025-08-02T16:48:43.74+0200 [STG/0] OUT Downloading blinker-1.9.0-py3-none-any.whl (8.5 kB)
-   2025-08-02T16:48:43.87+0200 [STG/0] OUT Collecting markupsafe>=2.1.1
-   2025-08-02T16:48:43.88+0200 [STG/0] OUT Downloading MarkupSafe-3.0.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (20 kB)
-   2025-08-02T16:48:44.02+0200 [STG/0] OUT Collecting google-auth>=2.15.0
-   2025-08-02T16:48:44.02+0200 [STG/0] OUT Downloading google_auth-2.40.3-py2.py3-none-any.whl (216 kB)
-   2025-08-02T16:48:44.04+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 216.1/216.1 kB 18.8 MB/s eta 0:00:00
-   2025-08-02T16:48:44.13+0200 [STG/0] OUT Collecting google-api-core
-   2025-08-02T16:48:44.13+0200 [STG/0] OUT Downloading google_api_core-2.25.1-py3-none-any.whl (160 kB)
-   2025-08-02T16:48:44.15+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 160.8/160.8 kB 15.5 MB/s eta 0:00:00
-   2025-08-02T16:48:44.23+0200 [STG/0] OUT Collecting tqdm
-   2025-08-02T16:48:44.23+0200 [STG/0] OUT Downloading tqdm-4.67.1-py3-none-any.whl (78 kB)
-   2025-08-02T16:48:44.24+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 78.5/78.5 kB 7.5 MB/s eta 0:00:00
-   2025-08-02T16:48:44.63+0200 [STG/0] OUT Collecting protobuf
-   2025-08-02T16:48:44.63+0200 [STG/0] OUT Downloading protobuf-6.31.1-cp39-abi3-manylinux2014_x86_64.whl (321 kB)
-   2025-08-02T16:48:44.65+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 321.1/321.1 kB 25.3 MB/s eta 0:00:00
-   2025-08-02T16:48:44.68+0200 [STG/0] OUT Collecting google-ai-generativelanguage==0.6.15
-   2025-08-02T16:48:44.69+0200 [STG/0] OUT Downloading google_ai_generativelanguage-0.6.15-py3-none-any.whl (1.3 MB)
-   2025-08-02T16:48:44.71+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 65.1 MB/s eta 0:00:00
-   2025-08-02T16:48:44.83+0200 [STG/0] OUT Collecting google-api-python-client
-   2025-08-02T16:48:44.84+0200 [STG/0] OUT Downloading google_api_python_client-2.177.0-py3-none-any.whl (13.7 MB)
-   2025-08-02T16:48:44.97+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 13.7/13.7 MB 97.5 MB/s eta 0:00:00
-   2025-08-02T16:48:45.02+0200 [STG/0] OUT Collecting typing-extensions
-   2025-08-02T16:48:45.03+0200 [STG/0] OUT Downloading typing_extensions-4.14.1-py3-none-any.whl (43 kB)
-   2025-08-02T16:48:45.04+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 43.9/43.9 kB 3.5 MB/s eta 0:00:00
-   2025-08-02T16:48:45.21+0200 [STG/0] OUT Collecting protobuf
-   2025-08-02T16:48:45.21+0200 [STG/0] OUT Downloading protobuf-5.29.5-cp38-abi3-manylinux2014_x86_64.whl (319 kB)
-   2025-08-02T16:48:45.22+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 319.9/319.9 kB 24.4 MB/s eta 0:00:00
-   2025-08-02T16:48:45.26+0200 [STG/0] OUT Collecting proto-plus<2.0.0dev,>=1.22.3
-   2025-08-02T16:48:45.27+0200 [STG/0] OUT Downloading proto_plus-1.26.1-py3-none-any.whl (50 kB)
-   2025-08-02T16:48:45.28+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 50.2/50.2 kB 4.7 MB/s eta 0:00:00
-   2025-08-02T16:48:45.31+0200 [STG/0] OUT Collecting annotated-types>=0.6.0
-   2025-08-02T16:48:45.32+0200 [STG/0] OUT Downloading annotated_types-0.7.0-py3-none-any.whl (13 kB)
-   2025-08-02T16:48:46.81+0200 [STG/0] OUT Collecting pydantic-core==2.33.2
-   2025-08-02T16:48:46.81+0200 [STG/0] OUT Downloading pydantic_core-2.33.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.0 MB)
-   2025-08-02T16:48:46.84+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.0/2.0 MB 82.5 MB/s eta 0:00:00
-   2025-08-02T16:48:46.86+0200 [STG/0] OUT Collecting typing-inspection>=0.4.0
-   2025-08-02T16:48:46.87+0200 [STG/0] OUT Downloading typing_inspection-0.4.1-py3-none-any.whl (14 kB)
-   2025-08-02T16:48:46.93+0200 [STG/0] OUT Collecting rsa!=4.1.1,!=4.4,<5.0,>=4.0
-   2025-08-02T16:48:46.93+0200 [STG/0] OUT Downloading rsa-4.9.1-py3-none-any.whl (34 kB)
-   2025-08-02T16:48:46.97+0200 [STG/0] OUT Collecting ecdsa!=0.15
-   2025-08-02T16:48:46.97+0200 [STG/0] OUT Downloading ecdsa-0.19.1-py2.py3-none-any.whl (150 kB)
-   2025-08-02T16:48:46.99+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 150.6/150.6 kB 12.7 MB/s eta 0:00:00
-   2025-08-02T16:48:47.03+0200 [STG/0] OUT Collecting pyasn1>=0.5.0
-   2025-08-02T16:48:47.03+0200 [STG/0] OUT Downloading pyasn1-0.6.1-py3-none-any.whl (83 kB)
-   2025-08-02T16:48:47.04+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 83.1/83.1 kB 8.1 MB/s eta 0:00:00
-   2025-08-02T16:48:47.48+0200 [STG/0] OUT Collecting cryptography>=3.4.0
-   2025-08-02T16:48:47.48+0200 [STG/0] OUT Downloading cryptography-45.0.5-cp37-abi3-manylinux_2_34_x86_64.whl (4.4 MB)
-   2025-08-02T16:48:47.53+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.4/4.4 MB 104.8 MB/s eta 0:00:00
-   2025-08-02T16:48:47.58+0200 [STG/0] OUT Collecting certifi>=2017.4.17
-   2025-08-02T16:48:47.58+0200 [STG/0] OUT Downloading certifi-2025.7.14-py3-none-any.whl (162 kB)
-   2025-08-02T16:48:47.60+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 162.7/162.7 kB 10.4 MB/s eta 0:00:00
-   2025-08-02T16:48:47.63+0200 [STG/0] OUT Collecting idna<4,>=2.5
-   2025-08-02T16:48:47.64+0200 [STG/0] OUT Downloading idna-3.10-py3-none-any.whl (70 kB)
-   2025-08-02T16:48:47.65+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 70.4/70.4 kB 6.6 MB/s eta 0:00:00
-   2025-08-02T16:48:47.82+0200 [STG/0] OUT Collecting charset_normalizer<4,>=2
-   2025-08-02T16:48:47.82+0200 [STG/0] OUT Downloading charset_normalizer-3.4.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (149 kB)
-   2025-08-02T16:48:47.84+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 149.5/149.5 kB 13.9 MB/s eta 0:00:00
-   2025-08-02T16:48:47.91+0200 [STG/0] OUT Collecting urllib3<3,>=1.21.1
-   2025-08-02T16:48:47.91+0200 [STG/0] OUT Downloading urllib3-2.5.0-py3-none-any.whl (129 kB)
-   2025-08-02T16:48:47.92+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 129.8/129.8 kB 12.5 MB/s eta 0:00:00
-   2025-08-02T16:48:47.96+0200 [STG/0] OUT Collecting h11>=0.8
-   2025-08-02T16:48:47.96+0200 [STG/0] OUT Downloading h11-0.16.0-py3-none-any.whl (37 kB)
-   2025-08-02T16:48:48.31+0200 [STG/0] OUT Collecting cffi>=1.14
-   2025-08-02T16:48:48.31+0200 [STG/0] OUT Downloading cffi-1.17.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (446 kB)
-   2025-08-02T16:48:48.34+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 446.2/446.2 kB 16.7 MB/s eta 0:00:00
-   2025-08-02T16:48:48.40+0200 [STG/0] OUT Collecting six>=1.9.0
-   2025-08-02T16:48:48.40+0200 [STG/0] OUT Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
-   2025-08-02T16:48:48.51+0200 [STG/0] OUT Collecting pyasn1-modules>=0.2.1
-   2025-08-02T16:48:48.51+0200 [STG/0] OUT Downloading pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
-   2025-08-02T16:48:48.53+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 181.3/181.3 kB 13.9 MB/s eta 0:00:00
-   2025-08-02T16:48:48.57+0200 [STG/0] OUT Collecting cachetools<6.0,>=2.0.0
-   2025-08-02T16:48:48.57+0200 [STG/0] OUT Downloading cachetools-5.5.2-py3-none-any.whl (10 kB)
-   2025-08-02T16:48:48.76+0200 [STG/0] OUT Collecting googleapis-common-protos<2.0.0,>=1.56.2
-   2025-08-02T16:48:48.76+0200 [STG/0] OUT Downloading googleapis_common_protos-1.70.0-py3-none-any.whl (294 kB)
-   2025-08-02T16:48:48.78+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 294.5/294.5 kB 18.7 MB/s eta 0:00:00
-   2025-08-02T16:48:48.93+0200 [STG/0] OUT Collecting google-auth-httplib2<1.0.0,>=0.2.0
-   2025-08-02T16:48:48.93+0200 [STG/0] OUT Downloading google_auth_httplib2-0.2.0-py2.py3-none-any.whl (9.3 kB)
-   2025-08-02T16:48:48.99+0200 [STG/0] OUT Collecting httplib2<1.0.0,>=0.19.0
-   2025-08-02T16:48:49.00+0200 [STG/0] OUT Downloading httplib2-0.22.0-py3-none-any.whl (96 kB)
-   2025-08-02T16:48:49.01+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 96.9/96.9 kB 9.9 MB/s eta 0:00:00
-   2025-08-02T16:48:49.03+0200 [STG/0] OUT Collecting uritemplate<5,>=3.0.1
-   2025-08-02T16:48:49.03+0200 [STG/0] OUT Downloading uritemplate-4.2.0-py3-none-any.whl (11 kB)
-   2025-08-02T16:48:49.09+0200 [STG/0] OUT Collecting pycparser
-   2025-08-02T16:48:49.09+0200 [STG/0] OUT Downloading pycparser-2.22-py3-none-any.whl (117 kB)
-   2025-08-02T16:48:49.11+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 117.6/117.6 kB 9.1 MB/s eta 0:00:00
-   2025-08-02T16:48:50.30+0200 [STG/0] OUT Collecting grpcio<2.0.0,>=1.33.2
-   2025-08-02T16:48:50.31+0200 [STG/0] OUT Downloading grpcio-1.74.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (6.2 MB)
-   2025-08-02T16:48:50.37+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.2/6.2 MB 98.8 MB/s eta 0:00:00
-   2025-08-02T16:48:50.46+0200 [STG/0] OUT Collecting grpcio-status<2.0.0,>=1.33.2
-   2025-08-02T16:48:50.47+0200 [STG/0] OUT Downloading grpcio_status-1.74.0-py3-none-any.whl (14 kB)
-   2025-08-02T16:48:50.63+0200 [STG/0] OUT Collecting pyparsing!=3.0.0,!=3.0.1,!=3.0.2,!=3.0.3,<4,>=2.4.2
-   2025-08-02T16:48:50.63+0200 [STG/0] OUT Downloading pyparsing-3.2.3-py3-none-any.whl (111 kB)
-   2025-08-02T16:48:50.65+0200 [STG/0] OUT ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 111.1/111.1 kB 9.7 MB/s eta 0:00:00
-   2025-08-02T16:48:50.86+0200 [STG/0] OUT Collecting grpcio-status<2.0.0,>=1.33.2
-   2025-08-02T16:48:50.87+0200 [STG/0] OUT Downloading grpcio_status-1.73.1-py3-none-any.whl (14 kB)
-   2025-08-02T16:48:50.91+0200 [STG/0] OUT Downloading grpcio_status-1.73.0-py3-none-any.whl (14 kB)
-   2025-08-02T16:48:50.95+0200 [STG/0] OUT Downloading grpcio_status-1.72.2-py3-none-any.whl (14 kB)
-   2025-08-02T16:48:50.97+0200 [STG/0] OUT Downloading grpcio_status-1.72.1-py3-none-any.whl (14 kB)
-   2025-08-02T16:48:51.00+0200 [STG/0] OUT Downloading grpcio_status-1.71.2-py3-none-any.whl (14 kB)
-   2025-08-02T16:48:51.33+0200 [STG/0] OUT Installing collected packages: urllib3, uritemplate, typing-extensions, tqdm, six, python-dotenv, pyparsing, pycparser, pyasn1, protobuf, markupsafe, itsdangerous, idna, h11, grpcio, click, charset_normalizer, certifi, cachetools, blinker, annotated-types, werkzeug, uvicorn, typing-inspection, rsa, requests, pydantic-core, pyasn1-modules, proto-plus, jinja2, httplib2, googleapis-common-protos, ecdsa, cffi, python-jose, pydantic, grpcio-status, google-auth, Flask, cryptography, google-auth-httplib2, google-api-core, Flask-Cors, google-api-python-client, google-ai-generativelanguage, google-generativeai
-   2025-08-02T16:48:55.77+0200 [STG/0] OUT Successfully installed Flask-3.1.1 Flask-Cors-6.0.1 annotated-types-0.7.0 blinker-1.9.0 cachetools-5.5.2 certifi-2025.7.14 cffi-1.17.1 charset_normalizer-3.4.2 click-8.2.2 cryptography-45.0.5 ecdsa-0.19.1 google-ai-generativelanguage-0.6.15 google-api-core-2.25.1 google-api-python-client-2.177.0 google-auth-2.40.3 google-auth-httplib2-0.2.0 google-generativeai-0.8.5 googleapis-common-protos-1.70.0 grpcio-1.74.0 grpcio-status-1.71.2 h11-0.16.0 httplib2-0.22.0 idna-3.10 itsdangerous-2.2.0 jinja2-3.1.6 markupsafe-3.0.2 proto-plus-1.26.1 protobuf-5.29.5 pyasn1-0.6.1 pyasn1-modules-0.4.2 pycparser-2.22 pydantic-2.11.7 pydantic-core-2.33.2 pyparsing-3.2.3 python-dotenv-1.1.1 python-jose-3.5.0 requests-2.32.4 rsa-4.9.1 six-1.17.0 tqdm-4.67.1 typing-extensions-4.14.1 typing-inspection-0.4.1 uritemplate-4.2.0 urllib3-2.5.0 uvicorn-0.35.0 werkzeug-3.1.3
-   2025-08-02T16:48:56.41+0200 [STG/0] ERR No start command specified by buildpack or via Procfile.
-   2025-08-02T16:48:56.41+0200 [STG/0] ERR App will not start unless a command is provided at runtime.
-   2025-08-02T16:49:10.36+0200 [STG/0] OUT Exit status 0
-   2025-08-02T16:49:10.36+0200 [STG/0] OUT Uploading droplet, build artifacts cache...
-   2025-08-02T16:49:10.36+0200 [STG/0] OUT Uploading build artifacts cache...
-   2025-08-02T16:49:10.36+0200 [STG/0] OUT Uploading droplet...
-   2025-08-02T16:49:10.88+0200 [STG/0] OUT Uploaded build artifacts cache (34.7M)
-   2025-08-02T16:49:11.82+0200 [API/16] OUT Creating droplet for app with guid 8f7c18c7-c79a-43c2-8b67-7ed00a8ef44d
-   2025-08-02T16:49:14.91+0200 [STG/0] OUT Uploaded droplet (97.1M)
-   2025-08-02T16:49:14.94+0200 [STG/0] OUT Uploading complete
-   2025-08-02T16:49:15.29+0200 [STG/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 stopping instance 9b5a63dc-2bf0-4127-8b0f-6544bd806b9a
-   2025-08-02T16:49:15.29+0200 [STG/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 destroying container for instance 9b5a63dc-2bf0-4127-8b0f-6544bd806b9a
-   2025-08-02T16:49:16.30+0200 [STG/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully destroyed container for instance 9b5a63dc-2bf0-4127-8b0f-6544bd806b9a
-   2025-08-02T16:49:17.61+0200 [API/6] OUT Updated app with guid 8f7c18c7-c79a-43c2-8b67-7ed00a8ef44d ({:droplet_guid=>"8826ea0c-56b4-4d67-82de-88452369fadf"})
-   2025-08-02T16:49:17.69+0200 [API/13] OUT Creating revision for app with guid 8f7c18c7-c79a-43c2-8b67-7ed00a8ef44d
-   2025-08-02T16:49:17.72+0200 [API/13] OUT Starting app with guid 8f7c18c7-c79a-43c2-8b67-7ed00a8ef44d
-   2025-08-02T16:49:17.89+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 creating container for instance 241436d1-96a9-43c4-66a4-9be6
-   2025-08-02T16:49:18.18+0200 [CELL/0] OUT Security group rules were updated
-   2025-08-02T16:49:18.23+0200 [CELL/0] OUT Cell 66bf8157-2666-4d64-b2ba-4e673aee0466 successfully created container for instance 241436d1-96a9-43c4-66a4-9be6
-   2025-08-02T16:49:18.38+0200 [CELL/0] OUT Downloading droplet...
-   2025-08-02T16:49:23.02+0200 [CELL/0] OUT Downloaded droplet (97.1M)
-   2025-08-02T16:49:23.02+0200 [CELL/0] OUT Starting health monitoring of container
-   2025-08-02T16:49:23.07+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
-   2025-08-02T16:49:23.11+0200 [APP/PROC/WEB/0] OUT Invoking start command.
-   2025-08-02T16:49:23.77+0200 [APP/PROC/WEB/0] ERR INFO:     Started server process [7]
-   2025-08-02T16:49:23.77+0200 [APP/PROC/WEB/0] ERR INFO:     Waiting for application startup.
-   2025-08-02T16:49:23.77+0200 [APP/PROC/WEB/0] ERR INFO:     ASGI 'lifespan' protocol appears unsupported.
-   2025-08-02T16:49:23.77+0200 [APP/PROC/WEB/0] ERR INFO:     Application startup complete.
-   2025-08-02T16:49:23.78+0200 [APP/PROC/WEB/0] ERR INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
-   2025-08-02T16:49:25.94+0200 [CELL/0] OUT Container became healthy
-   2025-08-02T16:49:25.96+0200 [API/16] OUT Process became ready with guid 8f7c18c7-c79a-43c2-8b67-7ed00a8ef44d payload: {"instance"=>"241436d1-96a9-43c4-66a4-9be6", "index"=>0, "cell_id"=>"66bf8157-2666-4d64-b2ba-4e673aee0466", "ready"=>true, "version"=>"6823d767-18d9-46f9-be4a-9506338e2374"}
+   2025-08-02T17:35:59.91+0200 [APP/PROC/WEB/0] ERR ERROR:    Exception in ASGI application
+   2025-08-02T17:35:59.91+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-08-02T17:35:59.91+0200 [APP/PROC/WEB/0] ERR File "/home/vcap/deps/0/python/lib/python3.10/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+   2025-08-02T17:35:59.91+0200 [APP/PROC/WEB/0] ERR result = await app(  # type: ignore[func-returns-value]
+   2025-08-02T17:35:59.91+0200 [APP/PROC/WEB/0] ERR File "/home/vcap/deps/0/python/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+   2025-08-02T17:35:59.91+0200 [APP/PROC/WEB/0] ERR return await self.app(scope, receive, send)
+   2025-08-02T17:35:59.91+0200 [APP/PROC/WEB/0] ERR File "/home/vcap/deps/0/python/lib/python3.10/site-packages/uvicorn/middleware/asgi2.py", line 14, in __call__
+   2025-08-02T17:35:59.91+0200 [APP/PROC/WEB/0] ERR instance = self.app(scope)
+   2025-08-02T17:35:59.91+0200 [APP/PROC/WEB/0] ERR TypeError: Flask.__call__() missing 1 required positional argument: 'start_response'
+   2025-08-02T17:35:59.91+0200 [APP/PROC/WEB/0] OUT INFO:     31.165.131.254:0 - "POST /analyze HTTP/1.1" 500 Internal Server Error
+   2025-08-02T17:35:59.91+0200 [RTR/5] OUT pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com - [2025-08-02T15:35:59.904648105Z] "POST /analyze HTTP/1.1" 500 864 21 "https://dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com/index.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15" "10.0.200.1:21536" "10.32.2.7:61009" x_forwarded_for:"31.165.131.254, 10.0.200.1, 34.201.208.150, 10.0.200.1" x_forwarded_proto:"https" vcap_request_id:"64bd7c25-3c59-459a-7acd-a9b50644c3a1" response_time:0.009642 gorouter_time:0.000036 app_id:"750fe283-b5ab-40a0-87ae-263b0e91cd49" app_index:"0" instance_id:"1ae0dbcc-c29a-40c0-64b8-6e14" failed_attempts:0 failed_attempts_time:"-" dns_time:0.000000 dial_time:0.000591 tls_time:0.005860 backend_time:0.009606 local_address:"10.0.193.9:49396" x_cf_routererror:"-" x_correlationid:"64bd7c25-3c59-459a-7acd-a9b50644c3a1" tenantid:"-" sap_passport:"-" x_scp_request_id:"28cfe0dc-9419-4855-8969-1ad87d44317e-688E305F-AAE491E" x_cf_app_instance:"-" x_forwarded_host:"dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com" x_custom_host:"-" x_ssl_client:"-" x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-" x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-" x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-" x_cf_true_client_ip:"34.201.208.150" x_request_id:"-" x_b3_traceid:"64bd7c253c59459a7acda9b50644c3a1" x_b3_spanid:"7acda9b50644c3a1" x_b3_parentspanid:"-" b3:"64bd7c253c59459a7acda9b50644c3a1-7acda9b50644c3a1"
+   2025-08-02T17:49:02.81+0200 [APP/PROC/WEB/0] ERR ERROR:    Exception in ASGI application
+   2025-08-02T17:49:02.81+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-08-02T17:49:02.81+0200 [APP/PROC/WEB/0] ERR File "/home/vcap/deps/0/python/lib/python3.10/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+   2025-08-02T17:49:02.81+0200 [APP/PROC/WEB/0] ERR result = await app(  # type: ignore[func-returns-value]
+   2025-08-02T17:49:02.81+0200 [APP/PROC/WEB/0] ERR File "/home/vcap/deps/0/python/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+   2025-08-02T17:49:02.81+0200 [APP/PROC/WEB/0] ERR return await self.app(scope, receive, send)
+   2025-08-02T17:49:02.81+0200 [APP/PROC/WEB/0] ERR File "/home/vcap/deps/0/python/lib/python3.10/site-packages/uvicorn/middleware/asgi2.py", line 14, in __call__
+   2025-08-02T17:49:02.81+0200 [APP/PROC/WEB/0] ERR instance = self.app(scope)
+   2025-08-02T17:49:02.81+0200 [APP/PROC/WEB/0] ERR TypeError: Flask.__call__() missing 1 required positional argument: 'start_response'
+   2025-08-02T17:49:02.81+0200 [APP/PROC/WEB/0] OUT INFO:     31.165.131.254:0 - "POST /analyze HTTP/1.1" 500 Internal Server Error
+   2025-08-02T17:49:02.81+0200 [RTR/0] OUT pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com - [2025-08-02T15:49:02.806519466Z] "POST /analyze HTTP/1.1" 500 864 21 "https://dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com/index.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15" "10.0.72.1:14384" "10.32.2.7:61009" x_forwarded_for:"31.165.131.254, 10.0.200.0, 34.201.208.150, 10.0.72.1" x_forwarded_proto:"https" vcap_request_id:"cb099019-9003-4f6e-6685-5c8e2877486d" response_time:0.010270 gorouter_time:0.000038 app_id:"750fe283-b5ab-40a0-87ae-263b0e91cd49" app_index:"0" instance_id:"1ae0dbcc-c29a-40c0-64b8-6e14" failed_attempts:0 failed_attempts_time:"-" dns_time:0.000000 dial_time:0.000797 tls_time:0.006091 backend_time:0.010232 local_address:"10.0.65.8:50266" x_cf_routererror:"-" x_correlationid:"cb099019-9003-4f6e-6685-5c8e2877486d" tenantid:"-" sap_passport:"-" x_scp_request_id:"f5c3bfa5-6a26-4e3f-b72f-a2640ccef589-688E336E-BA4C2E6" x_cf_app_instance:"-" x_forwarded_host:"dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com" x_custom_host:"-" x_ssl_client:"-" x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-" x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-" x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-" x_cf_true_client_ip:"34.201.208.150" x_request_id:"-" x_b3_traceid:"cb09901990034f6e66855c8e2877486d" x_b3_spanid:"66855c8e2877486d" x_b3_parentspanid:"-" b3:"cb09901990034f6e66855c8e2877486d-66855c8e2877486d"
+   2025-08-02T17:57:38.70+0200 [APP/PROC/WEB/0] ERR ERROR:    Exception in ASGI application
+   2025-08-02T17:57:38.70+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-08-02T17:57:38.70+0200 [APP/PROC/WEB/0] ERR File "/home/vcap/deps/0/python/lib/python3.10/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+   2025-08-02T17:57:38.70+0200 [APP/PROC/WEB/0] ERR result = await app(  # type: ignore[func-returns-value]
+   2025-08-02T17:57:38.70+0200 [APP/PROC/WEB/0] ERR File "/home/vcap/deps/0/python/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+   2025-08-02T17:57:38.70+0200 [APP/PROC/WEB/0] ERR return await self.app(scope, receive, send)
+   2025-08-02T17:57:38.70+0200 [APP/PROC/WEB/0] ERR File "/home/vcap/deps/0/python/lib/python3.10/site-packages/uvicorn/middleware/asgi2.py", line 14, in __call__
+   2025-08-02T17:57:38.70+0200 [APP/PROC/WEB/0] ERR instance = self.app(scope)
+   2025-08-02T17:57:38.70+0200 [APP/PROC/WEB/0] ERR TypeError: Flask.__call__() missing 1 required positional argument: 'start_response'
+   2025-08-02T17:57:38.70+0200 [APP/PROC/WEB/0] OUT INFO:     31.165.131.254:0 - "POST /analyze HTTP/1.1" 500 Internal Server Error
+   2025-08-02T17:57:38.70+0200 [RTR/5] OUT pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com - [2025-08-02T15:57:38.692434787Z] "POST /analyze HTTP/1.1" 500 864 21 "https://dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com/index.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15" "10.0.200.1:29338" "10.32.2.7:61009" x_forwarded_for:"31.165.131.254, 10.0.200.0, 34.201.208.150, 10.0.200.1" x_forwarded_proto:"https" vcap_request_id:"e646036a-aa81-4750-5de6-f921c4ff4f26" response_time:0.008576 gorouter_time:0.000029 app_id:"750fe283-b5ab-40a0-87ae-263b0e91cd49" app_index:"0" instance_id:"1ae0dbcc-c29a-40c0-64b8-6e14" failed_attempts:0 failed_attempts_time:"-" dns_time:0.000000 dial_time:0.000617 tls_time:0.005562 backend_time:0.008547 local_address:"10.0.193.9:28454" x_cf_routererror:"-" x_correlationid:"e646036a-aa81-4750-5de6-f921c4ff4f26" tenantid:"-" sap_passport:"-" x_scp_request_id:"28cfe0dc-9419-4855-8969-1ad87d44317e-688E3572-AB2A156" x_cf_app_instance:"-" x_forwarded_host:"dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com" x_custom_host:"-" x_ssl_client:"-" x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-" x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-" x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-" x_cf_true_client_ip:"34.201.208.150" x_request_id:"-" x_b3_traceid:"e646036aaa8147505de6f921c4ff4f26" x_b3_spanid:"5de6f921c4ff4f26" x_b3_parentspanid:"-" b3:"e646036aaa8147505de6f921c4ff4f26-5de6f921c4ff4f26"
+   2025-08-02T18:01:27.98+0200 [API/6] OUT Updated app with guid 750fe283-b5ab-40a0-87ae-263b0e91cd49 ({"environment_variables"=>"[PRIVATE DATA HIDDEN]"})
+   2025-08-02T18:01:38.28+0200 [API/1] OUT Creating build for app with guid 750fe283-b5ab-40a0-87ae-263b0e91cd49
+   2025-08-02T18:01:38.67+0200 [STG/0] OUT Downloading python_buildpack...
+   2025-08-02T18:01:38.70+0200 [STG/0] OUT Downloaded python_buildpack
+   2025-08-02T18:01:38.70+0200 [STG/0] OUT Cell d1cc041a-d5a1-41d6-b9f6-6cda736ce3f0 creating container for instance bbb7daf7-c676-4c22-aaef-59f565c22795
+   2025-08-02T18:01:39.03+0200 [STG/0] OUT Security group rules were updated
+   2025-08-02T18:01:39.08+0200 [STG/0] OUT Cell d1cc041a-d5a1-41d6-b9f6-6cda736ce3f0 successfully created container for instance bbb7daf7-c676-4c22-aaef-59f565c22795
+   2025-08-02T18:01:39.58+0200 [STG/0] OUT Downloading app package...
+   2025-08-02T18:01:39.58+0200 [STG/0] OUT Downloading build artifacts cache...
+   2025-08-02T18:01:39.65+0200 [STG/0] OUT Downloaded app package (9.4K)
+   2025-08-02T18:01:40.43+0200 [STG/0] OUT Downloaded build artifacts cache (34.7M)
+   2025-08-02T18:01:40.48+0200 [STG/0] OUT -----> Python Buildpack version 1.8.37
+   2025-08-02T18:01:40.48+0200 [STG/0] OUT -----> Supplying Python
+   2025-08-02T18:01:40.48+0200 [STG/0] OUT -----> Installing python 3.10.17
+   2025-08-02T18:01:40.48+0200 [STG/0] OUT Copy [/tmp/buildpacks/87ed74aa05fa0fec/dependencies/de1a3447c373723a7b43256b7f524c77/python_3.10.17_linux_x64_cflinuxfs4_12a761c6.tgz]
+   2025-08-02T18:01:42.63+0200 [STG/0] OUT Using python's pip module
+   2025-08-02T18:01:43.80+0200 [STG/0] OUT pip 23.0.1 from /tmp/contents2891921539/deps/0/python/lib/python3.10/site-packages/pip (python 3.10)
+   2025-08-02T18:01:43.83+0200 [STG/0] OUT -----> Running Pip Install (Unvendored)
+   2025-08-02T18:01:43.83+0200 [STG/0] OUT python -m pip install -r /tmp/app/requirements.txt --ignore-installed --exists-action=w --src=/tmp/contents2891921539/deps/0/src --disable-pip-version-check --no-warn-script-location
+   2025-08-02T18:01:44.68+0200 [STG/0] OUT Collecting Flask
+   2025-08-02T18:01:44.68+0200 [STG/0] OUT Using cached flask-3.1.1-py3-none-any.whl (103 kB)
+   2025-08-02T18:01:44.73+0200 [STG/0] OUT Collecting Flask-Cors
+   2025-08-02T18:01:44.73+0200 [STG/0] OUT Using cached flask_cors-6.0.1-py3-none-any.whl (13 kB)
+   2025-08-02T18:01:44.76+0200 [STG/0] OUT Collecting google-generativeai
+   2025-08-02T18:01:44.76+0200 [STG/0] OUT Using cached google_generativeai-0.8.5-py3-none-any.whl (155 kB)
+   2025-08-02T18:01:44.80+0200 [STG/0] OUT Collecting python-dotenv
+   2025-08-02T18:01:44.80+0200 [STG/0] OUT Using cached python_dotenv-1.1.1-py3-none-any.whl (20 kB)
+   2025-08-02T18:01:45.07+0200 [STG/0] OUT Collecting pydantic
+   2025-08-02T18:01:45.07+0200 [STG/0] OUT Using cached pydantic-2.11.7-py3-none-any.whl (444 kB)
+   2025-08-02T18:01:45.10+0200 [STG/0] OUT Collecting python-jose[cryptography]
+   2025-08-02T18:01:45.10+0200 [STG/0] OUT Using cached python_jose-3.5.0-py2.py3-none-any.whl (34 kB)
+   2025-08-02T18:01:45.16+0200 [STG/0] OUT Collecting requests
+   2025-08-02T18:01:45.16+0200 [STG/0] OUT Using cached requests-2.32.4-py3-none-any.whl (64 kB)
+   2025-08-02T18:01:45.21+0200 [STG/0] OUT Collecting uvicorn
+   2025-08-02T18:01:45.21+0200 [STG/0] OUT Using cached uvicorn-0.35.0-py3-none-any.whl (66 kB)
+   2025-08-02T18:01:45.26+0200 [STG/0] OUT Collecting click>=8.1.3
+   2025-08-02T18:01:45.26+0200 [STG/0] OUT Using cached click-8.2.2-py3-none-any.whl (103 kB)
+   2025-08-02T18:01:45.31+0200 [STG/0] OUT Collecting werkzeug>=3.1.0
+   2025-08-02T18:01:45.31+0200 [STG/0] OUT Using cached werkzeug-3.1.3-py3-none-any.whl (224 kB)
+   2025-08-02T18:01:45.35+0200 [STG/0] OUT Collecting jinja2>=3.1.2
+   2025-08-02T18:01:45.35+0200 [STG/0] OUT Using cached jinja2-3.1.6-py3-none-any.whl (134 kB)
+   2025-08-02T18:01:45.38+0200 [STG/0] OUT Collecting blinker>=1.9.0
+   2025-08-02T18:01:45.38+0200 [STG/0] OUT Using cached blinker-1.9.0-py3-none-any.whl (8.5 kB)
+   2025-08-02T18:01:45.41+0200 [STG/0] OUT Collecting itsdangerous>=2.2.0
+   2025-08-02T18:01:45.41+0200 [STG/0] OUT Using cached itsdangerous-2.2.0-py3-none-any.whl (16 kB)
+   2025-08-02T18:01:45.53+0200 [STG/0] OUT Collecting markupsafe>=2.1.1
+   2025-08-02T18:01:45.53+0200 [STG/0] OUT Using cached MarkupSafe-3.0.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (20 kB)
+   2025-08-02T18:01:45.59+0200 [STG/0] OUT Collecting google-ai-generativelanguage==0.6.15
+   2025-08-02T18:01:45.59+0200 [STG/0] OUT Using cached google_ai_generativelanguage-0.6.15-py3-none-any.whl (1.3 MB)
+   2025-08-02T18:01:45.69+0200 [STG/0] OUT Collecting google-api-core
+   2025-08-02T18:01:45.69+0200 [STG/0] OUT Using cached google_api_core-2.25.1-py3-none-any.whl (160 kB)
+   2025-08-02T18:01:45.73+0200 [STG/0] OUT Collecting typing-extensions
+   2025-08-02T18:01:45.73+0200 [STG/0] OUT Using cached typing_extensions-4.14.1-py3-none-any.whl (43 kB)
+   2025-08-02T18:01:46.11+0200 [STG/0] OUT Collecting protobuf
+   2025-08-02T18:01:46.11+0200 [STG/0] OUT Using cached protobuf-6.31.1-cp39-abi3-manylinux2014_x86_64.whl (321 kB)
+   2025-08-02T18:01:46.19+0200 [STG/0] OUT Collecting tqdm
+   2025-08-02T18:01:46.20+0200 [STG/0] OUT Using cached tqdm-4.67.1-py3-none-any.whl (78 kB)
+   2025-08-02T18:01:46.32+0200 [STG/0] OUT Collecting google-api-python-client
+   2025-08-02T18:01:46.36+0200 [STG/0] OUT Using cached google_api_python_client-2.177.0-py3-none-any.whl (13.7 MB)
+   2025-08-02T18:01:46.51+0200 [STG/0] OUT Collecting google-auth>=2.15.0
+   2025-08-02T18:01:46.51+0200 [STG/0] OUT Using cached google_auth-2.40.3-py2.py3-none-any.whl (216 kB)
+   2025-08-02T18:01:46.56+0200 [STG/0] OUT Collecting proto-plus<2.0.0dev,>=1.22.3
+   2025-08-02T18:01:46.56+0200 [STG/0] OUT Using cached proto_plus-1.26.1-py3-none-any.whl (50 kB)
+   2025-08-02T18:01:46.70+0200 [STG/0] OUT Collecting protobuf
+   2025-08-02T18:01:46.70+0200 [STG/0] OUT Using cached protobuf-5.29.5-cp38-abi3-manylinux2014_x86_64.whl (319 kB)
+   2025-08-02T18:01:46.74+0200 [STG/0] OUT Collecting annotated-types>=0.6.0
+   2025-08-02T18:01:46.74+0200 [STG/0] OUT Using cached annotated_types-0.7.0-py3-none-any.whl (13 kB)
+   2025-08-02T18:01:48.23+0200 [STG/0] OUT Collecting pydantic-core==2.33.2
+   2025-08-02T18:01:48.23+0200 [STG/0] OUT Using cached pydantic_core-2.33.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.0 MB)
+   2025-08-02T18:01:48.26+0200 [STG/0] OUT Collecting typing-inspection>=0.4.0
+   2025-08-02T18:01:48.26+0200 [STG/0] OUT Using cached typing_inspection-0.4.1-py3-none-any.whl (14 kB)
+   2025-08-02T18:01:48.31+0200 [STG/0] OUT Collecting ecdsa!=0.15
+   2025-08-02T18:01:48.31+0200 [STG/0] OUT Using cached ecdsa-0.19.1-py2.py3-none-any.whl (150 kB)
+   2025-08-02T18:01:48.34+0200 [STG/0] OUT Collecting rsa!=4.1.1,!=4.4,<5.0,>=4.0
+   2025-08-02T18:01:48.35+0200 [STG/0] OUT Using cached rsa-4.9.1-py3-none-any.whl (34 kB)
+   2025-08-02T18:01:48.39+0200 [STG/0] OUT Collecting pyasn1>=0.5.0
+   2025-08-02T18:01:48.39+0200 [STG/0] OUT Using cached pyasn1-0.6.1-py3-none-any.whl (83 kB)
+   2025-08-02T18:01:48.83+0200 [STG/0] OUT Collecting cryptography>=3.4.0
+   2025-08-02T18:01:48.83+0200 [STG/0] OUT Using cached cryptography-45.0.5-cp37-abi3-manylinux_2_34_x86_64.whl (4.4 MB)
+   2025-08-02T18:01:49.03+0200 [STG/0] OUT Collecting charset_normalizer<4,>=2
+   2025-08-02T18:01:49.03+0200 [STG/0] OUT Using cached charset_normalizer-3.4.2-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (149 kB)
+   2025-08-02T18:01:49.08+0200 [STG/0] OUT Collecting certifi>=2017.4.17
+   2025-08-02T18:01:49.08+0200 [STG/0] OUT Using cached certifi-2025.7.14-py3-none-any.whl (162 kB)
+   2025-08-02T18:01:49.14+0200 [STG/0] OUT Collecting idna<4,>=2.5
+   2025-08-02T18:01:49.14+0200 [STG/0] OUT Using cached idna-3.10-py3-none-any.whl (70 kB)
+   2025-08-02T18:01:49.22+0200 [STG/0] OUT Collecting urllib3<3,>=1.21.1
+   2025-08-02T18:01:49.22+0200 [STG/0] OUT Using cached urllib3-2.5.0-py3-none-any.whl (129 kB)
+   2025-08-02T18:01:49.31+0200 [STG/0] OUT Collecting h11>=0.8
+   2025-08-02T18:01:49.31+0200 [STG/0] OUT Using cached h11-0.16.0-py3-none-any.whl (37 kB)
+   2025-08-02T18:01:49.62+0200 [STG/0] OUT Collecting cffi>=1.14
+   2025-08-02T18:01:49.62+0200 [STG/0] OUT Using cached cffi-1.17.1-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (446 kB)
+   2025-08-02T18:01:49.68+0200 [STG/0] OUT Collecting six>=1.9.0
+   2025-08-02T18:01:49.68+0200 [STG/0] OUT Using cached six-1.17.0-py2.py3-none-any.whl (11 kB)
+   2025-08-02T18:01:49.76+0200 [STG/0] OUT Collecting cachetools<6.0,>=2.0.0
+   2025-08-02T18:01:49.77+0200 [STG/0] OUT Using cached cachetools-5.5.2-py3-none-any.whl (10 kB)
+   2025-08-02T18:01:49.80+0200 [STG/0] OUT Collecting pyasn1-modules>=0.2.1
+   2025-08-02T18:01:49.81+0200 [STG/0] OUT Using cached pyasn1_modules-0.4.2-py3-none-any.whl (181 kB)
+   2025-08-02T18:01:49.97+0200 [STG/0] OUT Collecting googleapis-common-protos<2.0.0,>=1.56.2
+   2025-08-02T18:01:49.97+0200 [STG/0] OUT Using cached googleapis_common_protos-1.70.0-py3-none-any.whl (294 kB)
+   2025-08-02T18:01:50.11+0200 [STG/0] OUT Collecting google-auth-httplib2<1.0.0,>=0.2.0
+   2025-08-02T18:01:50.12+0200 [STG/0] OUT Using cached google_auth_httplib2-0.2.0-py2.py3-none-any.whl (9.3 kB)
+   2025-08-02T18:01:50.14+0200 [STG/0] OUT Collecting uritemplate<5,>=3.0.1
+   2025-08-02T18:01:50.14+0200 [STG/0] OUT Using cached uritemplate-4.2.0-py3-none-any.whl (11 kB)
+   2025-08-02T18:01:50.17+0200 [STG/0] OUT Collecting httplib2<1.0.0,>=0.19.0
+   2025-08-02T18:01:50.17+0200 [STG/0] OUT Using cached httplib2-0.22.0-py3-none-any.whl (96 kB)
+   2025-08-02T18:01:50.25+0200 [STG/0] OUT Collecting pycparser
+   2025-08-02T18:01:50.25+0200 [STG/0] OUT Using cached pycparser-2.22-py3-none-any.whl (117 kB)
+   2025-08-02T18:01:50.34+0200 [STG/0] OUT Collecting grpcio-status<2.0.0,>=1.33.2
+   2025-08-02T18:01:50.34+0200 [STG/0] OUT Using cached grpcio_status-1.74.0-py3-none-any.whl (14 kB)
+   2025-08-02T18:01:51.56+0200 [STG/0] OUT Collecting grpcio<2.0.0,>=1.33.2
+   2025-08-02T18:01:51.57+0200 [STG/0] OUT Using cached grpcio-1.74.0-cp310-cp310-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (6.2 MB)
+   2025-08-02T18:01:51.68+0200 [STG/0] OUT Collecting pyparsing!=3.0.0,!=3.0.1,!=3.0.2,!=3.0.3,<4,>=2.4.2
+   2025-08-02T18:01:51.68+0200 [STG/0] OUT Using cached pyparsing-3.2.3-py3-none-any.whl (111 kB)
+   2025-08-02T18:01:51.87+0200 [STG/0] OUT Collecting grpcio-status<2.0.0,>=1.33.2
+   2025-08-02T18:01:51.87+0200 [STG/0] OUT Using cached grpcio_status-1.73.1-py3-none-any.whl (14 kB)
+   2025-08-02T18:01:51.95+0200 [STG/0] OUT Using cached grpcio_status-1.73.0-py3-none-any.whl (14 kB)
+   2025-08-02T18:01:51.96+0200 [STG/0] OUT Using cached grpcio_status-1.72.2-py3-none-any.whl (14 kB)
+   2025-08-02T18:01:51.98+0200 [STG/0] OUT Using cached grpcio_status-1.72.1-py3-none-any.whl (14 kB)
+   2025-08-02T18:01:52.07+0200 [STG/0] OUT Using cached grpcio_status-1.71.2-py3-none-any.whl (14 kB)
+   2025-08-02T18:01:52.38+0200 [STG/0] OUT Installing collected packages: urllib3, uritemplate, typing-extensions, tqdm, six, python-dotenv, pyparsing, pycparser, pyasn1, protobuf, markupsafe, itsdangerous, idna, h11, grpcio, click, charset_normalizer, certifi, cachetools, blinker, annotated-types, werkzeug, uvicorn, typing-inspection, rsa, requests, pydantic-core, pyasn1-modules, proto-plus, jinja2, httplib2, googleapis-common-protos, ecdsa, cffi, python-jose, pydantic, grpcio-status, google-auth, Flask, cryptography, google-auth-httplib2, google-api-core, Flask-Cors, google-api-python-client, google-ai-generativelanguage, google-generativeai
+   2025-08-02T18:01:56.81+0200 [STG/0] OUT Successfully installed Flask-3.1.1 Flask-Cors-6.0.1 annotated-types-0.7.0 blinker-1.9.0 cachetools-5.5.2 certifi-2025.7.14 cffi-1.17.1 charset_normalizer-3.4.2 click-8.2.2 cryptography-45.0.5 ecdsa-0.19.1 google-ai-generativelanguage-0.6.15 google-api-core-2.25.1 google-api-python-client-2.177.0 google-auth-2.40.3 google-auth-httplib2-0.2.0 google-generativeai-0.8.5 googleapis-common-protos-1.70.0 grpcio-1.74.0 grpcio-status-1.71.2 h11-0.16.0 httplib2-0.22.0 idna-3.10 itsdangerous-2.2.0 jinja2-3.1.6 markupsafe-3.0.2 proto-plus-1.26.1 protobuf-5.29.5 pyasn1-0.6.1 pyasn1-modules-0.4.2 pycparser-2.22 pydantic-2.11.7 pydantic-core-2.33.2 pyparsing-3.2.3 python-dotenv-1.1.1 python-jose-3.5.0 requests-2.32.4 rsa-4.9.1 six-1.17.0 tqdm-4.67.1 typing-extensions-4.14.1 typing-inspection-0.4.1 uritemplate-4.2.0 urllib3-2.5.0 uvicorn-0.35.0 werkzeug-3.1.3
+   2025-08-02T18:01:57.36+0200 [STG/0] ERR No start command specified by buildpack or via Procfile.
+   2025-08-02T18:01:57.36+0200 [STG/0] ERR App will not start unless a command is provided at runtime.
+   2025-08-02T18:02:11.27+0200 [STG/0] OUT Exit status 0
+   2025-08-02T18:02:11.27+0200 [STG/0] OUT Uploading droplet, build artifacts cache...
+   2025-08-02T18:02:11.27+0200 [STG/0] OUT Uploading droplet...
+   2025-08-02T18:02:11.27+0200 [STG/0] OUT Uploading build artifacts cache...
+   2025-08-02T18:02:11.73+0200 [STG/0] OUT Uploaded build artifacts cache (34.7M)
+   2025-08-02T18:02:12.54+0200 [API/11] OUT Creating droplet for app with guid 750fe283-b5ab-40a0-87ae-263b0e91cd49
+   2025-08-02T18:02:14.63+0200 [STG/0] OUT Uploaded droplet (97.1M)
+   2025-08-02T18:02:14.66+0200 [STG/0] OUT Uploading complete
+   2025-08-02T18:02:15.10+0200 [STG/0] OUT Cell d1cc041a-d5a1-41d6-b9f6-6cda736ce3f0 stopping instance bbb7daf7-c676-4c22-aaef-59f565c22795
+   2025-08-02T18:02:15.10+0200 [STG/0] OUT Cell d1cc041a-d5a1-41d6-b9f6-6cda736ce3f0 destroying container for instance bbb7daf7-c676-4c22-aaef-59f565c22795
+   2025-08-02T18:02:15.96+0200 [STG/0] OUT Cell d1cc041a-d5a1-41d6-b9f6-6cda736ce3f0 successfully destroyed container for instance bbb7daf7-c676-4c22-aaef-59f565c22795
+   2025-08-02T18:02:16.81+0200 [API/3] OUT Stopping app with guid 750fe283-b5ab-40a0-87ae-263b0e91cd49
+   2025-08-02T18:02:16.85+0200 [CELL/0] OUT Cell 4b7bad55-c368-48b6-adf8-0a87fc6e3a25 stopping instance 1ae0dbcc-c29a-40c0-64b8-6e14
+   2025-08-02T18:02:17.01+0200 [API/8] OUT Updated app with guid 750fe283-b5ab-40a0-87ae-263b0e91cd49 ({:droplet_guid=>"cba7c892-68c0-4b8e-80a4-7af360dc94fc"})
+   2025-08-02T18:02:17.19+0200 [API/9] OUT Creating revision for app with guid 750fe283-b5ab-40a0-87ae-263b0e91cd49
+   2025-08-02T18:02:17.23+0200 [API/9] OUT Starting app with guid 750fe283-b5ab-40a0-87ae-263b0e91cd49
+   2025-08-02T18:02:17.42+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 creating container for instance 6213fc2d-2cc8-4fb2-7754-f59a
+   2025-08-02T18:02:17.72+0200 [CELL/0] OUT Security group rules were updated
+   2025-08-02T18:02:17.79+0200 [CELL/0] OUT Cell 7eab295c-fd78-413b-beff-f2d9abd94987 successfully created container for instance 6213fc2d-2cc8-4fb2-7754-f59a
+   2025-08-02T18:02:18.08+0200 [CELL/0] OUT Downloading droplet...
+   2025-08-02T18:02:22.25+0200 [APP/PROC/WEB/0] ERR INFO:     Shutting down
+   2025-08-02T18:02:22.35+0200 [APP/PROC/WEB/0] ERR INFO:     Finished server process [7]
+   2025-08-02T18:02:22.37+0200 [APP/PROC/WEB/0] OUT Exit status 143
+   2025-08-02T18:02:22.37+0200 [CELL/0] OUT Cell 4b7bad55-c368-48b6-adf8-0a87fc6e3a25 destroying container for instance 1ae0dbcc-c29a-40c0-64b8-6e14
+   2025-08-02T18:02:22.45+0200 [PROXY/0] OUT Exit status 137
+   2025-08-02T18:02:22.91+0200 [CELL/0] OUT Downloaded droplet (97.1M)
+   2025-08-02T18:02:22.91+0200 [CELL/0] OUT Starting health monitoring of container
+   2025-08-02T18:02:22.97+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.
+   2025-08-02T18:02:23.02+0200 [APP/PROC/WEB/0] OUT Invoking start command.
+   2025-08-02T18:02:23.69+0200 [APP/PROC/WEB/0] ERR INFO:     Started server process [7]
+   2025-08-02T18:02:23.69+0200 [APP/PROC/WEB/0] ERR INFO:     Waiting for application startup.
+   2025-08-02T18:02:23.69+0200 [APP/PROC/WEB/0] ERR INFO:     ASGI 'lifespan' protocol appears unsupported.
+   2025-08-02T18:02:23.69+0200 [APP/PROC/WEB/0] ERR INFO:     Application startup complete.
+   2025-08-02T18:02:23.69+0200 [APP/PROC/WEB/0] ERR INFO:     Uvicorn running on http://0.0.0.0:8080 (Press CTRL+C to quit)
+   2025-08-02T18:02:23.86+0200 [CELL/0] OUT Cell 4b7bad55-c368-48b6-adf8-0a87fc6e3a25 successfully destroyed container for instance 1ae0dbcc-c29a-40c0-64b8-6e14
+   2025-08-02T18:02:25.70+0200 [CELL/0] OUT Container became healthy
+   2025-08-02T18:02:25.72+0200 [API/6] OUT Process became ready with guid 750fe283-b5ab-40a0-87ae-263b0e91cd49 payload: {"instance"=>"6213fc2d-2cc8-4fb2-7754-f59a", "index"=>0, "cell_id"=>"7eab295c-fd78-413b-beff-f2d9abd94987", "ready"=>true, "version"=>"18630f1b-58fc-4689-8573-7670fa7aac1f"}
+   2025-08-02T18:04:19.05+0200 [APP/PROC/WEB/0] ERR ERROR:    Exception in ASGI application
+   2025-08-02T18:04:19.05+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-08-02T18:04:19.05+0200 [APP/PROC/WEB/0] ERR File "/home/vcap/deps/0/python/lib/python3.10/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+   2025-08-02T18:04:19.05+0200 [APP/PROC/WEB/0] ERR result = await app(  # type: ignore[func-returns-value]
+   2025-08-02T18:04:19.05+0200 [APP/PROC/WEB/0] ERR File "/home/vcap/deps/0/python/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+   2025-08-02T18:04:19.05+0200 [APP/PROC/WEB/0] ERR return await self.app(scope, receive, send)
+   2025-08-02T18:04:19.05+0200 [APP/PROC/WEB/0] ERR File "/home/vcap/deps/0/python/lib/python3.10/site-packages/uvicorn/middleware/asgi2.py", line 14, in __call__
+   2025-08-02T18:04:19.05+0200 [APP/PROC/WEB/0] ERR instance = self.app(scope)
+   2025-08-02T18:04:19.05+0200 [APP/PROC/WEB/0] ERR TypeError: Flask.__call__() missing 1 required positional argument: 'start_response'
+   2025-08-02T18:04:19.05+0200 [APP/PROC/WEB/0] OUT INFO:     31.165.131.254:0 - "POST /analyze HTTP/1.1" 500 Internal Server Error
+   2025-08-02T18:04:19.05+0200 [RTR/1] OUT pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com - [2025-08-02T16:04:19.044912488Z] "POST /analyze HTTP/1.1" 500 864 21 "https://dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com/index.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15" "10.0.72.0:60830" "10.32.1.7:61009" x_forwarded_for:"31.165.131.254, 10.0.72.0, 34.201.208.150, 10.0.72.0" x_forwarded_proto:"https" vcap_request_id:"32816335-59c8-4287-7afb-5d4f2c90b44c" response_time:0.009872 gorouter_time:0.000046 app_id:"750fe283-b5ab-40a0-87ae-263b0e91cd49" app_index:"0" instance_id:"6213fc2d-2cc8-4fb2-7754-f59a" failed_attempts:0 failed_attempts_time:"-" dns_time:0.000000 dial_time:0.000476 tls_time:0.006491 backend_time:0.009827 local_address:"10.0.65.9:35284" x_cf_routererror:"-" x_correlationid:"32816335-59c8-4287-7afb-5d4f2c90b44c" tenantid:"-" sap_passport:"-" x_scp_request_id:"9da285b7-e221-4fad-a5bd-6764a901c5ea-688E3703-1D89A" x_cf_app_instance:"-" x_forwarded_host:"dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com" x_custom_host:"-" x_ssl_client:"-" x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-" x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-" x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-" x_cf_true_client_ip:"34.201.208.150" x_request_id:"-" x_b3_traceid:"3281633559c842877afb5d4f2c90b44c" x_b3_spanid:"7afb5d4f2c90b44c" x_b3_parentspanid:"-" b3:"3281633559c842877afb5d4f2c90b44c-7afb5d4f2c90b44c"
+   2025-08-02T18:04:32.73+0200 [APP/PROC/WEB/0] ERR ERROR:    Exception in ASGI application
+   2025-08-02T18:04:32.73+0200 [APP/PROC/WEB/0] ERR Traceback (most recent call last):
+   2025-08-02T18:04:32.73+0200 [APP/PROC/WEB/0] ERR File "/home/vcap/deps/0/python/lib/python3.10/site-packages/uvicorn/protocols/http/h11_impl.py", line 403, in run_asgi
+   2025-08-02T18:04:32.73+0200 [APP/PROC/WEB/0] ERR result = await app(  # type: ignore[func-returns-value]
+   2025-08-02T18:04:32.73+0200 [APP/PROC/WEB/0] ERR File "/home/vcap/deps/0/python/lib/python3.10/site-packages/uvicorn/middleware/proxy_headers.py", line 60, in __call__
+   2025-08-02T18:04:32.73+0200 [APP/PROC/WEB/0] ERR return await self.app(scope, receive, send)
+   2025-08-02T18:04:32.73+0200 [APP/PROC/WEB/0] ERR File "/home/vcap/deps/0/python/lib/python3.10/site-packages/uvicorn/middleware/asgi2.py", line 14, in __call__
+   2025-08-02T18:04:32.73+0200 [APP/PROC/WEB/0] ERR instance = self.app(scope)
+   2025-08-02T18:04:32.73+0200 [APP/PROC/WEB/0] ERR TypeError: Flask.__call__() missing 1 required positional argument: 'start_response'
+   2025-08-02T18:04:32.73+0200 [APP/PROC/WEB/0] OUT INFO:     31.165.131.254:0 - "POST /analyze HTTP/1.1" 500 Internal Server Error
+   2025-08-02T18:04:32.73+0200 [RTR/1] OUT pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com - [2025-08-02T16:04:32.725299312Z] "POST /analyze HTTP/1.1" 500 864 21 "https://dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com/index.html" "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Safari/605.1.15" "10.0.72.0:55050" "10.32.1.7:61009" x_forwarded_for:"31.165.131.254, 10.0.72.0, 34.201.208.150, 10.0.72.0" x_forwarded_proto:"https" vcap_request_id:"d75a7d62-77ff-4ae8-51a1-dde3cd0a1386" response_time:0.007948 gorouter_time:0.000032 app_id:"750fe283-b5ab-40a0-87ae-263b0e91cd49" app_index:"0" instance_id:"6213fc2d-2cc8-4fb2-7754-f59a" failed_attempts:0 failed_attempts_time:"-" dns_time:0.000000 dial_time:0.000421 tls_time:0.005306 backend_time:0.007916 local_address:"10.0.65.9:64306" x_cf_routererror:"-" x_correlationid:"d75a7d62-77ff-4ae8-51a1-dde3cd0a1386" tenantid:"-" sap_passport:"-" x_scp_request_id:"9da285b7-e221-4fad-a5bd-6764a901c5ea-688E3703-1E351" x_cf_app_instance:"-" x_forwarded_host:"dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com" x_custom_host:"-" x_ssl_client:"-" x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-" x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-" x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-" x_cf_true_client_ip:"34.201.208.150" x_request_id:"-" x_b3_traceid:"d75a7d6277ff4ae851a1dde3cd0a1386" x_b3_spanid:"51a1dde3cd0a1386" x_b3_parentspanid:"-" b3:"d75a7d6277ff4ae851a1dde3cd0a1386-51a1dde3cd0a1386"

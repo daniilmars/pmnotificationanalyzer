@@ -10,38 +10,50 @@ def generate_training_data(project_root_dir="."):
     output_file_name = "gemini_project_export.txt"
     output_path = os.path.join(project_root_dir, output_file_name)
 
-    # List of important files to include, relative to project_root_dir
-    # This list reflects the current state of your project after authentication removal
+    # --- Comprehensive list of all relevant project files ---
     important_files = [
+        # Root Configuration
+        "mta.yaml",
+        "README.md",
+
+        # Backend Application
+        "backend/manifest.yml",
+        "backend/requirements.txt",
         "backend/app/main.py",
         "backend/app/services/analysis_service.py",
         "backend/app/models.py",
-        "backend/app/auth.py", # Placeholder file, still part of structure
-        "backend/Dockerfile",
-        "backend/requirements.txt",
-        "backend/manifest.yml", # NEW: Added manifest.yml for backend push
-        "pm-analyzer-fiori/webapp/index.html",
-        "pm-analyzer-fiori/webapp/Component.js",
-        "pm-analyzer-fiori/webapp/controller/App.controller.js",
-        "pm-analyzer-fiori/webapp/controller/BaseController.js",
-        "pm-analyzer-fiori/webapp/controller/Login.controller.js",
-        "pm-analyzer-fiori/webapp/controller/Object.controller.js",
-        "pm-analyzer-fiori/webapp/controller/View1.controller.js",
-        "pm-analyzer-fiori/webapp/controller/Worklist.controller.js",
-        "pm-analyzer-fiori/webapp/view/App.view.xml",
-        "pm-analyzer-fiori/webapp/view/Login.view.xml",
-        "pm-analyzer-fiori/webapp/view/Object.view.xml",
-        "pm-analyzer-fiori/webapp/view/View1.view.xml",
-        "pm-analyzer-fiori/webapp/view/Worklist.view.xml",
-        "pm-analyzer-fiori/webapp/manifest.json",
-        "pm-analyzer-fiori/ui5.yaml",
-        "pm-analyzer-fiori/ui5-deploy.yaml",
-        "pm-analyzer-fiori/package.json",
-        "mta.yaml", # The root mta.yaml
+        "backend/app/auth.py",
+
+        # Frontend Approuter
         "approuter/package.json",
         "approuter/xs-app.json",
-        ".github/workflows/deploy.yml",
-        "README.md" # Include the updated README.md
+
+        # Frontend Fiori Application
+        "pm-analyzer-fiori/package.json",
+        "pm-analyzer-fiori/ui5.yaml",
+        "pm-analyzer-fiori/ui5-local.yaml",
+        "pm-analyzer-fiori/ui5-deploy.yaml",
+        "pm-analyzer-fiori/webapp/manifest.json",
+        "pm-analyzer-fiori/webapp/index.html",
+        "pm-analyzer-fiori/webapp/Component.js",
+        "pm-analyzer-fiori/webapp/model/formatter.js",
+        "pm-analyzer-fiori/webapp/controller/App.controller.js",
+        "pm-analyzer-fiori/webapp/controller/BaseController.js",
+        "pm-analyzer-fiori/webapp/controller/Worklist.controller.js",
+        "pm-analyzer-fiori/webapp/controller/Object.controller.js",
+        "pm-analyzer-fiori/webapp/view/App.view.xml",
+        "pm-analyzer-fiori/webapp/view/Worklist.view.xml",
+        "pm-analyzer-fiori/webapp/view/Object.view.xml",
+
+        # Frontend Supporting Files (i18n & Mock Data)
+        "pm-analyzer-fiori/webapp/i18n/i18n.properties",
+        "pm-analyzer-fiori/webapp/i18n/i18n_de.properties",
+        "pm-analyzer-fiori/webapp/mock_data_en.json",
+        "pm-analyzer-fiori/webapp/mock_data_de.json",
+
+
+        # CI/CD Workflow
+        ".github/workflows/deploy.yml"
     ]
 
     # --- Remove existing output file if it exists ---

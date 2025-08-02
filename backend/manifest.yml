@@ -2,7 +2,7 @@ applications:
 - name: pm-analyzer-backend
   path: .
   buildpack: python_buildpack
-  command: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+  command: gunicorn --bind 0.0.0.0:$PORT app.main:app
   memory: 512M
   disk_quota: 512M
   routes:
