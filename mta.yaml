@@ -11,8 +11,12 @@ modules:
       memory: 512M
     requires:
       - name: pm-analyzer-destination
-    properties:
-      destinations: '[{"name":"pm-analyzer-backend-url","url":"https://pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com","forwardAuthToken": false}]'
+    build-parameters:
+      requires:
+        - name: pm-analyzer-fiori-build
+          artifacts:
+            - "."
+          target-path: resources/
 
   - name: pm-analyzer-fiori-build
     type: html5
