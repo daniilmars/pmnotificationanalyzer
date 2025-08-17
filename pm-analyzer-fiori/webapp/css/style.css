@@ -1,1 +1,4 @@
-/* Enter your custom styles here */
+/* Erhöht die Basis-Schriftgrösse der gesamten Anwendung */
+.sapUiBody {
+    font-size: 1.05rem; 
+}

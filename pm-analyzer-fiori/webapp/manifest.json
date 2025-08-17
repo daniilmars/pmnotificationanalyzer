@@ -22,7 +22,14 @@
         "deviceTypes": { "desktop": true, "tablet": true, "phone": true }
     },
     "sap.ui5": {
-        "dependencies": {
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+    "dependencies": {
             "minUI5Version": "1.108.0",
             "libs": {
                 "sap.m": {},

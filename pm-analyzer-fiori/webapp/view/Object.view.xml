@@ -3,78 +3,79 @@
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:f="sap.ui.layout.form"
-    xmlns:core="sap.ui.core">
+    xmlns:l="sap.ui.layout"
+    xmlns:microchart="sap.suite.ui.microchart">
     <Page
         id="page"
-        title="{parts: ['i18n>objectPageTitle', 'NotificationId'], formatter: 'jQuery.sap.formatMessage'}"
+        title="Analysis Wizard: {NotificationId}"
         showNavButton="true"
         navButtonPress=".onNavBack">
         <content>
-            <VBox class="sapUiSmallMargin">
-                <f:SimpleForm
-                    id="SimpleFormDisplay"
-                    editable="false"
-                    layout="ResponsiveGridLayout">
-                    <f:content>
-                        <Label text="{i18n>object.descriptionLabel}"/>
-                        <Text id="descriptionText" text="{Description}" />
-                        
-                        <Label text="Functional Location"/>
-                        <Text text="{FunctionalLocation}" />
-                        <Label text="Equipment"/>
-                        <Text text="{EquipmentNumber}" />
-                        
-                        <Label text="{i18n>object.typeLabel}"/>
-                        <Text id="typeText" text="{NotificationTypeText}" />
-                        <Label text="{i18n>object.userLabel}"/>
-                        <Text id="userText" text="{CreatedByUser}" />
-                        <Label text="{i18n>object.longTextLabel}"/>
-                        <TextArea id="longText" value="{LongText}" growing="true" width="100%" editable="false"/>
-                        <Label text="{i18n>object.activitiesLabel}"/>
-                        <TextArea id="activitiesText" value="{Activities}" growing="true" width="100%" editable="false"/>
-                    </f:content>
-                </f:SimpleForm>
+            <Wizard
+                id="analysisWizard"
+                class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
+                finishButtonText="Finish"
+                showNextButton="false"
+                cancel=".onNavBack"
+                complete=".onNavBack">
+                <!-- Step 1: Review and Refine Data -->
+                <WizardStep
+                    id="dataStep"
+                    title="Review &amp; Refine Data"
+                    validated="true">
+                    <MessageStrip
+                        text="You can edit the text here to perform a 'what-if' analysis and see how changes impact the quality score."
+                        type="Information"
+                        showIcon="true"
+                        class="sapUiSmallMarginBottom" />
+                    <f:SimpleForm layout="ResponsiveGridLayout">
+                        <f:content>
+                            <Label text="Long Text"/>
+                            <TextArea id="longText" value="{LongText}" rows="8" width="100%"/>
+                            <Label text="Activities"/>
+                            <TextArea id="activitiesText" value="{Activities}" rows="8" width="100%"/>
+                        </f:content>
+                    </f:SimpleForm>
+                    <Button text="Proceed to Analysis" type="Emphasized" press=".validateAndNext" class="sapUiSmallMarginTop"/>
+                </WizardStep>
 
-                <Button
-                    id="analyzeButton"
-                    text="{i18n>object.analyzeButtonText}"
-                    type="Emphasized"
-                    press=".onAnalyzePress"
-                    class="sapUiSmallMarginTop"
-                    icon="sap-icon://activate" />
-
-                <Panel id="resultsPanel" visible="{analysis>/resultsVisible}" class="sapUiSmallMarginTop" expandable="true" expanded="true" width="auto" busy="{analysis>/busy}">
-                    <headerToolbar>
-                        <Toolbar>
-                            <Title text="{i18n>object.resultsPanelTitle}"/>
-                        </Toolbar>
-                    </headerToolbar>
-                    <content>
-                        <f:SimpleForm layout="ResponsiveGridLayout">
-                            <f:content>
-                                <Label text="{i18n>object.scoreLabel}"/>
-                                <ProgressIndicator
-                                    id="scoreIndicator"
-                                    percentValue="{analysis>/score}"
-                                    displayValue="{analysis>/score}/100"
-                                    showValue="true"
-                                    state="None" />
-
-                                <Label text="{i18n>object.problemsLabel}"/>
-                                <List
-                                    id="problemsList"
-                                    items="{analysis>/problems}"
-                                    noDataText="{i18n>noProblemsFound}">
-                                    <StandardListItem title="{analysis>}" type="Inactive" />
-                                </List>
-
-                                <Label text="{i18n>object.summaryLabel}"/>
-                                <Text id="summaryText" text="{analysis>/summary}" />
-                            </f:content>
-                        </f:SimpleForm>
-                    </content>
-                </Panel>
-            </VBox>
+                <!-- Step 2: View Analysis Result -->
+                <WizardStep
+                    id="analysisStep"
+                    title="Analysis Result"
+                    validated="true">
+                     <VBox class="sapUiSmallMarginTop" busy="{analysis>/busy}" busyIndicatorDelay="0">
+                        <Panel id="resultsPanel" visible="{analysis>/resultsVisible}" backgroundDesign="Transparent">
+                            <FlexBox width="100%" alignItems="Start">
+                                <VBox>
+                                    <layoutData>
+                                        <FlexItemData growFactor="2" />
+                                    </layoutData>
+                                    <f:SimpleForm layout="ResponsiveGridLayout">
+                                        <f:content>
+                                            <Label text="Summary"/>
+                                            <Text text="{analysis>/summary}" />
+                                            <Label text="Identified Problems"/>
+                                            <Text text="{path: 'analysis>/problems', formatter:'.formatProblems'}" renderWhitespace="true" />
+                                        </f:content>
+                                    </f:SimpleForm>
+                                </VBox>
+                                <VBox justifyContent="Center" alignItems="Center" class="sapUiSmallMarginBegin">
+                                    <layoutData>
+                                        <FlexItemData growFactor="1" />
+                                    </layoutData>
+                                    <Title text="Quality Score" level="H5" class="sapUiSmallMarginBottom" />
+                                    <microchart:RadialMicroChart
+                                        id="scoreGauge"
+                                        percentage="{analysis>/score}"
+                                        size="L"
+                                        valueColor="{= ${analysis>/score} > 70 ? 'Good' : (${analysis>/score} >= 50 ? 'Critical' : 'Error') }" />
+                                </VBox>
+                            </FlexBox>
+                        </Panel>
+                    </VBox>
+                </WizardStep>
+            </Wizard>
         </content>
     </Page>
 </mvc:View>
