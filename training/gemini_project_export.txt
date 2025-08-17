@@ -1,0 +1,2174 @@
+========================================
+PROJECT STRUCTURE (tree -L 3)
+========================================
+.
+├── approuter
+│   ├── package.json
+│   └── xs-app.json
+├── backend
+│   ├── app
+│   │   ├── __pycache__
+│   │   ├── auth.py
+│   │   ├── main.py
+│   │   ├── models.py
+│   │   └── services
+│   ├── Dockerfile
+│   ├── manifest.yml
+│   ├── requirements.txt
+│   ├── run.py
+│   ├── scripts
+│   │   ├── __init__.py
+│   │   ├── generate_test_data.py
+│   │   └── local_test.py
+│   └── tests
+│       ├── __init__.py
+│       └── services
+├── mta.yaml
+├── pm-analyzer-fiori
+│   ├── node_modules
+│   │   ├── @auth0
+│   │   ├── @azure
+│   │   ├── @babel
+│   │   ├── @chevrotain
+│   │   ├── @colors
+│   │   ├── @dabh
+│   │   ├── @isaacs
+│   │   ├── @microsoft
+│   │   ├── @nodelib
+│   │   ├── @opentelemetry
+│   │   ├── @pkgjs
+│   │   ├── @pnpm
+│   │   ├── @sap
+│   │   ├── @sap-devx
+│   │   ├── @sap-ux
+│   │   ├── @tootallnate
+│   │   ├── @types
+│   │   ├── @typespec
+│   │   ├── @ui5
+│   │   ├── @vscode-logging
+│   │   ├── @xmldom
+│   │   ├── @zowe
+│   │   ├── accepts
+│   │   ├── acorn
+│   │   ├── acorn-import-attributes
+│   │   ├── adm-zip
+│   │   ├── agent-base
+│   │   ├── ajv
+│   │   ├── ansi-align
+│   │   ├── ansi-escapes
+│   │   ├── ansi-regex
+│   │   ├── ansi-styles
+│   │   ├── anymatch
+│   │   ├── applicationinsights
+│   │   ├── aproba
+│   │   ├── are-we-there-yet
+│   │   ├── argparse
+│   │   ├── array-differ
+│   │   ├── array-flatten
+│   │   ├── array-timsort
+│   │   ├── array-union
+│   │   ├── arrify
+│   │   ├── async
+│   │   ├── async-hook-jl
+│   │   ├── async-listener
+│   │   ├── asynckit
+│   │   ├── axios
+│   │   ├── balanced-match
+│   │   ├── base64-js
+│   │   ├── binary-extensions
+│   │   ├── binaryextensions
+│   │   ├── bl
+│   │   ├── body-parser
+│   │   ├── boxen
+│   │   ├── brace-expansion
+│   │   ├── braces
+│   │   ├── buffer
+│   │   ├── buffer-crc32
+│   │   ├── builtins
+│   │   ├── bytes
+│   │   ├── call-bind-apply-helpers
+│   │   ├── call-bound
+│   │   ├── camelcase
+│   │   ├── chalk
+│   │   ├── chardet
+│   │   ├── chokidar
+│   │   ├── ci-info
+│   │   ├── cjs-module-lexer
+│   │   ├── cli-boxes
+│   │   ├── cli-cursor
+│   │   ├── cli-progress
+│   │   ├── cli-spinners
+│   │   ├── cli-width
+│   │   ├── clone
+│   │   ├── clone-buffer
+│   │   ├── clone-stats
+│   │   ├── cloneable-readable
+│   │   ├── cls-hooked
+│   │   ├── code-point-at
+│   │   ├── color
+│   │   ├── color-convert
+│   │   ├── color-name
+│   │   ├── color-string
+│   │   ├── colorspace
+│   │   ├── combined-stream
+│   │   ├── comment-json
+│   │   ├── commondir
+│   │   ├── concat-map
+│   │   ├── config-chain
+│   │   ├── configstore
+│   │   ├── connect-livereload
+│   │   ├── console-control-strings
+│   │   ├── content-disposition
+│   │   ├── content-type
+│   │   ├── continuation-local-storage
+│   │   ├── cookie
+│   │   ├── cookie-signature
+│   │   ├── core-util-is
+│   │   ├── cross-spawn
+│   │   ├── crypto-random-string
+│   │   ├── date-format
+│   │   ├── debug
+│   │   ├── deep-extend
+│   │   ├── defaults
+│   │   ├── delayed-stream
+│   │   ├── delegates
+│   │   ├── depd
+│   │   ├── destroy
+│   │   ├── detect-content-type
+│   │   ├── diagnostic-channel
+│   │   ├── diagnostic-channel-publishers
+│   │   ├── dir-glob
+│   │   ├── dot-prop
+│   │   ├── dunder-proto
+│   │   ├── ee-first
+│   │   ├── ejs
+│   │   ├── emitter-listener
+│   │   ├── emoji-regex
+│   │   ├── enabled
+│   │   ├── encodeurl
+│   │   ├── end-of-stream
+│   │   ├── error-ex
+│   │   ├── error-stack-parser
+│   │   ├── es-define-property
+│   │   ├── es-errors
+│   │   ├── es-object-atoms
+│   │   ├── es-set-tostringtag
+│   │   ├── escape-goat
+│   │   ├── escape-html
+│   │   ├── escape-string-regexp
+│   │   ├── esprima
+│   │   ├── etag
+│   │   ├── execa
+│   │   ├── express
+│   │   ├── external-editor
+│   │   ├── fast-deep-equal
+│   │   ├── fast-glob
+│   │   ├── fast-safe-stringify
+│   │   ├── fast-uri
+│   │   ├── fast-xml-parser
+│   │   ├── fastq
+│   │   ├── fecha
+│   │   ├── figures
+│   │   ├── filelist
+│   │   ├── fill-range
+│   │   ├── finalhandler
+│   │   ├── find-up
+│   │   ├── findit2
+│   │   ├── first-chunk-stream
+│   │   ├── fn.name
+│   │   ├── follow-redirects
+│   │   ├── form-data
+│   │   ├── forwarded
+│   │   ├── fresh
+│   │   ├── fs-extra
+│   │   ├── fs.realpath
+│   │   ├── fsevents
+│   │   ├── function-bind
+│   │   ├── fuzzy
+│   │   ├── gauge
+│   │   ├── get-intrinsic
+│   │   ├── get-proto
+│   │   ├── get-stream
+│   │   ├── glob
+│   │   ├── glob-parent
+│   │   ├── global-dirs
+│   │   ├── globby
+│   │   ├── gopd
+│   │   ├── graceful-fs
+│   │   ├── has-flag
+│   │   ├── has-own-prop
+│   │   ├── has-symbols
+│   │   ├── has-tostringtag
+│   │   ├── has-unicode
+│   │   ├── has-yarn
+│   │   ├── hasown
+│   │   ├── hosted-git-info
+│   │   ├── http-errors
+│   │   ├── http-proxy-agent
+│   │   ├── https-proxy-agent
+│   │   ├── human-signals
+│   │   ├── i18next
+│   │   ├── i18next-fs-backend
+│   │   ├── iconv-lite
+│   │   ├── ieee754
+│   │   ├── ignore
+│   │   ├── import-in-the-middle
+│   │   ├── import-lazy
+│   │   ├── imurmurhash
+│   │   ├── inflight
+│   │   ├── inherits
+│   │   ├── ini
+│   │   ├── inquirer
+│   │   ├── ipaddr.js
+│   │   ├── is-arrayish
+│   │   ├── is-binary-path
+│   │   ├── is-ci
+│   │   ├── is-core-module
+│   │   ├── is-docker
+│   │   ├── is-extglob
+│   │   ├── is-fullwidth-code-point
+│   │   ├── is-glob
+│   │   ├── is-installed-globally
+│   │   ├── is-interactive
+│   │   ├── is-npm
+│   │   ├── is-number
+│   │   ├── is-obj
+│   │   ├── is-path-inside
+│   │   ├── is-stream
+│   │   ├── is-typedarray
+│   │   ├── is-unicode-supported
+│   │   ├── is-utf8
+│   │   ├── is-wsl
+│   │   ├── is-yarn-global
+│   │   ├── isarray
+│   │   ├── isbinaryfile
+│   │   ├── isexe
+│   │   ├── isomorphic-fetch
+│   │   ├── jake
+│   │   ├── js-tokens
+│   │   ├── js-yaml
+│   │   ├── json-parse-even-better-errors
+│   │   ├── json-schema-traverse
+│   │   ├── jsonc-parser
+│   │   ├── jsonfile
+│   │   ├── jwt-decode
+│   │   ├── kleur
+│   │   ├── kuler
+│   │   ├── lines-and-columns
+│   │   ├── livereload
+│   │   ├── livereload-js
+│   │   ├── locate-path
+│   │   ├── lodash
+│   │   ├── log-symbols
+│   │   ├── logform
+│   │   ├── macos-release
+│   │   ├── make-dir
+│   │   ├── math-intrinsics
+│   │   ├── media-typer
+│   │   ├── mem-fs
+│   │   ├── mem-fs-editor
+│   │   ├── merge-descriptors
+│   │   ├── merge-stream
+│   │   ├── merge2
+│   │   ├── methods
+│   │   ├── micromatch
+│   │   ├── mime
+│   │   ├── mime-db
+│   │   ├── mime-types
+│   │   ├── mimic-fn
+│   │   ├── minimatch
+│   │   ├── minimist
+│   │   ├── mkdirp
+│   │   ├── module-details-from-path
+│   │   ├── ms
+│   │   ├── multimatch
+│   │   ├── mute-stream
+│   │   ├── negotiator
+│   │   ├── node-fetch
+│   │   ├── normalize-package-data
+│   │   ├── normalize-path
+│   │   ├── npm-run-path
+│   │   ├── npmlog
+│   │   ├── number-is-nan
+│   │   ├── object-assign
+│   │   ├── object-inspect
+│   │   ├── on-finished
+│   │   ├── once
+│   │   ├── one-time
+│   │   ├── onetime
+│   │   ├── open
+│   │   ├── opts
+│   │   ├── ora
+│   │   ├── os-name
+│   │   ├── os-tmpdir
+│   │   ├── p-limit
+│   │   ├── p-locate
+│   │   ├── p-try
+│   │   ├── parse-json
+│   │   ├── parseurl
+│   │   ├── path-exists
+│   │   ├── path-is-absolute
+│   │   ├── path-key
+│   │   ├── path-parse
+│   │   ├── path-to-regexp
+│   │   ├── path-type
+│   │   ├── performance-now
+│   │   ├── picocolors
+│   │   ├── picomatch
+│   │   ├── pify
+│   │   ├── pluralize
+│   │   ├── prettify-xml
+│   │   ├── pretty-hrtime
+│   │   ├── process-nextick-args
+│   │   ├── prompts
+│   │   ├── properties-reader
+│   │   ├── proto-list
+│   │   ├── proxy-addr
+│   │   ├── proxy-from-env
+│   │   ├── pump
+│   │   ├── punycode
+│   │   ├── pupa
+│   │   ├── qs
+│   │   ├── queue-microtask
+│   │   ├── random-int
+│   │   ├── range-parser
+│   │   ├── raw-body
+│   │   ├── rc
+│   │   ├── read-pkg
+│   │   ├── read-pkg-up
+│   │   ├── readable-stream
+│   │   ├── readdirp
+│   │   ├── reflect-metadata
+│   │   ├── registry-auth-token
+│   │   ├── registry-url
+│   │   ├── remove-trailing-separator
+│   │   ├── repeat-string
+│   │   ├── replace-ext
+│   │   ├── require-from-string
+│   │   ├── require-in-the-middle
+│   │   ├── resolve
+│   │   ├── restore-cursor
+│   │   ├── reusify
+│   │   ├── rimraf
+│   │   ├── run-async
+│   │   ├── run-parallel
+│   │   ├── rxjs
+│   │   ├── safe-buffer
+│   │   ├── safe-stable-stringify
+│   │   ├── safer-buffer
+│   │   ├── sanitize-filename
+│   │   ├── semver
+│   │   ├── semver-diff
+│   │   ├── send
+│   │   ├── serve-static
+│   │   ├── set-blocking
+│   │   ├── setprototypeof
+│   │   ├── shebang-command
+│   │   ├── shebang-regex
+│   │   ├── shimmer
+│   │   ├── side-channel
+│   │   ├── side-channel-list
+│   │   ├── side-channel-map
+│   │   ├── side-channel-weakmap
+│   │   ├── signal-exit
+│   │   ├── simple-swizzle
+│   │   ├── sisteransi
+│   │   ├── slash
+│   │   ├── source-map
+│   │   ├── spdx-correct
+│   │   ├── spdx-exceptions
+│   │   ├── spdx-expression-parse
+│   │   ├── spdx-license-ids
+│   │   ├── stack-chain
+│   │   ├── stack-generator
+│   │   ├── stack-trace
+│   │   ├── stackframe
+│   │   ├── stacktrace-gps
+│   │   ├── stacktrace-js
+│   │   ├── statuses
+│   │   ├── streamroller
+│   │   ├── string_decoder
+│   │   ├── string-width
+│   │   ├── strip-ansi
+│   │   ├── strip-bom
+│   │   ├── strip-bom-buf
+│   │   ├── strip-bom-stream
+│   │   ├── strip-final-newline
+│   │   ├── strip-json-comments
+│   │   ├── strnum
+│   │   ├── supports-color
+│   │   ├── supports-preserve-symlinks-flag
+│   │   ├── text-hex
+│   │   ├── textextensions
+│   │   ├── through
+│   │   ├── tmp
+│   │   ├── to-regex-range
+│   │   ├── toidentifier
+│   │   ├── tr46
+│   │   ├── triple-beam
+│   │   ├── truncate-utf8-bytes
+│   │   ├── tslib
+│   │   ├── type-fest
+│   │   ├── type-is
+│   │   ├── typedarray-to-buffer
+│   │   ├── ui5-task-zipper
+│   │   ├── unique-string
+│   │   ├── universalify
+│   │   ├── unpipe
+│   │   ├── update-notifier-cjs
+│   │   ├── url
+│   │   ├── url-join
+│   │   ├── utf8-byte-length
+│   │   ├── util-deprecate
+│   │   ├── utils-merge
+│   │   ├── uuid
+│   │   ├── validate-npm-package-license
+│   │   ├── validate-npm-package-name
+│   │   ├── vary
+│   │   ├── vinyl
+│   │   ├── vinyl-file
+│   │   ├── vscode-languageserver-textdocument
+│   │   ├── vscode-languageserver-types
+│   │   ├── wcwidth
+│   │   ├── webidl-conversions
+│   │   ├── whatwg-fetch
+│   │   ├── whatwg-url
+│   │   ├── which
+│   │   ├── wide-align
+│   │   ├── widest-line
+│   │   ├── windows-release
+│   │   ├── winston
+│   │   ├── winston-transport
+│   │   ├── wrap-ansi
+│   │   ├── wrappy
+│   │   ├── write-file-atomic
+│   │   ├── ws
+│   │   ├── xdg-basedir
+│   │   ├── xpath
+│   │   ├── yallist
+│   │   ├── yaml
+│   │   └── yazl
+│   ├── package-lock.json
+│   ├── package.json
+│   ├── ui5-deploy.yaml
+│   ├── ui5-local.yaml
+│   ├── ui5-mock.yaml
+│   ├── ui5.yaml
+│   └── webapp
+│       ├── Component.js
+│       ├── config.json
+│       ├── controller
+│       ├── css
+│       ├── i18n
+│       ├── index.html
+│       ├── localService
+│       ├── manifest.json
+│       ├── mock_data_de.json
+│       ├── mock_data_en.json
+│       ├── model
+│       ├── test
+│       └── view
+├── README.md
+├── training
+│   └── training_gemini.py
+└── venv
+    ├── bin
+    │   ├── activate
+    │   ├── activate.csh
+    │   ├── activate.fish
+    │   ├── Activate.ps1
+    │   ├── dotenv
+    │   ├── flask
+    │   ├── normalizer
+    │   ├── pip
+    │   ├── pip3
+    │   ├── pip3.11
+    │   ├── pyrsa-decrypt
+    │   ├── pyrsa-encrypt
+    │   ├── pyrsa-keygen
+    │   ├── pyrsa-priv2pub
+    │   ├── pyrsa-sign
+    │   ├── pyrsa-verify
+    │   ├── python -> python3.11
+    │   ├── python3 -> python3.11
+    │   ├── python3.11 -> /usr/local/Cellar/python@3.11/3.11.9/Frameworks/Python.framework/Versions/3.11/bin/python3.11
+    │   ├── tqdm
+    │   └── uvicorn
+    ├── include
+    │   └── python3.11
+    ├── lib
+    │   ├── python3.11
+    │   └── python3.9
+    └── pyvenv.cfg
+
+
+========================================
+RELEVANT FILE CONTENTS
+========================================
+
+--- File: mta.yaml ---
+
+_schema-version: "3.2"
+ID: com.sap.pm.pmanalyzer
+version: 1.0.0
+
+modules:
+  - name: pm-analyzer-approuter
+    type: approuter.nodejs
+    path: approuter
+    parameters:
+      disk-quota: 512M
+      memory: 512M
+    requires:
+      - name: pm-analyzer-destination
+    build-parameters:
+      requires:
+        - name: pm-analyzer-fiori-build
+          artifacts:
+            - "."
+          target-path: resources/
+
+  - name: pm-analyzer-fiori-build
+    type: html5
+    path: pm-analyzer-fiori
+    build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - npm run build:cf
+      supported-platforms: []
+    parameters:
+      memory: 1G
+      disk-quota: 1G
+
+resources:
+  - name: pm-analyzer-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+      config:
+        init_data:
+          instance:
+            destinations:
+              - Name: pm-analyzer-backend
+                Type: HTTP
+                URL: https://pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com
+                ProxyType: Internet
+                Authentication: NoAuthentication
+            existing_destinations_policy: update
+
+  - name: pm-analyzer-backend-app
+    type: org.cloudfoundry.existing-service
+    parameters:
+      service-name: pm-analyzer-backend
+
+
+--- File: README.md ---
+
+PM Notification Quality Assistant
+
+This project is a full-stack application designed to analyze the quality of Plant Maintenance (PM) notifications. It consists of a Python/Flask backend that uses a Large Language Model for analysis and an SAP Fiori/UI5 frontend for the user interface.
+
+Project Structure
+
+.
+├── approuter/         # Node.js App Router (serves UI, proxies to backend)
+├── backend/           # Python Flask Backend
+└── pm-analyzer-fiori/ # SAP Fiori Frontend
+Application Overview
+
+The PM Notification Quality Assistant aims to proactively enhance the quality of Plant Maintenance notifications, particularly in highly regulated environments like pharmaceutical production. By leveraging Artificial Intelligence, the application identifies deficiencies in documentation, provides actionable insights, and supports a continuous improvement process (KVP). It's designed for a range of users, ensuring that maintenance records are audit-proof and compliant with stringent data integrity principles (ALCOA+).
+
+Note: This version of the application has authentication completely removed for simplified deployment and demonstration purposes.
+
+Key Features
+
+AI-Powered Quality Analysis: Automated evaluation of maintenance notification texts based on Good Manufacturing Practice (GMP) and ALCOA+ principles.
+
+Quantitative Scoring: Each analysis provides a numerical quality score (0-100) for quick assessment.
+
+Detailed Problem Identification: The AI highlights specific issues and gaps in the notification documentation.
+
+Summarized Expert Assessment: A concise summary explains the AI's findings and recommendations.
+
+Multi-language Support: The application supports analysis in both English and German.
+
+Notification Management: View, filter, and search through a list of PM notifications.
+
+Detailed Notification View: Access comprehensive details of individual notifications and trigger on-demand AI analysis.
+
+Visual Score Indicator: A clear visual indicator provides immediate feedback on the notification's quality score.
+
+Architecture Deep Dive
+
+The application follows a client-server architecture, with a distinct separation between the backend and frontend components, deployed as a Multi-Target Application (MTA) on SAP BTP Cloud Foundry.
+
+Backend (Python/Flask)
+
+The backend is a lightweight Flask application responsible for handling API requests and performing the core AI-driven text analysis.
+
+Technology Stack: Flask, Gunicorn, Pydantic, Google Gemini API.
+
+Deployment Type: Deployed as a standard Cloud Foundry application.
+
+main.py: The central Flask application file. It defines API routes (/health and /api/analyze).
+
+app/services/analysis_service.py: Integrates with the Google Gemini API (gemini-1.5-flash-latest).
+
+requirements.txt: Lists Python dependencies. Gunicorn is used as the production-grade WSGI server.
+
+manifest.yml: Defines the Cloud Foundry application properties. Crucially, it specifies the command to run the app with Gunicorn and declaratively defines the application's route.
+
+Frontend (SAP Fiori/UI5)
+
+The frontend is an SAP Fiori application built with SAP UI5, providing an intuitive and enterprise-grade user interface.
+
+Technology Stack: SAP UI5, Node.js App Router.
+
+Deployment Type: The UI5 application's static content is embedded directly within the App Router's build artifact and served by the App Router itself. This robust pattern bypasses the need for the HTML5 Application Repository service.
+
+approuter/: Acts as the single entry point. It serves the static Fiori UI content and proxies API calls to the backend via the BTP Destination service.
+
+xs-app.json: Configures routing rules. It serves the Fiori app's content from a local directory (localDir) and proxies /api calls to the backend destination, preserving the API path prefix.
+
+SAP BTP Deployment Strategy (CI/CD with GitHub Actions)
+
+The application is deployed to SAP BTP Cloud Foundry using a fully automated GitHub Actions workflow.
+
+Backend Deployment: The backend is pushed directly using cf push. The command relies on the backend/manifest.yml to declaratively set its route.
+
+Frontend Deployment: The App Router and the embedded Fiori UI are deployed together via the MTA cf deploy command.
+
+Secrets Management: The GOOGLE_API_KEY is not stored in the repository. It is injected at deployment time using GitHub Actions Secrets and the cf set-env command.
+
+Manual Post-Deployment Step
+
+Even with a fully automated CI/CD pipeline, one manual step is required after the very first deployment to a new SAP BTP subaccount.
+
+Create Backend Destination: You must manually create an HTTP Destination in your SAP BTP subaccount. This tells the App Router how to find the backend.
+
+Navigate To: Your BTP Subaccount → Connectivity → Destinations
+
+Name: pm-analyzer-backend (must be exact)
+
+Type: HTTP
+
+URL: The URL of your deployed pm-analyzer-backend application.
+
+Proxy Type: Internet
+
+Authentication: NoAuthentication
+
+Lessons Learned from Deployment
+
+Deploying this stack to SAP BTP involved several specific challenges. This section captures the key lessons to aid future deployments.
+
+SAPUI5 Versioning on CDNs is Critical: Initial "empty page" issues were caused by an incorrect CDN URL.
+
+Lesson: Use the versioned SAPUI5 CDN (https://ui5.sap.com/<version>/...) and an "evergreen" URL (e.g., /1.120/) to ensure the application always receives the latest secure patch for your chosen version.
+
+Embedded Frontend vs. HTML5 Repo: The initial strategy using the HTML5 Application Repository service led to complex, hard-to-debug authentication issues.
+
+Lesson: A simpler, more robust deployment pattern is to embed the UI directly into the Approuter. This makes the Approuter a self-contained web server for both static files and API proxying, eliminating a point of failure.
+
+WSGI vs. ASGI Server Mismatch: The backend initially failed with a 500 Internal Server Error and a TypeError.
+
+Lesson: A Flask (WSGI) application must be served by a WSGI-compliant server like Gunicorn. The Cloud Foundry buildpack may incorrectly infer a different server (like Uvicorn) if it's present in requirements.txt. The start command must be explicitly defined in the manifest.
+
+Implementation: Added gunicorn to requirements.txt and set an explicit command: gunicorn --bind 0.0.0.0:$PORT app.main:app in backend/manifest.yml.
+
+Declarative Route Management is Key: The backend initially deployed without a URL because the CI/CD script used a --no-route flag.
+
+Lesson: Always rely on the manifest.yml to declaratively manage routes. Imperative flags like --no-route in a CI/CD script are fragile and lead to errors. Manual cf map-route commands should only be used for temporary debugging, not as a standard process.
+
+Implementation: Removed the --no-route flag from the cf push command in the .github/workflows/deploy.yml script.
+
+Align App Router Path Rewriting: API calls failed with a 404 Not Found from the backend even after all platform routing was correct.
+
+Lesson: The path rewriting logic in the App Router's xs-app.json must align perfectly with the backend's API route definitions. If the backend expects an /api/ prefix, the App Router must not strip it away.
+
+Implementation: Modified the API route target in approuter/xs-app.json from "/$1" to "/api/$1" to preserve the path.
+
+Securely Automate Environment Variables: The backend requires a GOOGLE_API_KEY.
+
+Lesson: Never hardcode secrets. In a CI/CD context, use the platform's secret management (e.g., GitHub Actions Secrets). The cf set-env command should be followed by cf restage for the variable to be loaded by the application.
+
+Implementation: The GOOGLE_API_KEY is stored as a GitHub Secret and injected during the deployment workflow using cf set-env, followed by a cf restage of the backend app.
+
+
+--- File: backend/manifest.yml ---
+
+applications:
+- name: pm-analyzer-backend
+  path: .
+  buildpack: python_buildpack
+  command: gunicorn --bind 0.0.0.0:$PORT app.main:app
+  memory: 512M
+  disk_quota: 512M
+  routes:
+  - route: pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com 
+
+
+--- File: backend/requirements.txt ---
+
+Flask
+Flask-Cors
+google-generativeai
+python-dotenv
+pydantic
+python-jose[cryptography]
+requests
+uvicorn
+gunicorn
+
+
+--- File: backend/app/main.py ---
+
+from flask import Flask, request, jsonify
+from flask_cors import CORS
+from dotenv import load_dotenv
+import os
+from typing import Tuple
+from google.api_core import exceptions as google_exceptions
+import logging
+
+load_dotenv()
+
+from app.services.analysis_service import analyze_text
+from app.models import AnalysisResponse
+# Removed: from app.auth import token_required # No longer needed
+
+app = Flask(__name__)
+CORS(app)
+logging.basicConfig(level=logging.INFO)
+
+@app.route('/health', methods=['GET'])
+def health_check() -> Tuple[str, int]:
+    return jsonify({"status": "ok"}), 200
+
+
+@app.route('/api/analyze', methods=['POST'])
+# Removed: @token_required # No longer needed
+def analyze() -> Tuple[str, int]:
+    data = request.get_json()
+    if not data or not data.get('text'):
+        return jsonify({
+            "error": {
+                "code": "BAD_REQUEST",
+                "message": "Missing 'text' in request body"
+            }
+        }), 400
+
+    text_to_analyze = data['text']
+    # Get the language from the request, defaulting to 'en'
+    language = data.get('language', 'en')
+
+    try:
+        # Pass the language to the service function
+        analysis_result = analyze_text(text_to_analyze, language)
+        return jsonify(analysis_result.dict())
+    except google_exceptions.PermissionDenied as e:
+        app.logger.error(f"Google API permission denied. Please check your GOOGLE_API_KEY. Details: {e}")
+        return jsonify({
+            "error": {
+                "code": "API_PERMISSION_DENIED",
+                "message": "The backend server was denied access by the analysis service. This is likely due to an invalid or restricted API key."
+            }
+        }), 500
+    except Exception as e:
+        app.logger.exception("An unexpected error occurred during analysis.")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": f"An unexpected error occurred: {str(e)}"\
+            }
+        }), 500
+
+if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 5001))
+    app.run(debug=True, port=port, host='0.0.0.0')
+
+
+
+--- File: backend/app/services/analysis_service.py ---
+
+import os
+import re
+import google.generativeai as genai
+from app.models import AnalysisResponse
+
+def _parse_gemini_response(reply: str) -> AnalysisResponse:
+    """
+    Parses the raw text response from Gemini into a structured AnalysisResponse object.
+    """
+    pattern = re.compile(
+        r"Score:\s*(\d+)\s*Probleme:\s*(.*?)\s*Zusammenfassung:\s*(.*)",
+        re.DOTALL | re.IGNORECASE
+    )
+    match = pattern.search(reply)
+
+    if not match:
+        raise ValueError(f"Could not parse the response from the AI. Response was: {reply}")
+
+    score = int(match.group(1).strip())
+    issues_text = match.group(2).strip()
+    issues = [line.strip("- ") for line in issues_text.split('\n') if line.strip() and line.strip().startswith('-')]
+    summary = match.group(3).strip()
+
+    return AnalysisResponse(score=score, problems=issues, summary=summary)
+
+
+def analyze_text(text: str, language: str = "en") -> AnalysisResponse:
+    """
+    Analyzes an SAP maintenance text using the Google Gemini API in the specified language.
+    """
+    api_key = os.getenv("GOOGLE_API_KEY")
+    if not api_key:
+        raise ValueError("CRITICAL: GOOGLE_API_KEY environment variable is not set.")
+    genai.configure(api_key=api_key)
+
+    # Map language codes to full names for a clearer instruction to the AI
+    lang_map = {
+        "en": "English",
+        "de": "German"
+    }
+    output_language = lang_map.get(language, "English")
+
+    prompt = f"""
+    Du bist ein erfahrener GMP-Auditor und bewertest die Qualität von Instandhaltungsmeldungen in einem pharmazeutischen Produktionsbetrieb. Deine Bewertung muss extrem streng sein und sich an den Prinzipien von GMP und Datenintegrität (ALCOA+) orientieren.
+
+    BEWERTUNGSMATRIX:
+    - Score 90-100 (Audit-sicher): Alle 5 Säulen (GMP/ALCOA+, Rückverfolgbarkeit, Ursachenanalyse, Produkteinfluss, CAPA mit Vorbeugemassnahme) sind vollständig erfüllt. Alle IDs und Chargennummern sind vorhanden.
+    - Score 70-89 (Gut, mit Lücken): Grösstenteils konform, aber es fehlt eine explizite Vorbeugemassnahme oder die Ursachenanalyse ist nicht tiefgehend.
+    - Score 40-69 (Mangelhaft): Es fehlt eine klare Bewertung des Produkteinflusses oder die Ursachenanalyse. Kritische IDs (z.B. Chargennummer) fehlen.
+    - Score 10-39 (Schwerwiegend mangelhaft): Mehrere Säulen fehlen. Die Rückverfolgbarkeit ist nicht gegeben.
+    - Score 0-9 (Ungenügend): Der Eintrag ist für ein GMP-Umfeld völlig unbrauchbar.
+
+    ANALYSIERE DIESEN TEXT:
+    "{text}"
+
+    GIB DEINE ANTWORT NUR IM FOLGENDEN FORMAT UND NUR IN DIESER SPRACHE ZURÜCK: {output_language}
+    Score: <int>
+    Probleme:
+    - <Problem 1>
+    - <Problem 2>
+    Zusammenfassung: <String>
+    """
+
+    try:
+        model = genai.GenerativeModel('gemini-1.5-flash-latest')
+        generation_config = genai.types.GenerationConfig(temperature=0.1)
+
+        response = model.generate_content(prompt, generation_config=generation_config)
+        reply = response.text
+        
+        return _parse_gemini_response(reply)
+
+    except Exception as e:
+        print(f"An error occurred while communicating with the Google Gemini API: {e}")
+        raise e
+
+
+--- File: backend/app/models.py ---
+
+from pydantic import BaseModel
+from typing import List
+
+class AnalysisRequest(BaseModel):
+    """The model for the incoming request."""
+    text: str
+    language: str = "en" # Add this line
+
+class AnalysisResponse(BaseModel):
+    """The model for the outgoing response."""
+    score: int
+    problems: List[str]
+    summary: str
+
+
+--- File: backend/app/auth.py ---
+
+# This file can be completely removed if no authentication is desired.
+# For now, we'll keep it as an empty placeholder or with minimal content
+# to avoid breaking imports in other files if they still reference it.
+
+# If you choose to remove this file, ensure no other files import 'app.auth'
+# For example, in main.py, remove 'from app.auth import token_required'
+
+# You might keep a very minimal version if you foresee re-introducing auth later:
+"""
+Placeholder for authentication logic.
+Authentication has been temporarily removed from the application.
+"""
+# No authentication logic is implemented in this version.
+
+
+
+--- File: approuter/package.json ---
+
+    {
+      "name": "pm-analyzer-approuter",
+      "description": "Approuter for PM Notification Quality Analyzer",
+      "dependencies": {
+        "@sap/approuter": "14.x.x"
+      },
+      "scripts": {
+        "start": "node node_modules/@sap/approuter/approuter.js"
+      }
+    }
+    
+
+
+--- File: approuter/xs-app.json ---
+
+{
+  "welcomeFile": "index.html",
+  "authenticationMethod": "none",
+  "routes": [
+    {
+      "source": "^/api/(.*)$",
+      "target": "/api/$1",
+      "destination": "pm-analyzer-backend"
+    },
+    {
+      "source": "^/(.*)$",
+      "target": "$1",
+      "localDir": "resources/pm-analyzer-fiori/dist"
+    }
+  ]
+}
+
+
+--- File: pm-analyzer-fiori/package.json ---
+
+{
+  "name": "com.sap.pm.pmanalyzerfiori",
+  "version": "0.0.1",
+  "private": true,
+  "description": "A Fiori application for PM Notification Quality Analysis",
+  "keywords": [
+    "ui5",
+    "openui5",
+    "sapui5"
+  ],
+  "main": "webapp/index.html",
+  "scripts": {
+    "preinstall": "rimraf webapp/libs",
+    "start": "fiori run --open 'test/flpSandbox.html?sap-ui-xx-viewCache=false'",
+    "start-local": "fiori run --config ./ui5-local.yaml --open 'test/flpSandbox.html?sap-ui-xx-viewCache=false'",
+    "build": "ui5 build --clean-dest --config ui5.yaml",
+    "deploy": "fiori verify",
+    "deploy-config": "fiori add deploy-config",
+    "build:cf": "ui5 build preload --clean-dest --config ui5-deploy.yaml --include-task=generateCachebusterInfo ui5-task-zipper",
+    "postbuild:cf": "mkdir -p ../approuter/resources/pm-analyzer-fiori/ && cp -r dist/ ../approuter/resources/pm-analyzer-fiori/",
+    "build:mta": "rimraf resources webapp/resources webapp/test-resources dist && mbt build --mtar archive",
+    "start-mock": "fiori run --config ./ui5-mock.yaml --open 'test/flpSandbox.html?sap-ui-xx-viewCache=false'",
+    "start-noflp": "fiori run --open 'index.html?sap-ui-xx-viewCache=false'"
+  },
+  "devDependencies": {
+    "@sap/ux-ui5-tooling": "1.*",
+    "@ui5/cli": "^3.0.0",
+    "rimraf": "^3.0.2",
+    "ui5-task-zipper": "^0.5.0"
+  },
+  "ui5": {
+    "dependencies": [
+      "@sap/ux-ui5-tooling",
+      "ui5-task-zipper"
+    ]
+  }
+}
+
+
+--- File: pm-analyzer-fiori/ui5.yaml ---
+
+specVersion: "3.1"
+metadata:
+  name: com.sap.pm.pmanalyzerfiori
+type: application
+framework:
+  name: SAPUI5
+  version: "1.120.13" # Or your desired version
+  libraries:
+    - name: sap.m
+    - name: sap.ui.core
+    - name: sap.ui.layout
+    - name: sap.ui.comp
+    - name: themelib_sap_horizon
+server:
+  customMiddleware:
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        backend:
+          - path: /api
+            url: http://localhost:5001
+
+
+--- File: pm-analyzer-fiori/ui5-local.yaml ---
+
+specVersion: "3.1"
+metadata:
+  name: com.sap.pm.pmanalyzerfiori
+type: application
+framework:
+  name: SAPUI5
+  version: "1.120.13" # Or your desired version
+  libraries:
+    - name: sap.m
+    - name: sap.ui.core
+    - name: sap.ui.layout
+    - name: sap.ui.comp
+    - name: themelib_sap_horizon
+server:
+  customMiddleware:
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        backend:
+          - path: /api
+            url: http://localhost:5001
+
+
+--- File: pm-analyzer-fiori/ui5-deploy.yaml ---
+
+# yaml-language-server: $schema=https://sap.github.io/ui5-tooling/schema/ui5.yaml.json
+
+specVersion: "3.1"
+metadata:
+  name: com.sap.pm.pmanalyzerfiori
+type: application
+resources:
+  configuration:
+    propertiesFileSourceEncoding: UTF-8
+builder:
+  resources:
+    excludes:
+      - /test/**
+      - /localService/**
+  customTasks:
+    - name: ui5-task-zipper
+      afterTask: generateCachebusterInfo
+      configuration:
+        archiveName: comsappmpmanalyzerfiori
+        relativePaths: true
+        # Removed additionalFiles: - xs-app.json as it's no longer in this directory
+
+
+
+--- File: pm-analyzer-fiori/webapp/manifest.json ---
+
+{
+    "_version": "1.2.0",
+    "sap.app": {
+        "id": "com.sap.pm.pmanalyzerfiori",
+        "type": "application",
+        "applicationVersion": { "version": "0.0.1" },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "dataSources": {
+            "analysisApi": {
+                "uri": "/api/",
+                "type": "REST"
+            },
+            "notificationsMockData": {
+                "uri": "./mock_data_en.json",
+                "type": "JSON"
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "deviceTypes": { "desktop": true, "tablet": true, "phone": true }
+    },
+    "sap.ui5": {
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+    "dependencies": {
+            "minUI5Version": "1.108.0",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.ui.layout": {},
+                "sap.ui.comp": {}
+            }
+        },
+        "contentDensities": { "compact": true, "cozy": true },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "com.sap.pm.pmanalyzerfiori.i18n.i18n",
+                    "supportedLocales": ["en", "de"],
+                    "fallbackLocale": "en"
+                }
+            },
+            "": {
+                "type": "sap.ui.model.json.JSONModel"
+            },
+            "analysis": {
+                "type": "sap.ui.model.json.JSONModel",
+                "uri": ""
+            },
+            "ui": {
+                "type": "sap.ui.model.json.JSONModel",
+                "uri": ""
+            }
+        },
+        "rootView": {
+            "viewName": "com.sap.pm.pmanalyzerfiori.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "App"
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "async": true,
+                "viewPath": "com.sap.pm.pmanalyzerfiori.view",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "clearControlAggregation": false
+            },
+            "routes": [
+                {
+                    "name": "worklist",
+                    "pattern": "",
+                    "target": "worklist"
+                },
+                {
+                    "name": "object",
+                    "pattern": "Notifications/{notificationId}",
+                    "target": "object"
+                }
+            ],
+            "targets": {
+                "worklist": {
+                    "viewName": "Worklist",
+                    "viewId": "worklist"
+                },
+                "object": {
+                    "viewName": "Object",
+                    "viewId": "object"
+                }
+            }
+        }
+    }
+}
+
+
+
+--- File: pm-analyzer-fiori/webapp/index.html ---
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PM Notification Quality Analyzer</title>
+    <script id="sap-ui-bootstrap"
+    src="https://ui5.sap.com/1.120/resources/sap-ui-core.js"
+        data-sap-ui-libs="sap.m, sap.ui.layout, sap.ui.comp"
+        data-sap-ui-theme="sap_horizon"
+        data-sap-ui-compatVersion="edge"
+        data-sap-ui-async="true"
+        data-sap-ui-resourceroots='{"com.sap.pm.pmanalyzerfiori": "./"}'
+        data-sap-ui-onInit="module:sap/ui/core/ComponentSupport">
+    </script>
+</head>
+<body class="sapUiBody" id="content">
+    <div data-sap-ui-component data-name="com.sap.pm.pmanalyzerfiori" data-id="container" data-settings='{"id" : "com.sap.pm.pmanalyzerfiori"}' style="height: 100%"></div>
+</body>
+</html>
+
+
+
+--- File: pm-analyzer-fiori/webapp/Component.js ---
+
+sap.ui.define([
+    "sap/ui/core/UIComponent",
+    "sap/ui/Device",
+    "sap/ui/model/json/JSONModel",
+    "sap/ui/model/resource/ResourceModel"
+],
+function (UIComponent, Device, JSONModel, ResourceModel) {
+    "use strict";
+
+    return UIComponent.extend("com.sap.pm.pmanalyzerfiori.Component", {
+        metadata: {
+            manifest: "json"
+        },
+
+        init: function () {
+            // Call the base UIComponent's init method
+            UIComponent.prototype.init.apply(this, arguments);
+
+            // Set the device model
+            this.setModel(new JSONModel(Device), "device");
+
+            // --- START: FINAL DATA LOADING & STRUURING ---
+            // Determine which language file to load
+            let sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
+            if (sLanguage !== "de") {
+                sLanguage = "en"; // Default to English
+            }
+            const sMockDataPath = sap.ui.require.toUrl(`com/sap/pm/pmanalyzerfiori/mock_data_${sLanguage}.json`);
+            
+            const oModel = new JSONModel();
+            this.setModel(oModel);
+
+            // Wait for the data to be loaded, THEN restructure it and initialize the router
+            oModel.loadData(sMockDataPath).then(() => {
+                const aNotifications = oModel.getData(); // This is the flat array
+                oModel.setData({ Notifications: aNotifications }); // Restructure into an object
+                this.getRouter().initialize();
+            });
+            // --- END: FINAL DATA LOADING & STRUURING ---
+
+            // Check for stored language and set it
+            const sStoredLanguage = localStorage.getItem("appLanguage");
+            if (sStoredLanguage) {
+                sap.ui.getCore().getConfiguration().setLanguage(sStoredLanguage);
+            }
+
+            // Initialize the UI model
+            const oUiModel = new JSONModel({
+                isBusy: false
+            });
+            this.setModel(oUiModel, "ui");
+
+            // Initialize the i18n model
+            const i18nModel = new ResourceModel({
+                bundleName: "com.sap.pm.pmanalyzerfiori.i18n.i18n",
+                supportedLocales: ["en", "de"],
+                fallbackLocale: "en"
+            });
+            this.setModel(i18nModel, "i18n");
+        }
+    });
+});
+
+
+--- File: pm-analyzer-fiori/webapp/model/formatter.js ---
+
+sap.ui.define([], function () {
+    "use strict";
+
+    return {
+        /**
+         * Formats a date string into a locale-specific date and time (e.g., 25.07.2025, 12:00:00).
+         * @param {string} sDate The date string from the JSON model.
+         * @returns {string} The formatted date and time string.
+         */
+        formatDateTime: function (sDate) {
+            if (!sDate) {
+                return "";
+            }
+            // Use style "medium" for both date and time for a good locale-specific default
+            const oDateFormat = sap.ui.core.format.DateFormat.getDateTimeInstance({
+                style: "medium"
+            });
+            return oDateFormat.format(new Date(sDate));
+        }
+    };
+});
+
+
+--- File: pm-analyzer-fiori/webapp/controller/App.controller.js ---
+
+sap.ui.define([
+    "sap/ui/core/mvc/Controller"
+],
+function (Controller) {
+    "use strict";
+
+    return Controller.extend("com.sap.pm.pmanalyzerfiori.controller.App", {
+        onInit: function () {
+            // Initialization logic for the App view can go here if needed.
+        }
+    });
+});
+
+
+--- File: pm-analyzer-fiori/webapp/controller/BaseController.js ---
+
+sap.ui.define([
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/core/UIComponent"
+], function (Controller, UIComponent) {
+    "use strict";
+
+    return Controller.extend("com.sap.pm.pmanalyzerfiori.controller.BaseController", {
+
+        getRouter: function () {
+            return UIComponent.getRouterFor(this);
+        }
+
+    });
+});
+
+
+--- File: pm-analyzer-fiori/webapp/controller/Worklist.controller.js ---
+
+sap.ui.define([
+    "sap/ui/core/mvc/Controller",
+    "../model/formatter",
+    "sap/ui/model/Filter",
+    "sap/ui/model/FilterOperator",
+    "sap/ui/model/json/JSONModel"
+], function (Controller, formatter, Filter, FilterOperator, JSONModel) {
+    "use strict";
+    return Controller.extend("com.sap.pm.pmanalyzerfiori.controller.Worklist", {
+        formatter: formatter,
+
+        onInit: function () {
+            const oLanguageSelect = this.byId("languageSelect");
+            if (oLanguageSelect) {
+                const sCurrentLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
+                oLanguageSelect.setSelectedKey(sCurrentLanguage);
+            }
+
+            const oViewModel = new JSONModel({
+                uniqueCreators: [],
+                uniqueTypes: [],
+                uniqueFuncLocs: [],
+                uniqueEquipments: []
+            });
+            this.getView().setModel(oViewModel, "filters");
+
+            this.getOwnerComponent().getModel().dataLoaded().then(this._createUniqueFilters.bind(this));
+        },
+
+        _createUniqueFilters: function() {
+            const oData = this.getOwnerComponent().getModel().getData().Notifications || [];
+            const oViewModel = this.getView().getModel("filters");
+
+            // Get unique creators and add an "All" option
+            const aCreatorNames = [...new Set(oData.map(item => item.CreatedByUser))];
+            const aCreators = aCreatorNames.map(name => ({ key: name, text: name }));
+            aCreators.unshift({ key: "", text: "(All)" });
+            oViewModel.setProperty("/uniqueCreators", aCreators);
+
+            // Get unique notification types and add an "All" option
+            const oTypesMap = new Map();
+            oData.forEach(item => {
+                oTypesMap.set(item.NotificationType, item.NotificationTypeText);
+            });
+            const aTypes = Array.from(oTypesMap, ([key, text]) => ({ key: key, text: text }));
+            aTypes.unshift({ key: "", text: "(All Types)" });
+            oViewModel.setProperty("/uniqueTypes", aTypes);
+            
+            // Get unique Functional Locations and add an "All" option
+            const aFuncLocNames = [...new Set(oData.map(item => item.FunctionalLocation).filter(fl => fl))];
+            const aFuncLocs = aFuncLocNames.map(name => ({ key: name, text: name }));
+            aFuncLocs.unshift({ key: "", text: "(All)" });
+            oViewModel.setProperty("/uniqueFuncLocs", aFuncLocs);
+
+            // Get unique Equipment Numbers and add an "All" option
+            const aEquipmentNumbers = [...new Set(oData.map(item => item.EquipmentNumber).filter(eq => eq))];
+            const aEquipments = aEquipmentNumbers.map(name => ({ key: name, text: name }));
+            aEquipments.unshift({ key: "", text: "(All)" });
+            oViewModel.setProperty("/uniqueEquipments", aEquipments);
+        },
+
+        onPress: function (oEvent) {
+            const oItem = oEvent.getSource();
+            const oRouter = this.getOwnerComponent().getRouter();
+            oRouter.navTo("object", {
+                notificationId: oItem.getBindingContext().getProperty("NotificationId")
+            });
+        },
+ 
+        // Removed onLogout as logout is no longer required
+
+        onLanguageChange: function(oEvent) {
+            const sLanguage = oEvent.getParameter("selectedItem").getKey();
+            localStorage.setItem("appLanguage", sLanguage);
+            window.location.href = window.location.pathname;
+        },
+
+        onFilterSearch: function() {
+            const aFilters = [];
+            const sQuery = this.byId("shortTextFilter").getValue();
+            const sType = this.byId("notifTypeFilter").getSelectedKey();
+            const sCreator = this.byId("creatorFilter").getSelectedKey();
+            const sFuncLoc = this.byId("funcLocFilter").getSelectedKey();
+            const sEquipment = this.byId("equipmentFilter").getSelectedKey();
+
+            if (sQuery) { aFilters.push(new Filter("Description", FilterOperator.Contains, sQuery)); }
+            if (sType) { aFilters.push(new Filter("NotificationType", FilterOperator.EQ, sType)); }
+            if (sCreator) { aFilters.push(new Filter("CreatedByUser", FilterOperator.EQ, sCreator)); }
+            if (sFuncLoc) { aFilters.push(new Filter("FunctionalLocation", FilterOperator.EQ, sFuncLoc)); }
+            if (sEquipment) { aFilters.push(new Filter("EquipmentNumber", FilterOperator.EQ, sEquipment)); }
+
+            const oList = this.byId("list");
+            const oBinding = oList.getBinding("items");
+            oBinding.filter(aFilters);
+        }
+    });
+});
+
+
+
+--- File: pm-analyzer-fiori/webapp/controller/Object.controller.js ---
+
+sap.ui.define([
+    "sap/ui/core/mvc/Controller",
+    "sap/ui/model/json/JSONModel",
+    "sap/m/MessageBox",
+    "sap/ui/core/routing/History"
+], function (Controller, JSONModel, MessageBox, History) {
+    "use strict";
+ 
+    return Controller.extend("com.sap.pm.pmanalyzerfiori.controller.Object", {
+        
+        onInit: function () {
+            const oAnalysisModel = new JSONModel({
+                busy: false,
+                resultsVisible: false,
+                score: 0,
+                problems: [],
+                summary: ""
+            });
+            this.getView().setModel(oAnalysisModel, "analysis");
+
+            const oRouter = this.getOwnerComponent().getRouter();
+            oRouter.getRoute("object").attachPatternMatched(this._onObjectMatched, this);
+        },
+
+        _onObjectMatched: function (oEvent) {
+            const sNotificationId = oEvent.getParameter("arguments").notificationId;
+            const oModel = this.getOwnerComponent().getModel();
+            
+            oModel.dataLoaded().then(() => {
+                const aNotifications = oModel.getProperty("/Notifications") || [];
+                const iObjectIndex = aNotifications.findIndex(
+                    (notif) => notif.NotificationId === sNotificationId
+                );
+                if (iObjectIndex !== -1) {
+                    this.getView().bindElement({ path: `/Notifications/${iObjectIndex}` });
+                }
+                // Reset wizard to the first step whenever a new object is matched
+                this.byId("analysisWizard").discardProgress(this.byId("dataStep"));
+            }); 
+        },
+
+        onNavBack: function () {
+            const oHistory = History.getInstance();
+            const sPreviousHash = oHistory.getPreviousHash();
+
+            if (sPreviousHash !== undefined) {
+                window.history.go(-1);
+            } else {
+                const oRouter = this.getOwnerComponent().getRouter();
+                oRouter.navTo("worklist", {}, true);
+            }
+        },
+        
+        formatProblems: function(aProblems) {
+            if (!aProblems || aProblems.length === 0) {
+                const oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
+                return oResourceBundle.getText("noProblemsFound");
+            }
+            return aProblems.join("\n\n"); 
+        },
+        
+        // Handles moving between wizard steps
+        validateAndNext: function() {
+            const oView = this.getView();
+            const sLongText = oView.byId("longText").getValue();
+            
+            if (!sLongText || sLongText.trim() === "") {
+                MessageBox.error("Please provide a long text before proceeding.");
+                return;
+            }
+            
+            this.byId("analysisWizard").nextStep();
+            this._triggerAnalysis(); // Automatically trigger analysis on next step
+        },
+ 
+        // Renamed and now called by the wizard handler
+        _triggerAnalysis: async function () {
+            const oView = this.getView();
+            const oAnalysisModel = oView.getModel("analysis");
+            const oNotification = oView.getBindingContext().getObject();
+
+            // We use getValue() because the view has editable TextAreas in the first step
+            const sHeaderText = `Functional Location: ${oNotification.FunctionalLocation}\nEquipment: ${oNotification.EquipmentNumber}\nDescription: ${oNotification.Description}`;
+            const sLongText = oView.byId("longText").getValue();
+            const sActivities = oView.byId("activitiesText").getValue();
+            const sTextToAnalyze = `${sHeaderText}\n\nLong Text:\n${sLongText}\n\nActivities:\n${sActivities}`;
+ 
+            this._setAnalysisState(true);
+ 
+            try {
+                const sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
+                const response = await this._callAnalysisApi(sTextToAnalyze, sLanguage);
+                const result = await response.json();
+                
+                if (result.error) {
+                    throw new Error(result.error.message || "An unknown error occurred during analysis.");
+                }
+
+                this._displayAnalysisResult(result);
+ 
+            } catch (error) {
+                MessageBox.error(error.message);
+            } finally {
+                this._setAnalysisState(false);
+            }
+        },
+
+        _callAnalysisApi: async function(sText, sLanguage) {
+            const response = await fetch("/api/analyze", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ text: sText, language: sLanguage })
+            });
+
+            if (!response.ok) {
+                let errorMessage = `Server error: ${response.status} ${response.statusText}`;
+                try {
+                    const errorData = await response.json();
+                    if (errorData.error && errorData.error.message) {
+                        errorMessage = errorData.error.message;
+                    }
+                } catch (e) {
+                    // Could not parse error response
+                }
+                throw new Error(errorMessage);
+            }
+            return response;
+        },
+
+        _setAnalysisState: function(bIsBusy) {
+            const oAnalysisModel = this.getView().getModel("analysis");
+            oAnalysisModel.setProperty("/busy", bIsBusy);
+            if (bIsBusy) {
+                oAnalysisModel.setProperty("/resultsVisible", false);
+            }
+        },
+
+        _displayAnalysisResult: function(oResult) {
+            const oAnalysisModel = this.getView().getModel("analysis");
+            oAnalysisModel.setProperty("/score", oResult.score);
+            oAnalysisModel.setProperty("/problems", oResult.problems);
+            oAnalysisModel.setProperty("/summary", oResult.summary);
+            oAnalysisModel.setProperty("/resultsVisible", true);
+            this._updateScoreIndicator(oResult.score);
+        },
+
+        _updateScoreIndicator: function(score) {
+            const oScoreGauge = this.getView().byId("scoreGauge");
+            if (!oScoreGauge) return;
+            
+            let scoreColor = sap.m.ValueColor.Error;
+
+            if (score > 70) {
+                scoreColor = sap.m.ValueColor.Good;
+            } else if (score >= 50) {
+                scoreColor = sap.m.ValueColor.Critical;
+            }
+
+            oScoreGauge.setValueColor(scoreColor);
+        }
+    });
+});
+
+
+
+--- File: pm-analyzer-fiori/webapp/view/App.view.xml ---
+
+<mvc:View
+    controllerName="com.sap.pm.pmanalyzerfiori.controller.App"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns="sap.m"
+    displayBlock="true">
+    <App id="app" />
+</mvc:View>
+
+
+--- File: pm-analyzer-fiori/webapp/view/Worklist.view.xml ---
+
+<mvc:View
+    controllerName="com.sap.pm.pmanalyzerfiori.controller.Worklist"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:l="sap.ui.layout">
+
+    <Page id="worklistPage" title="{i18n>worklistTitle}" busy="{ui>/isBusy}">
+        <headerContent>
+            <HBox alignItems="Center">
+                <Select
+                    id="languageSelect"
+                    change=".onLanguageChange"
+                    class="sapUiSmallMarginEnd">
+                    <core:Item key="en" text="English" />
+                    <core:Item key="de" text="Deutsch" />
+                </Select>
+            </HBox>
+        </headerContent>
+        <content>
+            <fb:FilterBar id="filterBar" search=".onFilterSearch" showRestoreButton="true" showClearButton="true">
+                <fb:filterGroupItems>
+                    <fb:FilterGroupItem groupName="main" name="shortText" label="Short Text" visibleInFilterBar="true">
+                        <fb:control>
+                            <SearchField id="shortTextFilter" placeholder="Search in short text..." width="100%"/>
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                    <fb:FilterGroupItem groupName="main" name="notifType" label="Notification Type" visibleInFilterBar="true">
+                        <fb:control>
+                            <ComboBox id="notifTypeFilter" items="{filters>/uniqueTypes}" placeholder="Select a type...">
+                                <core:Item key="{filters>key}" text="{filters>text}"/>
+                            </ComboBox>
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                     <fb:FilterGroupItem groupName="main" name="creator" label="Created By" visibleInFilterBar="true">
+                        <fb:control>
+                            <ComboBox id="creatorFilter" items="{filters>/uniqueCreators}" placeholder="Select a user...">
+                                <core:Item key="{filters>key}" text="{filters>text}"/>
+                            </ComboBox>
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                    <fb:FilterGroupItem groupName="main" name="funcLoc" label="Functional Location" visibleInFilterBar="true">
+                        <fb:control>
+                            <ComboBox id="funcLocFilter" items="{filters>/uniqueFuncLocs}" placeholder="Select a location...">
+                                <core:Item key="{filters>key}" text="{filters>text}"/>
+                            </ComboBox>
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                    <fb:FilterGroupItem groupName="main" name="equipment" label="Equipment" visibleInFilterBar="true">
+                        <fb:control>
+                            <ComboBox id="equipmentFilter" items="{filters>/uniqueEquipments}" placeholder="Select an equipment...">
+                                <core:Item key="{filters>key}" text="{filters>text}"/>
+                            </ComboBox>
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                </fb:filterGroupItems>
+            </fb:FilterBar>
+
+            <List
+                id="list"
+                items="{/Notifications}"
+                visible="true" 
+                noDataText="No notifications found.">
+                <ObjectListItem
+                    type="Navigation"
+                    press=".onPress"
+                    title="{NotificationId}: {Description}">
+                    <attributes>
+                        <ObjectAttribute text="Func. Location: {FunctionalLocation}" />
+                        <ObjectAttribute text="Equipment: {EquipmentNumber}" />
+                        <ObjectAttribute text="Type: {NotificationTypeText}" />
+                        <ObjectAttribute text="Created By: {CreatedByUser}" />
+                        <ObjectAttribute text="{path: 'CreationDate', formatter: '.formatter.formatDateTime'}" />
+                    </attributes>
+                </ObjectListItem>
+            </List>
+        </content>
+    </Page>
+</mvc:View>
+
+
+
+--- File: pm-analyzer-fiori/webapp/view/Object.view.xml ---
+
+<mvc:View
+    controllerName="com.sap.pm.pmanalyzerfiori.controller.Object"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout"
+    xmlns:microchart="sap.suite.ui.microchart">
+    <Page
+        id="page"
+        title="Analysis Wizard: {NotificationId}"
+        showNavButton="true"
+        navButtonPress=".onNavBack">
+        <content>
+            <Wizard
+                id="analysisWizard"
+                class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
+                finishButtonText="Finish"
+                showNextButton="false"
+                cancel=".onNavBack"
+                complete=".onNavBack">
+                <!-- Step 1: Review and Refine Data -->
+                <WizardStep
+                    id="dataStep"
+                    title="Review &amp; Refine Data"
+                    validated="true">
+                    <MessageStrip
+                        text="You can edit the text here to perform a 'what-if' analysis and see how changes impact the quality score."
+                        type="Information"
+                        showIcon="true"
+                        class="sapUiSmallMarginBottom" />
+                    <f:SimpleForm layout="ResponsiveGridLayout">
+                        <f:content>
+                            <Label text="Long Text"/>
+                            <TextArea id="longText" value="{LongText}" rows="8" width="100%"/>
+                            <Label text="Activities"/>
+                            <TextArea id="activitiesText" value="{Activities}" rows="8" width="100%"/>
+                        </f:content>
+                    </f:SimpleForm>
+                    <Button text="Proceed to Analysis" type="Emphasized" press=".validateAndNext" class="sapUiSmallMarginTop"/>
+                </WizardStep>
+
+                <!-- Step 2: View Analysis Result -->
+                <WizardStep
+                    id="analysisStep"
+                    title="Analysis Result"
+                    validated="true">
+                     <VBox class="sapUiSmallMarginTop" busy="{analysis>/busy}" busyIndicatorDelay="0">
+                        <Panel id="resultsPanel" visible="{analysis>/resultsVisible}" backgroundDesign="Transparent">
+                            <FlexBox width="100%" alignItems="Start">
+                                <VBox>
+                                    <layoutData>
+                                        <FlexItemData growFactor="2" />
+                                    </layoutData>
+                                    <f:SimpleForm layout="ResponsiveGridLayout">
+                                        <f:content>
+                                            <Label text="Summary"/>
+                                            <Text text="{analysis>/summary}" />
+                                            <Label text="Identified Problems"/>
+                                            <Text text="{path: 'analysis>/problems', formatter:'.formatProblems'}" renderWhitespace="true" />
+                                        </f:content>
+                                    </f:SimpleForm>
+                                </VBox>
+                                <VBox justifyContent="Center" alignItems="Center" class="sapUiSmallMarginBegin">
+                                    <layoutData>
+                                        <FlexItemData growFactor="1" />
+                                    </layoutData>
+                                    <Title text="Quality Score" level="H5" class="sapUiSmallMarginBottom" />
+                                    <microchart:RadialMicroChart
+                                        id="scoreGauge"
+                                        percentage="{analysis>/score}"
+                                        size="L"
+                                        valueColor="{= ${analysis>/score} > 70 ? 'Good' : (${analysis>/score} >= 50 ? 'Critical' : 'Error') }" />
+                                </VBox>
+                            </FlexBox>
+                        </Panel>
+                    </VBox>
+                </WizardStep>
+            </Wizard>
+        </content>
+    </Page>
+</mvc:View>
+
+
+
+--- File: pm-analyzer-fiori/webapp/i18n/i18n.properties ---
+
+# App Titles
+appTitle=PM Notification Analyzer
+appDescription=An SAP Fiori application to analyze plant maintenance notifications.
+
+# Login View
+loginWelcomeTitle=Welcome
+loginIntroText=Please log in to continue.
+loginButtonText=Log In
+logoutButtonText=Log Out
+
+# Worklist View
+worklistTitle=Notifications
+
+# Object View
+objectPageTitle=Notification: {0}
+object.descriptionLabel=Description
+object.typeLabel=Notification Type
+object.userLabel=Created By
+object.longTextLabel=Long Text
+object.activitiesLabel=Activities
+object.analyzeButtonText=Analyze
+object.resultsPanelTitle=Analysis Result
+object.scoreLabel=Quality Score
+object.problemsLabel=Identified Problems
+object.summaryLabel=Summary
+noProblemsFound=No problems found.
+
+
+--- File: pm-analyzer-fiori/webapp/i18n/i18n_de.properties ---
+
+# App Titles
+appTitle=PM Meldungs-Analysator
+appDescription=Eine SAP Fiori Anwendung zur Analyse von Instandhaltungsmeldungen.
+
+# Login View
+loginWelcomeTitle=Willkommen
+loginIntroText=Bitte melden Sie sich an, um fortzufahren.
+loginButtonText=Anmelden
+logoutButtonText=Abmelden
+
+# Worklist View
+worklistTitle=Meldungen
+
+# Object View
+objectPageTitle=Meldung: {0}
+object.descriptionLabel=Kurztext
+object.typeLabel=Meldungsart
+object.userLabel=Erfasst von
+object.longTextLabel=Langtext
+object.activitiesLabel=Maßnahmen
+object.analyzeButtonText=Analysieren
+object.resultsPanelTitle=Analyseergebnis
+object.scoreLabel=Qualitäts-Score
+object.problemsLabel=Festgestellte Probleme
+object.summaryLabel=Zusammenfassung
+noProblemsFound=Keine Probleme gefunden.
+
+
+--- File: pm-analyzer-fiori/webapp/mock_data_en.json ---
+
+[
+  {
+    "NotificationId": "4003010",
+    "Description": "Pump P-101 is leaking at main seal",
+    "FunctionalLocation": "CH-BAS-S1-PMP-100",
+    "EquipmentNumber": "1005678",
+    "NotificationType": "M1",
+    "NotificationTypeText": "Corrective Maintenance",
+    "CreationDate": "2025-07-21T10:00:00Z",
+    "CreatedByUser": "MILLER",
+    "LongText": "During routine inspection, slight dripping was observed at the main mechanical seal of pump P-101. Product affected is Purified Water (WFI). Current production batch #B450-11A may be impacted. Leak rate is approx. 1 drop/5 sec. Area cleaned and cordoned off. No immediate safety risk.",
+    "Activities": "Root Cause: Gasket (Part #G-5882) failure due to material fatigue. Corrective Action: Isolated and drained pump. Replaced gasket and seal assembly. Re-torqued bolts to 55 Nm. Monitored for 1 hour, no leaks observed. Preventive Action: Added gasket replacement to annual PM schedule for this pump type."
+  },
+  {
+    "NotificationId": "4003011",
+    "Description": "Annual inspection for HVAC-04",
+    "FunctionalLocation": "CH-BAS-S1-HVAC-04",
+    "EquipmentNumber": "1004532",
+    "NotificationType": "M2",
+    "NotificationTypeText": "Preventive Maintenance",
+    "CreationDate": "2025-07-22T09:30:00Z",
+    "CreatedByUser": "SCHMIDT",
+    "LongText": "Scheduled annual preventive maintenance for HVAC unit 04, serving sterile packaging area. All filters are due for replacement per PM plan #PM-HVAC-001.",
+    "Activities": "Replaced primary and secondary air filters. Cleaned coils and checked refrigerant levels. System is operating within normal parameters. PM work order 102345 confirmed."
+  },
+  {
+    "NotificationId": "4003012",
+    "Description": "Conveyor belt on Line 3 stopped",
+    "FunctionalLocation": "CH-BAS-S2-PKG-LN3",
+    "EquipmentNumber": "1008345",
+    "NotificationType": "M4",
+    "NotificationTypeText": "Breakdown Maintenance",
+    "CreationDate": "2025-07-23T14:15:00Z",
+    "CreatedByUser": "BAKER",
+    "LongText": "The main conveyor belt for packaging line 3 has completely stopped. Motor is humming but the belt is not moving. Production is halted.",
+    "Activities": "Found a seized roller bearing. Replaced the bearing assembly. Line is back in operation."
+  },
+  {
+    "NotificationId": "4003013",
+    "Description": "Check machine",
+    "FunctionalLocation": "CH-BAS-S2-PKG-LN2",
+    "EquipmentNumber": "1008344",
+    "NotificationType": "M3",
+    "NotificationTypeText": "General Maintenance",
+    "CreationDate": "2025-07-20T11:00:00Z",
+    "CreatedByUser": "BAKER",
+    "LongText": "Operator says machine on Line 2 is making a funny noise.",
+    "Activities": "Checked. Seems fine."
+  },
+  {
+    "NotificationId": "4003014",
+    "Description": "Paint touch-up in hallway C",
+    "FunctionalLocation": "CH-BAS-S1-BLD-GEN",
+    "EquipmentNumber": "",
+    "NotificationType": "M3",
+    "NotificationTypeText": "General Maintenance",
+    "CreationDate": "2025-07-25T08:45:00Z",
+    "CreatedByUser": "MILLER",
+    "LongText": "Scuff marks and chips in the paint along the west wall of hallway C, near the main airlock. No product contact risk.",
+    "Activities": "Cleaned and prepped the area. Applied one coat of GMP-compliant epoxy paint. Area will be closed for 24 hours to cure."
+  },
+  {
+    "NotificationId": "4003015",
+    "Description": "Pressure high",
+    "FunctionalLocation": "CH-BAS-S1-RCT-02",
+    "EquipmentNumber": "1009910",
+    "NotificationType": "M1",
+    "NotificationTypeText": "Corrective Maintenance",
+    "CreationDate": "2025-07-19T16:30:00Z",
+    "CreatedByUser": "BAKER",
+    "LongText": "Pressure reading on reactor is too high.",
+    "Activities": "Adjusted valve."
+  },
+  {
+    "NotificationId": "4003016",
+    "Description": "Quarterly calibration of scales SC-08",
+    "FunctionalLocation": "CH-BAS-S1-LAB-WEIGH",
+    "EquipmentNumber": "1001122",
+    "NotificationType": "M2",
+    "NotificationTypeText": "Preventive Maintenance",
+    "CreationDate": "2025-07-24T13:00:00Z",
+    "CreatedByUser": "SCHMIDT",
+    "LongText": "Quarterly calibration for weighing scale SC-08 is due. Standard weights (Set C) prepared. No impact on products as scale was locked out.",
+    "Activities": "Performed 5-point calibration check. Found deviation of +0.5% at max load. Root Cause: Electronic drift. Corrective Action: Adjusted sensor gain as per SOP-CAL-112. Re-tested and confirmed accuracy within tolerance. Calibration certificate #C-2025-308 issued. Preventive Action: No change, drift is within expected range for this period."
+  },
+  {
+    "NotificationId": "4003017",
+    "Description": "Replace lightbulb",
+    "FunctionalLocation": "CH-BAS-S1-OFF-101",
+    "EquipmentNumber": "",
+    "NotificationType": "M3",
+    "NotificationTypeText": "General Maintenance",
+    "CreationDate": "2025-07-18T15:00:00Z",
+    "CreatedByUser": "MILLER",
+    "LongText": "Lightbulb is out in office 101.",
+    "Activities": "Replaced."
+  },
+  {
+    "NotificationId": "4003018",
+    "Description": "Agitator on reactor R-02 failed",
+    "FunctionalLocation": "CH-BAS-S1-RCT-02",
+    "EquipmentNumber": "1009910",
+    "NotificationType": "M4",
+    "NotificationTypeText": "Breakdown Maintenance",
+    "CreationDate": "2025-07-25T11:20:00Z",
+    "CreatedByUser": "BAKER",
+    "LongText": "Agitator for reactor R-02 failed mid-process for batch #B451-01. Process has been put on hold. This is a critical failure with direct product impact.",
+    "Activities": "Investigated motor controller. Found tripped breaker. Reset breaker, but it tripped again immediately. Fault traced to a short in the motor winding. Replaced motor with spare from stores (Part #M-987-B). Agitation restored, process resumed."
+  },
+  {
+    "NotificationId": "4003019",
+    "Description": "Tablet press making noise",
+    "FunctionalLocation": "CH-BAS-S2-CMP-01",
+    "EquipmentNumber": "1007788",
+    "NotificationType": "M1",
+    "NotificationTypeText": "Corrective Maintenance",
+    "CreationDate": "2025-07-22T18:00:00Z",
+    "CreatedByUser": "MILLER",
+    "LongText": "Tablet press machine is making a rhythmic clicking noise during compression. The operator is concerned. No batch is currently running.",
+    "Activities": "Inspected the die and punch assembly. Found a loose punch retaining bolt. Tightened the bolt. Ran machine without product, noise is gone."
+  }
+]
+
+
+--- File: pm-analyzer-fiori/webapp/mock_data_de.json ---
+
+[
+  {
+    "NotificationId": "4003010",
+    "Description": "Pumpe P-101 ist an der Hauptdichtung undicht",
+    "FunctionalLocation": "CH-BAS-S1-PMP-100",
+    "EquipmentNumber": "1005678",
+    "NotificationType": "M1",
+    "NotificationTypeText": "Instandsetzung",
+    "CreationDate": "2025-07-21T10:00:00Z",
+    "CreatedByUser": "MILLER",
+    "LongText": "Bei der Routineinspektion wurde ein leichtes Tropfen an der mechanischen Hauptdichtung der Pumpe P-101 festgestellt. Betroffenes Produkt ist Gereinigtes Wasser (WFI). Die aktuelle Produktionscharge #B450-11A könnte betroffen sein. Leckrate ca. 1 Tropfen/5 Sek. Bereich gereinigt und abgesperrt. Kein unmittelbares Sicherheitsrisiko.",
+    "Activities": "Ursache: Dichtungsversagen (Teil #G-5882) aufgrund von Materialermüdung. Korrekturmassnahme: Pumpe isoliert und entleert. Dichtung und Dichtungsbaugruppe ersetzt. Schrauben mit 55 Nm nachgezogen. 1 Stunde überwacht, keine weiteren Lecks beobachtet. Vorbeugemassnahme: Austausch der Dichtung in den jährlichen PM-Plan für diesen Pumpentyp aufgenommen."
+  },
+  {
+    "NotificationId": "4003011",
+    "Description": "Jahresinspektion für HVAC-04",
+    "FunctionalLocation": "CH-BAS-S1-HVAC-04",
+    "EquipmentNumber": "1004532",
+    "NotificationType": "M2",
+    "NotificationTypeText": "Vorbeugende Instandhaltung",
+    "CreationDate": "2025-07-22T09:30:00Z",
+    "CreatedByUser": "SCHMIDT",
+    "LongText": "Geplante jährliche vorbeugende Wartung für die HVAC-Einheit 04, die den sterilen Verpackungsbereich versorgt. Alle Filter müssen gemäss PM-Plan #PM-HVAC-001 ersetzt werden.",
+    "Activities": "Primär- und Sekundärluftfilter ersetzt. Spulen gereinigt und Kältemittelstände geprüft. Anlage arbeitet innerhalb der normalen Parameter. PM-Auftrag 102345 bestätigt."
+  },
+  {
+    "NotificationId": "4003012",
+    "Description": "Förderband an Linie 3 gestoppt",
+    "FunctionalLocation": "CH-BAS-S2-PKG-LN3",
+    "EquipmentNumber": "1008345",
+    "NotificationType": "M4",
+    "NotificationTypeText": "Störungsbeseitigung",
+    "CreationDate": "2025-07-23T14:15:00Z",
+    "CreatedByUser": "BAKER",
+    "LongText": "Das Hauptförderband der Verpackungslinie 3 ist vollständig gestoppt. Der Motor brummt, aber das Band bewegt sich nicht. Die Produktion ist unterbrochen.",
+    "Activities": "Ein festgefressenes Rollenlager wurde gefunden. Die Lagereinheit wurde ersetzt. Die Linie ist wieder in Betrieb."
+  },
+  {
+    "NotificationId": "4003013",
+    "Description": "Maschine prüfen",
+    "FunctionalLocation": "CH-BAS-S2-PKG-LN2",
+    "EquipmentNumber": "1008344",
+    "NotificationType": "M3",
+    "NotificationTypeText": "Allgemeine Instandhaltung",
+    "CreationDate": "2025-07-20T11:00:00Z",
+    "CreatedByUser": "BAKER",
+    "LongText": "Bediener sagt, die Maschine an Linie 2 macht ein komisches Geräusch.",
+    "Activities": "Geprüft. Scheint in Ordnung zu sein."
+  },
+  {
+    "NotificationId": "4003014",
+    "Description": "Malerarbeiten in Korridor C",
+    "FunctionalLocation": "CH-BAS-S1-BLD-GEN",
+    "EquipmentNumber": "",
+    "NotificationType": "M3",
+    "NotificationTypeText": "Allgemeine Instandhaltung",
+    "CreationDate": "2025-07-25T08:45:00Z",
+    "CreatedByUser": "MILLER",
+    "LongText": "Schleifspuren und Absplitterungen in der Farbe an der Westwand von Korridor C, in der Nähe der Hauptschleuse. Kein Produktkontaktrisiko.",
+    "Activities": "Bereich gereinigt und vorbereitet. Eine Schicht GMP-konformer Epoxidfarbe aufgetragen. Bereich wird für 24 Stunden zum Aushärten gesperrt."
+  },
+  {
+    "NotificationId": "4003015",
+    "Description": "Druck hoch",
+    "FunctionalLocation": "CH-BAS-S1-RCT-02",
+    "EquipmentNumber": "1009910",
+    "NotificationType": "M1",
+    "NotificationTypeText": "Instandsetzung",
+    "CreationDate": "2025-07-19T16:30:00Z",
+    "CreatedByUser": "BAKER",
+    "LongText": "Druckanzeige am Reaktor ist zu hoch.",
+    "Activities": "Ventil eingestellt."
+  },
+  {
+    "NotificationId": "4003016",
+    "Description": "Quartalskalibrierung der Waage SC-08",
+    "FunctionalLocation": "CH-BAS-S1-LAB-WEIGH",
+    "EquipmentNumber": "1001122",
+    "NotificationType": "M2",
+    "NotificationTypeText": "Vorbeugende Instandhaltung",
+    "CreationDate": "2025-07-24T13:00:00Z",
+    "CreatedByUser": "SCHMIDT",
+    "LongText": "Die vierteljährliche Kalibrierung für die Waage SC-08 ist fällig. Standardgewichte (Satz C) vorbereitet. Kein Einfluss auf Produkte, da die Waage gesperrt war.",
+    "Activities": "5-Punkt-Kalibrierungsprüfung durchgeführt. Abweichung von +0,5% bei maximaler Last festgestellt. Ursache: Elektronische Drift. Korrekturmassnahme: Sensorverstärkung gemäss SOP-CAL-112 angepasst. Erneut getestet und Genauigkeit innerhalb der Toleranz bestätigt. Kalibrierzertifikat #C-2025-308 ausgestellt. Vorbeugemassnahme: Keine Änderung, Drift liegt im erwarteten Bereich für diesen Zeitraum."
+  },
+  {
+    "NotificationId": "4003017",
+    "Description": "Glühbirne ersetzen",
+    "FunctionalLocation": "CH-BAS-S1-OFF-101",
+    "EquipmentNumber": "",
+    "NotificationType": "M3",
+    "NotificationTypeText": "Allgemeine Instandhaltung",
+    "CreationDate": "2025-07-18T15:00:00Z",
+    "CreatedByUser": "MILLER",
+    "LongText": "Die Glühbirne in Büro 101 ist kaputt.",
+    "Activities": "Ersetzt."
+  },
+  {
+    "NotificationId": "4003018",
+    "Description": "Rührwerk am Reaktor R-02 ausgefallen",
+    "FunctionalLocation": "CH-BAS-S1-RCT-02",
+    "EquipmentNumber": "1009910",
+    "NotificationType": "M4",
+    "NotificationTypeText": "Störungsbeseitigung",
+    "CreationDate": "2025-07-25T11:20:00Z",
+    "CreatedByUser": "BAKER",
+    "LongText": "Das Rührwerk für den Reaktor R-02 ist mitten im Prozess für die Charge #B451-01 ausgefallen. Der Prozess wurde angehalten. Dies ist ein kritischer Ausfall mit direktem Produkteinfluss.",
+    "Activities": "Motorsteuerung untersucht. Ausgelösten Schutzschalter gefunden. Schutzschalter zurückgesetzt, aber er löste sofort wieder aus. Fehler auf einen Kurzschluss in der Motorwicklung zurückgeführt. Motor durch Ersatzteil aus dem Lager ersetzt (Teil #M-987-B). Rührwerk wiederhergestellt, Prozess fortgesetzt."
+  },
+  {
+    "NotificationId": "4003019",
+    "Description": "Tablettenpresse macht Geräusche",
+    "FunctionalLocation": "CH-BAS-S2-CMP-01",
+    "EquipmentNumber": "1007788",
+    "NotificationType": "M1",
+    "NotificationTypeText": "Instandsetzung",
+    "CreationDate": "2025-07-22T18:00:00Z",
+    "CreatedByUser": "MILLER",
+    "LongText": "Die Tablettenpresse macht während der Kompression ein rhythmisches Klickgeräusch. Der Bediener ist besorgt. Es läuft derzeit keine Charge.",
+    "Activities": "Die Matrizen- und Stempelbaugruppe inspiziert. Eine lose Stempelhalteschraube gefunden. Die Schraube angezogen. Maschine ohne Produkt laufen lassen, das Geräusch ist weg."
+  }
+]
+
+
+--- File: .github/workflows/deploy.yml ---
+
+name: Deploy to SAP BTP Cloud Foundry
+
+on:
+  push:
+    branches:
+      - main # Trigger on push to the main branch
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest # Use a fresh Ubuntu environment for each job
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Cloud Foundry CLI
+        run: |
+          wget -q -O cf-cli-installer.deb "https://packages.cloudfoundry.org/stable?release=debian64&version=8.7.6&source=github"
+          sudo dpkg -i cf-cli-installer.deb
+          cf version
+
+      - name: Install Cloud Foundry MultiApps Plugin
+        run: cf install-plugin -r CF-Community "multiapps" -f
+
+      - name: Install jq
+        run: sudo apt-get update && sudo apt-get install -y jq
+
+      - name: Install MTA Build Tool (MBT)
+        run: npm install -g mbt@1.2.0
+
+      # --- Cloud Foundry Deployment Steps ---
+      - name: Login to Cloud Foundry
+        run: |
+          cf api ${{ secrets.CF_API_ENDPOINT }}
+          cf auth ${{ secrets.CF_USERNAME }} ${{ secrets.CF_PASSWORD }}
+          cf target -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE }}
+        env:
+          CF_USERNAME: ${{ secrets.CF_USERNAME }}
+          CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
+          CF_ORG: ${{ secrets.CF_ORG }}
+          CF_SPACE: ${{ secrets.CF_SPACE }}
+          CF_API_ENDPOINT: ${{ secrets.CF_API_ENDPOINT }}
+
+      - name: Delete Existing Backend Application (if any)
+        run: cf delete -f pm-analyzer-backend || true
+
+      # --- MODIFIED: Push backend using the route from manifest.yml ---
+      - name: Push Backend (without starting)
+        run: |
+          cd backend
+          # The --no-route flag is REMOVED. CF will now use the route from manifest.yml.
+          # The --no-start flag keeps the app stopped so we can set env vars before it runs.
+          cf push pm-analyzer-backend -f manifest.yml --no-start
+
+      # --- NEW: Set environment variable from GitHub Secret and restage ---
+      - name: Set Google API Key for Backend
+        run: cf set-env pm-analyzer-backend GOOGLE_API_KEY ${{ secrets.GOOGLE_API_KEY }}
+
+      - name: Restage Backend to Apply Environment Variables
+        # Restage will re-run the staging process and start the app, applying the new env var.
+        # This replaces the old "cf start" step.
+        run: cf restage pm-analyzer-backend
+
+      # --- MTA steps for frontend remain the same ---
+      - name: Build MTA Archive
+        run: |
+          mkdir -p mta_archives
+          mbt build -p=cf --mtar mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar
+          mv mta_archives/mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar mta_archives/
+
+      - name: Deploy MTA Archive
+        run: cf deploy mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar -f --retries 1
+
