@@ -19,6 +19,9 @@ sap.ui.define([
                 problems: [],
                 summary: ""
             }), "analysis");
+            this.getView().setModel(new JSONModel({
+                messages: []
+            }), "chat");
 
             const oRouter = this.getRouter();
             oRouter.getRoute("object").attachPatternMatched(this._onObjectMatched, this);
@@ -137,6 +140,61 @@ sap.ui.define([
             oNotificationCopy.LongText = sModifiedLongText;
 
             this._triggerAnalysis(oNotificationCopy);
+        },
+
+        _addMessageToChat: function (sText, sAuthor) {
+            const oChatModel = this.getView().getModel("chat");
+            const aMessages = oChatModel.getProperty("/messages");
+            aMessages.push({ text: sText, author: sAuthor });
+            oChatModel.setProperty("/messages", aMessages);
+            // Scroll to the bottom
+            const oScrollContainer = this.byId("chatScrollContainer");
+            setTimeout(() => {
+                if (oScrollContainer) {
+                    oScrollContainer.scrollTo(0, 10000, 0);
+                }
+            }, 0);
+        },
+
+        onPostChatMessage: async function (oEvent) {
+            const sQuestion = oEvent.getParameter("value");
+            if (!sQuestion) {
+                return;
+            }
+
+            this._addMessageToChat(sQuestion, "user");
+
+            // Show busy indicator for assistant response
+            this.getView().setBusy(true);
+
+            try {
+                const oNotification = this.getView().getBindingContext().getObject();
+                const sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
+
+                const oPayload = {
+                    language: sLanguage,
+                    question: sQuestion,
+                    notification: oNotification
+                };
+
+                const response = await fetch("/api/chat", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(oPayload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+
+                const result = await response.json();
+                this._addMessageToChat(result.answer, "assistant");
+
+            } catch (error) {
+                MessageBox.error(error.message);
+            } finally {
+                this.getView().setBusy(false);
+            }
         },
 
         _triggerAnalysis: async function (oNotification) {

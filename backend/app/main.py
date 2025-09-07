@@ -8,8 +8,9 @@ import logging
 
 load_dotenv()
 
-from app.services.analysis_service import analyze_text
+from app.services.analysis_service import analyze_text, chat_with_assistant
 from app.models import AnalysisResponse
+from app.config_manager import get_config, save_config
 # Removed: from app.auth import token_required # No longer needed
 
 app = Flask(__name__)
@@ -55,6 +56,60 @@ def analyze() -> Tuple[str, int]:
                 "message": f"An unexpected error occurred: {str(e)}"
             }
         }), 500
+
+
+@app.route('/api/chat', methods=['POST'])
+def chat() -> Tuple[str, int]:
+    data = request.get_json()
+    if not data or not data.get('notification') or not data.get('question'):
+        return jsonify({
+            "error": {
+                "code": "BAD_REQUEST",
+                "message": "Missing 'notification' or 'question' in request body"
+            }
+        }), 400
+
+    notification_data = data['notification']
+    question = data['question']
+    language = data.get('language', 'en')
+
+    try:
+        # First, get the current quality analysis to provide as context
+        analysis_context = analyze_text(notification_data, language)
+
+        # Then, call the chat assistant with the full context
+        chat_result = chat_with_assistant(notification_data, question, analysis_context, language)
+        return jsonify(chat_result)
+    except Exception as e:
+        app.logger.exception("An unexpected error occurred during chat.")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": f"An unexpected error occurred: {str(e)}"
+            }
+        }), 500
+
+
+@app.route('/api/configuration', methods=['GET'])
+def get_configuration():
+    try:
+        config = get_config()
+        return jsonify(config)
+    except Exception as e:
+        app.logger.exception("Failed to read configuration.")
+        return jsonify({"error": {"code": "CONFIG_READ_ERROR", "message": str(e)}}), 500
+
+@app.route('/api/configuration', methods=['POST'])
+def set_configuration():
+    try:
+        config_data = request.get_json()
+        if not config_data:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "Invalid JSON body"}}), 400
+        save_config(config_data)
+        return jsonify({"status": "ok"}), 200
+    except Exception as e:
+        app.logger.exception("Failed to save configuration.")
+        return jsonify({"error": {"code": "CONFIG_WRITE_ERROR", "message": str(e)}}), 500
 
 
 if __name__ == '__main__':
