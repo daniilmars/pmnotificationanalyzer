@@ -50,7 +50,7 @@ sap.ui.define([
                     this.getView().bindElement({ path: sObjectPath });
                     const oNotification = aNotifications[iObjectIndex];
                     this._buildTimelines(oNotification);
-                    this._triggerAnalysis(oNotification.LongText); // Initial analysis
+                    this._triggerAnalysis(oNotification); // Initial analysis
                 } else {
                     this.getRouter().navTo("worklist");
                 }
@@ -59,20 +59,48 @@ sap.ui.define([
 
         _buildTimelines: function (oNotification) {
             const oTimelineModel = this.getView().getModel("timeline");
+            const oResourceBundle = this.getResourceBundle();
+
+            // Status mapping from German IDs to English IDs
+            const oStatusIdMap = {
+                "EROF": "OSDN", // Eröffnet -> Outstanding / Created
+                "FREI": "REL",  // Freigegeben -> Released
+                "ABGE": "NOCO", // Abgeschlossen -> Notification Closed
+                "TABG": "TECO"  // Technisch Abgeschlossen -> Technically Completed
+            };
+
+            let sNotifStatus = oNotification.SystemStatus;
+            // Normalize status if it's a German ID
+            if (oStatusIdMap[sNotifStatus]) {
+                sNotifStatus = oStatusIdMap[sNotifStatus];
+            }
             
-            const sNotifStatus = oNotification.SystemStatus;
             const oNotifTimelineData = this._createTimelineData(
                 ["OSDN", "REL", "NOCO"],
-                ["Outstanding", "Released", "Closed"],
+                [
+                    oResourceBundle.getText("statusOutstanding"),
+                    oResourceBundle.getText("statusReleased"),
+                    oResourceBundle.getText("statusClosed")
+                ],
                 sNotifStatus
             );
             oTimelineModel.setProperty("/notification", oNotifTimelineData);
 
             if (oNotification.WorkOrder) {
-                const sOrderStatus = oNotification.WorkOrder.SystemStatus;
+                let sOrderStatus = oNotification.WorkOrder.SystemStatus;
+                // Normalize status if it's a German ID
+                if (oStatusIdMap[sOrderStatus]) {
+                    sOrderStatus = oStatusIdMap[sOrderStatus];
+                }
+
                 const oOrderTimelineData = this._createTimelineData(
-                    ["CRTD", "REL", "TECO", "CLSD"],
-                    ["Created", "Released", "Technically Completed", "Business Closed"],
+                    ["OSDN", "REL", "TECO", "CLSD"], // Using OSDN for CRTD as EROF maps to it
+                    [
+                        oResourceBundle.getText("statusCreated"),
+                        oResourceBundle.getText("statusReleased"),
+                        oResourceBundle.getText("statusTechnicallyCompleted"),
+                        oResourceBundle.getText("statusBusinessClosed")
+                    ],
                     sOrderStatus
                 );
                 oTimelineModel.setProperty("/workOrder", oOrderTimelineData);
@@ -98,20 +126,34 @@ sap.ui.define([
         },
 
         onReanalyze: function () {
-            const sLongText = this.getView().byId("longTextForAnalysis").getValue();
-            this._triggerAnalysis(sLongText);
+            // Get the current notification object from the view's binding context
+            const oNotification = this.getView().getBindingContext().getObject();
+            // Get the potentially modified long text from the text area
+            const sModifiedLongText = this.getView().byId("longTextForAnalysis").getValue();
+            
+            // Create a deep copy of the notification to avoid modifying the main model directly
+            const oNotificationCopy = JSON.parse(JSON.stringify(oNotification));
+            // Update the LongText in the copied object
+            oNotificationCopy.LongText = sModifiedLongText;
+
+            this._triggerAnalysis(oNotificationCopy);
         },
 
-        _triggerAnalysis: async function (sTextToAnalyze) {
+        _triggerAnalysis: async function (oNotification) {
             const oAnalysisModel = this.getView().getModel("analysis");
             oAnalysisModel.setProperty("/busy", true);
 
             try {
                 const sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
+                const oPayload = {
+                    language: sLanguage,
+                    notification: oNotification
+                };
+
                 const response = await fetch("/api/analyze", {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify({ text: sTextToAnalyze, language: sLanguage })
+                    body: JSON.stringify(oPayload)
                 });
 
                 if (!response.ok) {

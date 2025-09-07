@@ -25,21 +25,19 @@ def health_check() -> Tuple[str, int]:
 # Removed: @token_required # No longer needed
 def analyze() -> Tuple[str, int]:
     data = request.get_json()
-    if not data or not data.get('text'):
+    if not data or not data.get('notification'):
         return jsonify({
             "error": {
                 "code": "BAD_REQUEST",
-                "message": "Missing 'text' in request body"
+                "message": "Missing 'notification' object in request body"
             }
         }), 400
 
-    text_to_analyze = data['text']
-    # Get the language from the request, defaulting to 'en'
+    notification_data = data['notification']
     language = data.get('language', 'en')
 
     try:
-        # Pass the language to the service function
-        analysis_result = analyze_text(text_to_analyze, language)
+        analysis_result = analyze_text(notification_data, language)
         return jsonify(analysis_result.dict())
     except google_exceptions.PermissionDenied as e:
         app.logger.error(f"Google API permission denied. Please check your GOOGLE_API_KEY. Details: {e}")
@@ -54,9 +52,10 @@ def analyze() -> Tuple[str, int]:
         return jsonify({
             "error": {
                 "code": "INTERNAL_SERVER_ERROR",
-                "message": f"An unexpected error occurred: {str(e)}"\
+                "message": f"An unexpected error occurred: {str(e)}"
             }
         }), 500
+
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5001))
