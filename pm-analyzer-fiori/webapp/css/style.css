@@ -2,3 +2,68 @@
 .sapUiBody {
     font-size: 1.05rem; 
 }
+
+.priorityStatus {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+/* Erhöht die Basis-Schriftgrösse der gesamten Anwendung */
+.sapUiBody {
+    font-size: 1.05rem; 
+}
+
+.priorityStatus {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+/* --- START: Professional Timeline Styles --- */
+
+/* Base for each step in the timeline */
+.timelineStep {
+    flex-grow: 1;
+    text-align: center;
+    padding: 0.5rem;
+    margin-right: 0.25rem;
+    border-radius: 3px; /* Slightly sharper corners */
+    border: 1px solid;
+}
+
+.timelineStep:last-child {
+    margin-right: 0;
+}
+
+.timelineText {
+    font-weight: 600; /* Semi-bold for better readability */
+}
+
+/* Completed Step */
+.timelineStep[data-status="completed"] {
+    background-color: #f1fdf6; /* Very light green */
+    border-color: #107e3e; /* SAP Success Green */
+}
+.timelineStep[data-status="completed"] .timelineText {
+    color: #107e3e; /* SAP Success Green */
+}
+
+/* Current Step */
+.timelineStep[data-status="current"] {
+    background-color: #0a6ed1; /* SAP Info Blue */
+    border-color: #0057a8; /* Darker SAP Blue */
+    border-width: 2px;
+    padding: calc(0.5rem - 1px);
+}
+.timelineStep[data-status="current"] .timelineText {
+    color: white;
+}
+
+/* Future Step */
+.timelineStep[data-status="future"] {
+    background-color: #fafafa; /* Off-white */
+    border-color: #d9d9d9; /* Light Grey */
+}
+.timelineStep[data-status="future"] .timelineText {
+    color: #666666; /* Medium Grey */
+}
+/* --- END: Professional Timeline Styles --- */
