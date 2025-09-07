@@ -27,7 +27,8 @@
     padding: 0.5rem;
     margin-right: 0.25rem;
     border-radius: 3px; /* Slightly sharper corners */
-    border: 1px solid;
+    border: 1px solid transparent; /* Start with transparent border */
+    transition: all 0.2s ease-in-out;
 }
 
 .timelineStep:last-child {
@@ -38,27 +39,30 @@
     font-weight: 600; /* Semi-bold for better readability */
 }
 
-/* Completed Step */
+/* Completed Step: Green for success */
 .timelineStep[data-status="completed"] {
-    background-color: #f1fdf6; /* Very light green */
-    border-color: #107e3e; /* SAP Success Green */
+    background-color: #107e3e; /* SAP Success Green */
+    border-color: #0d6732; /* Darker Green */
 }
-.timelineStep[data-status="completed"] .timelineText {
-    color: #107e3e; /* SAP Success Green */
+.timelineStep[data-status="completed"] .timelineText,
+.timelineStep[data-status="completed"] .sapUiIcon {
+    color: white;
 }
 
-/* Current Step */
+/* Current Step: Blue for attention/in-progress */
 .timelineStep[data-status="current"] {
     background-color: #0a6ed1; /* SAP Info Blue */
     border-color: #0057a8; /* Darker SAP Blue */
-    border-width: 2px;
-    padding: calc(0.5rem - 1px);
+    /* Make it stand out more */
+    transform: scale(1.05);
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+    z-index: 1;
 }
 .timelineStep[data-status="current"] .timelineText {
     color: white;
 }
 
-/* Future Step */
+/* Future Step: Grey for inactive */
 .timelineStep[data-status="future"] {
     background-color: #fafafa; /* Off-white */
     border-color: #d9d9d9; /* Light Grey */

@@ -40,7 +40,13 @@
                                 <customData>
                                     <core:CustomData key="status" value="{timeline>status}" writeToDom="true" />
                                 </customData>
-                                <Text text="{timeline>text}" class="timelineText"/>
+                                <HBox justifyContent="Center" alignItems="Center" width="100%">
+                                    <Text text="{timeline>text}" class="timelineText"/>
+                                    <core:Icon
+                                        src="sap-icon://accept"
+                                        class="sapUiTinyMarginBegin"
+                                        visible="{= ${timeline>status} === 'completed' }" />
+                                </HBox>
                             </VBox>
                         </HBox>
 
@@ -79,7 +85,13 @@
                                 <customData>
                                     <core:CustomData key="status" value="{timeline>status}" writeToDom="true" />
                                 </customData>
-                                <Text text="{timeline>text}" class="timelineText"/>
+                                <HBox justifyContent="Center" alignItems="Center" width="100%">
+                                    <Text text="{timeline>text}" class="timelineText"/>
+                                    <core:Icon
+                                        src="sap-icon://accept"
+                                        class="sapUiTinyMarginBegin"
+                                        visible="{= ${timeline>status} === 'completed' }" />
+                                </HBox>
                             </VBox>
                         </HBox>
 
