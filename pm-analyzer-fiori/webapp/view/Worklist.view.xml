@@ -21,35 +21,42 @@
         <content>
             <fb:FilterBar id="filterBar" search=".onFilterSearch" showRestoreButton="true" showClearButton="true">
                 <fb:filterGroupItems>
-                    <fb:FilterGroupItem groupName="main" name="shortText" label="Short Text" visibleInFilterBar="true">
+                    <fb:FilterGroupItem groupName="main" name="shortText" label="{i18n>shortTextLabel}" visibleInFilterBar="true">
                         <fb:control>
-                            <SearchField id="shortTextFilter" placeholder="Search in short text..." width="100%"/>
+                            <SearchField id="shortTextFilter" placeholder="{i18n>shortTextPlaceholder}" width="100%"/>
                         </fb:control>
                     </fb:FilterGroupItem>
-                    <fb:FilterGroupItem groupName="main" name="notifType" label="Notification Type" visibleInFilterBar="true">
+                    <fb:FilterGroupItem groupName="main" name="notifType" label="{i18n>notificationTypeLabel}" visibleInFilterBar="true">
                         <fb:control>
-                            <ComboBox id="notifTypeFilter" items="{filters>/uniqueTypes}" placeholder="Select a type...">
+                            <ComboBox id="notifTypeFilter" items="{filters>/uniqueTypes}" placeholder="{i18n>notificationTypePlaceholder}">
                                 <core:Item key="{filters>key}" text="{filters>text}"/>
                             </ComboBox>
                         </fb:control>
                     </fb:FilterGroupItem>
-                     <fb:FilterGroupItem groupName="main" name="creator" label="Created By" visibleInFilterBar="true">
+                     <fb:FilterGroupItem groupName="main" name="creator" label="{i18n>createdByLabel}" visibleInFilterBar="true">
                         <fb:control>
-                            <ComboBox id="creatorFilter" items="{filters>/uniqueCreators}" placeholder="Select a user...">
+                            <ComboBox id="creatorFilter" items="{filters>/uniqueCreators}" placeholder="{i18n>createdByPlaceholder}">
                                 <core:Item key="{filters>key}" text="{filters>text}"/>
                             </ComboBox>
                         </fb:control>
                     </fb:FilterGroupItem>
-                    <fb:FilterGroupItem groupName="main" name="funcLoc" label="Functional Location" visibleInFilterBar="true">
+                    <fb:FilterGroupItem groupName="main" name="funcLoc" label="{i18n>functionalLocationLabel}" visibleInFilterBar="true">
                         <fb:control>
-                            <ComboBox id="funcLocFilter" items="{filters>/uniqueFuncLocs}" placeholder="Select a location...">
+                            <ComboBox id="funcLocFilter" items="{filters>/uniqueFuncLocs}" placeholder="{i18n>functionalLocationPlaceholder}">
                                 <core:Item key="{filters>key}" text="{filters>text}"/>
                             </ComboBox>
                         </fb:control>
                     </fb:FilterGroupItem>
-                    <fb:FilterGroupItem groupName="main" name="equipment" label="Equipment" visibleInFilterBar="true">
+                    <fb:FilterGroupItem groupName="main" name="equipment" label="{i18n>equipmentLabel}" visibleInFilterBar="true">
                         <fb:control>
-                            <ComboBox id="equipmentFilter" items="{filters>/uniqueEquipments}" placeholder="Select an equipment...">
+                            <ComboBox id="equipmentFilter" items="{filters>/uniqueEquipments}" placeholder="{i18n>equipmentPlaceholder}">
+                                <core:Item key="{filters>key}" text="{filters>text}"/>
+                            </ComboBox>
+                        </fb:control>
+                    </fb:FilterGroupItem>
+                    <fb:FilterGroupItem groupName="main" name="status" label="{i18n>statusLabel}" visibleInFilterBar="true">
+                        <fb:control>
+                            <ComboBox id="statusFilter" items="{filters>/uniqueStatuses}" placeholder="{i18n>statusPlaceholder}">
                                 <core:Item key="{filters>key}" text="{filters>text}"/>
                             </ComboBox>
                         </fb:control>
@@ -61,16 +68,20 @@
                 id="list"
                 items="{/Notifications}"
                 visible="true" 
-                noDataText="No notifications found.">
+                noDataText="{i18n>noDataText}">
                 <ObjectListItem
                     type="Navigation"
                     press=".onPress"
-                    title="{NotificationId}: {Description}">
+                    title="{NotificationId}: {Description}"
+                    number="{PriorityText}"
+                    numberState="{= ${Priority} === '1' ? 'Error' : ${Priority} === '2' ? 'Warning' : 'None' }">
+                    <firstStatus>
+                        <ObjectStatus text="{SystemStatusText}" />
+                    </firstStatus>
                     <attributes>
-                        <ObjectAttribute text="Func. Location: {FunctionalLocation}" />
-                        <ObjectAttribute text="Equipment: {EquipmentNumber}" />
-                        <ObjectAttribute text="Type: {NotificationTypeText}" />
-                        <ObjectAttribute text="Created By: {CreatedByUser}" />
+                        <ObjectAttribute title="{i18n>functionalLocationLabel}" text="{FunctionalLocation}" />
+                        <ObjectAttribute title="{i18n>equipmentLabel}" text="{EquipmentNumber}" />
+                        <ObjectAttribute title="{i18n>notificationTypeLabel}" text="{NotificationTypeText}" />
                         <ObjectAttribute text="{path: 'CreationDate', formatter: '.formatter.formatDateTime'}" />
                     </attributes>
                 </ObjectListItem>

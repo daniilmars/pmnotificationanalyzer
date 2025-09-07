@@ -1,42 +1,27 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller",
+    "./BaseController",
     "sap/ui/model/json/JSONModel",
-    "sap/m/MessageBox",
-    "sap/ui/core/routing/History"
-], function (Controller, JSONModel, MessageBox, History) {
+    "../model/formatter",
+    "sap/ui/core/routing/History",
+    "sap/m/MessageBox"
+], function (BaseController, JSONModel, formatter, History, MessageBox) {
     "use strict";
- 
-    return Controller.extend("com.sap.pm.pmanalyzerfiori.controller.Object", {
-        
+
+    return BaseController.extend("com.sap.pm.pmanalyzerfiori.controller.Object", {
+
+        formatter: formatter,
+
         onInit: function () {
-            const oAnalysisModel = new JSONModel({
+            this.getView().setModel(new JSONModel(), "timeline");
+            this.getView().setModel(new JSONModel({
                 busy: false,
-                resultsVisible: false,
                 score: 0,
                 problems: [],
                 summary: ""
-            });
-            this.getView().setModel(oAnalysisModel, "analysis");
+            }), "analysis");
 
-            const oRouter = this.getOwnerComponent().getRouter();
+            const oRouter = this.getRouter();
             oRouter.getRoute("object").attachPatternMatched(this._onObjectMatched, this);
-        },
-
-        _onObjectMatched: function (oEvent) {
-            const sNotificationId = oEvent.getParameter("arguments").notificationId;
-            const oModel = this.getOwnerComponent().getModel();
-            
-            oModel.dataLoaded().then(() => {
-                const aNotifications = oModel.getProperty("/Notifications") || [];
-                const iObjectIndex = aNotifications.findIndex(
-                    (notif) => notif.NotificationId === sNotificationId
-                );
-                if (iObjectIndex !== -1) {
-                    this.getView().bindElement({ path: `/Notifications/${iObjectIndex}` });
-                }
-                // Reset wizard to the first step whenever a new object is matched
-                this.byId("analysisWizard").discardProgress(this.byId("dataStep"));
-            }); 
         },
 
         onNavBack: function () {
@@ -46,119 +31,103 @@ sap.ui.define([
             if (sPreviousHash !== undefined) {
                 window.history.go(-1);
             } else {
-                const oRouter = this.getOwnerComponent().getRouter();
-                oRouter.navTo("worklist", {}, true);
+                this.getRouter().navTo("worklist", {}, true);
             }
         },
-        
-        formatProblems: function(aProblems) {
-            if (!aProblems || aProblems.length === 0) {
-                const oResourceBundle = this.getOwnerComponent().getModel("i18n").getResourceBundle();
-                return oResourceBundle.getText("noProblemsFound");
-            }
-            return aProblems.join("\n\n"); 
-        },
-        
-        // Handles moving between wizard steps
-        validateAndNext: function() {
-            const oView = this.getView();
-            const sLongText = oView.byId("longText").getValue();
-            
-            if (!sLongText || sLongText.trim() === "") {
-                MessageBox.error("Please provide a long text before proceeding.");
-                return;
-            }
-            
-            this.byId("analysisWizard").nextStep();
-            this._triggerAnalysis(); // Automatically trigger analysis on next step
-        },
- 
-        // Renamed and now called by the wizard handler
-        _triggerAnalysis: async function () {
-            const oView = this.getView();
-            const oAnalysisModel = oView.getModel("analysis");
-            const oNotification = oView.getBindingContext().getObject();
 
-            // We use getValue() because the view has editable TextAreas in the first step
-            const sHeaderText = `Functional Location: ${oNotification.FunctionalLocation}\nEquipment: ${oNotification.EquipmentNumber}\nDescription: ${oNotification.Description}`;
-            const sLongText = oView.byId("longText").getValue();
-            const sActivities = oView.byId("activitiesText").getValue();
-            const sTextToAnalyze = `${sHeaderText}\n\nLong Text:\n${sLongText}\n\nActivities:\n${sActivities}`;
- 
-            this._setAnalysisState(true);
- 
+        _onObjectMatched: function (oEvent) {
+            const sNotificationId = oEvent.getParameter("arguments").notificationId;
+            const oModel = this.getOwnerComponent().getModel();
+
+            oModel.dataLoaded().then(() => {
+                const aNotifications = oModel.getProperty("/Notifications") || [];
+                const iObjectIndex = aNotifications.findIndex(
+                    (notif) => notif.NotificationId === sNotificationId
+                );
+
+                if (iObjectIndex !== -1) {
+                    const sObjectPath = `/Notifications/${iObjectIndex}`;
+                    this.getView().bindElement({ path: sObjectPath });
+                    const oNotification = aNotifications[iObjectIndex];
+                    this._buildTimelines(oNotification);
+                    this._triggerAnalysis(oNotification.LongText); // Initial analysis
+                } else {
+                    this.getRouter().navTo("worklist");
+                }
+            });
+        },
+
+        _buildTimelines: function (oNotification) {
+            const oTimelineModel = this.getView().getModel("timeline");
+            
+            const sNotifStatus = oNotification.SystemStatus;
+            const oNotifTimelineData = this._createTimelineData(
+                ["OSDN", "REL", "NOCO"],
+                ["Outstanding", "Released", "Closed"],
+                sNotifStatus
+            );
+            oTimelineModel.setProperty("/notification", oNotifTimelineData);
+
+            if (oNotification.WorkOrder) {
+                const sOrderStatus = oNotification.WorkOrder.SystemStatus;
+                const oOrderTimelineData = this._createTimelineData(
+                    ["CRTD", "REL", "TECO", "CLSD"],
+                    ["Created", "Released", "Technically Completed", "Business Closed"],
+                    sOrderStatus
+                );
+                oTimelineModel.setProperty("/workOrder", oOrderTimelineData);
+            } else {
+                oTimelineModel.setProperty("/workOrder", []);
+            }
+        },
+
+        _createTimelineData: function (aStatusIds, aStatusNames, sCurrentStatusId) {
+            const aSteps = [];
+            const iCurrentIndex = aStatusIds.indexOf(sCurrentStatusId);
+
+            aStatusIds.forEach((sId, i) => {
+                let sStatusType = "future";
+                if (i < iCurrentIndex) {
+                    sStatusType = "completed";
+                } else if (i === iCurrentIndex) {
+                    sStatusType = "current";
+                }
+                aSteps.push({ text: aStatusNames[i], status: sStatusType });
+            });
+            return aSteps;
+        },
+
+        onReanalyze: function () {
+            const sLongText = this.getView().byId("longTextForAnalysis").getValue();
+            this._triggerAnalysis(sLongText);
+        },
+
+        _triggerAnalysis: async function (sTextToAnalyze) {
+            const oAnalysisModel = this.getView().getModel("analysis");
+            oAnalysisModel.setProperty("/busy", true);
+
             try {
                 const sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
-                const response = await this._callAnalysisApi(sTextToAnalyze, sLanguage);
-                const result = await response.json();
-                
-                if (result.error) {
-                    throw new Error(result.error.message || "An unknown error occurred during analysis.");
+                const response = await fetch("/api/analyze", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ text: sTextToAnalyze, language: sLanguage })
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
                 }
 
-                this._displayAnalysisResult(result);
- 
+                const result = await response.json();
+                oAnalysisModel.setProperty("/score", result.score);
+                oAnalysisModel.setProperty("/problems", result.problems);
+                oAnalysisModel.setProperty("/summary", result.summary);
+
             } catch (error) {
                 MessageBox.error(error.message);
             } finally {
-                this._setAnalysisState(false);
+                oAnalysisModel.setProperty("/busy", false);
             }
-        },
-
-        _callAnalysisApi: async function(sText, sLanguage) {
-            const response = await fetch("/api/analyze", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({ text: sText, language: sLanguage })
-            });
-
-            if (!response.ok) {
-                let errorMessage = `Server error: ${response.status} ${response.statusText}`;
-                try {
-                    const errorData = await response.json();
-                    if (errorData.error && errorData.error.message) {
-                        errorMessage = errorData.error.message;
-                    }
-                } catch (e) {
-                    // Could not parse error response
-                }
-                throw new Error(errorMessage);
-            }
-            return response;
-        },
-
-        _setAnalysisState: function(bIsBusy) {
-            const oAnalysisModel = this.getView().getModel("analysis");
-            oAnalysisModel.setProperty("/busy", bIsBusy);
-            if (bIsBusy) {
-                oAnalysisModel.setProperty("/resultsVisible", false);
-            }
-        },
-
-        _displayAnalysisResult: function(oResult) {
-            const oAnalysisModel = this.getView().getModel("analysis");
-            oAnalysisModel.setProperty("/score", oResult.score);
-            oAnalysisModel.setProperty("/problems", oResult.problems);
-            oAnalysisModel.setProperty("/summary", oResult.summary);
-            oAnalysisModel.setProperty("/resultsVisible", true);
-            this._updateScoreIndicator(oResult.score);
-        },
-
-        _updateScoreIndicator: function(score) {
-            const oScoreGauge = this.getView().byId("scoreGauge");
-            if (!oScoreGauge) return;
-            
-            let scoreColor = sap.m.ValueColor.Error;
-
-            if (score > 70) {
-                scoreColor = sap.m.ValueColor.Good;
-            } else if (score >= 50) {
-                scoreColor = sap.m.ValueColor.Critical;
-            }
-
-            oScoreGauge.setValueColor(scoreColor);
         }
     });
 });

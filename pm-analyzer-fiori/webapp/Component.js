@@ -1,10 +1,9 @@
 sap.ui.define([
     "sap/ui/core/UIComponent",
     "sap/ui/Device",
-    "sap/ui/model/json/JSONModel",
-    "sap/ui/model/resource/ResourceModel"
+    "sap/ui/model/json/JSONModel"
 ],
-function (UIComponent, Device, JSONModel, ResourceModel) {
+function (UIComponent, Device, JSONModel) {
     "use strict";
 
     return UIComponent.extend("com.sap.pm.pmanalyzerfiori.Component", {
@@ -19,30 +18,26 @@ function (UIComponent, Device, JSONModel, ResourceModel) {
             // Set the device model
             this.setModel(new JSONModel(Device), "device");
 
-            // --- START: FINAL DATA LOADING & STRUURING ---
-            // Determine which language file to load
+            // Check for stored language first and set it
+            const sStoredLanguage = localStorage.getItem("appLanguage");
+            if (sStoredLanguage) {
+                sap.ui.getCore().getConfiguration().setLanguage(sStoredLanguage);
+            }
+
+            // Determine which language file to load based on the potentially updated language
             let sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
             if (sLanguage !== "de") {
                 sLanguage = "en"; // Default to English
             }
             const sMockDataPath = sap.ui.require.toUrl(`com/sap/pm/pmanalyzerfiori/mock_data_${sLanguage}.json`);
             
-            const oModel = new JSONModel();
+            // The JSON file already has the correct structure { "Notifications": [...] }
+            // So we can load it directly.
+            const oModel = new JSONModel(sMockDataPath);
             this.setModel(oModel);
 
-            // Wait for the data to be loaded, THEN restructure it and initialize the router
-            oModel.loadData(sMockDataPath).then(() => {
-                const aNotifications = oModel.getData(); // This is the flat array
-                oModel.setData({ Notifications: aNotifications }); // Restructure into an object
-                this.getRouter().initialize();
-            });
-            // --- END: FINAL DATA LOADING & STRUURING ---
-
-            // Check for stored language and set it
-            const sStoredLanguage = localStorage.getItem("appLanguage");
-            if (sStoredLanguage) {
-                sap.ui.getCore().getConfiguration().setLanguage(sStoredLanguage);
-            }
+            // Initialize the router after the model is set
+            this.getRouter().initialize();
 
             // Initialize the UI model
             const oUiModel = new JSONModel({
@@ -50,13 +45,7 @@ function (UIComponent, Device, JSONModel, ResourceModel) {
             });
             this.setModel(oUiModel, "ui");
 
-            // Initialize the i18n model
-            const i18nModel = new ResourceModel({
-                bundleName: "com.sap.pm.pmanalyzerfiori.i18n.i18n",
-                supportedLocales: ["en", "de"],
-                fallbackLocale: "en"
-            });
-            this.setModel(i18nModel, "i18n");
+            // The i18n model is now automatically initialized based on the manifest.json
         }
     });
 });

@@ -4,78 +4,150 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:f="sap.ui.layout.form"
     xmlns:l="sap.ui.layout"
-    xmlns:microchart="sap.suite.ui.microchart">
+    xmlns:core="sap.ui.core">
+
     <Page
         id="page"
-        title="Analysis Wizard: {NotificationId}"
+        title="{i18n>objectTitle}: {NotificationId}"
         showNavButton="true"
         navButtonPress=".onNavBack">
         <content>
-            <Wizard
-                id="analysisWizard"
-                class="sapUiResponsivePadding--header sapUiResponsivePadding--content"
-                finishButtonText="Finish"
-                showNextButton="false"
-                cancel=".onNavBack"
-                complete=".onNavBack">
-                <!-- Step 1: Review and Refine Data -->
-                <WizardStep
-                    id="dataStep"
-                    title="Review &amp; Refine Data"
-                    validated="true">
-                    <MessageStrip
-                        text="You can edit the text here to perform a 'what-if' analysis and see how changes impact the quality score."
-                        type="Information"
-                        showIcon="true"
-                        class="sapUiSmallMarginBottom" />
-                    <f:SimpleForm layout="ResponsiveGridLayout">
-                        <f:content>
-                            <Label text="Long Text"/>
-                            <TextArea id="longText" value="{LongText}" rows="8" width="100%"/>
-                            <Label text="Activities"/>
-                            <TextArea id="activitiesText" value="{Activities}" rows="8" width="100%"/>
-                        </f:content>
-                    </f:SimpleForm>
-                    <Button text="Proceed to Analysis" type="Emphasized" press=".validateAndNext" class="sapUiSmallMarginTop"/>
-                </WizardStep>
+            <VBox class="sapUiSmallMargin">
+                <Title text="{Description}" class="sapUiSmallMarginBottom" />
+                <f:SimpleForm layout="ResponsiveGridLayout">
+                    <f:content>
+                        <Label text="{i18n>priorityLabel}"/>
+                        <ObjectStatus
+                            text="{PriorityText}"
+                            state="{= ${Priority} === '1' ? 'Error' : ${Priority} === '2' ? 'Warning' : 'None' }" />
+                        <Label text="{i18n>notificationTypeLabel}"/>
+                        <Text text="{NotificationTypeText}" />
+                        <Label text="{i18n>createdByLabel}"/>
+                        <Text text="{CreatedByUser}" />
+                        <Label text="{i18n>creationDateLabel}"/>
+                        <Text text="{path: 'CreationDate', formatter: '.formatter.formatDateTime'}" />
+                    </f:content>
+                </f:SimpleForm>
+            </VBox>
+            <IconTabBar
+                id="iconTabBar"
+                class="sapUiResponsiveContentPadding">
+                <items>
+                    <IconTabFilter key="notification" text="{i18n>notificationDetailsTab}">
+                        
+                        <HBox items="{timeline>/notification}" class="sapUiSmallMarginBottom">
+                            <VBox class="timelineStep">
+                                <customData>
+                                    <core:CustomData key="status" value="{timeline>status}" writeToDom="true" />
+                                </customData>
+                                <Text text="{timeline>text}" class="timelineText"/>
+                            </VBox>
+                        </HBox>
 
-                <!-- Step 2: View Analysis Result -->
-                <WizardStep
-                    id="analysisStep"
-                    title="Analysis Result"
-                    validated="true">
-                     <VBox class="sapUiSmallMarginTop" busy="{analysis>/busy}" busyIndicatorDelay="0">
-                        <Panel id="resultsPanel" visible="{analysis>/resultsVisible}" backgroundDesign="Transparent">
-                            <FlexBox width="100%" alignItems="Start">
-                                <VBox>
-                                    <layoutData>
-                                        <FlexItemData growFactor="2" />
-                                    </layoutData>
-                                    <f:SimpleForm layout="ResponsiveGridLayout">
-                                        <f:content>
-                                            <Label text="Summary"/>
-                                            <Text text="{analysis>/summary}" />
-                                            <Label text="Identified Problems"/>
-                                            <Text text="{path: 'analysis>/problems', formatter:'.formatProblems'}" renderWhitespace="true" />
-                                        </f:content>
-                                    </f:SimpleForm>
-                                </VBox>
-                                <VBox justifyContent="Center" alignItems="Center" class="sapUiSmallMarginBegin">
-                                    <layoutData>
-                                        <FlexItemData growFactor="1" />
-                                    </layoutData>
-                                    <Title text="Quality Score" level="H5" class="sapUiSmallMarginBottom" />
-                                    <microchart:RadialMicroChart
-                                        id="scoreGauge"
-                                        percentage="{analysis>/score}"
-                                        size="L"
-                                        valueColor="{= ${analysis>/score} > 70 ? 'Good' : (${analysis>/score} >= 50 ? 'Critical' : 'Error') }" />
-                                </VBox>
-                            </FlexBox>
-                        </Panel>
-                    </VBox>
-                </WizardStep>
-            </Wizard>
+                        <f:SimpleForm layout="ResponsiveGridLayout" class="sapUiLargeMarginTop">
+                            <f:content>
+                                <Label text="{i18n>functionalLocationLabel}"/>
+                                <Text text="{FunctionalLocation}" />
+                                <Label text="{i18n>equipmentLabel}"/>
+                                <Text text="{EquipmentNumber}" />
+                                <Label text="{i18n>requiredStartLabel}"/>
+                                <Text text="{path: 'RequiredStartDate', formatter: '.formatter.formatDateTime'}" />
+                                <Label text="{i18n>requiredEndLabel}"/>
+                                <Text text="{path: 'RequiredEndDate', formatter: '.formatter.formatDateTime'}" />
+                                <Label text="{i18n>malfunctionStartLabel}"/>
+                                <Text text="{path: 'MalfunctionStartDate', formatter: '.formatter.formatDateTime'}" />
+                                <Label text="{i18n>malfunctionEndLabel}"/>
+                                <Text text="{path: 'MalfunctionEndDate', formatter: '.formatter.formatDateTime'}" />
+                                <Label text="{i18n>longTextLabel}"/>
+                                <Text text="{LongText}" />
+                            </f:content>
+                        </f:SimpleForm>
+                        <f:SimpleForm title="{i18n>codesLabel}" layout="ResponsiveGridLayout">
+                            <f:content>
+                                <Label text="{i18n>damageLabel}"/>
+                                <Text text="{Damage/Text} ({Damage/CodeGroup} - {Damage/Code})" />
+                                <Label text="{i18n>causeLabel}"/>
+                                <Text text="{Cause/Text} ({Cause/CodeGroup} - {Cause/Code})" />
+                            </f:content>
+                        </f:SimpleForm>
+                    </IconTabFilter>
+
+                    <IconTabFilter key="workOrder" text="{i18n>workOrderTab}" visible="{= !!${WorkOrder} }">
+                        
+                        <HBox items="{timeline>/workOrder}" class="sapUiSmallMarginBottom">
+                            <VBox class="timelineStep">
+                                <customData>
+                                    <core:CustomData key="status" value="{timeline>status}" writeToDom="true" />
+                                </customData>
+                                <Text text="{timeline>text}" class="timelineText"/>
+                            </VBox>
+                        </HBox>
+
+                        <f:SimpleForm layout="ResponsiveGridLayout" class="sapUiLargeMarginTop">
+                            <f:content>
+                                <Label text="{i18n>orderIdLabel}"/>
+                                <Text text="{WorkOrder/OrderId}" />
+                                <Label text="{i18n>descriptionLabel}"/>
+                                <Text text="{WorkOrder/Description}" />
+                                <Label text="{i18n>orderTypeLabel}"/>
+                                <Text text="{WorkOrder/OrderTypeText}" />
+                                <Label text="{i18n>workCenterLabel}"/>
+                                <Text text="{WorkOrder/WorkCenter}" />
+                                <Label text="{i18n>plannerGroupLabel}"/>
+                                <Text text="{WorkOrder/PlannerGroup}" />
+                                <Label text="{i18n>basicStartDateLabel}"/>
+                                <Text text="{path: 'WorkOrder/BasicStartDate', formatter: '.formatter.formatDateTime'}" />
+                                <Label text="{i18n>basicEndDateLabel}"/>
+                                <Text text="{path: 'WorkOrder/BasicEndDate', formatter: '.formatter.formatDateTime'}" />
+                            </f:content>
+                        </f:SimpleForm>
+                        <Table
+                            headerText="{i18n>operationsHeader}"
+                            items="{WorkOrder/Operations}">
+                            <columns>
+                                <Column><Text text="{i18n>operationColumn}" /></Column>
+                                <Column><Text text="{i18n>descriptionColumn}" /></Column>
+                                <Column><Text text="{i18n>workCenterColumn}" /></Column>
+                                <Column hAlign="End"><Text text="{i18n>durationColumn}" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{OperationNumber}" />
+                                        <Text text="{Description}" />
+                                        <Text text="{WorkCenter}" />
+                                        <Text text="{Duration} {DurationUnit}" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </IconTabFilter>
+
+                    <IconTabFilter key="analysis" text="{i18n>qualityAnalysisTab}">
+                        <VBox class="sapUiSmallMargin" busy="{analysis>/busy}">
+                            <Title text="{i18n>qualityScoreLabel}" class="sapUiSmallMarginTopBottom" />
+                            <ProgressIndicator
+                                percentValue="{analysis>/score}"
+                                displayValue="{analysis>/score}%"
+                                state="{= ${analysis>/score} > 70 ? 'Success' : (${analysis>/score} >= 50 ? 'Warning' : 'Error') }"
+                                class="sapUiSmallMarginBottom" />
+                            
+                            <f:SimpleForm layout="ResponsiveGridLayout">
+                                <f:content>
+                                    <Label text="{i18n>summaryLabel}"/>
+                                    <Text text="{analysis>/summary}" />
+                                    <Label text="{i18n>problemsLabel}"/>
+                                    <Text text="{path: 'analysis>/problems', formatter:'.formatter.formatProblems'}" renderWhitespace="true" />
+                                </f:content>
+                            </f:SimpleForm>
+
+                            <Label text="{i18n>whatIfAnalysisLabel}" class="sapUiSmallMarginTopBottom" />
+                            <TextArea id="longTextForAnalysis" value="{LongText}" rows="8" width="100%" />
+                            <Button text="{i18n>reanalyzeButtonText}" type="Emphasized" press=".onReanalyze" class="sapUiSmallMarginTop"/>
+                        </VBox>
+                    </IconTabFilter>
+                </items>
+            </IconTabBar>
         </content>
     </Page>
 </mvc:View>

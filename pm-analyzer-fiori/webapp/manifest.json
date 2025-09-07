@@ -35,7 +35,8 @@
                 "sap.m": {},
                 "sap.ui.core": {},
                 "sap.ui.layout": {},
-                "sap.ui.comp": {}
+                "sap.ui.comp": {},
+                "sap.suite.ui.commons": {}
             }
         },
         "contentDensities": { "compact": true, "cozy": true },
