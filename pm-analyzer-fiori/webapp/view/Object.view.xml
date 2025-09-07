@@ -136,27 +136,60 @@
                     </IconTabFilter>
 
                     <IconTabFilter key="analysis" text="{i18n>qualityAnalysisTab}">
-                        <VBox class="sapUiSmallMargin" busy="{analysis>/busy}">
-                            <Title text="{i18n>qualityScoreLabel}" class="sapUiSmallMarginTopBottom" />
-                            <ProgressIndicator
-                                percentValue="{analysis>/score}"
-                                displayValue="{analysis>/score}%"
-                                state="{= ${analysis>/score} > 70 ? 'Success' : (${analysis>/score} >= 50 ? 'Warning' : 'Error') }"
-                                class="sapUiSmallMarginBottom" />
-                            
-                            <f:SimpleForm layout="ResponsiveGridLayout">
-                                <f:content>
-                                    <Label text="{i18n>summaryLabel}"/>
-                                    <Text text="{analysis>/summary}" />
-                                    <Label text="{i18n>problemsLabel}"/>
-                                    <Text text="{path: 'analysis>/problems', formatter:'.formatter.formatProblems'}" renderWhitespace="true" />
-                                </f:content>
-                            </f:SimpleForm>
+                        <l:Splitter orientation="Horizontal" class="sapUiMediumMarginTop">
+                            <l:contentAreas>
+                                <!-- Left Side: Current Analysis -->
+                                <VBox class="sapUiSmallMarginEnd" busy="{analysis>/busy}">
+                                    <Title text="{i18n>qualityScoreLabel}" class="sapUiSmallMarginTopBottom" />
+                                    <ProgressIndicator
+                                        percentValue="{analysis>/score}"
+                                        displayValue="{analysis>/score}%"
+                                        state="{= ${analysis>/score} > 70 ? 'Success' : (${analysis>/score} >= 50 ? 'Warning' : 'Error') }"
+                                        class="sapUiSmallMarginBottom" />
+                                    
+                                    <f:SimpleForm layout="ResponsiveGridLayout">
+                                        <f:content>
+                                            <Label text="{i18n>summaryLabel}"/>
+                                            <Text text="{analysis>/summary}" />
+                                            <Label text="{i18n>problemsLabel}"/>
+                                            <Text text="{path: 'analysis>/problems', formatter:'.formatter.formatProblems'}" renderWhitespace="true" />
+                                        </f:content>
+                                    </f:SimpleForm>
 
-                            <Label text="{i18n>whatIfAnalysisLabel}" class="sapUiSmallMarginTopBottom" />
-                            <TextArea id="longTextForAnalysis" value="{LongText}" rows="8" width="100%" />
-                            <Button text="{i18n>reanalyzeButtonText}" type="Emphasized" press=".onReanalyze" class="sapUiSmallMarginTop"/>
-                        </VBox>
+                                    <Label text="{i18n>whatIfAnalysisLabel}" class="sapUiSmallMarginTopBottom" />
+                                    <TextArea id="longTextForAnalysis" value="{LongText}" rows="8" width="100%" />
+                                    <Button text="{i18n>reanalyzeButtonText}" type="Emphasized" press=".onReanalyze" class="sapUiSmallMarginTop"/>
+                                </VBox>
+
+                                <!-- Right Side: Chat with Assistant -->
+                                <VBox class="sapUiSmallMarginBegin">
+                                    <Title text="{i18n>chatTitle}" class="sapUiSmallMarginTopBottom" />
+                                    <ScrollContainer id="chatScrollContainer" height="400px" vertical="true" class="sapUiSmallMarginBottom">
+                                        <List
+                                            items="{chat>/messages}"
+                                            showSeparators="None">
+                                            <CustomListItem>
+                                                <HBox class="sapUiSmallMargin">
+                                                    <core:Icon
+                                                        src="{= ${chat>author} === 'user' ? 'sap-icon://customer' : 'sap-icon://fa-solid/robot'}"
+                                                        class="sapUiTinyMarginEnd"
+                                                        color="{= ${chat>author} === 'user' ? '#0a6ed1' : '#107e3e'}"
+                                                        size="1.5rem"/>
+                                                    <VBox>
+                                                        <Text text="{chat>text}" />
+                                                    </VBox>
+                                                </HBox>
+                                            </CustomListItem>
+                                        </List>
+                                    </ScrollContainer>
+                                    <FeedInput
+                                        placeholder="{i18n>chatInputPlaceholder}"
+                                        post=".onPostChatMessage"
+                                        showIcon="true"
+                                        icon="sap-icon://send"/>
+                                </VBox>
+                            </l:contentAreas>
+                        </l:Splitter>
                     </IconTabFilter>
                 </items>
             </IconTabBar>
