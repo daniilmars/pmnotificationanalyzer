@@ -1,7 +1,7 @@
 import os
 import re
 import google.generativeai as genai
-from app.models import AnalysisResponse
+from app.models import AnalysisResponse, Problem, SuggestionResponse
 from app.config_manager import get_config
 
 def _parse_gemini_response(reply: str) -> AnalysisResponse:
@@ -19,10 +19,32 @@ def _parse_gemini_response(reply: str) -> AnalysisResponse:
 
     score = int(match.group(1).strip())
     issues_text = match.group(2).strip()
-    issues = [line.strip("- ") for line in issues_text.split('\n') if line.strip() and line.strip().startswith('-')]
     summary = match.group(3).strip()
 
-    return AnalysisResponse(score=score, problems=issues, summary=summary)
+    # Create structured Problem objects
+    problems = []
+    raw_issues = [line.strip("- ") for line in issues_text.split('\n') if line.strip() and line.strip().startswith('-')]
+    for issue_str in raw_issues:
+        # This is a simple heuristic to assign field IDs. A more robust solution
+        # might involve another LLM call or more complex NLP.
+        field_id = "longTextDisplay" # Default
+        has_suggestion = False
+        if "long text" in issue_str.lower() or "description" in issue_str.lower():
+            field_id = "longTextDisplay"
+            has_suggestion = True
+        elif "damage code" in issue_str.lower():
+            field_id = "damageCodeDisplay"
+        elif "cause code" in issue_str.lower():
+            field_id = "causeCodeDisplay"
+        
+        problems.append(Problem(
+            title=issue_str.split(':')[0] if ':' in issue_str else "Identified Issue",
+            description=issue_str.split(':')[1].strip() if ':' in issue_str else issue_str,
+            fieldId=field_id,
+            hasSuggestion=has_suggestion
+        ))
+
+    return AnalysisResponse(score=score, problems=problems, summary=summary)
 
 
 def analyze_text(notification_data: dict, language: str = "en") -> AnalysisResponse:
@@ -101,9 +123,8 @@ def analyze_text(notification_data: dict, language: str = "en") -> AnalysisRespo
     Provide your response ONLY in the following format and ONLY in {output_language}. Do not add any other explanations.
     Score: <integer score>
     Probleme:
-    - <Problem 1: Be specific, e.g., "Product impact was not assessed.">
-    - <Problem 2: e.g., "Root cause is missing, only the symptom is described.">
-    - <Problem 3: e.g., "Inconsistency: The long text mentions a 'leak' but the damage code is 'vibration'.">
+    - <Problem Title>: <Problem Description>
+    - <Problem Title>: <Problem Description>
     Zusammenfassung: <A brief, one-sentence summary of the overall quality.>
     """.strip()
 
@@ -120,11 +141,44 @@ def analyze_text(notification_data: dict, language: str = "en") -> AnalysisRespo
         print(f"An error occurred while communicating with the Google Gemini API: {e}")
         raise e
 
-
-
-def chat_with_assistant(notification_data: dict, question: str, analysis_context: AnalysisResponse, language: str = "en") -> dict:
+def generate_suggestion(notification_data: dict, problem: Problem, language: str = "en") -> SuggestionResponse:
     """
-    Answers a user's question based on the context of an SAP maintenance notification and its quality analysis.
+    Generates a specific suggestion to fix a given problem in a notification.
+    """
+    lang_map = { "en": "en", "de": "de" }
+    output_language = lang_map.get(language, "en")
+
+    suggestion_text = ""
+    # Use the reliable fieldId for logic instead of the unpredictable title
+    if problem.fieldId == "longTextDisplay":
+        if output_language == "de":
+            suggestion_text = (
+                "Der Langtext sollte detaillierter sein. Bitte verwenden Sie die folgende Vorlage:\n\n"
+                "**Problembeschreibung:** (Was genau ist passiert? Welche Symptome wurden beobachtet?)\n"
+                "**Ort:** (Wo genau am Equipment/an der Anlage ist das Problem aufgetreten?)\n"
+                "**Auswirkung auf das Produkt:** (Wurde die Produktqualität, -sicherheit oder -sterilität beeinflusst? Wenn nicht, warum nicht?)\n"
+                "**Sofortmaßnahmen:** (Welche unmittelbaren Schritte wurden unternommen, um das Problem zu beheben oder die Anlage zu sichern?)"
+            )
+        else:
+            suggestion_text = (
+                "The long text should be more detailed. Please use the following template:\n\n"
+                "**Problem Description:** (What exactly happened? What symptoms were observed?)\n"
+                "**Location:** (Where exactly on the equipment/facility did the problem occur?)\n"
+                "**Product Impact:** (Was product quality, safety, or sterility affected? If not, why not?)\n"
+                "**Immediate Actions:** (What immediate steps were taken to correct the issue or secure the equipment?)"
+            )
+    else:
+        if output_language == "de":
+            suggestion_text = "Für dieses spezifische Problem ist keine automatische Verbesserung verfügbar. Bitte überprüfen Sie die GMP-Richtlinien."
+        else:
+            suggestion_text = "No automatic improvement is available for this specific problem. Please review GMP guidelines."
+
+    return SuggestionResponse(suggestion=suggestion_text)
+
+
+def chat_with_assistant(notification_data: dict, question: str, analysis_context: AnalysisResponse, history: list, language: str = "en") -> dict:
+    """
+    Answers a user's question based on the context of a notification, its analysis, and the recent conversation history.
     """
     config = get_config()
     llm_settings = config.get('chat_llm_settings', {})
@@ -137,42 +191,34 @@ def chat_with_assistant(notification_data: dict, question: str, analysis_context
     lang_map = { "en": "English", "de": "German" }
     output_language = lang_map.get(language, "English")
 
+    # --- Build conversation history string ---
+    history_str = ""
+    for message in history:
+        if message.get('role') == 'user':
+            history_str += f"User: {message.get('content')}\n"
+        else:
+            history_str += f"Assistant: {message.get('content')}\n"
+
     # --- Build a detailed string from the structured data for context ---
     details = []
     details.append(f"- Notification ID: {notification_data.get('NotificationId', 'N/A')}")
     details.append(f"- Description: {notification_data.get('Description', 'N/A')}")
     details.append(f"- Priority: {notification_data.get('PriorityText', 'N/A')} (Code: {notification_data.get('Priority', 'N/A')})")
-    details.append(f"- Created By: {notification_data.get('CreatedByUser', 'N/A')} on {notification_data.get('CreationDate', 'N/A')}")
-    details.append(f"- Status: {notification_data.get('SystemStatus', 'N/A')}")
     
-    damage = notification_data.get('Damage', {})
-    if damage and damage.get('Text'):
-        details.append(f"- Damage: {damage.get('Text')} (Group: {damage.get('CodeGroup', 'N/A')}, Code: {damage.get('Code', 'N/A')})")
-
-    cause = notification_data.get('Cause', {})
-    if cause and cause.get('Text'):
-        details.append(f"- Cause: {cause.get('Text')} (Group: {cause.get('CodeGroup', 'N/A')}, Code: {cause.get('Code', 'N/A')})")
-
-    work_order = notification_data.get('WorkOrder')
-    if work_order:
-        details.append(f"- Linked Work Order: {work_order.get('OrderId')} - {work_order.get('Description')}")
-        details.append(f"  - Order Status: {work_order.get('SystemStatus')}")
-        if work_order.get('Operations'):
-            details.append("  - Operations:")
-            for op in work_order['Operations']:
-                details.append(f"    - {op.get('OperationNumber')}: {op.get('Description')}")
-    else:
-        details.append("- Linked Work Order: None")
-
     context_str = "\n".join(details)
     long_text = notification_data.get('LongText', '')
-    analysis_problems_str = "\n".join([f"- {p}" for p in analysis_context.problems])
+    analysis_problems_str = "\n".join([f"- {p.title}: {p.description}" for p in analysis_context.problems])
 
     prompt = f"""
     You are an expert GMP (Good Manufacturing Practices) Quality Assistant for SAP Plant Maintenance.
-    Your task is to act as a documentation coach. You must answer the user's question based *only* on the provided context, which includes both the raw data of a maintenance notification and its recent quality analysis.
+    Your task is to act as a documentation coach. You must answer the user's question based *only* on the provided context.
     Your tone should be helpful, professional, and supportive.
     If the answer is not in the context, state that clearly. Do not invent information.
+
+    **Formatting Rules:**
+    - Use simple Markdown for formatting.
+    - Use **bold text** for emphasis.
+    - Use `*` for bullet points.
 
     --- START OF CONTEXT DATA ---
 
@@ -190,6 +236,10 @@ def chat_with_assistant(notification_data: dict, question: str, analysis_context
 
     --- END OF CONTEXT DATA ---
 
+    --- CONVERSATION HISTORY ---
+    {history_str}
+    --- END OF HISTORY ---
+
     Based on all the information above, answer the following question concisely and helpfully in {output_language}.
 
     **User's Question:** "{question}"
@@ -205,5 +255,3 @@ def chat_with_assistant(notification_data: dict, question: str, analysis_context
     except Exception as e:
         print(f"An error occurred while communicating with the Google Gemini API: {e}")
         raise e
-
-

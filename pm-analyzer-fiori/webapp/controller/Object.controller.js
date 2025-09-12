@@ -38,6 +38,77 @@ sap.ui.define([
             }
         },
 
+        onGoToField: function (oEvent) {
+            const oProblem = oEvent.getSource().getBindingContext("analysis").getObject();
+            const sFieldId = oProblem.fieldId;
+            const oTargetControl = this.byId(sFieldId) || this.byId(sFieldId.replace("Display", "ForAnalysis")); // Try both display and input
+            
+            if (oTargetControl) {
+                // Switch to the correct tab if necessary
+                const sTargetTab = sFieldId.includes("Analysis") ? "analysis" : "notification";
+                this.byId("iconTabBar").setSelectedKey(sTargetTab);
+
+                // Scroll to the control
+                oTargetControl.getDomRef().scrollIntoView({ behavior: "smooth", block: "center" });
+                
+                // Highlight the control
+                this._highlightControl(oTargetControl);
+            }
+        },
+
+        onSuggestImprovement: async function (oEvent) {
+            const oProblem = oEvent.getSource().getBindingContext("analysis").getObject();
+            const oNotification = this.getView().getBindingContext().getObject();
+            const sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
+
+            this.getView().setBusy(true);
+
+            try {
+                const oPayload = {
+                    language: sLanguage,
+                    problem: oProblem,
+                    notification: oNotification
+                };
+
+                const response = await fetch("/api/suggest", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(oPayload)
+                });
+
+                if (!response.ok) {
+                    throw new Error(`Server error: ${response.status}`);
+                }
+
+                const result = await response.json();
+                
+                MessageBox.confirm(result.suggestion, {
+                    title: "Suggestion",
+                    actions: [this.getResourceBundle().getText("suggestionApplyButtonText"), MessageBox.Action.CANCEL],
+                    emphasizedAction: this.getResourceBundle().getText("suggestionApplyButtonText"),
+                    onClose: function (sAction) {
+                        if (sAction === this.getResourceBundle().getText("suggestionApplyButtonText")) {
+                            this.byId("longTextForAnalysis").setValue(result.suggestion);
+                            MessageBox.information("Suggestion applied to the 'What-If' text area. You can now re-analyze.");
+                        }
+                    }.bind(this)
+                });
+
+            } catch (error) {
+                MessageBox.error(error.message);
+            } finally {
+                this.getView().setBusy(false);
+            }
+        },
+
+        _highlightControl: function (oControl) {
+            const $control = oControl.$();
+            $control.addClass("fieldHighlight");
+            setTimeout(() => {
+                $control.removeClass("fieldHighlight");
+            }, 2000); // Highlight for 2 seconds
+        },
+
         _onObjectMatched: function (oEvent) {
             const sNotificationId = oEvent.getParameter("arguments").notificationId;
             const oModel = this.getOwnerComponent().getModel();
@@ -145,15 +216,23 @@ sap.ui.define([
         _addMessageToChat: function (sText, sAuthor) {
             const oChatModel = this.getView().getModel("chat");
             const aMessages = oChatModel.getProperty("/messages");
-            aMessages.push({ text: sText, author: sAuthor });
+            const sSender = sAuthor === "user" ? "You" : "Assistant";
+
+            aMessages.push({ text: sText, author: sAuthor, sender: sSender });
             oChatModel.setProperty("/messages", aMessages);
-            // Scroll to the bottom
-            const oScrollContainer = this.byId("chatScrollContainer");
+
+            // Use a timeout to ensure the DOM is updated before we scroll
             setTimeout(() => {
+                const oScrollContainer = this.byId("chatScrollContainer");
                 if (oScrollContainer) {
-                    oScrollContainer.scrollTo(0, 10000, 0);
+                    // Get the underlying DOM element to find its full scrollable height
+                    const oDomRef = oScrollContainer.getDomRef();
+                    if (oDomRef) {
+                        // Scroll to the very bottom of the container
+                        oScrollContainer.scrollTo(0, oDomRef.scrollHeight);
+                    }
                 }
-            }, 0);
+            }, 100); // A small delay is sometimes needed to wait for rendering
         },
 
         onPostChatMessage: async function (oEvent) {
@@ -170,11 +249,22 @@ sap.ui.define([
             try {
                 const oNotification = this.getView().getBindingContext().getObject();
                 const sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
+                const oChatModel = this.getView().getModel("chat");
+                const aMessages = oChatModel.getProperty("/messages");
+
+                // Prepare history for the backend
+                const aHistory = aMessages.slice(0, -1).map(msg => { // Exclude the latest user message
+                    return {
+                        role: msg.author,
+                        content: msg.text
+                    };
+                });
 
                 const oPayload = {
                     language: sLanguage,
                     question: sQuestion,
-                    notification: oNotification
+                    notification: oNotification,
+                    history: aHistory
                 };
 
                 const response = await fetch("/api/chat", {

@@ -1,0 +1,20 @@
+{
+  "xsappname": "pm-analyzer",
+  "tenant-mode": "dedicated",
+  "description": "Security profile for PM Notification Analyzer",
+  "scopes": [
+    {
+      "name": "uaa.user",
+      "description": "Basic user scope"
+    }
+  ],
+  "role-templates": [
+    {
+      "name": "User",
+      "description": "User of the PM Notification Analyzer",
+      "scope-references": [
+        "uaa.user"
+      ]
+    }
+  ]
+}

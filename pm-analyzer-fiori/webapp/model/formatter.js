@@ -16,6 +16,34 @@ sap.ui.define([], function () {
                 style: "medium"
             });
             return oDateFormat.format(new Date(sDate));
+        },
+
+        /**
+         * Converts a simple Markdown string to a safe HTML string for the FormattedText control.
+         * @param {string} sMarkdown The Markdown text.
+         * @returns {string} The formatted HTML string.
+         */
+        formatMarkdownToHtml: function (sMarkdown) {
+            if (!sMarkdown) {
+                return "";
+            }
+            let sHtml = sMarkdown;
+
+            // Escape HTML to prevent XSS, except for our own tags
+            sHtml = sHtml.replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+            // Convert **bold** to <strong>
+            sHtml = sHtml.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
+
+            // Convert * list items to <li>
+            sHtml = sHtml.replace(/^\s*\*\s*(.*)/gm, "<li>$1</li>");
+            // Wrap list items in <ul>
+            sHtml = sHtml.replace(/(<li>.*<\/li>)/s, "<ul>$1</ul>");
+
+            // Convert newlines to <br>
+            sHtml = sHtml.replace(/\n/g, "<br>");
+
+            return sHtml;
         }
     };
 });

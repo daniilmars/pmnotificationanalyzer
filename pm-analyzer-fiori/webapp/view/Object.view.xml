@@ -31,7 +31,8 @@
             </VBox>
             <IconTabBar
                 id="iconTabBar"
-                class="sapUiResponsiveContentPadding">
+                class="sapUiResponsiveContentPadding"
+                stretchContentHeight="true">
                 <items>
                     <IconTabFilter key="notification" text="{i18n>notificationDetailsTab}">
                         
@@ -65,15 +66,15 @@
                                 <Label text="{i18n>malfunctionEndLabel}"/>
                                 <Text text="{path: 'MalfunctionEndDate', formatter: '.formatter.formatDateTime'}" />
                                 <Label text="{i18n>longTextLabel}"/>
-                                <Text text="{LongText}" />
+                                <Text id="longTextDisplay" text="{LongText}" />
                             </f:content>
                         </f:SimpleForm>
                         <f:SimpleForm title="{i18n>codesLabel}" layout="ResponsiveGridLayout">
                             <f:content>
                                 <Label text="{i18n>damageLabel}"/>
-                                <Text text="{Damage/Text} ({Damage/CodeGroup} - {Damage/Code})" />
+                                <Text id="damageCodeDisplay" text="{Damage/Text} ({Damage/CodeGroup} - {Damage/Code})" />
                                 <Label text="{i18n>causeLabel}"/>
-                                <Text text="{Cause/Text} ({Cause/CodeGroup} - {Cause/Code})" />
+                                <Text id="causeCodeDisplay" text="{Cause/Text} ({Cause/CodeGroup} - {Cause/Code})" />
                             </f:content>
                         </f:SimpleForm>
                     </IconTabFilter>
@@ -151,10 +152,34 @@
                                         <f:content>
                                             <Label text="{i18n>summaryLabel}"/>
                                             <Text text="{analysis>/summary}" />
-                                            <Label text="{i18n>problemsLabel}"/>
-                                            <Text text="{path: 'analysis>/problems', formatter:'.formatter.formatProblems'}" renderWhitespace="true" />
                                         </f:content>
                                     </f:SimpleForm>
+
+                                    <Title text="{i18n>problemsLabel}" class="sapUiSmallMarginTopBottom" />
+                                    <List
+                                        noDataText="{i18n>noProblemsFound}"
+                                        items="{analysis>/problems}">
+                                        <CustomListItem>
+                                            <HBox alignItems="Center" class="sapUiSmallMargin">
+                                                <core:Icon
+                                                    src="sap-icon://message-warning"
+                                                    class="sapUiMediumMarginEnd sapThemeWarningColor"
+                                                    size="1.5rem"/>
+                                                <VBox>
+                                                    <Title level="H3" text="{analysis>title}" />
+                                                    <Text text="{analysis>description}" class="sapUiTinyMarginBottom"/>
+                                                    <Link text="{i18n>goToFieldLink}" press=".onGoToField" />
+                                                    <Button
+                                                        text="{i18n>suggestImprovementButton}"
+                                                        type="Transparent"
+                                                        press=".onSuggestImprovement"
+                                                        visible="{= ${analysis>hasSuggestion} }"
+                                                        class="sapUiTinyMarginTop"
+                                                    />
+                                                </VBox>
+                                            </HBox>
+                                        </CustomListItem>
+                                    </List>
 
                                     <Label text="{i18n>whatIfAnalysisLabel}" class="sapUiSmallMarginTopBottom" />
                                     <TextArea id="longTextForAnalysis" value="{LongText}" rows="8" width="100%" />
@@ -162,21 +187,21 @@
                                 </VBox>
 
                                 <!-- Right Side: Chat with Assistant -->
-                                <VBox class="sapUiSmallMarginBegin">
+                                <VBox
+                                    height="100%"
+                                    class="sapUiSmallMarginBegin chatContainer">
                                     <Title text="{i18n>chatTitle}" class="sapUiSmallMarginTopBottom" />
-                                    <ScrollContainer id="chatScrollContainer" height="400px" vertical="true" class="sapUiSmallMarginBottom">
+                                    <ScrollContainer id="chatScrollContainer" vertical="true" class="chatScrollContainer">
                                         <List
                                             items="{chat>/messages}"
                                             showSeparators="None">
                                             <CustomListItem>
-                                                <HBox class="sapUiSmallMargin">
-                                                    <core:Icon
-                                                        src="{= ${chat>author} === 'user' ? 'sap-icon://customer' : 'sap-icon://fa-solid/robot'}"
-                                                        class="sapUiTinyMarginEnd"
-                                                        color="{= ${chat>author} === 'user' ? '#0a6ed1' : '#107e3e'}"
-                                                        size="1.5rem"/>
-                                                    <VBox>
-                                                        <Text text="{chat>text}" />
+                                                <HBox
+                                                    justifyContent="{= ${chat>author} === 'user' ? 'End' : 'Start'}"
+                                                    class="sapUiSmallMargin">
+                                                    <VBox class="chatBubble {= ${chat>author} === 'user' ? 'userBubble' : 'assistantBubble'}">
+                                                        <Text text="{chat>sender}" class="sapUiTinyMarginBottom chatSender" />
+                                                        <FormattedText htmlText="{path: 'chat>text', formatter: '.formatter.formatMarkdownToHtml'}" />
                                                     </VBox>
                                                 </HBox>
                                             </CustomListItem>

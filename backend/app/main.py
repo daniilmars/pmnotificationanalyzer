@@ -8,8 +8,8 @@ import logging
 
 load_dotenv()
 
-from app.services.analysis_service import analyze_text, chat_with_assistant
-from app.models import AnalysisResponse
+from app.services.analysis_service import analyze_text, chat_with_assistant, generate_suggestion
+from app.models import AnalysisResponse, SuggestionRequest, Problem
 from app.config_manager import get_config, save_config
 # Removed: from app.auth import token_required # No longer needed
 
@@ -58,6 +58,37 @@ def analyze() -> Tuple[str, int]:
         }), 500
 
 
+@app.route('/api/suggest', methods=['POST'])
+def suggest() -> Tuple[str, int]:
+    data = request.get_json()
+    if not data or not data.get('notification') or not data.get('problem'):
+        return jsonify({
+            "error": {
+                "code": "BAD_REQUEST",
+                "message": "Missing 'notification' or 'problem' in request body"
+            }
+        }), 400
+
+    try:
+        # Validate and parse the request using Pydantic models
+        req = SuggestionRequest(
+            notification=data['notification'],
+            problem=Problem(**data['problem']),
+            language=data.get('language', 'en')
+        )
+        
+        suggestion_result = generate_suggestion(req.notification, req.problem, req.language)
+        return jsonify(suggestion_result.dict())
+    except Exception as e:
+        app.logger.exception("An unexpected error occurred during suggestion generation.")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": f"An unexpected error occurred: {str(e)}"
+            }
+        }), 500
+
+
 @app.route('/api/chat', methods=['POST'])
 def chat() -> Tuple[str, int]:
     data = request.get_json()
@@ -71,6 +102,7 @@ def chat() -> Tuple[str, int]:
 
     notification_data = data['notification']
     question = data['question']
+    history = data.get('history', []) # Get history, default to empty list
     language = data.get('language', 'en')
 
     try:
@@ -78,7 +110,7 @@ def chat() -> Tuple[str, int]:
         analysis_context = analyze_text(notification_data, language)
 
         # Then, call the chat assistant with the full context
-        chat_result = chat_with_assistant(notification_data, question, analysis_context, language)
+        chat_result = chat_with_assistant(notification_data, question, analysis_context, history, language)
         return jsonify(chat_result)
     except Exception as e:
         app.logger.exception("An unexpected error occurred during chat.")

@@ -3,6 +3,7 @@ ID: com.sap.pm.pmanalyzer
 version: 1.0.0
 
 modules:
+  # --------------------- APPFRAMEWORK MODULE ---------------------
   - name: pm-analyzer-approuter
     type: approuter.nodejs
     path: approuter
@@ -11,14 +12,11 @@ modules:
       memory: 512M
     requires:
       - name: pm-analyzer-destination
-    build-parameters:
-      requires:
-        - name: pm-analyzer-fiori-build
-          artifacts:
-            - "."
-          target-path: resources/
+      - name: pm-analyzer-html5-repo-host
+      - name: pm-analyzer-xsuaa
 
-  - name: pm-analyzer-fiori-build
+  # --------------------- UI MODULE ---------------------------
+  - name: pm-analyzer-fiori
     type: html5
     path: pm-analyzer-fiori
     build-parameters:
@@ -26,12 +24,12 @@ modules:
       commands:
         - npm install
         - npm run build:cf
-      supported-platforms: []
-    parameters:
-      memory: 1G
-      disk-quota: 1G
+    requires:
+      - name: pm-analyzer-xsuaa
+      - name: pm-analyzer-html5-repo-host
 
 resources:
+  # --------------------- SERVICES -----------------------------------
   - name: pm-analyzer-destination
     type: org.cloudfoundry.managed-service
     parameters:
@@ -48,7 +46,18 @@ resources:
                 Authentication: NoAuthentication
             existing_destinations_policy: update
 
-  - name: pm-analyzer-backend-app
-    type: org.cloudfoundry.existing-service
+  - name: pm-analyzer-html5-repo-host
+    type: org.cloudfoundry.managed-service
     parameters:
-      service-name: pm-analyzer-backend
+      service: html5-apps-repo
+      service-plan: app-host
+
+  - name: pm-analyzer-xsuaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: pm-analyzer-${space}
+        tenant-mode: dedicated

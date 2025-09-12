@@ -1,16 +1,18 @@
 {
-  "welcomeFile": "index.html",
-  "authenticationMethod": "none",
+  "welcomeFile": "/cp.portal",
+  "authenticationMethod": "route",
   "routes": [
     {
       "source": "^/api/(.*)$",
       "target": "/api/$1",
-      "destination": "pm-analyzer-backend"
+      "destination": "pm-analyzer-backend",
+      "authenticationType": "xsuaa"
     },
     {
-      "source": "^/(.*)$",
+      "source": "^(.*)$",
       "target": "$1",
-      "localDir": "resources/pm-analyzer-fiori/dist"
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
     }
   ]
 }

@@ -1,22 +1,4 @@
-/* Erhöht die Basis-Schriftgrösse der gesamten Anwendung */
-.sapUiBody {
-    font-size: 1.05rem; 
-}
-
-.priorityStatus {
-    font-size: 1.25rem;
-    font-weight: bold;
-}
-
-/* Erhöht die Basis-Schriftgrösse der gesamten Anwendung */
-.sapUiBody {
-    font-size: 1.05rem; 
-}
-
-.priorityStatus {
-    font-size: 1.25rem;
-    font-weight: bold;
-}
+/* Enter your custom styles here */
 
 /* --- START: Professional Timeline Styles --- */
 
@@ -44,7 +26,7 @@
     background-color: #107e3e; /* SAP Success Green */
     border-color: #0d6732; /* Darker Green */
 }
-.timelineStep[data-status="completed"] .timelineText,
+.timelineStep[data-tatus="completed"] .timelineText,
 .timelineStep[data-status="completed"] .sapUiIcon {
     color: white;
 }
@@ -71,3 +53,50 @@
     color: #666666; /* Medium Grey */
 }
 /* --- END: Professional Timeline Styles --- */
+
+/* --- START: Field Highlight Style --- */
+.fieldHighlight {
+    border: 2px solid #0a6ed1; /* SAP Info Blue */
+    background-color: #f0f8ff; /* A very light blue */
+    border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 0 5px #0a6ed1;
+}
+/* --- END: Field Highlight Style --- */
+
+/* --- START: Chat Bubble Styles --- */
+.chatContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100%; /* Fill the available height from the stretched tab content */
+}
+
+.chatBubble {
+    max-width: 80%;
+    padding: 0.5rem 0.75rem;
+    border-radius: 15px;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+}
+
+.userBubble {
+    background-color: #e7f2fa; /* Light SAP Blue */
+    border-top-right-radius: 0;
+}
+
+.assistantBubble {
+    background-color: #f3f3f3; /* Light Grey */
+    border-top-left-radius: 0;
+}
+
+.chatSender {
+    font-weight: bold;
+    font-size: 0.875rem;
+    color: #555;
+}
+
+.chatScrollContainer {
+    flex: 1 1 auto; /* Allow the scroll container to grow and shrink */
+    overflow-y: auto;
+    padding-bottom: 1rem; /* Add some space at the bottom */
+}
+/* --- END: Chat Bubble Styles --- */
