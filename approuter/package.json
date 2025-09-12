@@ -2,7 +2,9 @@
       "name": "pm-analyzer-approuter",
       "description": "Approuter for PM Notification Quality Analyzer",
       "dependencies": {
-        "@sap/approuter": "14.x.x"
+        "@sap/approuter": "14.x.x",
+        "@sap/xssec": "^3.0.0",
+        "@sap/html5-repo-client": "^1.0.0"
       },
       "scripts": {
         "start": "node node_modules/@sap/approuter/approuter.js"
