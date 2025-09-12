@@ -15,6 +15,20 @@
                 "uri": "./mock_data_en.json",
                 "type": "JSON"
             }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "intent1": {
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    },
+                    "semanticObject": "pmanalyzer",
+                    "action": "display",
+                    "title": "{{appTitle}}",
+                    "icon": "sap-icon://quality-issue"
+                }
+            }
         }
     },
     "sap.ui": {
