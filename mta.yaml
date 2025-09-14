@@ -20,7 +20,7 @@ modules:
     type: html5
     path: pm-analyzer-fiori
     parameters:
-      disk-quota: 256M
+      disk-quota: 1024M
       memory: 256M
       buildpack: nodejs_buildpack
       command: npm start
