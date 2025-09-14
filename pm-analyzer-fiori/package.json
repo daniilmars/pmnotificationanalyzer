@@ -26,6 +26,7 @@
   "devDependencies": {
     "@babel/eslint-parser": "7.14.7",
     "@sap/ui5-builder-webide-extension": "1.0.x",
+    "@sap/ux-ui5-tooling": "^1.0.0",
     "@ui5/cli": "^2.11.1",
     "eslint": "7.29.0",
     "mbt": "^1.0.15",
