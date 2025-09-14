@@ -27,9 +27,8 @@ modules:
       env:
         NPM_CONFIG_CACHE: /tmp/npm_cache
     build-parameters:
-      builder: custom
+      builder: npm
       commands:
-        - npm install
         - npm run build:cf
     requires:
       - name: pm-analyzer-xsuaa
