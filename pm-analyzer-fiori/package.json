@@ -23,10 +23,10 @@
   },
   "dependencies": {
     "rimraf": "^6.0.1",
-    "@ui5/cli": "^4.0.26"
+    "@ui5/cli": "^4.0.26",
+    "@babel/eslint-parser": "7.28.4"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.28.4",
     "@sap/ui5-builder-webide-extension": "^1.1.9",
     "@sap/ux-ui5-tooling": "^1.18.6",
     "eslint": "9.35.0",
