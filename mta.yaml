@@ -66,3 +66,8 @@ resources:
       config:
         xsappname: pm-analyzer-${space}
         tenant-mode: dedicated
+        oauth2-configuration:
+          grant-types:
+            - client_credentials
+            - authorization_code
+            - refresh_token
