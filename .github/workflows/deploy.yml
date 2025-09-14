@@ -73,8 +73,5 @@ jobs:
           mbt build -p=cf --mtar mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar
           mv mta_archives/mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar mta_archives/
 
-      - name: Stop Backend to Free Memory
-        run: cf stop pm-analyzer-backend
-
       - name: Deploy MTA Archive
         run: cf deploy mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar -f --retries 1
