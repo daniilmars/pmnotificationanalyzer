@@ -12,7 +12,7 @@ modules:
       memory: 512M
     requires:
       - name: pm-analyzer-destination
-      - name: pm-analyzer-html5-repo-host
+      - name: pm-analyzer-html5-repo-runtime
       - name: pm-analyzer-xsuaa
 
   # --------------------- UI MODULE ---------------------------
@@ -51,6 +51,12 @@ resources:
     parameters:
       service: html5-apps-repo
       service-plan: app-host
+
+  - name: pm-analyzer-html5-repo-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime
     requires:
       - name: pm-analyzer-xsuaa
 
