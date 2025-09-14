@@ -71,3 +71,4 @@ resources:
       config:
         xsappname: pm-analyzer-${space}
         tenant-mode: dedicated
+        timestamp: 1757854500
