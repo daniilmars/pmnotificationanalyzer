@@ -10,7 +10,6 @@
   ],
   "main": "webapp/index.html",
   "scripts": {
-    "preinstall": "rimraf webapp/libs",
     "start": "fiori run --open 'test/flpSandbox.html?sap-ui-xx-viewCache=false'",
     "start-local": "fiori run --config ./ui5-local.yaml --open 'test/flpSandbox.html?sap-ui-xx-viewCache=false'",
     "build": "ui5 build --clean-dest --config ui5.yaml",
@@ -26,9 +25,6 @@
     "@sap/ux-ui5-tooling": "1.*",
     "@ui5/cli": "^3.0.0",
     "ui5-task-zipper": "^0.5.0"
-  },
-  "dependencies": {
-    "rimraf": "^3.0.2"
   },
   "ui5": {
     "dependencies": [
