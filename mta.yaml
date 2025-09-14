@@ -22,6 +22,10 @@ modules:
     parameters:
       disk-quota: 256M
       memory: 256M
+      buildpack: nodejs_buildpack
+      command: npm start
+      env:
+        NPM_CONFIG_CACHE: /tmp/npm_cache
     build-parameters:
       builder: custom
       commands:
