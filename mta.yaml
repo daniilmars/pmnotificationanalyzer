@@ -8,8 +8,8 @@ modules:
     type: approuter.nodejs
     path: approuter
     parameters:
-      disk-quota: 512M
-      memory: 512M
+      disk-quota: 256M
+      memory: 256M
     requires:
       - name: pm-analyzer-destination
       - name: pm-analyzer-html5-repo-runtime
@@ -19,8 +19,6 @@ modules:
   - name: pm-analyzer-fiori
     type: html5
     path: pm-analyzer-fiori
-    parameters:
-      memory: 1024M
     build-parameters:
       builder: custom
       commands:
