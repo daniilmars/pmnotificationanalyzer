@@ -28,8 +28,7 @@ modules:
         NPM_CONFIG_CACHE: /tmp/npm_cache
     build-parameters:
       builder: npm
-      commands:
-        - npm run build:cf
+      build-target: build:cf
     requires:
       - name: pm-analyzer-xsuaa
       - name: pm-analyzer-html5-repo-host
