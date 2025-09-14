@@ -1,0 +1,323 @@
+Excellent! To get the application's URL, I'll list the running Cloud Foundry applications. This will show the
+  routes assigned to them.
+ ╭─────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+ │ ✓  Shell cf apps (Listing Cloud Foundry applications to find the URL of the deployed Fiori app.)        │
+ │                                                                                                         │
+ │    Getting apps in org dfa8bc11trial_trial3-f5tqczxd / space dev as daniilmarszallek@yahoo.de...        │
+ │                                                                                                         │
+ │    name                    requested state   processes   routes                                         │
+ │    pm-analyzer-approuter   started           web:1/1                                                    │
+ │    dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com            │
+ │    pm-analyzer-backend     started           web:1/1                                                    │
+ │    pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com                                            │
+ │    pm-analyzer-fiori       started           web:1/1                                                    │
+ │    dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-fiori.cfapps.us10-001.hana.ondemand.com                │
+ ╰─────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ The deployment was successful and all applications are running.
+
+  You can access the application through the approuter at the following URL:
+
+  https://dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com
+
+╭───────────────────────────────────────────╮
+│  > Welcome to trial3!                     │
+│    or sign in with:                       │
+│                                           │
+│    avczus0wf.trial-accounts.ondemand.com  │
+│    Default Identity Provider              │
+╰───────────────────────────────────────────╯
+
+✦ That's the expected login page for your SAP BTP application. The approuter is configured to protect your
+  application, so you need to authenticate to access it.
+
+  Click on Default Identity Provider and sign in with the same email and password you use for your SAP BTP trial
+  account. Once you're authenticated, you should be redirected to your Fiori application.
+
+╭─────────────────────────────────────────╮
+│  > 503 Service Temporarily Unavailable  │
+│                                         │
+│    openresty                            │
+╰─────────────────────────────────────────╯
+
+✦ A 503 error from the approuter usually means it can't reach one of the backend applications it's supposed to be
+  routing traffic to, in this case, likely the Fiori UI application.
+
+  Even though cf apps shows the Fiori app as "started," it might be crashing or failing to respond to requests.
+  The most direct way to diagnose this is to check the runtime logs for the approuter to see exactly which
+  connection is failing.
+ ╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+ │ ✓  Shell cf logs pm-analyzer-approuter --recent (Checking the recent logs for the `pm-analyzer-approuter` to dia… │
+ │                                                                                                                   │
+ │    ... first 368 lines hidden ...                                                                                 │
+ │    x_forwarded_proto:"https" vcap_request_id:"a971d9a4-a79e-4324-47a3-5464276278ba"                               │
+ │    response_time:0.016020 gorouter_time:0.000098 app_id:"18bda6f6-cb4a-4f85-a257-1af2e815cf27"                    │
+ │    app_index:"0" instance_id:"ded6dc5f-25fb-4a93-62e3-4e14" failed_attempts:0 failed_attempts_time:"-"            │
+ │    dns_time:0.000000 dial_time:0.001477 tls_time:0.007145 backend_time:0.015922                                   │
+ │    local_address:"10.0.129.9:1132" x_cf_routererror:"-" x_correlationid:"-" tenantid:"-"                          │
+ │    sap_passport:"-" x_scp_request_id:"fd733c41-1bf1-4ab1-a038-ccd944107768-68C730FD-1F1F7C7"                      │
+ │    x_cf_app_instance:"-" x_forwarded_host:"-" x_custom_host:"-" x_ssl_client:"-"                                  │
+ │    x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-"                                │
+ │    x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-"                              │
+ │    x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-"                            │
+ │    x_cf_true_client_ip:"31.165.131.254" x_request_id:"-"                                                          │
+ │    x_b3_traceid:"a971d9a4a79e432447a35464276278ba" x_b3_spanid:"47a35464276278ba"                                 │
+ │    x_b3_parentspanid:"-" b3:"a971d9a4a79e432447a35464276278ba-47a35464276278ba"                                   │
+ │       2025-09-14T23:17:50.30+0200 [APP/PROC/WEB/0] OUT                                                            │
+ │    {"written_at":"2025-09-14T21:17:50.299Z","written_ts":1757884670299000000,"csn_component":"-","corr            │
+ │    elation_id":"5f984ae1-50c3-4b63-45fa-f76446f4ccde","type":"log","logger":"nodejs-logger","layer":"/            │
+ │    Dynamic                                                                                                        │
+ │    routing","level":"warning","container_id":"10.32.2.6","component_type":"application","component_id"            │
+ │    :"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instanc            │
+ │    e":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_n            │
+ │    ame":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name"            │
+ │    :"dev","request_id":"5f984ae1-50c3-4b63-45fa-f76446f4ccde","msg":"Service Tag cp is unknown"}                  │
+ │       2025-09-14T23:17:50.30+0200 [APP/PROC/WEB/0] OUT                                                            │
+ │    {"written_at":"2025-09-14T21:17:50.307Z","written_ts":1757884670307000000,"csn_component":"-","corr            │
+ │    elation_id":"5f984ae1-50c3-4b63-45fa-f76446f4ccde","type":"log","logger":"nodejs-logger","layer":"/            │
+ │    Auth/OAuth2","level":"info","container_id":"10.32.2.6","component_type":"application","component_id            │
+ │    ":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instan            │
+ │    ce":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_            │
+ │    name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name            │
+ │    ":"dev","request_id":"5f984ae1-50c3-4b63-45fa-f76446f4ccde","msg":"query does not exist for request            │
+ │    url /cp.portal"}                                                                                               │
+ │       2025-09-14T23:17:50.30+0200 [APP/PROC/WEB/0] OUT                                                            │
+ │    {"written_at":"2025-09-14T21:17:50.308Z","written_ts":1757884670308000000,"csn_component":"-","corr            │
+ │    elation_id":"5f984ae1-50c3-4b63-45fa-f76446f4ccde","type":"log","logger":"nodejs-logger","layer":"/            │
+ │    Auth/OAuth2","level":"info","container_id":"10.32.2.6","component_type":"application","component_id            │
+ │    ":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instan            │
+ │    ce":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_            │
+ │    name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name            │
+ │    ":"dev","request_id":"5f984ae1-50c3-4b63-45fa-f76446f4ccde","msg":"sending page with client-side               │
+ │    redirect to                                                                                                    │
+ │    https://trial3-f5tqczxd.authentication.us10.hana.ondemand.com/oauth/authorize?response_type=code&cl            │
+ │    ient_id=sb-pm-analyzer-dev!t490740&redirect_uri=https%3A%2F%2Fdfa8bc11trial-trial3-f5tqczxd-dev-pm-            │
+ │    analyzer-approuter.cfapps.us10-001.hana.ondemand.com%2Flogin%2Fcallback"}                                      │
+ │       2025-09-14T23:17:50.30+0200 [APP/PROC/WEB/0] OUT                                                            │
+ │    {"written_at":"2025-09-14T21:17:50.308Z","written_ts":1757884670308000000,"csn_component":"-","corr            │
+ │    elation_id":"5f984ae1-50c3-4b63-45fa-f76446f4ccde","type":"log","logger":"nodejs-logger","layer":"/            │
+ │    Auth/OAuth2","level":"info","container_id":"10.32.2.6","component_type":"application","component_id            │
+ │    ":"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instan            │
+ │    ce":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_            │
+ │    name":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name            │
+ │    ":"dev","request_id":"5f984ae1-50c3-4b63-45fa-f76446f4ccde","msg":"x-forwarded-path header:                    │
+ │    undefined"}                                                                                                    │
+ │       2025-09-14T23:17:50.31+0200 [RTR/3] OUT                                                                     │
+ │    dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com -                    │
+ │    [2025-09-14T21:17:50.296096758Z] "GET /cp.portal HTTP/2.0" 200 0 741 "-" "Mozilla/5.0 (Macintosh;              │
+ │    Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Safari/605.1.15"                 │
+ │    "10.0.136.0:28906" "10.32.2.6:61197" x_forwarded_for:"31.165.131.254, 10.0.136.0"                              │
+ │    x_forwarded_proto:"https" vcap_request_id:"5f984ae1-50c3-4b63-45fa-f76446f4ccde"                               │
+ │    response_time:0.016297 gorouter_time:0.000204 app_id:"18bda6f6-cb4a-4f85-a257-1af2e815cf27"                    │
+ │    app_index:"0" instance_id:"ded6dc5f-25fb-4a93-62e3-4e14" failed_attempts:0 failed_attempts_time:"-"            │
+ │    dns_time:0.000000 dial_time:0.000000 tls_time:0.000000 backend_time:0.016093                                   │
+ │    local_address:"10.0.129.9:1132" x_cf_routererror:"-" x_correlationid:"-" tenantid:"-"                          │
+ │    sap_passport:"-" x_scp_request_id:"fd733c41-1bf1-4ab1-a038-ccd944107768-68C730FE-1F1F841"                      │
+ │    x_cf_app_instance:"-" x_forwarded_host:"-" x_custom_host:"-" x_ssl_client:"-"                                  │
+ │    x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-"                                │
+ │    x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-"                              │
+ │    x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-"                            │
+ │    x_cf_true_client_ip:"31.165.131.254" x_request_id:"-"                                                          │
+ │    x_b3_traceid:"5f984ae150c34b6345faf76446f4ccde" x_b3_spanid:"45faf76446f4ccde"                                 │
+ │    x_b3_parentspanid:"-" b3:"5f984ae150c34b6345faf76446f4ccde-45faf76446f4ccde"                                   │
+ │       2025-09-14T23:18:27.54+0200 [RTR/5] OUT                                                                     │
+ │    dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com -                    │
+ │    [2025-09-14T21:18:27.365684698Z] "GET /login/callback?code=FjC5PwCyWCHtFTWzRorMMoAQ3NGScrit                    │
+ │    HTTP/1.1" 302 0 0 "https://trial3-f5tqczxd.authentication.us10.hana.ondemand.com/" "Mozilla/5.0                │
+ │    (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6                      │
+ │    Safari/605.1.15" "10.0.200.0:55358" "10.32.2.6:61197" x_forwarded_for:"31.165.131.254, 10.0.200.0"             │
+ │    x_forwarded_proto:"https" vcap_request_id:"2b4d831a-e258-4019-5e39-0ee2d5e5495d"                               │
+ │    response_time:0.179645 gorouter_time:0.000036 app_id:"18bda6f6-cb4a-4f85-a257-1af2e815cf27"                    │
+ │    app_index:"0" instance_id:"ded6dc5f-25fb-4a93-62e3-4e14" failed_attempts:0 failed_attempts_time:"-"            │
+ │    dns_time:0.000000 dial_time:0.001448 tls_time:0.006322 backend_time:0.179609                                   │
+ │    local_address:"10.0.193.9:48574" x_cf_routererror:"-" x_correlationid:"-" tenantid:"-"                         │
+ │    sap_passport:"-" x_scp_request_id:"b1bac601-4387-4b09-ba7a-acad05197d33-68C73123-262FDE4"                      │
+ │    x_cf_app_instance:"-" x_forwarded_host:"-" x_custom_host:"-" x_ssl_client:"-"                                  │
+ │    x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-"                                │
+ │    x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-"                              │
+ │    x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-"                            │
+ │    x_cf_true_client_ip:"31.165.131.254" x_request_id:"-"                                                          │
+ │    x_b3_traceid:"2b4d831ae25840195e390ee2d5e5495d" x_b3_spanid:"5e390ee2d5e5495d"                                 │
+ │    x_b3_parentspanid:"-" b3:"2b4d831ae25840195e390ee2d5e5495d-5e390ee2d5e5495d"                                   │
+ │       2025-09-14T23:18:27.73+0200 [APP/PROC/WEB/0] OUT                                                            │
+ │    {"written_at":"2025-09-14T21:18:27.732Z","written_ts":1757884707732000000,"csn_component":"-","corr            │
+ │    elation_id":"d7208e7f-4e41-4d72-4062-e9874ac45c02","type":"log","logger":"nodejs-logger","layer":"/            │
+ │    Dynamic                                                                                                        │
+ │    routing","level":"warning","container_id":"10.32.2.6","component_type":"application","component_id"            │
+ │    :"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instanc            │
+ │    e":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_n            │
+ │    ame":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name"            │
+ │    :"dev","request_id":"d7208e7f-4e41-4d72-4062-e9874ac45c02","msg":"Service Tag cp is unknown"}                  │
+ │       2025-09-14T23:18:27.73+0200 [APP/PROC/WEB/0] OUT                                                            │
+ │    {"written_at":"2025-09-14T21:18:27.738Z","written_ts":1757884707738000000,"csn_component":"-","corr            │
+ │    elation_id":"d7208e7f-4e41-4d72-4062-e9874ac45c02","type":"log","logger":"nodejs-logger","layer":"/            │
+ │    headers.js","level":"info","container_id":"10.32.2.6","component_type":"application","component_id"            │
+ │    :"18bda6f6-cb4a-4f85-a257-1af2e815cf27","component_name":"pm-analyzer-approuter","component_instanc            │
+ │    e":-1,"source_instance":-1,"organization_id":"ab7a29ac-1130-48ba-a624-5e0a08420581","organization_n            │
+ │    ame":"dfa8bc11trial_trial3-f5tqczxd","space_id":"b24713e8-451f-4ce5-9153-4f564d24117b","space_name"            │
+ │    :"dev","request_id":"d7208e7f-4e41-4d72-4062-e9874ac45c02","msg":"Sending client credentials token             │
+ │    for service html5-apps-repo-rt"}                                                                               │
+ │       2025-09-14T23:18:27.92+0200 [RTR/4] OUT                                                                     │
+ │    dfa8bc11trial-trial3-f5tqczxd-dev-pm-analyzer-approuter.cfapps.us10-001.hana.ondemand.com -                    │
+ │    [2025-09-14T21:18:27.720658999Z] "GET /cp.portal HTTP/1.1" 503 0 194                                           │
+ │    "https://trial3-f5tqczxd.authentication.us10.hana.ondemand.com/" "Mozilla/5.0 (Macintosh; Intel Mac            │
+ │    OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.6 Safari/605.1.15"                           │
+ │    "10.0.200.0:18452" "10.32.2.6:61197" x_forwarded_for:"31.165.131.254, 10.0.200.0"                              │
+ │    x_forwarded_proto:"https" vcap_request_id:"d7208e7f-4e41-4d72-4062-e9874ac45c02"                               │
+ │    response_time:0.199399 gorouter_time:0.000039 app_id:"18bda6f6-cb4a-4f85-a257-1af2e815cf27"                    │
+ │    app_index:"0" instance_id:"ded6dc5f-25fb-4a93-62e3-4e14" failed_attempts:0 failed_attempts_time:"-"            │
+ │    dns_time:0.000000 dial_time:0.001521 tls_time:0.007328 backend_time:0.199359                                   │
+ │    local_address:"10.0.193.8:15026" x_cf_routererror:"-" x_correlationid:"-" tenantid:"-"                         │
+ │    sap_passport:"-" x_scp_request_id:"b1bac601-4387-4b09-ba7a-acad05197d33-68C73123-262FE58"                      │
+ │    x_cf_app_instance:"-" x_forwarded_host:"-" x_custom_host:"-" x_ssl_client:"-"                                  │
+ │    x_ssl_client_session_id:"-" x_ssl_client_verify:"-" x_ssl_client_subject_dn:"-"                                │
+ │    x_ssl_client_subject_cn:"-" x_ssl_client_issuer_dn:"-" x_ssl_client_notbefore:"-"                              │
+ │    x_ssl_client_notafter:"-" x_cf_forwarded_url:"-" traceparent:"-" true_client_ip:"-"                            │
+ │    x_cf_true_client_ip:"31.165.131.254" x_request_id:"-"                                                          │
+ │    x_b3_traceid:"d7208e7f4e414d724062e9874ac45c02" x_b3_spanid:"4062e9874ac45c02"                                 │
+ │    x_b3_parentspanid:"-" b3:"d7208e7f4e414d724062e9874ac45c02-4062e9874ac45c02"                                   │
+ ╰───────────────────────────────────────────────────────────────────────────────────────────────────────────────────╯
+✦ The approuter logs don't show a connection error, which is good. Instead, they show a successful startup and then
+  a series of authentication-related messages, which is normal.
+
+  The key lines are:
+   - Application router is listening on port: 8080
+   - Container became healthy
+   - A GET / request with a 302 redirect, which is the redirect to the login page.
+   - A GET /login/callback request, also with a 302, which is the redirect after a successful login.
+   - Finally, a GET /cp.portal request that results in a 503.
+
+  The 503 on /cp.portal is the problem. This is the default entry point for Fiori Launchpad applications. The
+  approuter is trying to load the Fiori app, but it's failing.
+
+  Since the approuter itself is running, the issue must be with the Fiori application. Let's check its logs to
+  see what's happening when the approuter tries to connect.
+ ╭───────────────────────────────────────────────────────────────────────────────────────────────────────────────────╮
+ │ ✓  Shell cf logs pm-analyzer-fiori --recent (Checking the recent logs for the `pm-analyzer-fiori` application to… │
+ │                                                                                                                   │
+ │    ... first 1215 lines hidden ...                                                                                │
+ │       2025-09-14T23:13:47.52+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 creating                 │
+ │    container for instance b19323d7-22c2-4b6a-7ef6-3f13                                                            │
+ │       2025-09-14T23:13:48.06+0200 [CELL/0] OUT Security group rules were updated                                  │
+ │       2025-09-14T23:13:48.14+0200 [CELL/0] OUT Cell 77283d80-dfa7-40ba-ba4e-265aef112085 successfully             │
+ │    created container for instance b19323d7-22c2-4b6a-7ef6-3f13                                                    │
+ │       2025-09-14T23:13:48.43+0200 [CELL/0] OUT Downloading droplet...                                             │
+ │       2025-09-14T23:13:48.53+0200 [STG/0] OUT Cell d1cc041a-d5a1-41d6-b9f6-6cda736ce3f0 successfully              │
+ │    destroyed container for instance 80b6fe0c-2e88-4bd2-a4d7-d962b119fc9a                                          │
+ │       2025-09-14T23:13:53.82+0200 [CELL/0] OUT Cell 684caff8-89cd-492b-be01-b3d0835f1763 destroying               │
+ │    container for instance 3636851a-d005-46cf-4104-91b4                                                            │
+ │       2025-09-14T23:13:53.94+0200 [PROXY/0] OUT Exit status 137                                                   │
+ │       2025-09-14T23:13:56.76+0200 [CELL/0] OUT Downloaded droplet (117.5M)                                        │
+ │       2025-09-14T23:13:56.76+0200 [CELL/0] OUT Starting health monitoring of container                            │
+ │       2025-09-14T23:13:56.83+0200 [APP/PROC/WEB/0] OUT Invoking pre-start scripts.                                │
+ │       2025-09-14T23:13:57.01+0200 [APP/PROC/WEB/0] OUT Invoking start command.                                    │
+ │       2025-09-14T23:13:57.37+0200 [APP/PROC/WEB/0] OUT > com.sap.pm.pmanalyzerfiori@0.0.1 start                   │
+ │       2025-09-14T23:13:57.37+0200 [APP/PROC/WEB/0] OUT > ui5 serve --accept-remote-connections --port             │
+ │    8080                                                                                                           │
+ │       2025-09-14T23:13:58.47+0200 [CELL/0] OUT Cell 684caff8-89cd-492b-be01-b3d0835f1763 successfully             │
+ │    destroyed container for instance 3636851a-d005-46cf-4104-91b4                                                  │
+ │       2025-09-14T23:13:58.49+0200 [APP/PROC/WEB/0] ERR info graph:helpers:ui5Framework Using SAPUI5               │
+ │    version: 1.120.13                                                                                              │
+ │       2025-09-14T23:13:58.49+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @sapui5/distribution-metadata...                                                               │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @openui5/sap.ui.core...                                                                        │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @openui5/sap.ui.layout...                                                                      │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @openui5/sap.ui.fl...                                                                          │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @openui5/themelib_sap_horizon...                                                               │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @openui5/sap.m...                                                                              │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @openui5/sap.ui.unified...                                                                     │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @sapui5/sap.esh.search.ui...                                                                   │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @sapui5/sap.ui.comp...                                                                         │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @sapui5/sap.ushell...                                                                          │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @sapui5/sap.ui.generic.app...                                                                  │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @openui5/sap.ui.integration...                                                                 │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @sapui5/sap.collaboration...                                                                   │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @sapui5/sap.suite.ui.microchart...                                                             │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @openui5/sap.f...                                                                              │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @openui5/sap.ui.table...                                                                       │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @sapui5/sap.suite.ui.commons...                                                                │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @sapui5/sap.chart...                                                                           │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @sapui5/sap.ui.export...                                                                       │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @sapui5/sap.ui.vbm...                                                                          │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @openui5/sap.ui.mdc...                                                                         │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @sapui5/sap.ui.vk...                                                                           │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @openui5/sap.ui.commons...                                                                     │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @sapui5/sap.ui.richtexteditor...                                                               │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @sapui5/sap.viz...                                                                             │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @openui5/sap.ui.ux3...                                                                         │
+ │       2025-09-14T23:13:59.02+0200 [APP/PROC/WEB/0] ERR info ui5Framework:npm:Installer Installing                 │
+ │    missing package @sapui5/sap.fe.navigation...                                                                   │
+ │       2025-09-14T23:14:09.74+0200 [APP/PROC/WEB/0] OUT info fiori-tools-appreload Livereload                      │
+ │    middleware started for port 35729 and path /home/vcap/app/webapp                                               │
+ │       2025-09-14T23:14:10.30+0200 [APP/PROC/WEB/0] OUT info fiori-tools-proxy Starting                            │
+ │    fiori-tools-proxy using following configuration:                                                               │
+ │       2025-09-14T23:14:10.30+0200 [APP/PROC/WEB/0] OUT info fiori-tools-proxy proxy: 'undefined'                  │
+ │       2025-09-14T23:14:10.30+0200 [APP/PROC/WEB/0] OUT info fiori-tools-proxy ignoreCertErrors:                   │
+ │    'false'                                                                                                        │
+ │       2025-09-14T23:14:10.30+0200 [APP/PROC/WEB/0] OUT info fiori-tools-proxy backend:                            │
+ │    [{"path":"/api","url":"http://localhost:5001"}]                                                                │
+ │       2025-09-14T23:14:10.30+0200 [APP/PROC/WEB/0] OUT info fiori-tools-proxy ui5: []                             │
+ │       2025-09-14T23:14:10.30+0200 [APP/PROC/WEB/0] OUT info fiori-tools-proxy debug: 'false'                      │
+ │       2025-09-14T23:14:10.36+0200 [APP/PROC/WEB/0] OUT warn backend-proxy-middleware libsecret-1.so.0:            │
+ │    cannot open shared object file: No such file or directory                                                      │
+ │       2025-09-14T23:14:10.36+0200 [APP/PROC/WEB/0] OUT info backend-proxy-middleware Attempting to                │
+ │    load Zowe secrets SDK from fallback locations.                                                                 │
+ │       2025-09-14T23:14:10.36+0200 [APP/PROC/WEB/0] OUT info backend-proxy-middleware Discovered                   │
+ │    fallback directories: []                                                                                       │
+ │       2025-09-14T23:14:10.36+0200 [APP/PROC/WEB/0] OUT warn backend-proxy-middleware Unable to load               │
+ │    Zowe secrets SDK from any location.                                                                            │
+ │       2025-09-14T23:14:10.36+0200 [APP/PROC/WEB/0] OUT warn backend-proxy-middleware Dummy store.                 │
+ │    Trying to retrieve for service: fiori/v2/system, key: http://localhost:5001                                    │
+ │       2025-09-14T23:14:10.40+0200 [APP/PROC/WEB/0] OUT warn backend-proxy-middleware libsecret-1.so.0:            │
+ │    cannot open shared object file: No such file or directory                                                      │
+ │       2025-09-14T23:14:10.40+0200 [APP/PROC/WEB/0] OUT info backend-proxy-middleware Attempting to                │
+ │    load Zowe secrets SDK from fallback locations.                                                                 │
+ │       2025-09-14T23:14:10.40+0200 [APP/PROC/WEB/0] OUT info backend-proxy-middleware Discovered                   │
+ │    fallback directories: []                                                                                       │
+ │       2025-09-14T23:14:10.40+0200 [APP/PROC/WEB/0] OUT warn backend-proxy-middleware Unable to load               │
+ │    Zowe secrets SDK from any location.                                                                            │
+ │       2025-09-14T23:14:10.40+0200 [APP/PROC/WEB/0] OUT warn backend-proxy-middleware Dummy store.                 │
+ │    Trying to retrieve for service: fiori/v2/system, key: http://localhost:5001                                    │
+ │       2025-09-14T23:14:10.41+0200 [APP/PROC/WEB/0] OUT info backend-proxy-middleware Backend proxy                │
+ │    created for http://localhost:5001 /api                                                                         │
+ │       2025-09-14T23:14:10.41+0200 [APP/PROC/WEB/0] ERR ⚠️  This server is accepting connections from             │
+ │    all hosts on your network                                                                                      │
+ │       2025-09-14T23:14:10.41+0200 [APP/PROC/WEB/0] ERR Please Note:                                               │
+ │       2025-09-14T23:14:10.41+0200 [APP/PROC/WEB/0] ERR * This server is intended for development                  │
+ │    purposes only. Do not use it in production.                                                                    │
+ │       2025-09-14T23:14:10.41+0200 [APP/PROC/WEB/0] ERR * Vulnerable (custom-)middleware can pose a                │
+ │    threat to your system when exposed to the network                                                              │
+ │       2025-09-14T23:14:10.41+0200 [APP/PROC/WEB/0] ERR * The use of proxy-middleware with                         │
+ │    preconfigured credentials might enable unauthorized access to a target system for third parties on             │
+ │    your network                                                                                                   │
+ │       2025-09-14T23:14:10.41+0200 [APP/PROC/WEB/0] OUT Server started                                             │
+ │       2025-09-14T23:14:10.41+0200 [APP/PROC/WEB/0] OUT URL: http://localhost:8080                                 │
+ │       2025-09-14T23:14:11.05+0200 [CELL/0] OUT Container became healthy                                           │
+ │       2025-09-14T23:14:11.07+0200 [API/2] OUT Process became ready with guid                                      │
+ │    50d1653a-6be6-41c3-a08e-6871a970747e payload: {"instance"=>"b19323d7-22c2-4b6a-7ef6-3f13",                     │
+ │    "index"=>0, "cell_id"=>"77283d80-dfa7-40ba-ba4e-265aef112085", "ready"=>true,                                  │
+ │    "version"=>"842f221c-3113-4b58-babb-7f504e01d370"}                     

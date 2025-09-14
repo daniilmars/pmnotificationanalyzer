@@ -23,6 +23,7 @@ modules:
       disk-quota: 1024M
       memory: 256M
       buildpack: nodejs_buildpack
+      command: npm run start:cf
       env:
         NPM_CONFIG_CACHE: /tmp/npm_cache
     build-parameters:
