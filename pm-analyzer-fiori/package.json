@@ -29,7 +29,7 @@
     "@ui5/cli": "^2.11.1",
     "eslint": "7.29.0",
     "mbt": "^1.0.15",
-    "ui5-middleware-cfdestination": "^0.7.4",
+    "ui5-middleware-cfdestination": "^3.3.11",
     "ui5-middleware-livereload": "^0.5.4",
     "ui5-middleware-simpleproxy": "^0.8.2"
   },
