@@ -1,11 +1,11 @@
 {
-  "welcomeFile": "/com-sap-pm-pmanalyzerfiori/index.html",
+  "welcomeFile": "/com.sap.pm.pmanalyzerfiori/index.html",
   "authenticationMethod": "route",
   "routes": [
     {
       "source": "^/api/(.*)$",
       "target": "/api/$1",
-      "destination": "pm-analyzer-backend",
+      "destination": "pm-analyzer-backend-url",
       "authenticationType": "xsuaa"
     },
     {
