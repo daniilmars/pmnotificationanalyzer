@@ -1,5 +1,5 @@
 {
-  "welcomeFile": "/com.sap.pm.pmanalyzerfiori/index.html",
+  "welcomeFile": "/com-sap-pm-pmanalyzerfiori/index.html",
   "authenticationMethod": "route",
   "routes": [
     {
