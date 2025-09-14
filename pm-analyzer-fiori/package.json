@@ -10,7 +10,6 @@
   ],
   "main": "webapp/index.html",
   "scripts": {
-    "start": "fiori run --open 'test/flpSandbox.html?sap-ui-xx-viewCache=false'",
     "start-local": "fiori run --config ./ui5-local.yaml --open 'test/flpSandbox.html?sap-ui-xx-viewCache=false'",
     "build": "ui5 build --clean-dest --config ui5.yaml",
     "deploy": "fiori verify",
