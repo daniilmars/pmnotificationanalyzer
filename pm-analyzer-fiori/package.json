@@ -20,7 +20,8 @@
     "start-mock": "fiori run --config ./ui5-mock.yaml --open 'test/flpSandbox.html?sap-ui-xx-viewCache=false'",
     "start-noflp": "fiori run --open 'index.html?sap-ui-xx-viewCache=false'"
   },
-      "rimraf": "^3.0.2"
+  "dependencies": {
+    "rimraf": "^3.0.2"
   },
   "devDependencies": {
     "@babel/eslint-parser": "7.14.7",
