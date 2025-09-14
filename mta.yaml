@@ -51,6 +51,8 @@ resources:
     parameters:
       service: html5-apps-repo
       service-plan: app-host
+      config:
+        grant_type: client_credentials
 
   - name: pm-analyzer-xsuaa
     type: org.cloudfoundry.managed-service
