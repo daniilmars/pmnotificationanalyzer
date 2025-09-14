@@ -11,6 +11,7 @@ node_modules/
 dist/
 build/
 .cache/
+approuter/package-lock.json
 
 # SAP Fiori/UI5
 resources/
@@ -24,6 +25,7 @@ target/ # Output of mbt build
 
 # Logs and temporary files
 *.log
+approuter-logs.txt
 *.tmp
 *.bak
 *.swp
