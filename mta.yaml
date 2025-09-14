@@ -51,8 +51,11 @@ resources:
     parameters:
       service: html5-apps-repo
       service-plan: app-host
+      service-tags:
+        - xsuaa-binding
       config:
         xsuaa-service-name: pm-analyzer-xsuaa
+        appName: pm-analyzer-fiori
 
   - name: pm-analyzer-xsuaa
     type: org.cloudfoundry.managed-service
