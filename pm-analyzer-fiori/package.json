@@ -21,18 +21,18 @@
     "start-noflp": "fiori run --open 'index.html?sap-ui-xx-viewCache=false'"
   },
   "dependencies": {
-    "rimraf": "^3.0.2"
+    "rimraf": "^6.0.1"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "7.14.7",
-    "@sap/ui5-builder-webide-extension": "1.0.x",
-    "@sap/ux-ui5-tooling": "^1.0.0",
-    "@ui5/cli": "^2.11.1",
-    "eslint": "7.29.0",
-    "mbt": "^1.0.15",
+    "@babel/eslint-parser": "7.28.4",
+    "@sap/ui5-builder-webide-extension": "^1.1.9",
+    "@sap/ux-ui5-tooling": "^1.18.6",
+    "@ui5/cli": "^4.0.26",
+    "eslint": "9.35.0",
+    "mbt": "^1.2.34",
     "ui5-middleware-cfdestination": "^3.3.11",
-    "ui5-middleware-livereload": "^0.5.4",
-    "ui5-middleware-simpleproxy": "^0.8.2"
+    "ui5-middleware-livereload": "^3.1.2",
+    "ui5-middleware-simpleproxy": "^3.4.3"
   },
   "ui5": {
     "dependencies": [
