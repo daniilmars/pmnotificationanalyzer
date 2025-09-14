@@ -19,6 +19,8 @@ modules:
   - name: pm-analyzer-fiori
     type: html5
     path: pm-analyzer-fiori
+    parameters:
+      memory: 512M
     build-parameters:
       builder: custom
       commands:
