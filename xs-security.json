@@ -25,6 +25,9 @@
       "client_credentials",
       "authorization_code",
       "refresh_token"
+    ],
+    "redirect-uris": [
+      "https://*-approuter.cfapps.us10-001.hana.ondemand.com/**"
     ]
   }
 }
