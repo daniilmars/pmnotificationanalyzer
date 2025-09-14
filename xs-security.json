@@ -16,5 +16,13 @@
         "uaa.user"
       ]
     }
-  ]
+  ],
+  "oauth2-configuration": {
+    "credential-types": [
+      "binding-secret"
+    ],
+    "grant-types": [
+      "client_credentials"
+    ]
+  }
 }
