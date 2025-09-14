@@ -20,6 +20,7 @@ modules:
     type: html5
     path: pm-analyzer-fiori
     parameters:
+      disk-quota: 256M
       memory: 512M
     build-parameters:
       builder: custom
