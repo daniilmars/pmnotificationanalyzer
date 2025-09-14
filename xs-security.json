@@ -1,5 +1,5 @@
 {
-  "xsappname": "pm-analyzer",
+  "xsappname": "pm-analyzer-new",
   "tenant-mode": "dedicated",
   "description": "Security profile for PM Notification Analyzer",
   "scopes": [
