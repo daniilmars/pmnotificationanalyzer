@@ -1,5 +1,5 @@
 {
-  "welcomeFile": "/cp.portal",
+  "welcomeFile": "/com.sap.pm.pmanalyzer/index.html",
   "authenticationMethod": "route",
   "routes": [
     {
