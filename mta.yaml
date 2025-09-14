@@ -51,9 +51,6 @@ resources:
     parameters:
       service: html5-apps-repo
       service-plan: app-host
-      # Adding a timestamp to force a service binding update
-      config:
-        timestamp: 1757852000 
     requires:
       - name: pm-analyzer-xsuaa
 
