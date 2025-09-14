@@ -19,7 +19,7 @@
     "build:mta": "rimraf resources webapp/resources webapp/test-resources dist && mbt build --mtar archive",
     "start-mock": "fiori run --config ./ui5-mock.yaml --open 'test/flpSandbox.html?sap-ui-xx-viewCache=false'",
     "start-noflp": "fiori run --open 'index.html?sap-ui-xx-viewCache=false'",
-    "start": "node node_modules/@sap/approuter/approuter.js"
+    "start": "ui5 serve --port 8080"
   },
   "dependencies": {
     "rimraf": "^6.0.1"
