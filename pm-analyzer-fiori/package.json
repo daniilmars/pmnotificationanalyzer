@@ -20,10 +20,17 @@
     "start-mock": "fiori run --config ./ui5-mock.yaml --open 'test/flpSandbox.html?sap-ui-xx-viewCache=false'",
     "start-noflp": "fiori run --open 'index.html?sap-ui-xx-viewCache=false'"
   },
+      "rimraf": "^3.0.2"
+  },
   "devDependencies": {
-    "@sap/ux-ui5-tooling": "1.*",
-    "@ui5/cli": "^3.0.0",
-    "ui5-task-zipper": "^0.5.0"
+    "@babel/eslint-parser": "7.14.7",
+    "@sap/ui5-builder-webide-extension": "1.0.x",
+    "@ui5/cli": "^2.11.1",
+    "eslint": "7.29.0",
+    "mbt": "^1.0.15",
+    "ui5-middleware-cfdestination": "^0.7.4",
+    "ui5-middleware-livereload": "^0.5.4",
+    "ui5-middleware-simpleproxy": "^0.8.2"
   },
   "ui5": {
     "dependencies": [
