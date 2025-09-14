@@ -12,8 +12,8 @@ modules:
       memory: 512M
     requires:
       - name: pm-analyzer-destination
-      - name: pm-analyzer-html5-repo-host
-      - name: pm-analyzer-xsuaa
+      - name: pm-analyzer-html5-repo-host-new
+      - name: pm-analyzer-xsuaa-new
 
   # --------------------- UI MODULE ---------------------------
   - name: pm-analyzer-fiori
@@ -25,8 +25,8 @@ modules:
         - npm install
         - npm run build:cf
     requires:
-      - name: pm-analyzer-xsuaa
-      - name: pm-analyzer-html5-repo-host
+      - name: pm-analyzer-xsuaa-new
+      - name: pm-analyzer-html5-repo-host-new
 
 resources:
   # --------------------- SERVICES -----------------------------------
@@ -46,15 +46,15 @@ resources:
                 Authentication: NoAuthentication
             existing_destinations_policy: update
 
-  - name: pm-analyzer-html5-repo-host
+  - name: pm-analyzer-html5-repo-host-new
     type: org.cloudfoundry.managed-service
     parameters:
       service: html5-apps-repo
       service-plan: app-host
     requires:
-      - name: pm-analyzer-xsuaa
+      - name: pm-analyzer-xsuaa-new
 
-  - name: pm-analyzer-xsuaa
+  - name: pm-analyzer-xsuaa-new
     type: org.cloudfoundry.managed-service
     parameters:
       service: xsuaa
