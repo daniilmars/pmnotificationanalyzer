@@ -26,4 +26,4 @@ server:
       configuration:
         backend:
           - path: /api
-            url: http://localhost:5001
+            destination: pm-analyzer-backend
