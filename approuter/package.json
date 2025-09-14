@@ -1,13 +1,10 @@
-    {
-      "name": "pm-analyzer-approuter",
-      "description": "Approuter for PM Notification Quality Analyzer",
-      "dependencies": {
-        "@sap/approuter": "^14.0.0",
-        "@sap/xssec": "^3.6.1",
-        "@sap/html5-app-deployer": "5.0.0"
-      },
-      "scripts": {
-        "start": "node node_modules/@sap/approuter/approuter.js"
-      }
-    }
-    
+{
+  "name": "pm-analyzer-approuter",
+  "description": "Approuter for PM Notification Quality Analyzer",
+  "dependencies": {
+    "@sap/approuter": "^14.0.0"
+  },
+  "scripts": {
+    "start": "node node_modules/@sap/approuter/approuter.js"
+  }
+}
