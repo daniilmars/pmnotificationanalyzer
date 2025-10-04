@@ -66,6 +66,14 @@ jobs:
         # This replaces the old "cf start" step.
         run: cf restage pm-analyzer-backend
 
+      - name: Get Backend App URL
+        id: backend-url
+        run: |
+          BACKEND_URL=$(cf app pm-analyzer-backend | grep routes | awk '{print $2}')
+          echo "backend-url=https://
+          $BACKEND_URL" >> $GITHUB_ENV
+
+
       # --- MTA steps for frontend remain the same ---
       - name: Build MTA Archive
         run: |
@@ -74,4 +82,9 @@ jobs:
           mv mta_archives/mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar mta_archives/
 
       - name: Deploy MTA Archive
-        run: cf deploy mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar -f --retries 1
+        run: |
+          echo "ID: com.sap.pm.pmanalyzer" > mta_ext.mtaext
+          echo "extends: mta.yml" >> mta_ext.mtaext
+          echo "parameters:" >> mta_ext.mtaext
+          echo "  backend-url: ${{ env.backend-url }}" >> mta_ext.mtaext
+          cf deploy mta_archives/com.sap.pm.pmanalyzer_1.0.0.mtar -e mta_ext.mtaext -f --retries 1

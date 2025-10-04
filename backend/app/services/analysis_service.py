@@ -108,7 +108,7 @@ def analyze_text(notification_data: dict, language: str = "en") -> AnalysisRespo
     """.strip()
 
     try:
-        model = genai.GenerativeModel(llm_settings.get('model', 'gemini-1.5-flash-latest'))
+        model = genai.GenerativeModel(llm_settings.get('model', 'gemini-2.5-flash'))
         generation_config = genai.types.GenerationConfig(temperature=llm_settings.get('temperature', 0.2))
 
         response = model.generate_content(prompt, generation_config=generation_config)
@@ -196,7 +196,7 @@ def chat_with_assistant(notification_data: dict, question: str, analysis_context
     """
 
     try:
-        model = genai.GenerativeModel(llm_settings.get('model', 'gemini-1.5-flash-latest'))
+        model = genai.GenerativeModel(llm_settings.get('model', 'gemini-2.5-flash'))
         generation_config = genai.types.GenerationConfig(temperature=llm_settings.get('temperature', 0.4))
         response = model.generate_content(prompt, generation_config=generation_config)
         

@@ -12,11 +12,11 @@ DEFAULT_CONFIG = {
         "Product impact assessment must be explicitly stated."
     ],
     "analysis_llm_settings": {
-        "model": "gemini-1.5-flash-latest",
+        "model": "gemini-2.5-flash",
         "temperature": 0.2
     },
     "chat_llm_settings": {
-        "model": "gemini-1.5-flash-latest",
+        "model": "gemini-2.5-flash",
         "temperature": 0.4
     }
 }

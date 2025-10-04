@@ -2,6 +2,10 @@ _schema-version: "3.2"
 ID: com.sap.pm.pmanalyzer
 version: 1.0.0
 
+parameters:
+  backend-url: ((backend-url))
+
+
 modules:
   - name: pm-analyzer-approuter
     type: approuter.nodejs
@@ -26,7 +30,6 @@ modules:
       commands:
         - npm install
         - npm run build:cf
-      supported-platforms: []
     parameters:
       memory: 1G
       disk-quota: 1G
@@ -43,12 +46,7 @@ resources:
             destinations:
               - Name: pm-analyzer-backend
                 Type: HTTP
-                URL: https://pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com
+                URL: ~{backend-url}
                 ProxyType: Internet
                 Authentication: NoAuthentication
             existing_destinations_policy: update
-
-  - name: pm-analyzer-backend-app
-    type: org.cloudfoundry.existing-service
-    parameters:
-      service-name: pm-analyzer-backend
