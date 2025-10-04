@@ -1,0 +1,14 @@
+
+# General
+.DS_Store
+.env
+.git
+.gitignore
+.vscode/
+
+# Python
+*.pyc
+__pycache__/
+venv/
+tests/
+scripts/
