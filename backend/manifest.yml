@@ -3,7 +3,7 @@ applications:
   path: .
   buildpack: python_buildpack
   command: gunicorn --bind 0.0.0.0:$PORT app.main:app
-  memory: 256M
+  memory: 512M
   disk_quota: 1G
   routes:
   - route: pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com 
