@@ -39,6 +39,41 @@ The PM Notification Quality Assistant aims to proactively enhance the quality of
 - **Detailed Notification View:** Access comprehensive details of individual notifications and trigger on-demand AI analysis.
 - **Visual Score Indicator:** A clear visual indicator provides immediate feedback on the notification's quality score.
 
+## UI/UX Overview
+
+The user interface is designed to be intuitive and efficient, following standard SAP Fiori design principles. It provides a clear and structured way for users to interact with PM notifications and their quality analysis.
+
+### Worklist View (Main Screen)
+
+The initial screen of the application is the **Worklist View**, which serves as the central hub for managing notifications.
+
+- **Notification List:** Displays a comprehensive list of PM notifications, showing key information at a glance (ID, description, priority, status, etc.).
+- **Filtering:** A powerful filter bar allows users to narrow down the list based on various criteria such as short text, notification type, creator, functional location, equipment, and status.
+- **Navigation:** Users can select a notification from the list to navigate to the detailed **Object View**.
+- **Language Selection:** A language switcher allows users to toggle between English and German.
+
+### Object View (Detail Screen)
+
+The **Object View** provides a detailed look at a single PM notification. The information is organized into three tabs for clarity:
+
+1.  **Notification Details Tab:**
+    -   **Header:** Displays the notification's title, priority, and other key header data.
+    -   **Status Timeline:** A visual timeline shows the progression of the notification's status (e.g., Outstanding, Released, Closed).
+    -   **Detailed Information:** Provides a comprehensive overview of the notification's details, including functional location, equipment, dates, long text, and damage/cause codes.
+
+2.  **Work Order Tab:**
+    -   **Visibility:** This tab is only visible if a work order is associated with the notification.
+    -   **Status Timeline:** A visual timeline for the work order's status.
+    -   **Work Order Details:** Displays key information about the work order, such as ID, description, type, and dates.
+    -   **Operations Table:** Lists all operations associated with the work order.
+
+3.  **Quality Analysis Tab:**
+    -   **AI-Powered Analysis:** This is the core feature of the application. When a notification is viewed, an AI-powered analysis is automatically triggered.
+    -   **Quality Score:** A progress indicator displays the notification's quality score (0-100), with color-coding (red, yellow, green) for quick assessment.
+    -   **Summary and Problems:** The analysis results include a summary of the findings and a list of identified problems.
+    -   **"What-If" Analysis:** Users can edit the notification's long text in a text area and click a "Re-analyze" button to see how their changes would affect the quality score. This allows for interactive improvement of the notification.
+    -   **Chat with Assistant:** A chat interface allows users to ask questions about the notification in natural language and receive AI-powered answers. This provides a conversational way to get more information and insights.
+
 ## Architecture Deep Dive
 
 The application follows a client-server architecture, with a distinct separation between the backend and frontend components, deployed as a Multi-Target Application (MTA) on SAP BTP Cloud Foundry.
