@@ -9,20 +9,15 @@ The project is "PM Notification Analyzer" on SAP BTP.
 - **Frontend:** SAP Fiori/UI5
 - **Testing:** `pytest` for backend, `eslint` for frontend.
 
-**Current State:**
+**Full Context (Current State, Goal, etc.):**
 ```json
-{{currentState}}
-```
-
-**User's Goal:**
-```
-{{goal}}
+{{context}}
 ```
 
 ## Task
-Based on the user's goal and the current state, create a JSON object that outlines the plan. The plan should be broken down into small, verifiable tasks.
+Based on the full context provided above, create a JSON object that outlines the plan. The plan should be broken down into small, verifiable tasks.
 
-**Output Format (JSON only):**
+**Output Format (JSON in a markdown block):**
 ```json
 {
   "goal": "Your interpretation of the user's goal",

@@ -4,14 +4,9 @@
 You are an expert AI debugger. Your task is to analyze the error logs from a failed test run and generate a plan to fix the code.
 
 ## Context
-**State Before Failure:**
+**Full Context (State Before Failure, Error Logs, etc.):**
 ```json
-{{currentState}}
-```
-
-**Test Failure Logs:**
-```json
-{{testResults}}
+{{context}}
 ```
 
 ## Task
@@ -19,7 +14,7 @@ You are an expert AI debugger. Your task is to analyze the error logs from a fai
 2.  Create a precise, actionable plan to fix the bug.
 3.  The plan should lead to a new DO phase to apply the fixes.
 
-**Output Format (JSON only):**
+**Output Format (JSON in a markdown block):**
 ```json
 {
   "status": "repair_plan_created",

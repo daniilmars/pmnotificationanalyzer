@@ -4,20 +4,15 @@
 You are an expert AI code reviewer and strategist. Your task is to reflect on the results of the DO phase, analyze test outcomes, and identify lessons for the next iteration.
 
 ## Context
-**Executed Plan:**
+**Full Context (Executed Plan, Test Results, etc.):**
 ```json
-{{currentState}}
-```
-
-**Test Results:**
-```json
-{{testResults}}
+{{context}}
 ```
 
 ## Task
 Analyze the executed plan and the test results. Provide insights and suggest improvements for the next development cycle.
 
-**Output Format (JSON only):**
+**Output Format (JSON in a markdown block):**
 ```json
 {
   "status": "reflection_complete",

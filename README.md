@@ -8,6 +8,7 @@ This project is a full-stack application designed to analyze the quality of Plan
 - [Application Overview](#application-overview)
 - [Key Features](#key-features)
 - [Architecture Deep Dive](#architecture-deep-dive)
+- [Autonomous LLM Agent](#-autonomous-llm-agent)
 - [Getting Started](#getting-started)
 - [Deployment](#deployment)
 - [Configuration](#configuration)
@@ -97,6 +98,98 @@ The frontend is an SAP Fiori application built with SAP UI5, providing an intuit
 - **Deployment Type:** The UI5 application's static content is embedded directly within the App Router's build artifact and served by the App Router itself. This robust pattern bypasses the need for the HTML5 Application Repository service.
 - **`approuter/`**: Acts as the single entry point. It serves the static Fiori UI content and proxies API calls to the backend via the BTP Destination service.
 - **`xs-app.json`**: Configures routing rules. It serves the Fiori app's content from a local directory (`localDir`) and proxies `/api` calls to the backend destination, preserving the API path prefix.
+
+## 🤖 Autonomous LLM Agent
+
+This project includes a sophisticated, self-improving LLM agent designed to automate software development tasks. Inspired by the robust design principles for autonomous agents, it operates on a **Think → Do → Reflect → Repair** cycle to autonomously plan, execute, and validate code changes.
+
+### How It Works: The Reasoning Loop
+
+The agent mimics a developer's workflow through a structured, multi-phase process. Each phase uses a dedicated prompt to interact with the Gemini LLM, ensuring that actions are deliberate and traceable.
+
+1.  **Think Phase**:
+    -   **Goal**: To understand a high-level user request (e.g., "Add a new feature") and break it down into a concrete, step-by-step technical plan.
+    -   **Process**: The agent analyzes the existing codebase and the user's goal.
+    -   **Output**: A structured plan, often involving which files to create or modify.
+    -   **Prompt**: `agent/prompts/plan.prompt.md`
+
+2.  **Do Phase**:
+    -   **Goal**: To execute the plan by writing and modifying code.
+    -   **Process**: The agent takes the plan from the "Think" phase and generates the necessary code changes, function by function, file by file.
+    -   **Output**: New or updated source code files.
+    -   **Prompt**: `agent/prompts/execute.prompt.md`
+
+3.  **Reflect Phase**:
+    -   **Goal**: To validate the changes and check for errors.
+    -   **Process**: After the "Do" phase, the agent runs a suite of validation tools, such as linters, formatters, and automated tests.
+    -   **Output**: A reflection on the success of the changes and the results from the validation tools.
+    -   **Prompt**: `agent/prompts/reflect.prompt.md`
+
+4.  **Repair Phase**:
+    -   **Goal**: To automatically fix any issues discovered during the "Reflect" phase.
+    -   **Process**: If a test fails or a linter finds an issue, the agent enters this phase. It analyzes the error messages and the code it just wrote to understand the mistake.
+    -   **Output**: A new plan to fix the broken code, which starts the cycle over again.
+    -   **Prompt**: `agent/prompts/repair.prompt.md`
+
+### Example: Adding a "Copy to Clipboard" Button
+
+Here’s how you would use the agent to add a new feature to the frontend.
+
+**Goal**: Add a "Copy to Clipboard" button for the notification's long text on the detail page.
+
+**Step 1: Think Phase**
+
+First, give the agent the goal.
+
+```bash
+npm run agent -- run think --goal "On the Object view, add a 'Copy to Clipboard' button that copies the notification's long text."
+```
+
+The agent will analyze the goal and the Fiori application structure. It will determine that it needs to:
+1.  Modify `pm-analyzer-fiori/webapp/view/Object.view.xml` to add a new `Button`.
+2.  Modify `pm-analyzer-fiori/webapp/controller/Object.controller.js` to add an `onCopyLongText` event handler.
+
+**Step 2: Do Phase**
+
+Next, tell the agent to execute the plan.
+
+```bash
+npm run agent -- run do
+```
+
+The agent will now perform the file modifications:
+-   **In `Object.view.xml`**, it will add a `<Button>` next to the long text display.
+-   **In `Object.controller.js`**, it will add the `onCopyLongText` function, which gets the text from the model and uses the browser's clipboard API.
+
+**Step 3: Reflect Phase**
+
+Finally, ask the agent to reflect on its work.
+
+```bash
+npm run agent -- run reflect
+```
+
+The agent will run linters and any relevant tests. It will report that the code was added successfully and that no existing tests were broken. Since it's a UI feature that is difficult to unit test automatically, it would note that manual verification is recommended.
+
+If there were a syntax error, the linter would fail, and the agent would proceed to the **Repair Phase** to fix it automatically.
+
+### Agent CLI Commands
+
+-   `npm run agent -- run think --goal "..."`: Starts a new task.
+-   `npm run agent -- run do`: Executes the current plan.
+-   `npm run agent -- run reflect`: Validates the last action.
+-   `npm run agent -- run repair`: Attempts to fix a failed reflection.
+-   `npm run agent -- state show`: Shows the agent's complete history for the current task.
+-   `npm run agent -- state reset`: Clears the agent's memory.
+
+### Agent Test Suite
+
+The agent has its own Jest test suite to ensure its core logic is reliable.
+
+```bash
+npm test
+```
+This runs all tests in `agent/tests/` and generates a coverage report.
 
 ## Getting Started
 
