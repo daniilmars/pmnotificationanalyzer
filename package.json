@@ -1,0 +1,24 @@
+{
+  "name": "pm-notification-analyzer-agent",
+  "version": "1.0.0",
+  "description": "Claude-in-Claude inspired LLM Agent for SAP BTP development.",
+  "main": "agent/agent.js",
+  "type": "module",
+  "scripts": {
+    "agent": "node agent/agent.js"
+  },
+  "keywords": [
+    "llm",
+    "agent",
+    "sap",
+    "btp",
+    "fiori",
+    "claude"
+  ],
+  "author": "Gemini",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "fs-extra": "^11.2.0",
+    "yargs": "^17.7.2"
+  }
+}

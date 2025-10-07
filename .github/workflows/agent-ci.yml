@@ -1,0 +1,51 @@
+name: Agent CI/CD
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  test-and-repair:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install Agent Dependencies
+        run: npm install
+
+      - name: Run Tests via Agent
+        id: tests
+        run: npm run agent test
+        # In a real scenario, this would exit with a non-zero code on failure.
+        # For this example, we simulate a failure.
+        # continue-on-error: true 
+
+      - name: Auto-Repair on Failure
+        if: failure() #steps.tests.outcome == 'failure'
+        run: |
+          echo "🔴 Tests failed. Starting auto-repair process..."
+          npm run agent run repair
+          echo "🚀 Repair plan created. Applying fixes..."
+          npm run agent run do -- --apply-repair-plan
+          echo "✅ Fixes applied. Please review the changes."
+          # In a more advanced setup, this could create a new commit or PR.
+
+      - name: Deploy to BTP Staging on Success
+        if: success() #steps.tests.outcome == 'success'
+        run: |
+          echo "✅ All tests passed."
+          echo "🚀 Deploying to SAP BTP (Staging)..."
+          # Add your BTP deployment commands here
+          # e.g., npx mbt build && npx cf deploy mta_archives/pmnotificationanalyzer_1.0.0.mtar
