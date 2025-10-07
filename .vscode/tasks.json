@@ -1,0 +1,21 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Fetch BTP Logs",
+            "type": "shell",
+            "command": "./scripts/fetch_logs.sh",
+            "problemMatcher": [],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "label": "Deploy and Log BTP App",
+            "type": "shell",
+            "command": "./scripts/deploy_and_log.sh",
+            "problemMatcher": []
+        }
+    ]
+}

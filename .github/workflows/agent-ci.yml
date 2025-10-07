@@ -4,12 +4,13 @@ on:
   push:
     branches:
       - main
+      - 'feature/**'
   pull_request:
     branches:
       - main
 
 jobs:
-  test-and-repair:
+  agent-driven-ci:
     runs-on: ubuntu-latest
 
     steps:
@@ -21,31 +22,51 @@ jobs:
         with:
           node-version: '20'
           cache: 'npm'
+      
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
 
-      - name: Install Agent Dependencies
-        run: npm install
+      - name: Install Dependencies
+        run: |
+          npm install
+          pip install -r backend/requirements.txt
 
-      - name: Run Tests via Agent
+      - name: Run Agent Tests
         id: tests
-        run: npm run agent test
-        # In a real scenario, this would exit with a non-zero code on failure.
-        # For this example, we simulate a failure.
-        # continue-on-error: true 
+        run: npm test
+
+      - name: Upload Coverage Report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+
+      - name: Run Agent Cycle
+        id: agent_cycle
+        run: |
+          node agent/agent-cli.js run think --goal "Validate and test the latest commit"
+          node agent/agent-cli.js run do
+          # The 'reflect' phase now runs tests and linters internally
+          node agent/agent-cli.js run reflect
+        continue-on-error: true
 
       - name: Auto-Repair on Failure
-        if: failure() #steps.tests.outcome == 'failure'
+        if: steps.agent_cycle.outcome == 'failure'
         run: |
-          echo "🔴 Tests failed. Starting auto-repair process..."
-          npm run agent run repair
+          echo "🔴 Agent cycle failed. Starting auto-repair process..."
+          node agent/agent-cli.js run repair
           echo "🚀 Repair plan created. Applying fixes..."
-          npm run agent run do -- --apply-repair-plan
-          echo "✅ Fixes applied. Please review the changes."
-          # In a more advanced setup, this could create a new commit or PR.
-
-      - name: Deploy to BTP Staging on Success
-        if: success() #steps.tests.outcome == 'success'
-        run: |
-          echo "✅ All tests passed."
-          echo "🚀 Deploying to SAP BTP (Staging)..."
-          # Add your BTP deployment commands here
-          # e.g., npx mbt build && npx cf deploy mta_archives/pmnotificationanalyzer_1.0.0.mtar
+          node agent/agent-cli.js run do
+          echo "✅ Fixes applied. Re-running tests..."
+          node agent/agent-cli.js run reflect
+      
+      - name: Upload Agent Logs
+        if: always() # Run this step even if previous steps fail
+        uses: actions/upload-artifact@v4
+        with:
+          name: agent-logs
+          path: logs/

@@ -1,0 +1,12 @@
+{
+  "files": [
+    {
+      "path": "backend/app/auth/user_model.py",
+      "content": "class User:\n    pass\n"
+    },
+    {
+      "path": "backend/app/auth/auth_controller.py",
+      "content": "def login():\n    return {'token': 'fake-jwt'}\n"
+    }
+  ]
+}
