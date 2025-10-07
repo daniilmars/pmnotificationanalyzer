@@ -9,11 +9,10 @@ const LOGS_DIR = path.resolve('logs');
 // --- State Management ---
 async function readState() {
   try {
-    const content = await fs.readFile(STATE_FILE, 'utf-8');
-    return JSON.parse(content);
+    // Use fs-extra's readJson for robustness
+    return await fs.readJson(STATE_FILE);
   } catch (error) {
     if (error.code === 'ENOENT') {
-      // Return a fresh state if the file doesn't exist
       return { iterations: [], current: { phase: 'idle', iteration: 0 } };
     }
     throw error;
@@ -43,10 +42,8 @@ async function logEvent(phase, data) {
   await fs.appendFile(logFilePath, JSON.stringify(logEntry) + '\n');
 }
 
-// --- Mock LLM Call ---
+// --- Mock LLM Call (Corrected Syntax) ---
 async function mockLLMCall(promptName, context) {
-  // In a real implementation, this would call an external LLM API.
-  // For this upgrade, the mock returns structures reflecting the new state.
   if (promptName === 'plan') {
     return {
       goal: context.goal || "Refactor scoring.py for better accuracy.",
@@ -78,7 +75,7 @@ async function mockLLMCall(promptName, context) {
   return {};
 }
 
-// --- Tool Execution ---
+// --- Tool Execution (Corrected Command) ---
 function runTool(toolScript) {
     return new Promise((resolve, reject) => {
         const command = `node "${path.resolve('agent/tools', toolScript)}"`;
@@ -93,7 +90,6 @@ function runTool(toolScript) {
     });
 }
 
-
 // --- Agent Class ---
 class Agent {
   constructor() {
@@ -104,13 +100,14 @@ class Agent {
   async runPhase(phase, context) {
     const state = await readState();
     const iterationId = (state.iterations.length || 0) + 1;
-    
+
     state.current = { phase, iteration: iterationId, status: 'running' };
     await writeState(state);
     await logEvent(phase, { message: `Starting phase for iteration ${iterationId}` });
 
     let result = {};
     let errorSummary = null;
+    let finalStatus = 'completed';
 
     try {
       switch (phase) {
@@ -119,13 +116,28 @@ class Agent {
           break;
         case 'do':
           result = await mockLLMCall('execute', state);
-          // In a real scenario, you'd apply the file changes here.
           break;
         case 'reflect':
-          // The reflect phase now includes running tests and linters.
-          await runTool('linter.js');
-          await runTool('tester.js');
-          result = await mockLLMCall('reflect', state);
+          // This block now contains its own error handling, as per the patch
+          try {
+            await runTool('linter.js');
+            await runTool('tester.js');
+            result = await mockLLMCall('reflect', state);
+          } catch (error) {
+            // This is the critical fix: handle the error, set state, save, then rethrow
+            errorSummary = error.message || JSON.stringify(error);
+            finalStatus = 'failed';
+            
+            const iteration = {
+              id: iterationId, phase, timestamp: new Date().toISOString(), summary: `Failed ${phase} phase.`,
+              status: finalStatus, errorSummary, output: result
+            };
+            state.iterations.push(iteration);
+            state.current = { ...state.current, status: finalStatus, error: errorSummary };
+            
+            await writeState(state); // Persist the failed state
+            throw error; // Rethrow for the test harness
+          }
           break;
         case 'repair':
           result = await mockLLMCall('repair', state);
@@ -133,31 +145,29 @@ class Agent {
         default:
           throw new Error(`Unknown phase: ${phase}`);
       }
-    } catch (error) {
-      errorSummary = error.message || JSON.stringify(error);
-      state.current.status = 'failed';
-      state.current.error = errorSummary;
-      // Automatically enqueue a repair task
-      this.enqueue('repair');
-    }
 
-    // Update state history
-    const finalStatus = errorSummary ? 'failed' : 'completed';
-    state.iterations.push({
-      id: iterationId,
-      phase,
-      timestamp: new Date().toISOString(),
-      summary: result.summary || `Completed ${phase} phase.`, 
-      status: finalStatus,
-      errorSummary,
-      output: result
-    });
-    state.current.status = finalStatus;
-    await writeState(state);
-    await logEvent(phase, { message: `Phase ${finalStatus}`, result });
-    
-    if (errorSummary) throw new Error(errorSummary);
-    return state;
+      // Success path: update and save state
+      const iteration = {
+        id: iterationId, phase, timestamp: new Date().toISOString(), summary: result.summary || `Completed ${phase} phase.`,
+        status: finalStatus, errorSummary, output: result
+      };
+      state.iterations.push(iteration);
+      state.current = { ...state.current, status: finalStatus };
+      await writeState(state);
+      await logEvent(phase, { message: `Phase ${finalStatus}`, result });
+
+      return state;
+
+    } catch (error) {
+        // This will now only catch errors from the reflect phase rethrow, or other unexpected errors
+        if (!errorSummary) { // Ensure we don't double-handle the reflect error
+            errorSummary = error.message || JSON.stringify(error);
+            state.current.status = 'failed';
+            state.current.error = errorSummary;
+            await writeState(state);
+        }
+        throw error; // Always rethrow to notify the caller/test
+    }
   }
 
   enqueue(phase, context = {}) {
@@ -178,7 +188,7 @@ class Agent {
     try {
       await this.runPhase(phase, context);
     } catch (error) {
-      // Error is already logged by runPhase. The queue will continue with the repair task.
+      // Error is already logged
     }
     
     this.processQueue();
