@@ -72,7 +72,7 @@ sap.ui.define([
                     "Content-Type": "application/json"
                     // Removed Authorization header as no authentication is needed
                 },
-                body: JSON.stringify({ text: sText })
+                body: JSON.stringify({ notification: { LongText: sText } })
             });
 
             if (!response.ok) {

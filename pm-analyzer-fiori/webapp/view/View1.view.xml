@@ -46,6 +46,19 @@
                         <Text text="{analysis>/summary}" />
                     </l:Grid>
                 </Panel>
+                <Panel id="chatPanel" headerText="Chat with Assistant" class="sapUiSmallMarginTop" visible="{analysis>/resultsVisible}">
+                    <List
+                        id="chatList"
+                        items="{chat>/history}"
+                        showSeparators="None">
+                        <FeedListItem
+                            authorIcon="{chat>authorIcon}"
+                            text="{chat>text}" />
+                    </List>
+                    <FeedInput
+                        id="chatInput"
+                        post="onPostChatMessage" />
+                </Panel>
             </VBox>
         </content>
     </Page>

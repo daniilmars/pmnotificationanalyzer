@@ -51,7 +51,7 @@ export async function callLLM(promptName, context) {
     }
 
     const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash-latest" });
+    const model = genAI.getGenerativeModel({ model: "gemini-pro-latest" });
 
     const promptTemplatePath = path.join(PROMPTS_DIR, `${promptName}.prompt.md`);
     const promptTemplate = await fs.readFile(promptTemplatePath, 'utf-8');

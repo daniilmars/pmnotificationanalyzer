@@ -1,7 +1,9 @@
+# Environment variables - Do not commit!
+.env*
+
 # Test coverage reports
 coverage/
 node_modules/
 logs/
-.env
 __pycache__/
 backend/vendor/
