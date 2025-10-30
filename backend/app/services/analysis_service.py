@@ -19,10 +19,23 @@ def _parse_gemini_response(reply: str) -> AnalysisResponse:
 
     score = int(match.group(1).strip())
     issues_text = match.group(2).strip()
-    issues = [line.strip("- ") for line in issues_text.split('\n') if line.strip() and line.strip().startswith('-')]
+    
+    problems = []
+    problem_pattern = re.compile(r"-\s*\[(.*?)\]\s*(.*)")
+    for line in issues_text.split('\n'):
+        if line.strip():
+            problem_match = problem_pattern.search(line)
+            if problem_match:
+                field = problem_match.group(1).strip()
+                description = problem_match.group(2).strip()
+                problems.append({"field": field, "description": description})
+            else:
+                # Handle cases where the line might not match, though the prompt requires it
+                problems.append({"field": "GENERAL", "description": line.strip("- ")})
+
     summary = match.group(3).strip()
 
-    return AnalysisResponse(score=score, problems=issues, summary=summary)
+    return AnalysisResponse(score=score, problems=problems, summary=summary)
 
 
 def analyze_text(notification_data: dict, language: str = "en") -> AnalysisResponse:
@@ -80,7 +93,7 @@ def analyze_text(notification_data: dict, language: str = "en") -> AnalysisRespo
     2.  **Traceability:** Are all necessary details present to understand what happened? (e.g., equipment IDs, batch numbers if applicable, locations).
     3.  **Root Cause Analysis:** Does the text describe a plausible root cause, and does it align with the structured Cause code? A simple description of the failure is not enough.
     4.  **Product Impact Assessment:** Is the potential impact on product quality, safety, or sterility explicitly assessed? This is CRITICAL.
-    5.  **Corrective/Preventive Actions (CAPA):** Are immediate corrections and, more importantly, long-term preventive measures described or proposed?
+    5.  **Corrective/Preventive Actions (CAPA):** Are immediate corrections, and more importantly, long-term preventive measures described or proposed?
 
     **Scoring Rubric:**
     -   **90-100 (Audit-Proof):** All 5 pillars and all mandatory rules are fully met. The structured data and long text are perfectly consistent.
@@ -98,17 +111,23 @@ def analyze_text(notification_data: dict, language: str = "en") -> AnalysisRespo
     "{long_text}"
 
     **Your Response:**
-    Provide your response ONLY in the following format and ONLY in {output_language}. Do not add any other explanations.
+    Provide your response ONLY in the following format and ONLY in {output_language}. For each problem, you MUST prefix it with one of the following field identifiers: [DESCRIPTION], [LONG_TEXT], [DAMAGE_CODE], [CAUSE_CODE], [WORK_ORDER_DESCRIPTION], or [GENERAL].
     Score: <integer score>
     Probleme:
-    - <Problem 1: Be specific, e.g., "Product impact was not assessed.">
-    - <Problem 2: e.g., "Root cause is missing, only the symptom is described.">
-    - <Problem 3: e.g., "Inconsistency: The long text mentions a 'leak' but the damage code is 'vibration'.">
+    - [FIELD_ID] <Problem 1: Be specific, e.g., "Product impact was not assessed.">
+    - [FIELD_ID] <Problem 2: e.g., "Root cause is missing, only the symptom is described.">
+    - [FIELD_ID] <Problem 3: e.g., "Inconsistency: The long text mentions a 'leak' but the damage code is 'vibration'.">
     Zusammenfassung: <A brief, one-sentence summary of the overall quality.>
     """.strip()
 
     try:
-        model = genai.GenerativeModel(llm_settings.get('model', 'gemini-2.5-flash'))
+        model = genai.GenerativeModel(
+            llm_settings.get('model', 'gemini-2.5-flash'),
+            safety_settings={'HARM_CATEGORY_HARASSMENT': 'BLOCK_NONE',
+                             'HARM_CATEGORY_HATE_SPEECH': 'BLOCK_NONE',
+                             'HARM_CATEGORY_SEXUALLY_EXPLICIT': 'BLOCK_NONE',
+                             'HARM_CATEGORY_DANGEROUS_CONTENT': 'BLOCK_NONE'}
+        )
         generation_config = genai.types.GenerationConfig(temperature=llm_settings.get('temperature', 0.2))
 
         response = model.generate_content(prompt, generation_config=generation_config)
@@ -166,7 +185,7 @@ def chat_with_assistant(notification_data: dict, question: str, analysis_context
 
     context_str = "\n".join(details)
     long_text = notification_data.get('LongText', '')
-    analysis_problems_str = "\n".join([f"- {p}" for p in analysis_context.problems])
+    analysis_problems_str = "\n".join([f"- {p.description}" for p in analysis_context.problems])
 
     prompt = f"""
     You are an expert GMP (Good Manufacturing Practices) Quality Assistant for SAP Plant Maintenance.
@@ -196,7 +215,13 @@ def chat_with_assistant(notification_data: dict, question: str, analysis_context
     """
 
     try:
-        model = genai.GenerativeModel(llm_settings.get('model', 'gemini-2.5-flash'))
+        model = genai.GenerativeModel(
+            llm_settings.get('model', 'gemini-2.5-flash'),
+            safety_settings={'HARM_CATEGORY_HARASSMENT': 'BLOCK_NONE',
+                             'HARM_CATEGORY_HATE_SPEECH': 'BLOCK_NONE',
+                             'HARM_CATEGORY_SEXUALLY_EXPLICIT': 'BLOCK_NONE',
+                             'HARM_CATEGORY_DANGEROUS_CONTENT': 'BLOCK_NONE'}
+        )
         generation_config = genai.types.GenerationConfig(temperature=llm_settings.get('temperature', 0.4))
         response = model.generate_content(prompt, generation_config=generation_config)
         
@@ -205,5 +230,3 @@ def chat_with_assistant(notification_data: dict, question: str, analysis_context
     except Exception as e:
         print(f"An error occurred while communicating with the Google Gemini API: {e}")
         raise e
-
-

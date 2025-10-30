@@ -1,13 +1,11 @@
 sap.ui.define([
     "sap/ui/core/mvc/Controller",
-    "../model/formatter",
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/ui/model/json/JSONModel"
-], function (Controller, formatter, Filter, FilterOperator, JSONModel) {
+], function (Controller, Filter, FilterOperator, JSONModel) {
     "use strict";
     return Controller.extend("com.sap.pm.pmanalyzerfiori.controller.Worklist", {
-        formatter: formatter,
 
         onInit: function () {
             const oLanguageSelect = this.byId("languageSelect");

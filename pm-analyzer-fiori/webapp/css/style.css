@@ -71,3 +71,17 @@
     color: #666666; /* Medium Grey */
 }
 /* --- END: Professional Timeline Styles --- */
+
+/* Ensure the full text of problem descriptions is visible */
+.problemListItem .sapMText {
+    white-space: normal;
+}
+
+/* --- START: Field Highlighting Animation --- */
+    0% { background-color: rgba(10, 110, 209, 0.2); } /* Light blue */
+    100% { background-color: transparent; }
+}
+
+    animation: highlight-field 2s ease-out;
+}
+/* --- END: Field Highlighting Animation --- */

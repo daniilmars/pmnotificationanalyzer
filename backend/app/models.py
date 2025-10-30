@@ -1,13 +1,18 @@
 from pydantic import BaseModel
-from typing import List
+from typing import List, Optional
 
 class AnalysisRequest(BaseModel):
     """The model for the incoming request."""
     text: str
-    language: str = "en" # Add this line
+    language: str = "en"
+
+class ProblemDetail(BaseModel):
+    """Describes a single problem with a link to a field."""
+    field: Optional[str] = None
+    description: str
 
 class AnalysisResponse(BaseModel):
     """The model for the outgoing response."""
     score: int
-    problems: List[str]
+    problems: List[ProblemDetail]
     summary: str

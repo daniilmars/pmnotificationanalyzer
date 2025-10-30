@@ -1,15 +1,12 @@
 sap.ui.define([
     "./BaseController",
     "sap/ui/model/json/JSONModel",
-    "../model/formatter",
     "sap/ui/core/routing/History",
     "sap/m/MessageBox"
-], function (BaseController, JSONModel, formatter, History, MessageBox) {
+], function (BaseController, JSONModel, History, MessageBox) {
     "use strict";
 
     return BaseController.extend("com.sap.pm.pmanalyzerfiori.controller.Object", {
-
-        formatter: formatter,
 
         onInit: function () {
             this.getView().setModel(new JSONModel(), "timeline");
@@ -24,8 +21,7 @@ sap.ui.define([
             }), "chat");
 
             const oRouter = this.getRouter();
-            oRouter.getRoute("object").attachPatternMatched(this._onObjectMatched, this);
-        },
+            oRouter.getRoute("object").attachPatternMatched(this._onObjectMatched, this);        },
 
         onNavBack: function () {
             const oHistory = History.getInstance();
@@ -170,11 +166,17 @@ sap.ui.define([
             try {
                 const oNotification = this.getView().getBindingContext().getObject();
                 const sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
+                const oAnalysis = this.getView().getModel("analysis").getData();
 
                 const oPayload = {
                     language: sLanguage,
                     question: sQuestion,
-                    notification: oNotification
+                    notification: oNotification,
+                    analysis: { // Pass the existing analysis context
+                        score: oAnalysis.score,
+                        problems: oAnalysis.problems,
+                        summary: oAnalysis.summary
+                    }
                 };
 
                 const response = await fetch("/api/chat", {
@@ -225,9 +227,65 @@ sap.ui.define([
 
             } catch (error) {
                 MessageBox.error(error.message);
-            } finally {
-                oAnalysisModel.setProperty("/busy", false);
-            }
-        }
-    });
-});
+                                    } finally {
+                                        oAnalysisModel.setProperty("/busy", false);
+                                    }
+                                },
+                        
+                                onProblemPress: function (oEvent) {
+                                    const sFieldId = oEvent.getSource().data("field");
+                                    const oIconTabBar = this.byId("iconTabBar");
+                                    let oTargetControl;
+                                    let sTargetTabKey;
+                        
+                                    // Determine the target control and tab
+                                    switch (sFieldId) {
+                                        case "DESCRIPTION":
+                                            sTargetTabKey = "notification";
+                                            oTargetControl = this.byId("notificationDetailsVBox");
+                                            break;
+                                        case "LONG_TEXT":
+                                            sTargetTabKey = "analysis";
+                                            oTargetControl = this.byId("longTextForAnalysis");
+                                            break;
+                                        case "DAMAGE_CODE":
+                                        case "CAUSE_CODE":
+                                            sTargetTabKey = "notification";
+                                            oTargetControl = this.byId("codesForm");
+                                            break;
+                                        case "WORK_ORDER_DESCRIPTION":
+                                            sTargetTabKey = "workOrder";
+                                            oTargetControl = this.byId("workOrderDetailsForm");
+                                            break;
+                                        default: // GENERAL
+                                            sTargetTabKey = "analysis";
+                                            oTargetControl = this.byId("page");
+                                            break;
+                                    }
+                        
+                                    // Switch to the correct tab if necessary
+                                    if (sTargetTabKey && oIconTabBar.getSelectedKey() !== sTargetTabKey) {
+                                        oIconTabBar.setSelectedKey(sTargetTabKey);
+                                    }
+                        
+                                    // After a short delay to allow for the tab switch, scroll and highlight
+                                    setTimeout(() => {
+                                        if (oTargetControl) {
+                                            const oDomRef = oTargetControl.getDomRef();
+                                            oDomRef.scrollIntoView({ behavior: "smooth", block: "center" });
+                        
+                                            // Apply the highlight animation
+                                            oDomRef.classList.add("highlighted-field");
+                                            oDomRef.addEventListener("animationend", () => {
+                                                oDomRef.classList.remove("highlighted-field");
+                                            });
+                        
+                                            // If it's an input, focus it
+                                            if (oTargetControl.focus) {
+                                                setTimeout(() => oTargetControl.focus(), 300);
+                                            }
+                                        }
+                                    }, 300); // 300ms delay to ensure tab is switched
+                                }
+                            });
+                        });

@@ -11,6 +11,7 @@ load_dotenv()
 from app.services.analysis_service import analyze_text, chat_with_assistant
 from app.models import AnalysisResponse
 from app.config_manager import get_config, save_config
+from app.config_manager import get_config, save_config
 # Removed: from app.auth import token_required # No longer needed
 
 app = Flask(__name__)
@@ -61,23 +62,24 @@ def analyze() -> Tuple[str, int]:
 @app.route('/api/chat', methods=['POST'])
 def chat() -> Tuple[str, int]:
     data = request.get_json()
-    if not data or not data.get('notification') or not data.get('question'):
+    if not data or not data.get('notification') or not data.get('question') or not data.get('analysis'):
         return jsonify({
             "error": {
                 "code": "BAD_REQUEST",
-                "message": "Missing 'notification' or 'question' in request body"
+                "message": "Missing 'notification', 'question', or 'analysis' in request body"
             }
         }), 400
 
     notification_data = data['notification']
     question = data['question']
+    analysis_context_data = data['analysis']
     language = data.get('language', 'en')
 
     try:
-        # First, get the current quality analysis to provide as context
-        analysis_context = analyze_text(notification_data, language)
+        # Convert the analysis data back into an AnalysisResponse object
+        analysis_context = AnalysisResponse(**analysis_context_data)
 
-        # Then, call the chat assistant with the full context
+        # Call the chat assistant with the full context
         chat_result = chat_with_assistant(notification_data, question, analysis_context, language)
         return jsonify(chat_result)
     except Exception as e:
