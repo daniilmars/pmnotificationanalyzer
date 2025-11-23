@@ -24,17 +24,9 @@ function (UIComponent, Device, JSONModel) {
                 sap.ui.getCore().getConfiguration().setLanguage(sStoredLanguage);
             }
 
-            // Determine which language file to load based on the potentially updated language
-            let sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
-            if (sLanguage !== "de") {
-                sLanguage = "en"; // Default to English
-            }
-            const sMockDataPath = sap.ui.require.toUrl(`com/sap/pm/pmanalyzerfiori/mock_data_${sLanguage}.json`);
-            
-            // The JSON file already has the correct structure { "Notifications": [...] }
-            // So we can load it directly.
-            const oModel = new JSONModel(sMockDataPath);
-            this.setModel(oModel);
+            // Initialize an empty JSONModel for the application data
+            // This will be populated by the Worklist controller via API
+            this.setModel(new JSONModel({ Notifications: [] }));
 
             // Initialize the router after the model is set
             this.getRouter().initialize();
@@ -44,8 +36,6 @@ function (UIComponent, Device, JSONModel) {
                 isBusy: false
             });
             this.setModel(oUiModel, "ui");
-
-            // The i18n model is now automatically initialized based on the manifest.json
         }
     });
 });

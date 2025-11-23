@@ -2,13 +2,18 @@ sap.ui.define([
     "./BaseController",
     "sap/ui/model/json/JSONModel",
     "sap/ui/core/routing/History",
-    "sap/m/MessageBox"
-], function (BaseController, JSONModel, History, MessageBox) {
+    "sap/m/MessageBox",
+    "../model/formatter"
+], function (BaseController, JSONModel, History, MessageBox, formatter) {
     "use strict";
 
     return BaseController.extend("com.sap.pm.pmanalyzerfiori.controller.Object", {
 
+        formatter: formatter,
+
         onInit: function () {
+            // Initialize default model to prevent binding errors
+            this.getView().setModel(new JSONModel({}), "object"); // Named model
             this.getView().setModel(new JSONModel(), "timeline");
             this.getView().setModel(new JSONModel({
                 busy: false,
@@ -21,7 +26,8 @@ sap.ui.define([
             }), "chat");
 
             const oRouter = this.getRouter();
-            oRouter.getRoute("object").attachPatternMatched(this._onObjectMatched, this);        },
+            oRouter.getRoute("object").attachPatternMatched(this._onObjectMatched, this);
+        },
 
         onNavBack: function () {
             const oHistory = History.getInstance();
@@ -34,46 +40,56 @@ sap.ui.define([
             }
         },
 
-        _onObjectMatched: function (oEvent) {
+        onToggleSideContent: function (oEvent) {
+            const oDynamicSideContent = this.byId("DynamicSideContent");
+            // Toggle the showSideContent property
+            const bCurrentState = oDynamicSideContent.getShowSideContent();
+            oDynamicSideContent.setShowSideContent(!bCurrentState);
+            
+            // Update button text/icon state if needed (optional, but good UX)
+            const oButton = oEvent.getSource();
+            if (bCurrentState) { // if it was true, now false (hidden)
+                 oButton.setType("Default");
+            } else {
+                 oButton.setType("Emphasized");
+            }
+        },
+
+        _onObjectMatched: async function (oEvent) {
             const sNotificationId = oEvent.getParameter("arguments").notificationId;
-            const oModel = this.getOwnerComponent().getModel();
+            const oUiModel = this.getOwnerComponent().getModel("ui");
+            oUiModel.setProperty("/isBusy", true);
 
-            oModel.dataLoaded().then(() => {
-                const aNotifications = oModel.getProperty("/Notifications") || [];
-                const iObjectIndex = aNotifications.findIndex(
-                    (notif) => notif.NotificationId === sNotificationId
-                );
-
-                if (iObjectIndex !== -1) {
-                    const sObjectPath = `/Notifications/${iObjectIndex}`;
-                    this.getView().bindElement({ path: sObjectPath });
-                    const oNotification = aNotifications[iObjectIndex];
-                    this._buildTimelines(oNotification);
-                    this._triggerAnalysis(oNotification); // Initial analysis
-                } else {
+            try {
+                const sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
+                const response = await fetch(`/api/notifications/${sNotificationId}?language=${sLanguage}`);
+                
+                if (!response.ok) {
                     this.getRouter().navTo("worklist");
+                    return;
                 }
-            });
+                const data = await response.json();
+
+                // Set data to the named model "object"
+                this.getView().getModel("object").setData(data);
+                
+                this._buildTimelines(data);
+                this._triggerAnalysis(data); 
+
+            } catch (error) {
+                MessageBox.error("Failed to load object details: " + error.message);
+            } finally {
+                oUiModel.setProperty("/isBusy", false);
+            }
         },
 
         _buildTimelines: function (oNotification) {
             const oTimelineModel = this.getView().getModel("timeline");
             const oResourceBundle = this.getResourceBundle();
 
-            // Status mapping from German IDs to English IDs
-            const oStatusIdMap = {
-                "EROF": "OSDN", // Eröffnet -> Outstanding / Created
-                "FREI": "REL",  // Freigegeben -> Released
-                "ABGE": "NOCO", // Abgeschlossen -> Notification Closed
-                "TABG": "TECO"  // Technisch Abgeschlossen -> Technically Completed
-            };
+            let sNotifStatus = "OSDN"; 
+            if (oNotification.NotificationType === "M1") sNotifStatus = "REL"; 
 
-            let sNotifStatus = oNotification.SystemStatus;
-            // Normalize status if it's a German ID
-            if (oStatusIdMap[sNotifStatus]) {
-                sNotifStatus = oStatusIdMap[sNotifStatus];
-            }
-            
             const oNotifTimelineData = this._createTimelineData(
                 ["OSDN", "REL", "NOCO"],
                 [
@@ -86,14 +102,10 @@ sap.ui.define([
             oTimelineModel.setProperty("/notification", oNotifTimelineData);
 
             if (oNotification.WorkOrder) {
-                let sOrderStatus = oNotification.WorkOrder.SystemStatus;
-                // Normalize status if it's a German ID
-                if (oStatusIdMap[sOrderStatus]) {
-                    sOrderStatus = oStatusIdMap[sOrderStatus];
-                }
+                let sOrderStatus = "REL"; 
 
                 const oOrderTimelineData = this._createTimelineData(
-                    ["OSDN", "REL", "TECO", "CLSD"], // Using OSDN for CRTD as EROF maps to it
+                    ["OSDN", "REL", "TECO", "CLSD"], 
                     [
                         oResourceBundle.getText("statusCreated"),
                         oResourceBundle.getText("statusReleased"),
@@ -125,14 +137,11 @@ sap.ui.define([
         },
 
         onReanalyze: function () {
-            // Get the current notification object from the view's binding context
-            const oNotification = this.getView().getBindingContext().getObject();
-            // Get the potentially modified long text from the text area
+            // Retrieve from Named Model
+            const oNotification = this.getView().getModel("object").getData();
             const sModifiedLongText = this.getView().byId("longTextForAnalysis").getValue();
             
-            // Create a deep copy of the notification to avoid modifying the main model directly
             const oNotificationCopy = JSON.parse(JSON.stringify(oNotification));
-            // Update the LongText in the copied object
             oNotificationCopy.LongText = sModifiedLongText;
 
             this._triggerAnalysis(oNotificationCopy);
@@ -143,7 +152,7 @@ sap.ui.define([
             const aMessages = oChatModel.getProperty("/messages");
             aMessages.push({ text: sText, author: sAuthor });
             oChatModel.setProperty("/messages", aMessages);
-            // Scroll to the bottom
+            
             const oScrollContainer = this.byId("chatScrollContainer");
             setTimeout(() => {
                 if (oScrollContainer) {
@@ -159,12 +168,11 @@ sap.ui.define([
             }
 
             this._addMessageToChat(sQuestion, "user");
-
-            // Show busy indicator for assistant response
             this.getView().setBusy(true);
 
             try {
-                const oNotification = this.getView().getBindingContext().getObject();
+                // Retrieve from Named Model
+                const oNotification = this.getView().getModel("object").getData();
                 const sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
                 const oAnalysis = this.getView().getModel("analysis").getData();
 
@@ -172,7 +180,7 @@ sap.ui.define([
                     language: sLanguage,
                     question: sQuestion,
                     notification: oNotification,
-                    analysis: { // Pass the existing analysis context
+                    analysis: {
                         score: oAnalysis.score,
                         problems: oAnalysis.problems,
                         summary: oAnalysis.summary
@@ -205,6 +213,7 @@ sap.ui.define([
 
             try {
                 const sLanguage = sap.ui.getCore().getConfiguration().getLanguage().substring(0, 2);
+                
                 const oPayload = {
                     language: sLanguage,
                     notification: oNotification
@@ -227,65 +236,67 @@ sap.ui.define([
 
             } catch (error) {
                 MessageBox.error(error.message);
-                                    } finally {
-                                        oAnalysisModel.setProperty("/busy", false);
-                                    }
-                                },
-                        
-                                onProblemPress: function (oEvent) {
-                                    const sFieldId = oEvent.getSource().data("field");
-                                    const oIconTabBar = this.byId("iconTabBar");
-                                    let oTargetControl;
-                                    let sTargetTabKey;
-                        
-                                    // Determine the target control and tab
-                                    switch (sFieldId) {
-                                        case "DESCRIPTION":
-                                            sTargetTabKey = "notification";
-                                            oTargetControl = this.byId("notificationDetailsVBox");
-                                            break;
-                                        case "LONG_TEXT":
-                                            sTargetTabKey = "analysis";
-                                            oTargetControl = this.byId("longTextForAnalysis");
-                                            break;
-                                        case "DAMAGE_CODE":
-                                        case "CAUSE_CODE":
-                                            sTargetTabKey = "notification";
-                                            oTargetControl = this.byId("codesForm");
-                                            break;
-                                        case "WORK_ORDER_DESCRIPTION":
-                                            sTargetTabKey = "workOrder";
-                                            oTargetControl = this.byId("workOrderDetailsForm");
-                                            break;
-                                        default: // GENERAL
-                                            sTargetTabKey = "analysis";
-                                            oTargetControl = this.byId("page");
-                                            break;
-                                    }
-                        
-                                    // Switch to the correct tab if necessary
-                                    if (sTargetTabKey && oIconTabBar.getSelectedKey() !== sTargetTabKey) {
-                                        oIconTabBar.setSelectedKey(sTargetTabKey);
-                                    }
-                        
-                                    // After a short delay to allow for the tab switch, scroll and highlight
-                                    setTimeout(() => {
-                                        if (oTargetControl) {
-                                            const oDomRef = oTargetControl.getDomRef();
-                                            oDomRef.scrollIntoView({ behavior: "smooth", block: "center" });
-                        
-                                            // Apply the highlight animation
-                                            oDomRef.classList.add("highlighted-field");
-                                            oDomRef.addEventListener("animationend", () => {
-                                                oDomRef.classList.remove("highlighted-field");
-                                            });
-                        
-                                            // If it's an input, focus it
-                                            if (oTargetControl.focus) {
-                                                setTimeout(() => oTargetControl.focus(), 300);
-                                            }
-                                        }
-                                    }, 300); // 300ms delay to ensure tab is switched
-                                }
-                            });
-                        });
+            } finally {
+                oAnalysisModel.setProperty("/busy", false);
+            }
+        },
+        
+        onProblemPress: function (oEvent) {
+             const sFieldId = oEvent.getSource().data("field");
+             const oIconTabBar = this.byId("iconTabBar");
+             let oTargetControl;
+             let sTargetTabKey;
+ 
+             switch (sFieldId) {
+                 case "DESCRIPTION":
+                     sTargetTabKey = "notification";
+                     oTargetControl = this.byId("notificationDetailsVBox"); 
+                     break;
+                 case "LONG_TEXT":
+                     // In new layout, this is in side content, always visible if open.
+                     // Focus the text area
+                     oTargetControl = this.byId("longTextForAnalysis");
+                     // Ensure side content is open
+                     const oDSC = this.byId("DynamicSideContent");
+                     if (!oDSC.getShowSideContent()) {
+                         oDSC.setShowSideContent(true);
+                     }
+                     break;
+                 case "DAMAGE_CODE":
+                 case "CAUSE_CODE":
+                     sTargetTabKey = "notification";
+                     oTargetControl = this.byId("codesForm");
+                     break;
+                 case "WORK_ORDER_DESCRIPTION":
+                     sTargetTabKey = "workOrder";
+                     oTargetControl = this.byId("workOrderDetailsForm"); 
+                     break;
+                 default: 
+                     // General issue
+                     break;
+             }
+ 
+             if (sTargetTabKey && oIconTabBar.getSelectedKey() !== sTargetTabKey) {
+                 oIconTabBar.setSelectedKey(sTargetTabKey);
+             }
+ 
+             setTimeout(() => {
+                 if (oTargetControl) {
+                     const oDomRef = oTargetControl.getDomRef();
+                     if (oDomRef) {
+                         oDomRef.scrollIntoView({ behavior: "smooth", block: "center" });
+     
+                         oDomRef.classList.add("highlighted-field");
+                         oDomRef.addEventListener("animationend", () => {
+                             oDomRef.classList.remove("highlighted-field");
+                         });
+     
+                         if (oTargetControl.focus) {
+                             setTimeout(() => oTargetControl.focus(), 300);
+                         }
+                     }
+                 }
+             }, 300); 
+        }
+    });
+});

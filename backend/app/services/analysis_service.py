@@ -1,47 +1,38 @@
 import os
+import json
 import re
+import time
 import google.generativeai as genai
 from app.models import AnalysisResponse
 from app.config_manager import get_config
 
 def _parse_gemini_response(reply: str) -> AnalysisResponse:
     """
-    Parses the raw text response from Gemini into a structured AnalysisResponse object.
+    Parses the response from Gemini. Tries to parse as JSON first.
+    If that fails, it attempts to extract JSON from code blocks.
     """
-    pattern = re.compile(
-        r"Score:\s*(\d+)\s*Probleme:\s*(.*?)\s*Zusammenfassung:\s*(.*)",
-        re.DOTALL | re.IGNORECASE
-    )
-    match = pattern.search(reply)
-
-    if not match:
-        raise ValueError(f"Could not parse the response from the AI. Response was: {reply}")
-
-    score = int(match.group(1).strip())
-    issues_text = match.group(2).strip()
-    
-    problems = []
-    problem_pattern = re.compile(r"-\s*\[(.*?)\]\s*(.*)")
-    for line in issues_text.split('\n'):
-        if line.strip():
-            problem_match = problem_pattern.search(line)
-            if problem_match:
-                field = problem_match.group(1).strip()
-                description = problem_match.group(2).strip()
-                problems.append({"field": field, "description": description})
-            else:
-                # Handle cases where the line might not match, though the prompt requires it
-                problems.append({"field": "GENERAL", "description": line.strip("- ")})
-
-    summary = match.group(3).strip()
-
-    return AnalysisResponse(score=score, problems=problems, summary=summary)
-
+    try:
+        # Attempt 1: Direct JSON parse
+        data = json.loads(reply)
+        return AnalysisResponse(**data)
+    except json.JSONDecodeError:
+        # Attempt 2: Extract from ```json ... ``` block
+        match = re.search(r"```json\s*(.*?)\s*```", reply, re.DOTALL)
+        if match:
+            try:
+                json_str = match.group(1)
+                data = json.loads(json_str)
+                return AnalysisResponse(**data)
+            except json.JSONDecodeError:
+                pass
+        
+        print(f"Warning: Could not parse JSON. Raw response: {reply}")
+        raise ValueError("Failed to parse AI response as JSON.")
 
 def analyze_text(notification_data: dict, language: str = "en") -> AnalysisResponse:
     """
     Analyzes an SAP maintenance notification using the Google Gemini API, 
-    considering both long text and structured data.
+    considering both long text and structured data. Retries on JSON errors.
     """
     config = get_config()
     llm_settings = config.get('analysis_llm_settings', {})
@@ -78,7 +69,6 @@ def analyze_text(notification_data: dict, language: str = "en") -> AnalysisRespo
     long_text = notification_data.get('LongText', '')
     rules_str = "\n".join([f"- {rule}" for rule in quality_rules])
 
-    # --- Enhanced Prompt ---
     prompt = f"""
     You are a meticulous GMP (Good Manufacturing Practices) auditor evaluating the quality of a maintenance notification from a pharmaceutical plant. Your assessment must be extremely strict, adhering to GMP and data integrity (ALCOA+) principles.
 
@@ -96,50 +86,63 @@ def analyze_text(notification_data: dict, language: str = "en") -> AnalysisRespo
     5.  **Corrective/Preventive Actions (CAPA):** Are immediate corrections, and more importantly, long-term preventive measures described or proposed?
 
     **Scoring Rubric:**
-    -   **90-100 (Audit-Proof):** All 5 pillars and all mandatory rules are fully met. The structured data and long text are perfectly consistent.
-    -   **70-89 (Good, Minor Gaps):** Largely compliant, but might lack a deep root cause analysis or an explicit preventive action.
-    -   **40-69 (Deficient):** Fails on a major pillar, a mandatory rule, or has a missing product impact assessment.
-    -   **10-39 (Major Deficiency):** Fails on multiple pillars or mandatory rules. Traceability is compromised.
-    -   **0-9 (Unacceptable):** The entry is useless for GMP purposes.
+    -   **90-100 (Audit-Proof):** All 5 pillars and all mandatory rules are fully met.
+    -   **70-89 (Good, Minor Gaps):** Largely compliant, but might lack a deep root cause analysis.
+    -   **40-69 (Deficient):** Fails on a major pillar or mandatory rule.
+    -   **10-39 (Major Deficiency):** Fails on multiple pillars.
+    -   **0-9 (Unacceptable):** Useless for GMP purposes.
 
     **Analysis Data:**
-
+    
     **Structured Data:**
     {structured_data_str}
 
     **Long Text to Analyze:**
     "{long_text}"
 
-    **Your Response:**
-    Provide your response ONLY in the following format and ONLY in {output_language}. For each problem, you MUST prefix it with one of the following field identifiers: [DESCRIPTION], [LONG_TEXT], [DAMAGE_CODE], [CAUSE_CODE], [WORK_ORDER_DESCRIPTION], or [GENERAL].
-    Score: <integer score>
-    Probleme:
-    - [FIELD_ID] <Problem 1: Be specific, e.g., "Product impact was not assessed.">
-    - [FIELD_ID] <Problem 2: e.g., "Root cause is missing, only the symptom is described.">
-    - [FIELD_ID] <Problem 3: e.g., "Inconsistency: The long text mentions a 'leak' but the damage code is 'vibration'.">
-    Zusammenfassung: <A brief, one-sentence summary of the overall quality.>
+    **Response Format:**
+    Provide your response **ONLY** as a valid JSON object (no markdown, no prose outside JSON) with the following structure. ensuring all content is in {output_language}:
+
+    {{
+      "score": <integer between 0 and 100>,
+      "summary": "<string: A concise executive summary of the quality>",
+      "problems": [
+        {{
+          "field": "<one of: DESCRIPTION, LONG_TEXT, DAMAGE_CODE, CAUSE_CODE, WORK_ORDER_DESCRIPTION, GENERAL>",
+          "severity": "<one of: Critical, Major, Minor>",
+          "description": "<string: Specific description of the issue>"
+        }}
+      ]
+    }}
     """.strip()
 
-    try:
-        model = genai.GenerativeModel(
-            llm_settings.get('model', 'gemini-2.5-flash'),
-            safety_settings={'HARM_CATEGORY_HARASSMENT': 'BLOCK_NONE',
-                             'HARM_CATEGORY_HATE_SPEECH': 'BLOCK_NONE',
-                             'HARM_CATEGORY_SEXUALLY_EXPLICIT': 'BLOCK_NONE',
-                             'HARM_CATEGORY_DANGEROUS_CONTENT': 'BLOCK_NONE'}
-        )
-        generation_config = genai.types.GenerationConfig(temperature=llm_settings.get('temperature', 0.2))
+    max_retries = 3
+    for attempt in range(max_retries):
+        try:
+            model = genai.GenerativeModel(
+                llm_settings.get('model', 'gemini-2.5-flash'),
+                safety_settings={'HARM_CATEGORY_HARASSMENT': 'BLOCK_NONE',
+                                 'HARM_CATEGORY_HATE_SPEECH': 'BLOCK_NONE',
+                                 'HARM_CATEGORY_SEXUALLY_EXPLICIT': 'BLOCK_NONE',
+                                 'HARM_CATEGORY_DANGEROUS_CONTENT': 'BLOCK_NONE'},
+                 generation_config={"response_mime_type": "application/json"}
+            )
+            generation_config = genai.types.GenerationConfig(
+                temperature=llm_settings.get('temperature', 0.2),
+                response_mime_type="application/json"
+            )
 
-        response = model.generate_content(prompt, generation_config=generation_config)
-        reply = response.text
-        
-        return _parse_gemini_response(reply)
+            response = model.generate_content(prompt, generation_config=generation_config)
+            reply = response.text
+            
+            return _parse_gemini_response(reply)
 
-    except Exception as e:
-        print(f"An error occurred while communicating with the Google Gemini API: {e}")
-        raise e
-
-
+        except Exception as e:
+            print(f"Attempt {attempt + 1} failed: {e}")
+            if attempt == max_retries - 1:
+                print(f"An error occurred while communicating with the Google Gemini API after {max_retries} attempts.")
+                raise e
+            time.sleep(1) # Wait a bit before retrying
 
 def chat_with_assistant(notification_data: dict, question: str, analysis_context: AnalysisResponse, language: str = "en") -> dict:
     """
@@ -212,7 +215,7 @@ def chat_with_assistant(notification_data: dict, question: str, analysis_context
     Based on all the information above, answer the following question concisely and helpfully in {output_language}.
 
     **User's Question:** "{question}"
-    """
+    """.strip()
 
     try:
         model = genai.GenerativeModel(

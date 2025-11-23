@@ -33,11 +33,13 @@ The PM Notification Quality Assistant aims to proactively enhance the quality of
 - **AI-Powered Quality Analysis:** Automated evaluation of maintenance notification texts based on Good Manufacturing Practice (GMP) and ALCOA+ principles.
 - **Quantitative Scoring:** Each analysis provides a numerical quality score (0-100) for quick assessment.
 - **Detailed Problem Identification:** The AI highlights specific issues and gaps in the notification documentation.
-- **Summarized Expert Assessment:** A concise summary explains the AI's findings and recommendations.
-- **Multi-language Support:** The application supports analysis in both English and German.
+- **Multi-language Support:** The application supports full analysis and UI localization in **English** and **German**, including translated test data.
 - **Notification Management:** View, filter, and search through a list of PM notifications.
 - **Detailed Notification View:** Access comprehensive details of individual notifications and trigger on-demand AI analysis.
-- **Visual Score Indicator:** A clear visual indicator provides immediate feedback on the notification's quality score.
+- **Unified Workspace:** View Notification (Problem) and Order (Resolution) details in a single view.
+- **"Command Center" Layout:** A persistent side panel ("Quality Guardian") displays real-time AI analysis and chat without obstructing the main workspace.
+- **"What-If" Analysis:** Interactive editing of the notification text to instantly see how changes affect the quality score.
+- **Chat Assistant:** A conversational AI interface to ask questions about the notification and get guidance.
 
 ## UI/UX Overview
 
@@ -48,31 +50,24 @@ The user interface is designed to be intuitive and efficient, following standard
 The initial screen of the application is the **Worklist View**, which serves as the central hub for managing notifications.
 
 - **Notification List:** Displays a comprehensive list of PM notifications, showing key information at a glance (ID, description, priority, status, etc.).
-- **Filtering:** A powerful filter bar allows users to narrow down the list based on various criteria such as short text, notification type, creator, functional location, equipment, and status.
+- **Filtering:** A powerful filter bar allows users to narrow down the list based on various criteria.
 - **Navigation:** Users can select a notification from the list to navigate to the detailed **Object View**.
-- **Language Selection:** A language switcher allows users to toggle between English and German.
+- **Language Selection:** A language switcher allows users to toggle between English and German, instantly localizing the UI and the data content.
 
 ### Object View (Detail Screen)
 
-The **Object View** provides a detailed look at a single PM notification. The information is organized into three tabs for clarity:
+The **Object View** provides a detailed look at a single PM notification, utilizing a **Dynamic Side Content** layout.
 
-1.  **Notification Details Tab:**
-    -   **Header:** Displays the notification's title, priority, and other key header data.
-    -   **Status Timeline:** A visual timeline shows the progression of the notification's status (e.g., Outstanding, Released, Closed).
-    -   **Detailed Information:** Provides a comprehensive overview of the notification's details, including functional location, equipment, dates, long text, and damage/cause codes.
+1.  **Main Content (Left):**
+    -   **Header:** Key header data (Priority, Type, Creator, Dates).
+    -   **Notification Tab:** Detailed problem description, functional location, equipment, and damage codes.
+    -   **Work Order Tab:** Linked order details, operations table, and components/materials list.
 
-2.  **Work Order Tab:**
-    -   **Visibility:** This tab is only visible if a work order is associated with the notification.
-    -   **Status Timeline:** A visual timeline for the work order's status.
-    -   **Work Order Details:** Displays key information about the work order, such as ID, description, type, and dates.
-    -   **Operations Table:** Lists all operations associated with the work order.
-
-3.  **Quality Analysis Tab:**
-    -   **AI-Powered Analysis:** This is the core feature of the application. When a notification is viewed, an AI-powered analysis is automatically triggered.
-    -   **Quality Score:** A progress indicator displays the notification's quality score (0-100), with color-coding (red, yellow, green) for quick assessment.
-    -   **Summary and Problems:** The analysis results include a summary of the findings and a list of identified problems.
-    -   **"What-If" Analysis:** Users can edit the notification's long text in a text area and click a "Re-analyze" button to see how their changes would affect the quality score. This allows for interactive improvement of the notification.
-    -   **Chat with Assistant:** A chat interface allows users to ask questions about the notification in natural language and receive AI-powered answers. This provides a conversational way to get more information and insights.
+2.  **Quality Guardian (Right Side Panel):**
+    -   **Live Score:** A visual gauge (0-100%) indicating the quality of the documentation.
+    -   **Problem List:** Specific, actionable items identified by the AI (e.g., "Missing root cause").
+    -   **What-If Analysis:** An editor to refine the description and re-analyze.
+    -   **Chat Assistant:** An interactive chat to query the notification context.
 
 ## Architecture Deep Dive
 
@@ -80,23 +75,24 @@ The application follows a client-server architecture, with a distinct separation
 
 ### Backend (Python/Flask)
 
-The backend is a lightweight Flask application responsible for handling API requests and performing the core AI-driven text analysis.
+The backend is a lightweight Flask application responsible for handling API requests, managing the SQLite database, and performing the core AI-driven text analysis.
 
-- **Technology Stack:** Flask, Gunicorn, Pydantic, Google Gemini API.
-- **Deployment Type:** Deployed as a standard Cloud Foundry application.
-- **`main.py`**: The central Flask application file. It defines API routes (`/health` and `/api/analyze`).
-- **`app/services/analysis_service.py`**: Integrates with the Google Gemini API (`gemini-1.5-flash-latest`).
-- **`requirements.txt`**: Lists Python dependencies. Gunicorn is used as the production-grade WSGI server.
-- **`manifest.yml`**: Defines the Cloud Foundry application properties. Crucially, it specifies the command to run the app with Gunicorn and declaratively defines the application's route.
+- **Technology Stack:** Flask, Gunicorn, Pydantic, Google Gemini API, SQLite.
+- **Database:** A local `sap_pm.db` (SQLite) simulates the SAP backend tables (`QMEL`, `AUFK`, `AFVC`, etc.) with a fully relational schema including multi-language text tables.
+- **API Endpoints:**
+    -   `/api/notifications`: Fetches the list of notifications (supports language param).
+    -   `/api/notifications/<id>`: Fetches full object details (Notification + Order + Items) in the requested language.
+    -   `/api/analyze`: Performs AI analysis.
+    -   `/api/chat`: Handles conversational queries.
 
 ### Frontend (SAP Fiori/UI5)
 
 The frontend is an SAP Fiori application built with SAP UI5, providing an intuitive and enterprise-grade user interface.
 
 - **Technology Stack:** SAP UI5, Node.js App Router.
-- **Deployment Type:** The UI5 application's static content is embedded directly within the App Router's build artifact and served by the App Router itself. This robust pattern bypasses the need for the HTML5 Application Repository service.
-- **`approuter/`**: Acts as the single entry point. It serves the static Fiori UI content and proxies API calls to the backend via the BTP Destination service.
-- **`xs-app.json`**: Configures routing rules. It serves the Fiori app's content from a local directory (`localDir`) and proxies `/api` calls to the backend destination, preserving the API path prefix.
+- **Layout:** Uses `DynamicSideContent` to implement the "Command Center" pattern.
+- **Data Binding:** Uses standard OData-like JSON models with extensive use of Expression Binding for visibility control.
+- **Localization:** Fully localized using `i18n` properties files and dynamic backend content fetching.
 
 ## Getting Started
 
@@ -125,6 +121,10 @@ The frontend is an SAP Fiori application built with SAP UI5, providing an intuit
 
     # Install dependencies
     pip install -r requirements.txt
+
+    # Initialize Database (First time only)
+    python3 -c "from app.database import init_db; init_db()"
+    python3 scripts/seed_data.py
 
     # Run the backend server
     python3 -m app.main

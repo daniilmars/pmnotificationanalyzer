@@ -8,208 +8,242 @@
 
     <Page
         id="page"
-        title="{i18n>objectTitle}: {NotificationId}"
+        title="{i18n>objectTitle}: {object>/NotificationId}"
         showNavButton="true"
         navButtonPress=".onNavBack">
+        <headerContent>
+            <Button
+                icon="sap-icon://ai"
+                text="{i18n>qualityAnalysisTab}"
+                press=".onToggleSideContent"
+                type="Emphasized" />
+        </headerContent>
         <content>
-            <VBox class="sapUiSmallMargin">
-                <Title text="{Description}" class="sapUiSmallMarginBottom" />
-                <f:SimpleForm layout="ResponsiveGridLayout">
-                    <f:content>
-                        <Label text="{i18n>priorityLabel}"/>
-                        <ObjectStatus
-                            text="{PriorityText}"
-                            state="{= ${Priority} === '1' ? 'Error' : ${Priority} === '2' ? 'Warning' : 'None' }" />
-                        <Label text="{i18n>notificationTypeLabel}"/>
-                        <Text text="{NotificationTypeText}" />
-                        <Label text="{i18n>createdByLabel}"/>
-                        <Text text="{CreatedByUser}" />
-                        <Label text="{i18n>creationDateLabel}"/>
-                                                    <Text text="{path: 'CreationDate'}" />
-                                            </f:content>
-                                        </f:SimpleForm>
-                                    </VBox>
-                                    <IconTabBar
-                                        id="iconTabBar"
-                                        class="sapUiResponsiveContentPadding">
-                                        <items>
-                                            <IconTabFilter key="notification" text="{i18n>notificationDetailsTab}">
-                                                
-                                                <HBox items="{timeline>/notification}" class="sapUiSmallMarginBottom">
-                                                    <VBox class="timelineStep">
-                                                        <customData>
-                                                            <core:CustomData key="status" value="{timeline>status}" writeToDom="true" />
-                                                        </customData>
-                                                        <HBox justifyContent="Center" alignItems="Center" width="100%">
-                                                            <Text text="{timeline>text}" class="timelineText"/>
-                                                            <core:Icon
-                                                                src="sap-icon://accept"
-                                                                class="sapUiTinyMarginBegin"
-                                                                visible="{= ${timeline>status} === 'completed' }" />
-                                                        </HBox>
-                                                    </VBox>
-                                                </HBox>
-                        
-                                                <f:SimpleForm layout="ResponsiveGridLayout" class="sapUiLargeMarginTop">
-                                                    <f:content>
-                                                        <Label text="{i18n>functionalLocationLabel}"/>
-                                                        <Text text="{FunctionalLocation}" />
-                                                        <Label text="{i18n>equipmentLabel}"/>
-                                                        <Text text="{EquipmentNumber}" />
-                                                        <Label text="{i18n>requiredStartLabel}"/>
-                                                        <Text text="{path: 'RequiredStartDate'}" />
-                                                        <Label text="{i18n>requiredEndLabel}"/>
-                                                        <Text text="{path: 'RequiredEndDate'}" />
-                                                        <Label text="{i18n>malfunctionStartLabel}"/>
-                                                        <Text text="{path: 'MalfunctionStartDate'}" />
-                                                        <Label text="{i18n>malfunctionEndLabel}"/>
-                                                        <Text text="{path: 'MalfunctionEndDate'}" />
-                                                        <Label text="{i18n>longTextLabel}"/>
-                                                        <Text text="{LongText}" />
-                                                    </f:content>
-                                                </f:SimpleForm>
-                                                <f:SimpleForm id="codesForm" title="{i18n>codesLabel}" layout="ResponsiveGridLayout">
-                                                    <f:content>
-                                                        <Label text="{i18n>damageLabel}"/>
-                                                        <Text text="{Damage/Text} ({Damage/CodeGroup} - {Damage/Code})" />
-                                                        <Label text="{i18n>causeLabel}"/>
-                                                        <Text text="{Cause/Text} ({Cause/CodeGroup} - {Cause/Code})" />
-                                                    </f:content>
-                                                </f:SimpleForm>
-                                            </IconTabFilter>
-                        
-                                            <IconTabFilter key="workOrder" text="{i18n>workOrderTab}" visible="{= !!${WorkOrder} }">
-                                                
-                                                <HBox items="{timeline>/workOrder}" class="sapUiSmallMarginBottom">
-                                                    <VBox class="timelineStep">
-                                                        <customData>
-                                                            <core:CustomData key="status" value="{timeline>status}" writeToDom="true" />
-                                                        </customData>
-                                                        <HBox justifyContent="Center" alignItems="Center" width="100%">
-                                                            <Text text="{timeline>text}" class="timelineText"/>
-                                                            <core:Icon
-                                                                src="sap-icon://accept"
-                                                                class="sapUiTinyMarginBegin"
-                                                                visible="{= ${timeline>status} === 'completed' }" />
-                                                        </HBox>
-                                                    </VBox>
-                                                </HBox>
-                        
-                                                <f:SimpleForm layout="ResponsiveGridLayout" class="sapUiLargeMarginTop">
-                                                    <f:content>
-                                                        <Label text="{i18n>orderIdLabel}"/>
-                                                        <Text text="{WorkOrder/OrderId}" />
-                                                        <Label text="{i18n>descriptionLabel}"/>
-                                                        <Text text="{WorkOrder/Description}" />
-                                                        <Label text="{i18n>orderTypeLabel}"/>
-                                                        <Text text="{WorkOrder/OrderTypeText}" />
-                                                        <Label text="{i18n>workCenterLabel}"/>
-                                                        <Text text="{WorkOrder/WorkCenter}" />
-                                                        <Label text="{i18n>plannerGroupLabel}"/>
-                                                        <Text text="{WorkOrder/PlannerGroup}" />
-                                                        <Label text="{i18n>basicStartDateLabel}"/>
-                                                        <Text text="{path: 'WorkOrder/BasicStartDate'}" />
-                                                        <Label text="{i18n>basicEndDateLabel}"/>
-                                                        <Text text="{path: 'WorkOrder/BasicEndDate'}" />                            </f:content>
+            <l:DynamicSideContent
+                id="DynamicSideContent"
+                class="sapUiDSCExplored"
+                sideContentVisibility="AlwaysShow"
+                showSideContent="true">
+                
+                <l:mainContent>
+                    <VBox class="sapUiSmallMargin">
+                        <Title text="{object>/Description}" class="sapUiSmallMarginBottom" />
+                        <f:SimpleForm layout="ResponsiveGridLayout">
+                            <f:content>
+                                <Label text="{i18n>priorityLabel}"/>
+                                <ObjectStatus
+                                    text="{object>/PriorityText}"
+                                    state="{= ${object>/Priority} === '1' ? 'Error' : ${object>/Priority} === '2' ? 'Warning' : 'None' }" />
+                                <Label text="{i18n>notificationTypeLabel}"/>
+                                <Text text="{object>/NotificationTypeText}" />
+                                <Label text="{i18n>createdByLabel}"/>
+                                <Text text="{object>/CreatedByUser}" />
+                                <Label text="{i18n>creationDateLabel}"/>
+                                <Text text="{path: 'object>/CreationDate', formatter: '.formatter.formatDateTime'}" />
+                            </f:content>
                         </f:SimpleForm>
-                        <Table
-                            headerText="{i18n>operationsHeader}"
-                            items="{WorkOrder/Operations}">
-                            <columns>
-                                <Column><Text text="{i18n>operationColumn}" /></Column>
-                                <Column><Text text="{i18n>descriptionColumn}" /></Column>
-                                <Column><Text text="{i18n>workCenterColumn}" /></Column>
-                                <Column hAlign="End"><Text text="{i18n>durationColumn}" /></Column>
-                            </columns>
-                            <items>
-                                <ColumnListItem>
-                                    <cells>
-                                        <Text text="{OperationNumber}" />
-                                        <Text text="{Description}" />
-                                        <Text text="{WorkCenter}" />
-                                        <Text text="{Duration} {DurationUnit}" />
-                                    </cells>
-                                </ColumnListItem>
-                            </items>
-                        </Table>
-                    </IconTabFilter>
+                    </VBox>
+                    <IconTabBar
+                        id="iconTabBar"
+                        class="sapUiResponsiveContentPadding">
+                        <items>
+                            <IconTabFilter key="notification" text="{i18n>notificationDetailsTab}">
+                                
+                                <HBox items="{timeline>/notification}" class="sapUiSmallMarginBottom">
+                                    <VBox class="timelineStep">
+                                        <customData>
+                                            <core:CustomData key="status" value="{timeline>status}" writeToDom="true" />
+                                        </customData>
+                                        <HBox justifyContent="Center" alignItems="Center" width="100%">
+                                            <Text text="{timeline>text}" class="timelineText"/>
+                                            <core:Icon
+                                                src="sap-icon://accept"
+                                                class="sapUiTinyMarginBegin"
+                                                visible="{= ${timeline>status} === 'completed' }" />
+                                        </HBox>
+                                    </VBox>
+                                </HBox>
 
-                    <IconTabFilter key="analysis" text="{i18n>qualityAnalysisTab}">
-                        <l:Splitter orientation="Horizontal" class="sapUiMediumMarginTop">
-                            <l:contentAreas>
-                                <!-- Left Side: Current Analysis -->
-                                <VBox class="sapUiSmallMarginEnd" busy="{analysis>/busy}">
-                                    <Title text="{i18n>qualityScoreLabel}" class="sapUiSmallMarginTopBottom" />
-                                    <ProgressIndicator
-                                        percentValue="{analysis>/score}"
-                                        displayValue="{analysis>/score}%"
-                                        state="{= ${analysis>/score} > 70 ? 'Success' : (${analysis>/score} >= 50 ? 'Warning' : 'Error') }"
-                                        class="sapUiSmallMarginBottom" />
-                                    
-                                    <f:SimpleForm layout="ResponsiveGridLayout">
-                                        <f:content>
-                                            <Label text="{i18n>summaryLabel}"/>
-                                            <Text text="{analysis>/summary}" />
-                                            <Label text="{i18n>problemsLabel}"/>
-                                            <List
-                                                items="{analysis>/problems}"
-                                                noDataText="{i18n>noProblemsFound}"
-                                                class="sapUiNoContentPadding">
-                                                <CustomListItem>
-                                                    <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiSmallMarginBeginEnd">
-                                                        <Text text="{analysis>description}" class="sapMText sapUiSmallMarginEnd" wrapping="true"/>
-                                                        <core:Icon
-                                                            src="sap-icon://navigation-right-arrow"
-                                                            class="sapUiTinyMarginBegin"
-                                                            press=".onProblemPress"
-                                                            tooltip="{i18n>navigateToFieldTooltip}">
-                                                            <core:dependents>
-                                                                <core:CustomData key="field" value="{analysis>field}" />
-                                                            </core:dependents>
-                                                        </core:Icon>
-                                                    </HBox>
-                                                </CustomListItem>
-                                            </List>
-                                        </f:content>
-                                    </f:SimpleForm>
+                                <f:SimpleForm layout="ResponsiveGridLayout" class="sapUiLargeMarginTop">
+                                    <f:content>
+                                        <Label text="{i18n>functionalLocationLabel}"/>
+                                        <Text text="{object>/FunctionalLocation}" />
+                                        <Label text="{i18n>equipmentLabel}"/>
+                                        <Text text="{object>/EquipmentNumber}" />
+                                        <Label text="{i18n>requiredStartLabel}"/>
+                                        <Text text="{path: 'object>/RequiredStartDate', formatter: '.formatter.formatDateTime'}" />
+                                        <Label text="{i18n>requiredEndLabel}"/>
+                                        <Text text="{path: 'object>/RequiredEndDate', formatter: '.formatter.formatDateTime'}" />
+                                        <Label text="{i18n>malfunctionStartLabel}"/>
+                                        <Text text="{path: 'object>/MalfunctionStartDate', formatter: '.formatter.formatDateTime'}" />
+                                        <Label text="{i18n>malfunctionEndLabel}"/>
+                                        <Text text="{path: 'object>/MalfunctionEndDate', formatter: '.formatter.formatDateTime'}" />
+                                        <Label text="{i18n>longTextLabel}"/>
+                                        <Text text="{object>/LongText}" />
+                                    </f:content>
+                                </f:SimpleForm>
+                                <f:SimpleForm id="codesForm" title="{i18n>codesLabel}" layout="ResponsiveGridLayout">
+                                    <f:content>
+                                        <Label text="{i18n>damageLabel}"/>
+                                        <Text text="{object>/Damage/Text} ({object>/Damage/CodeGroup} - {object>/Damage/Code})" />
+                                        <Label text="{i18n>causeLabel}"/>
+                                        <Text text="{object>/Cause/Text} ({object>/Cause/CodeGroup} - {object>/Cause/Code})" />
+                                    </f:content>
+                                </f:SimpleForm>
+                            </IconTabFilter>
 
-                                    <Label text="{i18n>whatIfAnalysisLabel}" class="sapUiSmallMarginTopBottom" />
-                                    <TextArea id="longTextForAnalysis" value="{LongText}" rows="8" width="100%" />
-                                    <Button text="{i18n>reanalyzeButtonText}" type="Emphasized" press=".onReanalyze" class="sapUiSmallMarginTop"/>
-                                </VBox>
+                            <IconTabFilter key="workOrder" text="{i18n>workOrderTab}">
+                                
+                                <HBox items="{timeline>/workOrder}" class="sapUiSmallMarginBottom">
+                                    <VBox class="timelineStep">
+                                        <customData>
+                                            <core:CustomData key="status" value="{timeline>status}" writeToDom="true" />
+                                        </customData>
+                                        <HBox justifyContent="Center" alignItems="Center" width="100%">
+                                            <Text text="{timeline>text}" class="timelineText"/>
+                                            <core:Icon
+                                                src="sap-icon://accept"
+                                                class="sapUiTinyMarginBegin"
+                                                visible="{= ${timeline>status} === 'completed' }" />
+                                        </HBox>
+                                    </VBox>
+                                </HBox>
 
-                                <!-- Right Side: Chat with Assistant -->
-                                <VBox class="sapUiSmallMarginBegin">
-                                    <Title text="{i18n>chatTitle}" class="sapUiSmallMarginTopBottom" />
-                                    <ScrollContainer id="chatScrollContainer" height="400px" vertical="true" class="sapUiSmallMarginBottom">
-                                        <List
-                                            items="{chat>/messages}"
-                                            showSeparators="None">
-                                            <CustomListItem>
-                                                <HBox class="sapUiSmallMargin">
-                                                    <core:Icon
-                                                        src="{= ${chat>author} === 'user' ? 'sap-icon://customer' : 'sap-icon://fa-solid/robot'}"
-                                                        class="sapUiTinyMarginEnd"
-                                                        color="{= ${chat>author} === 'user' ? '#0a6ed1' : '#107e3e'}"
-                                                        size="1.5rem"/>
-                                                    <VBox>
-                                                        <Text text="{chat>text}" />
-                                                    </VBox>
-                                                </HBox>
-                                            </CustomListItem>
-                                        </List>
-                                    </ScrollContainer>
-                                    <FeedInput
-                                        placeholder="{i18n>chatInputPlaceholder}"
-                                        post=".onPostChatMessage"
-                                        showIcon="true"
-                                        icon="sap-icon://send"/>
-                                </VBox>
-                            </l:contentAreas>
-                        </l:Splitter>
-                    </IconTabFilter>
-                </items>
-            </IconTabBar>
+                                <f:SimpleForm id="workOrderDetailsForm" layout="ResponsiveGridLayout" class="sapUiLargeMarginTop">
+                                    <f:content>
+                                        <Label text="{i18n>orderIdLabel}"/>
+                                        <Text text="{object>/WorkOrder/OrderId}" />
+                                        <Label text="{i18n>descriptionLabel}"/>
+                                        <Text text="{object>/WorkOrder/Description}" />
+                                        <Label text="{i18n>orderTypeLabel}"/>
+                                        <Text text="{object>/WorkOrder/OrderTypeText}" />
+                                        <Label text="{i18n>workCenterLabel}"/>
+                                        <Text text="{object>/WorkOrder/WorkCenter}" />
+                                        <Label text="{i18n>plannerGroupLabel}"/>
+                                        <Text text="{object>/WorkOrder/PlannerGroup}" />
+                                        <Label text="{i18n>basicStartDateLabel}"/>
+                                        <Text text="{path: 'object>/WorkOrder/BasicStartDate', formatter: '.formatter.formatDateTime'}" />
+                                        <Label text="{i18n>basicEndDateLabel}"/>
+                                        <Text text="{path: 'object>/WorkOrder/BasicEndDate', formatter: '.formatter.formatDateTime'}" />                            </f:content>
+                                </f:SimpleForm>
+                                <Table
+                                    headerText="{i18n>operationsHeader}"
+                                    items="{object>/WorkOrder/Operations}"
+                                    class="sapUiMediumMarginTop">
+                                    <columns>
+                                        <Column><Text text="{i18n>operationColumn}" /></Column>
+                                        <Column><Text text="{i18n>descriptionColumn}" /></Column>
+                                        <Column><Text text="{i18n>workCenterColumn}" /></Column>
+                                        <Column hAlign="End"><Text text="{i18n>durationColumn}" /></Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem>
+                                            <cells>
+                                                <Text text="{object>OperationNumber}" />
+                                                <Text text="{object>Description}" />
+                                                <Text text="{object>WorkCenter}" />
+                                                <Text text="{object>Duration} {object>DurationUnit}" />
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+                                
+                                <Table
+                                    headerText="Materials / Components"
+                                    items="{object>/WorkOrder/AllMaterials}"
+                                    class="sapUiMediumMarginTop">
+                                    <columns>
+                                        <Column><Text text="Material" /></Column>
+                                        <Column><Text text="Description" /></Column>
+                                        <Column><Text text="Operation Ref" /></Column>
+                                        <Column hAlign="End"><Text text="Quantity" /></Column>
+                                    </columns>
+                                    <items>
+                                        <ColumnListItem>
+                                            <cells>
+                                                <Text text="{object>MaterialNumber}" />
+                                                <Text text="{object>Description}" />
+                                                <Text text="{object>ForOperation}" />
+                                                <Text text="{object>Quantity} {object>Unit}" />
+                                            </cells>
+                                        </ColumnListItem>
+                                    </items>
+                                </Table>
+                            </IconTabFilter>
+                        </items>
+                    </IconTabBar>
+                </l:mainContent>
+
+                <l:sideContent>
+                    <!-- Quality Guardian Panel -->
+                    <VBox class="sapUiSmallMargin" busy="{analysis>/busy}">
+                        <Title text="{i18n>qualityScoreLabel}" class="sapUiSmallMarginBottom" />
+                        <ProgressIndicator
+                            percentValue="{analysis>/score}"
+                            displayValue="{analysis>/score}%"
+                            state="{= ${analysis>/score} > 70 ? 'Success' : (${analysis>/score} >= 50 ? 'Warning' : 'Error') }"
+                            class="sapUiSmallMarginBottom" />
+                        
+                        <f:SimpleForm layout="ResponsiveGridLayout">
+                            <f:content>
+                                <Label text="{i18n>summaryLabel}"/>
+                                <Text text="{analysis>/summary}" />
+                                <Label text="{i18n>problemsLabel}"/>
+                                <List
+                                    items="{analysis>/problems}"
+                                    noDataText="{i18n>noProblemsFound}"
+                                    class="sapUiNoContentPadding">
+                                    <CustomListItem>
+                                        <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiSmallMarginBeginEnd">
+                                            <Text text="{analysis>description}" class="sapMText sapUiSmallMarginEnd" wrapping="true"/>
+                                            <core:Icon
+                                                src="sap-icon://navigation-right-arrow"
+                                                class="sapUiTinyMarginBegin"
+                                                press=".onProblemPress"
+                                                tooltip="{i18n>navigateToFieldTooltip}">
+                                                <core:dependents>
+                                                    <core:CustomData key="field" value="{analysis>field}" />
+                                                </core:dependents>
+                                            </core:Icon>
+                                        </HBox>
+                                    </CustomListItem>
+                                </List>
+                            </f:content>
+                        </f:SimpleForm>
+
+                        <Label text="{i18n>whatIfAnalysisLabel}" class="sapUiSmallMarginTopBottom" />
+                        <TextArea id="longTextForAnalysis" value="{object>/LongText}" rows="8" width="100%" />
+                        <Button text="{i18n>reanalyzeButtonText}" type="Emphasized" press=".onReanalyze" class="sapUiSmallMarginTop"/>
+                    
+                        <!-- Chat with Assistant -->
+                        <Title text="{i18n>chatTitle}" class="sapUiMediumMarginTop sapUiSmallMarginBottom" />
+                        <ScrollContainer id="chatScrollContainer" height="300px" vertical="true" class="sapUiSmallMarginBottom">
+                            <List
+                                items="{chat>/messages}"
+                                showSeparators="None">
+                                <CustomListItem>
+                                    <HBox class="sapUiSmallMargin">
+                                        <core:Icon
+                                            src="{= ${chat>author} === 'user' ? 'sap-icon://customer' : 'sap-icon://fa-solid/robot'}"
+                                            class="sapUiTinyMarginEnd"
+                                            color="{= ${chat>author} === 'user' ? '#0a6ed1' : '#107e3e'}"
+                                            size="1.5rem"/>
+                                        <VBox>
+                                            <Text text="{chat>text}" />
+                                        </VBox>
+                                    </HBox>
+                                </CustomListItem>
+                            </List>
+                        </ScrollContainer>
+                        <FeedInput
+                            placeholder="{i18n>chatInputPlaceholder}"
+                            post=".onPostChatMessage"
+                            showIcon="true"
+                            icon="sap-icon://send"/>
+                    </VBox>
+                </l:sideContent>
+
+            </l:DynamicSideContent>
         </content>
     </Page>
 </mvc:View>

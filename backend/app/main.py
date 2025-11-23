@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, g
 from flask_cors import CORS
 from dotenv import load_dotenv
 import os
@@ -9,33 +9,74 @@ import logging
 load_dotenv()
 
 from app.services.analysis_service import analyze_text, chat_with_assistant
+from app.services.data_service import get_all_notifications_summary, get_unified_notification
 from app.models import AnalysisResponse
 from app.config_manager import get_config, save_config
-from app.config_manager import get_config, save_config
-# Removed: from app.auth import token_required # No longer needed
+from app.database import close_db
 
 app = Flask(__name__)
 CORS(app)
 logging.basicConfig(level=logging.INFO)
 
+@app.teardown_appcontext
+def teardown_db(exception):
+    close_db(exception)
+
 @app.route('/health', methods=['GET'])
 def health_check() -> Tuple[str, int]:
     return jsonify({"status": "ok"}), 200
 
+# --- New Data Endpoints ---
+
+@app.route('/api/notifications', methods=['GET'])
+def get_notifications():
+    """Fetches the list of notifications."""
+    try:
+        language = request.args.get('language', 'en')
+        notifications = get_all_notifications_summary(language)
+        return jsonify({"value": notifications}), 200 
+    except Exception as e:
+        app.logger.exception("Error fetching notifications.")
+        return jsonify({"error": str(e)}), 500
+
+@app.route('/api/notifications/<id>', methods=['GET'])
+def get_notification_detail(id):
+    """Fetches a single notification with details."""
+    try:
+        language = request.args.get('language', 'en')
+        notification = get_unified_notification(id, language)
+        if notification:
+            return jsonify(notification), 200
+        else:
+            return jsonify({"error": "Notification not found"}), 404
+    except Exception as e:
+        app.logger.exception(f"Error fetching notification {id}.")
+        return jsonify({"error": str(e)}), 500
+
+# --- Existing Logic ---
 
 @app.route('/api/analyze', methods=['POST'])
-# Removed: @token_required # No longer needed
 def analyze() -> Tuple[str, int]:
     data = request.get_json()
-    if not data or not data.get('notification'):
+    
+    # Support both direct payload AND ID-based analysis
+    if data and data.get('notificationId'):
+        language = data.get('language', 'en')
+        # Fetch from DB with correct language
+        notification_data = get_unified_notification(data['notificationId'], language)
+        if not notification_data:
+             return jsonify({"error": {"code": "NOT_FOUND", "message": "Notification ID not found"}}), 404
+    elif data and data.get('notification'):
+        # Use provided payload (Legacy/What-If mode)
+        notification_data = data['notification']
+    else:
         return jsonify({
             "error": {
                 "code": "BAD_REQUEST",
-                "message": "Missing 'notification' object in request body"
+                "message": "Missing 'notificationId' or 'notification' object in request body"
             }
         }), 400
 
-    notification_data = data['notification']
     language = data.get('language', 'en')
 
     try:

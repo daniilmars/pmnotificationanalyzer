@@ -1,0 +1,139 @@
+-- SAP Plant Maintenance Data Model (SQLite Compatible)
+-- Fully Localized Version
+
+-- 1. QMEL: Notification Header (Technical Data Only)
+CREATE TABLE IF NOT EXISTS QMEL (
+    QMNUM TEXT PRIMARY KEY,
+    QMART TEXT NOT NULL,
+    EQUNR TEXT,
+    TPLNR TEXT,
+    PRIOK TEXT,
+    QMNAM TEXT,
+    ERDAT TEXT,
+    MZEIT TEXT,
+    STRMN TEXT,
+    LTRMN TEXT
+);
+
+-- 2. NOTIF_CONTENT: Notification Header Texts (Multi-Language)
+CREATE TABLE IF NOT EXISTS NOTIF_CONTENT (
+    QMNUM TEXT,
+    SPRAS TEXT,
+    QMTXT TEXT,
+    TDLINE TEXT,
+    PRIMARY KEY (QMNUM, SPRAS),
+    FOREIGN KEY(QMNUM) REFERENCES QMEL(QMNUM)
+);
+
+-- 3. QMFE: Notification Items (Codes Only)
+CREATE TABLE IF NOT EXISTS QMFE (
+    QMNUM TEXT,
+    FENUM TEXT,
+    OTGRP TEXT,
+    OTEIL TEXT,
+    FEGRP TEXT,
+    FECOD TEXT,
+    PRIMARY KEY (QMNUM, FENUM),
+    FOREIGN KEY(QMNUM) REFERENCES QMEL(QMNUM)
+);
+
+-- 3b. QMFE_TEXT: Notification Item Texts (Multi-Language)
+CREATE TABLE IF NOT EXISTS QMFE_TEXT (
+    QMNUM TEXT,
+    FENUM TEXT,
+    SPRAS TEXT,
+    FETXT TEXT,
+    PRIMARY KEY (QMNUM, FENUM, SPRAS),
+    FOREIGN KEY(QMNUM, FENUM) REFERENCES QMFE(QMNUM, FENUM)
+);
+
+-- 4. QMUR: Notification Causes (Codes Only)
+CREATE TABLE IF NOT EXISTS QMUR (
+    QMNUM TEXT,
+    FENUM TEXT,
+    URNUM TEXT,
+    URGRP TEXT,
+    URCOD TEXT,
+    PRIMARY KEY (QMNUM, FENUM, URNUM),
+    FOREIGN KEY(QMNUM, FENUM) REFERENCES QMFE(QMNUM, FENUM)
+);
+
+-- 4b. QMUR_TEXT: Notification Cause Texts (Multi-Language)
+CREATE TABLE IF NOT EXISTS QMUR_TEXT (
+    QMNUM TEXT,
+    FENUM TEXT,
+    URNUM TEXT,
+    SPRAS TEXT,
+    URTXT TEXT,
+    PRIMARY KEY (QMNUM, FENUM, URNUM, SPRAS),
+    FOREIGN KEY(QMNUM, FENUM, URNUM) REFERENCES QMUR(QMNUM, FENUM, URNUM)
+);
+
+-- 5. QMAK: Notification Activities
+CREATE TABLE IF NOT EXISTS QMAK (
+    QMNUM TEXT,
+    MANUM TEXT,
+    MNGRP TEXT,
+    MNCOD TEXT,
+    MATXT TEXT, -- Keeping simple for now, focus was on Items/Causes
+    PRIMARY KEY (QMNUM, MANUM),
+    FOREIGN KEY(QMNUM) REFERENCES QMEL(QMNUM)
+);
+
+-- 6. AUFK: Order Header
+CREATE TABLE IF NOT EXISTS AUFK (
+    AUFNR TEXT PRIMARY KEY,
+    QMNUM TEXT,
+    AUART TEXT NOT NULL,
+    KTEXT TEXT, -- Usually in AUFK, but could be text table. Keeping here for simplicity or we can move it.
+    GLTRP TEXT,
+    GLTRS TEXT,
+    FOREIGN KEY(QMNUM) REFERENCES QMEL(QMNUM)
+);
+
+-- 7. AFVC: Order Operations (Technical)
+CREATE TABLE IF NOT EXISTS AFVC (
+    AUFNR TEXT,
+    VORNR TEXT,
+    ARBPL TEXT,
+    STEUS TEXT,
+    DAUER TEXT,
+    DAUERE TEXT,
+    PRIMARY KEY (AUFNR, VORNR),
+    FOREIGN KEY(AUFNR) REFERENCES AUFK(AUFNR)
+);
+
+-- 7b. AFVC_TEXT: Order Operation Texts (Multi-Language)
+CREATE TABLE IF NOT EXISTS AFVC_TEXT (
+    AUFNR TEXT,
+    VORNR TEXT,
+    SPRAS TEXT,
+    LTXA1 TEXT,
+    PRIMARY KEY (AUFNR, VORNR, SPRAS),
+    FOREIGN KEY(AUFNR, VORNR) REFERENCES AFVC(AUFNR, VORNR)
+);
+
+-- 8. RESB: Order Components (Materials - Technical)
+CREATE TABLE IF NOT EXISTS RESB (
+    AUFNR TEXT,
+    VORNR TEXT,
+    MATNR TEXT,
+    MENGE REAL,
+    MEINS TEXT,
+    PRIMARY KEY (AUFNR, VORNR, MATNR),
+    FOREIGN KEY(AUFNR, VORNR) REFERENCES AFVC(AUFNR, VORNR)
+);
+
+-- 8b. MAKT: Material Descriptions (Master Data Pattern)
+-- In SAP, MAKT is linked to MARA (Material Master). Here we link via MATNR.
+CREATE TABLE IF NOT EXISTS MAKT (
+    MATNR TEXT,
+    SPRAS TEXT,
+    MAKTX TEXT,
+    PRIMARY KEY (MATNR, SPRAS)
+);
+
+-- Indexes
+CREATE INDEX idx_qmel_equnr ON QMEL(EQUNR);
+CREATE INDEX idx_qmel_tplnr ON QMEL(TPLNR);
+CREATE INDEX idx_aufk_qmnum ON AUFK(QMNUM);

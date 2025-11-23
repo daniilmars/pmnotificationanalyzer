@@ -76,7 +76,7 @@
                     number="{PriorityText}"
                     numberState="{= ${Priority} === '1' ? 'Error' : ${Priority} === '2' ? 'Warning' : 'None' }">
                     <firstStatus>
-                        <ObjectStatus text="{SystemStatusText}" />
+                        <ObjectStatus title="{i18n>statusLabel}" text="{SystemStatusText}" />
                     </firstStatus>
                     <attributes>
                         <ObjectAttribute title="{i18n>functionalLocationLabel}" text="{FunctionalLocation}" />
