@@ -1,0 +1,40 @@
+<mvc:View
+    controllerName="com.sap.pm.rulemanager.controller.RuleEditor"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc">
+    <Page title="Edit Ruleset" showNavButton="true" navButtonPress=".onNavBack">
+        <headerContent>
+            <Toolbar>
+                <ToolbarSpacer />
+                <Button icon="sap-icon://add" text="Create Rule" press=".onCreateRule" />
+            </Toolbar>
+        </headerContent>
+        <content>
+            <Table
+                id="rulesTable"
+                items="{rules>/}"
+                noDataText="No rules defined for this ruleset.">
+                <columns>
+                    <Column><Text text="Rule Name" /></Column>
+                    <Column><Text text="Target Field" /></Column>
+                    <Column><Text text="Condition" /></Column>
+                    <Column><Text text="Value" /></Column>
+                    <Column><Text text="Score Impact" /></Column>
+                    <Column />
+                </columns>
+                <items>
+                    <ColumnListItem>
+                        <cells>
+                            <Text text="{rules>name}" />
+                            <Text text="{rules>target_field}" />
+                            <Text text="{rules>condition}" />
+                            <Text text="{rules>value}" />
+                            <Text text="{rules>score_impact}" />
+                            <Button icon="sap-icon://delete" press=".onDeleteRule" />
+                        </cells>
+                    </ColumnListItem>
+                </items>
+            </Table>
+        </content>
+    </Page>
+</mvc:View>

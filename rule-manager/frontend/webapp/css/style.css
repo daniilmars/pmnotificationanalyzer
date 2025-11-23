@@ -1,0 +1,87 @@
+/* Erhöht die Basis-Schriftgrösse der gesamten Anwendung */
+.sapUiBody {
+    font-size: 1.05rem; 
+}
+
+.priorityStatus {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+/* Erhöht die Basis-Schriftgrösse der gesamten Anwendung */
+.sapUiBody {
+    font-size: 1.05rem; 
+}
+
+.priorityStatus {
+    font-size: 1.25rem;
+    font-weight: bold;
+}
+
+/* --- START: Professional Timeline Styles --- */
+
+/* Base for each step in the timeline */
+.timelineStep {
+    flex-grow: 1;
+    text-align: center;
+    padding: 0.5rem;
+    margin-right: 0.25rem;
+    border-radius: 3px; /* Slightly sharper corners */
+    border: 1px solid transparent; /* Start with transparent border */
+    transition: all 0.2s ease-in-out;
+}
+
+.timelineStep:last-child {
+    margin-right: 0;
+}
+
+.timelineText {
+    font-weight: 600; /* Semi-bold for better readability */
+}
+
+/* Completed Step: Green for success */
+.timelineStep[data-status="completed"] {
+    background-color: #107e3e; /* SAP Success Green */
+    border-color: #0d6732; /* Darker Green */
+}
+.timelineStep[data-status="completed"] .timelineText,
+.timelineStep[data-status="completed"] .sapUiIcon {
+    color: white;
+}
+
+/* Current Step: Blue for attention/in-progress */
+.timelineStep[data-status="current"] {
+    background-color: #0a6ed1; /* SAP Info Blue */
+    border-color: #0057a8; /* Darker SAP Blue */
+    /* Make it stand out more */
+    transform: scale(1.05);
+    box-shadow: 0 0 8px rgba(0,0,0,0.3);
+    z-index: 1;
+}
+.timelineStep[data-status="current"] .timelineText {
+    color: white;
+}
+
+/* Future Step: Grey for inactive */
+.timelineStep[data-status="future"] {
+    background-color: #fafafa; /* Off-white */
+    border-color: #d9d9d9; /* Light Grey */
+}
+.timelineStep[data-status="future"] .timelineText {
+    color: #666666; /* Medium Grey */
+}
+/* --- END: Professional Timeline Styles --- */
+
+/* Ensure the full text of problem descriptions is visible */
+.problemListItem .sapMText {
+    white-space: normal;
+}
+
+/* --- START: Field Highlighting Animation --- */
+    0% { background-color: rgba(10, 110, 209, 0.2); } /* Light blue */
+    100% { background-color: transparent; }
+}
+
+    animation: highlight-field 2s ease-out;
+}
+/* --- END: Field Highlighting Animation --- */

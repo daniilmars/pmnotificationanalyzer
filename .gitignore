@@ -32,3 +32,12 @@ target/ # Output of mbt build
 # OS generated files
 .DS_Store
 Thumbs.db
+.env
+.nosync
+**/node_modules
+
+# Service Account Keys
+*.json
+
+# Gemini state file
+GEMINI.md

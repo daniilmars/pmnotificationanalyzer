@@ -1,0 +1,44 @@
+<mvc:View
+    controllerName="com.sap.pm.rulemanager.controller.SopRuleReview"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc">
+    <Page title="Review Suggested Rules" showNavButton="true" navButtonPress=".onNavBack">
+        <headerContent>
+            <ToolbarSpacer />
+            <Button text="Add Approved Rules to Ruleset" type="Emphasized" press=".onAddApprovedRules" />
+        </headerContent>
+        <content>
+            <List
+                id="ruleSuggestionsList"
+                items="{suggestions>/}"
+                noDataText="No rules were found in the document. Please try another document or adjust your prompt.">
+                <CustomListItem>
+                    <Panel class="sapUiResponsiveMargin" width="auto">
+                        <headerToolbar>
+                            <Toolbar>
+                                <Title text="{suggestions>rule_name}" />
+                                <ToolbarSpacer />
+                                <Text text="{suggestions>target_field}" />
+                            </Toolbar>
+                        </headerToolbar>
+                        <content>
+                            <VBox class="sapUiSmallMargin">
+                                <Label text="Source Text" design="Bold" />
+                                <Text text="{suggestions>source_text}" class="sapUiTinyMarginTopBottom"/>
+                                <Label text="Condition" design="Bold" class="sapUiSmallMarginTop"/>
+                                <Text text="{suggestions>condition}: {suggestions>value}" />
+                                <Label text="Feedback Message" design="Bold" class="sapUiSmallMarginTop"/>
+                                <Text text="{suggestions>feedback_message}" />
+                                <Toolbar>
+                                    <ToolbarSpacer/>
+                                    <Button icon="sap-icon://accept" text="Approve" press=".onApprove" />
+                                    <Button icon="sap-icon://decline" text="Reject" press=".onReject" />
+                                </Toolbar>
+                            </VBox>
+                        </content>
+                    </Panel>
+                </CustomListItem>
+            </List>
+        </content>
+    </Page>
+</mvc:View>

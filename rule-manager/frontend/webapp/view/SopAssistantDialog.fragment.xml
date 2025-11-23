@@ -1,0 +1,35 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:u="sap.ui.unified">
+    <Dialog
+        id="sopAssistantDialog"
+        title="Import Rules from SOP">
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <Label text="Select a PDF file containing the Standard Operating Procedure." />
+                <u:FileUploader
+                    id="sopFileUploader"
+                    name="sop_file"
+                    width="100%"
+                    tooltip="Upload your PDF SOP"
+                    placeholder="Choose a file..."
+                    fileType="pdf"
+                />
+                <Label text="Add to Ruleset" class="sapUiSmallMarginTop"/>
+                <Select
+                    id="rulesetSelect"
+                    width="100%"
+                    items="{draftRulesets>/}">
+                    <core:Item key="{draftRulesets>id}" text="{draftRulesets>name} (v{draftRulesets>version})" />
+                </Select>
+            </VBox>
+        </content>
+        <beginButton>
+            <Button text="Analyze and Extract Rules" type="Emphasized" press=".onAnalyzeSop" />
+        </beginButton>
+        <endButton>
+            <Button text="Cancel" press=".onCloseSopDialog" />
+        </endButton>
+    </Dialog>
+</core:FragmentDefinition>
