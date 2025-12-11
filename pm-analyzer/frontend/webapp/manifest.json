@@ -1,0 +1,104 @@
+{
+    "_version": "1.2.0",
+    "sap.app": {
+        "id": "com.sap.pm.pmanalyzerfiori",
+        "type": "application",
+        "applicationVersion": { "version": "0.0.1" },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "dataSources": {
+            "analysisApi": {
+                "uri": "/api/",
+                "type": "REST"
+            },
+            "notificationsMockData": {
+                "uri": "./mock_data_en.json",
+                "type": "JSON"
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "deviceTypes": { "desktop": true, "tablet": true, "phone": true }
+    },
+    "sap.ui5": {
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+    "dependencies": {
+            "minUI5Version": "1.108.0",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.ui.layout": {},
+                "sap.ui.comp": {},
+                "sap.suite.ui.commons": {}
+            }
+        },
+        "contentDensities": { "compact": true, "cozy": true },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "com.sap.pm.pmanalyzerfiori.i18n.i18n",
+                    "supportedLocales": ["en", "de"],
+                    "fallbackLocale": "en"
+                }
+            },
+            "": {
+                "type": "sap.ui.model.json.JSONModel"
+            },
+            "analysis": {
+                "type": "sap.ui.model.json.JSONModel",
+                "uri": ""
+            },
+            "ui": {
+                "type": "sap.ui.model.json.JSONModel",
+                "uri": ""
+            }
+        },
+        "rootView": {
+            "viewName": "com.sap.pm.pmanalyzerfiori.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "App"
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "async": true,
+                "viewPath": "com.sap.pm.pmanalyzerfiori.view",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "clearControlAggregation": false
+            },
+            "routes": [
+                {
+                    "name": "worklist",
+                    "pattern": "",
+                    "target": "worklist"
+                },
+                {
+                    "name": "object",
+                    "pattern": "Notifications/{notificationId}",
+                    "target": "object"
+                }
+            ],
+            "targets": {
+                "worklist": {
+                    "viewName": "Worklist",
+                    "viewId": "worklist"
+                },
+                "object": {
+                    "viewName": "Object",
+                    "viewId": "object"
+                }
+            }
+        }
+    }
+}

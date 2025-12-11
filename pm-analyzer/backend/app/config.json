@@ -1,0 +1,16 @@
+{
+    "analysis_llm_settings": {
+        "model": "gemini-2.5-flash",
+        "temperature": 0.2
+    },
+    "chat_llm_settings": {
+        "model": "gemini-2.5-flash",
+        "temperature": 0.4
+    },
+    "quality_rules": [
+        "The long text must be detailed and clearly describe the problem.",
+        "A root cause for the issue must be identified.",
+        "An assessment of the product impact must be included.",
+        "Corrective and preventive actions (CAPA) must be outlined."
+    ]
+}

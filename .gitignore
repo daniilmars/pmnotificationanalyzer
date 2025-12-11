@@ -4,13 +4,21 @@ __pycache__/
 *.pyo
 .Python
 venv/
+venv
+venv.nosync/
 .env
+instance/
+*.db
+*.sqlite3
 
 # Node.js
 node_modules/
+node_modules
+node_modules.nosync/
 dist/
 build/
 .cache/
+coverage/
 
 # SAP Fiori/UI5
 resources/
@@ -32,12 +40,15 @@ target/ # Output of mbt build
 # OS generated files
 .DS_Store
 Thumbs.db
-.env
 .nosync
-**/node_modules
 
 # Service Account Keys
-*.json
+# *.json # REMOVED: Too aggressive.
+# Explicitly ignore known key patterns:
+service-account.json
+*-key.json
+google-credentials.json
+key.json
 
 # Gemini state file
 GEMINI.md

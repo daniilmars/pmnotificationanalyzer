@@ -17,82 +17,46 @@ This project is a full-stack application designed to analyze the quality of Plan
 
 ```
 .
-├── approuter/         # Node.js App Router (serves UI, proxies to backend)
-├── backend/           # Python Flask Backend
-└── pm-analyzer-fiori/ # SAP Fiori Frontend
+├── pm-analyzer/
+│   ├── backend/       # Main PM Analyzer Backend (Python/Flask)
+│   └── frontend/      # Main PM Analyzer Frontend (SAP Fiori/UI5)
+└── rule-manager/
+    ├── backend/       # Rule Manager Backend (Python/Flask)
+    └── frontend/      # Rule Manager Frontend (SAP Fiori/UI5)
 ```
 
 ## Application Overview
 
-The PM Notification Quality Assistant aims to proactively enhance the quality of Plant Maintenance notifications, particularly in highly regulated environments like pharmaceutical production. By leveraging Artificial Intelligence, the application identifies deficiencies in documentation, provides actionable insights, and supports a continuous improvement process (KVP). It's designed for a range of users, ensuring that maintenance records are audit-proof and compliant with stringent data integrity principles (ALCOA+).
+The project now consists of two main applications:
 
-> **Note:** This version of the application has authentication completely removed for simplified deployment and demonstration purposes.
+1.  **PM Notification Quality Assistant:** A tool for maintenance planners to view notifications and get real-time quality analysis from a hybrid AI and rule-based system.
+2.  **Rule Manager:** A tool for Quality Assurance experts to define, manage, and audit the business rules used by the main analyzer. It includes an AI Assistant to help create rules from SOP documents.
 
 ## Key Features
 
-- **AI-Powered Quality Analysis:** Automated evaluation of maintenance notification texts based on Good Manufacturing Practice (GMP) and ALCOA+ principles.
-- **Quantitative Scoring:** Each analysis provides a numerical quality score (0-100) for quick assessment.
-- **Detailed Problem Identification:** The AI highlights specific issues and gaps in the notification documentation.
-- **Multi-language Support:** The application supports full analysis and UI localization in **English** and **German**, including translated test data.
+### PM Notification Analyzer
+- **Hybrid Quality Analysis:** Automated evaluation using a combination of Google's Gemini AI and a configurable rule engine.
 - **Notification Management:** View, filter, and search through a list of PM notifications.
-- **Detailed Notification View:** Access comprehensive details of individual notifications and trigger on-demand AI analysis.
-- **Unified Workspace:** View Notification (Problem) and Order (Resolution) details in a single view.
-- **"Command Center" Layout:** A persistent side panel ("Quality Guardian") displays real-time AI analysis and chat without obstructing the main workspace.
-- **"What-If" Analysis:** Interactive editing of the notification text to instantly see how changes affect the quality score.
-- **Chat Assistant:** A conversational AI interface to ask questions about the notification and get guidance.
+- **Detailed Notification View:** Access comprehensive details and trigger on-demand analysis.
+- **What-If Analysis & Chat Assistant:** Interactive tools to improve documentation quality.
 
-## UI/UX Overview
-
-The user interface is designed to be intuitive and efficient, following standard SAP Fiori design principles. It provides a clear and structured way for users to interact with PM notifications and their quality analysis.
-
-### Worklist View (Main Screen)
-
-The initial screen of the application is the **Worklist View**, which serves as the central hub for managing notifications.
-
-- **Notification List:** Displays a comprehensive list of PM notifications, showing key information at a glance (ID, description, priority, status, etc.).
-- **Filtering:** A powerful filter bar allows users to narrow down the list based on various criteria.
-- **Navigation:** Users can select a notification from the list to navigate to the detailed **Object View**.
-- **Language Selection:** A language switcher allows users to toggle between English and German, instantly localizing the UI and the data content.
-
-### Object View (Detail Screen)
-
-The **Object View** provides a detailed look at a single PM notification, utilizing a **Dynamic Side Content** layout.
-
-1.  **Main Content (Left):**
-    -   **Header:** Key header data (Priority, Type, Creator, Dates).
-    -   **Notification Tab:** Detailed problem description, functional location, equipment, and damage codes.
-    -   **Work Order Tab:** Linked order details, operations table, and components/materials list.
-
-2.  **Quality Guardian (Right Side Panel):**
-    -   **Live Score:** A visual gauge (0-100%) indicating the quality of the documentation.
-    -   **Problem List:** Specific, actionable items identified by the AI (e.g., "Missing root cause").
-    -   **What-If Analysis:** An editor to refine the description and re-analyze.
-    -   **Chat Assistant:** An interactive chat to query the notification context.
+### Rule Manager
+- **Web-Based Rule Editor:** A user-friendly UI for QA experts to create and manage rules and rulesets without coding.
+- **Versioning & Audit Trail:** All changes to rules are versioned and logged to ensure GMP compliance.
+- **AI SOP Assistant:** Upload Standard Operating Procedure (SOP) documents (PDF) and get AI-powered suggestions for new rules.
+- **Activation Lifecycle:** Rulesets can be drafted, tested, and formally activated for use in the analysis engine.
 
 ## Architecture Deep Dive
 
-The application follows a client-server architecture, with a distinct separation between the backend and frontend components, deployed as a Multi-Target Application (MTA) on SAP BTP Cloud Foundry.
+The application follows a microservices architecture where two distinct services cooperate.
 
-### Backend (Python/Flask)
+### PM Notification Analyzer Service
+- **Backend (Python/Flask):** Handles API requests for notifications and performs the hybrid analysis. It calls the Rule Manager service to fetch active rules for a given notification type.
+- **Frontend (SAP Fiori/UI5):** Provides the main user interface for viewing and analyzing notifications.
 
-The backend is a lightweight Flask application responsible for handling API requests, managing the SQLite database, and performing the core AI-driven text analysis.
-
-- **Technology Stack:** Flask, Gunicorn, Pydantic, Google Gemini API, SQLite.
-- **Database:** A local `sap_pm.db` (SQLite) simulates the SAP backend tables (`QMEL`, `AUFK`, `AFVC`, etc.) with a fully relational schema including multi-language text tables.
-- **API Endpoints:**
-    -   `/api/notifications`: Fetches the list of notifications (supports language param).
-    -   `/api/notifications/<id>`: Fetches full object details (Notification + Order + Items) in the requested language.
-    -   `/api/analyze`: Performs AI analysis.
-    -   `/api/chat`: Handles conversational queries.
-
-### Frontend (SAP Fiori/UI5)
-
-The frontend is an SAP Fiori application built with SAP UI5, providing an intuitive and enterprise-grade user interface.
-
-- **Technology Stack:** SAP UI5, Node.js App Router.
-- **Layout:** Uses `DynamicSideContent` to implement the "Command Center" pattern.
-- **Data Binding:** Uses standard OData-like JSON models with extensive use of Expression Binding for visibility control.
-- **Localization:** Fully localized using `i18n` properties files and dynamic backend content fetching.
+### Rule Manager Service
+- **Backend (Python/Flask):** A dedicated service that manages the entire lifecycle of quality rules. It exposes a REST API for the main analyzer to consume.
+- **Frontend (SAP Fiori/UI5):** A separate, standalone UI for quality experts to manage the rule engine, create rulesets, and use the SOP Assistant.
 
 ## Getting Started
 
@@ -100,53 +64,101 @@ The frontend is an SAP Fiori application built with SAP UI5, providing an intuit
 
 - [Python 3.8+](https://www.python.org/downloads/)
 - [Node.js 16+](https://nodejs.org/en/download/)
-- [SAP Cloud Foundry CLI](https://developers.sap.com/topics/cloud-foundry.html)
 
-### Local Development
+### Local Development (Split Mode)
 
-1.  **Clone the repository:**
-    ```bash
-    git clone https://github.com/your-username/pm-notification-analyzer.git
-    cd pm-notification-analyzer
-    ```
-2.  **Configure the backend:**
-    - Navigate to the `backend` directory.
-    - Create a `.env` file by copying the `.env.example` file.
-    - Add your `GOOGLE_API_KEY` to the `.env` file.
-3.  **Run the backend:**
-    ```bash
-    # Create and activate a virtual environment
-    python3 -m venv venv
-    source venv/bin/activate
+The project is designed to run in a "split mode" with four services running in parallel. You will need **four separate terminal windows**.
 
-    # Install dependencies
-    pip install -r requirements.txt
+#### 1. Configure Credentials
 
-    # Initialize Database (First time only)
-    python3 -c "from app.database import init_db; init_db()"
-    python3 scripts/seed_data.py
+- **Rule Manager Backend:** This service requires a Google Cloud Service Account for the AI SOP Assistant.
+    1.  Place your downloaded service account JSON key file in `rule-manager/backend/` and name it `service-account.json`.
+    2.  Create a file named `.env` in `rule-manager/backend/`.
+    3.  Add the following line:
+        ```
+        GOOGLE_APPLICATION_CREDENTIALS="service-account.json"
+        ```
+- **Main Analyzer Backend:** This service uses a simple API Key.
+    1.  Create a file named `.env` in `pm-analyzer/backend/`.
+    2.  Add your key:
+        ```
+        GOOGLE_API_KEY="AIzaSy..."
+        ```
 
-    # Run the backend server
-    python3 -m app.main
-    ```
-    The backend will now be running on `http://localhost:5001`.
-4.  **Run the frontend:**
-    In a new terminal window:
-    ```bash
-    # Navigate to the frontend directory
-    cd pm-analyzer-fiori/
+#### 2. Run the Servers
 
-    # Install npm dependencies
-    npm install
+**Terminal 1: Start Rule Manager Backend**
+```bash
+# Navigate to the Rule Manager backend
+cd rule-manager/backend
 
-    # Start the frontend
-    npm run start-noflp
-    ```
-    The frontend will now be running on `http://localhost:8080`.
+# Create a virtual environment if you haven't already
+# python3 -m venv venv.nosync
+
+# Activate it
+. venv.nosync/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Initialize and seed the database
+python3 scripts/seed.py
+
+# Run the server
+python3 -m app.main
+# (This service runs on http://localhost:5002)
+```
+
+**Terminal 2: Start Main Analyzer Backend**
+```bash
+# Navigate to the main backend
+cd pm-analyzer/backend
+
+# Create a virtual environment if you haven't already
+# python3 -m venv venv
+
+# Activate it
+. venv/bin/activate
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Run the server
+python3 run.py
+# (This service runs on http://localhost:5001)
+```
+
+**Terminal 3: Start Rule Manager Frontend**
+```bash
+# Navigate to the Rule Manager frontend
+cd rule-manager/frontend
+
+# Install dependencies
+npm install
+
+# Start the local server
+npm run start-local
+# (This will open in your browser at http://localhost:8080)
+```
+
+**Terminal 4: Start Main Analyzer Frontend**
+```bash
+# Navigate to the main analyzer frontend
+cd pm-analyzer/frontend
+
+# Install dependencies
+npm install
+
+# Start the local server
+npm run start-noflp
+# (This will open in your browser, likely at http://localhost:8081)
+```
 
 ## Deployment
 
 The application is deployed to SAP BTP Cloud Foundry using a fully automated GitHub Actions workflow. The workflow is defined in `.github/workflows/deploy.yml`.
+
+> **Note:** The deployment configuration has not yet been updated to include the new Rule Manager microservice.
 
 ### Manual Post-Deployment Step
 

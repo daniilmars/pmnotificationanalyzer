@@ -1,0 +1,107 @@
+{
+    "_version": "1.2.0",
+    "sap.app": {
+        "id": "com.sap.pm.rulemanager",
+        "type": "application",
+        "applicationVersion": { "version": "0.0.1" },
+        "title": "{{appTitle}}",
+        "description": "{{appDescription}}",
+        "dataSources": {
+            "mainService": {
+                "uri": "/api/v1/",
+                "type": "JSON"
+            }
+        }
+    },
+    "sap.ui": {
+        "technology": "UI5",
+        "deviceTypes": { "desktop": true, "tablet": true, "phone": true }
+    },
+    "sap.ui5": {
+        "resources": {
+            "css": [
+                {
+                    "uri": "css/style.css"
+                }
+            ]
+        },
+    "dependencies": {
+            "minUI5Version": "1.108.0",
+            "libs": {
+                "sap.m": {},
+                "sap.ui.core": {},
+                "sap.ui.layout": {},
+                "sap.ui.comp": {},
+                "sap.f": {}
+            }
+        },
+        "contentDensities": { "compact": true, "cozy": true },
+        "models": {
+            "i18n": {
+                "type": "sap.ui.model.resource.ResourceModel",
+                "settings": {
+                    "bundleName": "com.sap.pm.rulemanager.i18n.i18n",
+                    "supportedLocales": ["en", "de"],
+                    "fallbackLocale": "en"
+                }
+            },
+            "rulesets": {
+                "type": "sap.ui.model.json.JSONModel",
+                "dataSource": "mainService",
+                "preload": true
+            },
+            "ui": {
+                "type": "sap.ui.model.json.JSONModel",
+                "uri": ""
+            }
+        },
+        "rootView": {
+            "viewName": "com.sap.pm.rulemanager.view.App",
+            "type": "XML",
+            "async": true,
+            "id": "App"
+        },
+        "routing": {
+            "config": {
+                "routerClass": "sap.m.routing.Router",
+                "viewType": "XML",
+                "async": true,
+                "viewPath": "com.sap.pm.rulemanager.view",
+                "controlAggregation": "pages",
+                "controlId": "app",
+                "clearControlAggregation": false
+            },
+            "routes": [
+                {
+                    "name": "dashboard",
+                    "pattern": "",
+                    "target": "dashboard"
+                },
+                {
+                    "name": "review",
+                    "pattern": "rulesets/{rulesetId}/review/{suggestedRules}",
+                    "target": "review"
+                },
+                {
+                    "name": "ruleEditor",
+                    "pattern": "rulesets/{rulesetId}",
+                    "target": "ruleEditor"
+                }
+            ],
+            "targets": {
+                "dashboard": {
+                    "viewName": "RulesetDashboard",
+                    "viewId": "dashboard"
+                },
+                "review": {
+                    "viewName": "SopRuleReview",
+                    "viewId": "review"
+                },
+                "ruleEditor": {
+                    "viewName": "RuleEditor",
+                    "viewId": "ruleEditor"
+                }
+            }
+        }
+    }
+}
