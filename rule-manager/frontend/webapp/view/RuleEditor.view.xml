@@ -6,7 +6,7 @@
         <headerContent>
             <Toolbar>
                 <ToolbarSpacer />
-                <Button icon="sap-icon://add" text="Create Rule" press=".onCreateRule" />
+                <Button icon="sap-icon://add" text="Create Rule" press=".onCreateRule" visible="{viewModel>/isDraft}" />
             </Toolbar>
         </headerContent>
         <content>
@@ -16,6 +16,8 @@
                 noDataText="No rules defined for this ruleset.">
                 <columns>
                     <Column><Text text="Rule Name" /></Column>
+                    <Column><Text text="Description" /></Column>
+                    <Column><Text text="Rule Type" /></Column>
                     <Column><Text text="Target Field" /></Column>
                     <Column><Text text="Condition" /></Column>
                     <Column><Text text="Value" /></Column>
@@ -26,11 +28,16 @@
                     <ColumnListItem>
                         <cells>
                             <Text text="{rules>name}" />
+                            <Text text="{rules>description}" />
+                            <Text text="{rules>rule_type}" />
                             <Text text="{rules>target_field}" />
                             <Text text="{rules>condition}" />
                             <Text text="{rules>value}" />
                             <Text text="{rules>score_impact}" />
-                            <Button icon="sap-icon://delete" press=".onDeleteRule" />
+                            <HBox visible="{viewModel>/isDraft}">
+                                <Button icon="sap-icon://edit" press=".onEditRule" />
+                                <Button icon="sap-icon://delete" press=".onDeleteRule" />
+                            </HBox>
                         </cells>
                     </ColumnListItem>
                 </items>

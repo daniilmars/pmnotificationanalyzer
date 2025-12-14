@@ -1,0 +1,51 @@
+
+services:
+  launchpad:
+    build:
+      context: ./launchpad
+    ports:
+      - "8008:80"
+
+  pm-analyzer-backend:
+    build:
+      context: ./pm-analyzer/backend
+    ports:
+      - "5001:5001"
+    env_file:
+      - ./pm-analyzer/backend/.env
+    volumes:
+      - ./pm-analyzer/backend/data:/app/data
+
+  pm-analyzer-frontend:
+    build:
+      context: ./pm-analyzer/frontend
+    ports:
+      - "8081:80"
+    depends_on:
+      - pm-analyzer-backend
+
+  rule-manager-backend:
+    build:
+      context: ./rule-manager/backend
+    ports:
+      - "5002:5002"
+    env_file:
+      - ./rule-manager/backend/.env
+    volumes:
+      - ./rule-manager/backend/data:/app/data
+
+  rule-manager-frontend:
+    build:
+      context: ./rule-manager/frontend
+    ports:
+      - "8080:80"
+    depends_on:
+      - rule-manager-backend
+
+  approuter:
+    build:
+      context: ./approuter
+    ports:
+      - "5005:5000"
+    environment:
+      - destinations=[{"name":"pm-analyzer-backend","url":"http://pm-analyzer-backend:5001","forwardAuthToken":false},{"name":"pm-analyzer-frontend","url":"http://pm-analyzer-frontend:80","forwardAuthToken":false}]

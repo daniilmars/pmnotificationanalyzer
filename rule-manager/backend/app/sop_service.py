@@ -1,6 +1,9 @@
 # rule-manager/backend/app/sop_service.py
-import google.generativeai as genai
+import vertexai
+from vertexai.generative_models import GenerativeModel, Part
 import os
+
+vertexai.init(project=os.environ.get("GOOGLE_CLOUD_PROJECT"))
 
 def extract_rules_from_sop(sop_file_path):
     """
@@ -12,11 +15,11 @@ def extract_rules_from_sop(sop_file_path):
     Returns:
         A list of dictionaries, where each dictionary represents a suggested rule.
     """
+    # 1. Read the file content
+    with open(sop_file_path, "rb") as f:
+        file_content = f.read()
 
-    # 1. Upload the file to the Gemini File API
-    print(f"Uploading file: {sop_file_path}")
-    sop_file = genai.upload_file(path=sop_file_path, display_name="SOP Document")
-    print(f"Completed upload: {sop_file.name}")
+    sop_file = Part.from_data(data=file_content, mime_type="application/pdf")
 
     # 2. Create the prompt for the model
     prompt = """
@@ -36,13 +39,9 @@ def extract_rules_from_sop(sop_file_path):
     """
 
     # 3. Call the generative model
-    model = genai.GenerativeModel(model_name='models/gemini-2.5-pro')
+    model = GenerativeModel(model_name='gemini-1.5-pro-001')
     response = model.generate_content([prompt, sop_file])
     
-    # 4. Clean up the file from the File API after processing
-    genai.delete_file(sop_file.name)
-    print(f"Deleted file: {sop_file.name}")
-
     # The response may include markdown characters (```json ... ```), so we need to clean it.
     cleaned_json = response.text.strip().replace("```json", "").replace("```", "").strip()
     

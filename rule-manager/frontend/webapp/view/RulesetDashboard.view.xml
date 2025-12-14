@@ -32,7 +32,9 @@
                             <Text text="{rulesets>version}" />
                             <HBox>
                                 <Button icon="sap-icon://edit" press=".onEditRuleset" visible="{= ${rulesets>status} === 'Draft' }" />
+                                <Button icon="sap-icon://add-document" text="Create New Version" press=".onCreateNewVersion" visible="{= ${rulesets>status} === 'Active' }" />
                                 <Button icon="sap-icon://activate" press=".onActivateRuleset" visible="{= ${rulesets>status} === 'Draft' }" tooltip="Activate" />
+                                <Button icon="sap-icon://delete" press=".onDeleteRuleset" visible="{= ${rulesets>status} === 'Draft' }" tooltip="Delete" />
                             </HBox>
                         </cells>
                     </ColumnListItem>

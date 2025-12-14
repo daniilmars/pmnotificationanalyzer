@@ -2,6 +2,7 @@
 import os
 import json
 from flask import Blueprint, jsonify, request, current_app
+from sqlalchemy import func
 from werkzeug.utils import secure_filename
 from .database import Session, Ruleset, Rule, AuditLog, generate_uuid
 from .audit_service import log_event
@@ -94,13 +95,34 @@ def get_ruleset(id):
             "id": ruleset.id, "name": ruleset.name, "version": ruleset.version, "status": ruleset.status,
             "rules": [
                 {
-                    "id": r.id, "name": r.name, "description": r.description,
+                    "id": r.id, "name": r.name, "description": r.description, "rule_type": r.rule_type,
                     "target_field": r.target_field, "condition": r.condition, "value": r.value,
                     "score_impact": r.score_impact, "feedback_message": r.feedback_message
                 } for r in ruleset.rules
             ]
         }
         return jsonify(ruleset_data)
+    finally:
+        session.close()
+
+@api_blueprint.route('/rulesets/<string:id>', methods=['DELETE'])
+def delete_ruleset(id):
+    session = Session()
+    try:
+        ruleset_to_delete = session.query(Ruleset).filter_by(id=id).first()
+        if not ruleset_to_delete:
+            return jsonify({'error': 'Ruleset not found'}), 404
+
+        if ruleset_to_delete.status != 'Draft':
+            return jsonify({'error': 'Only Draft rulesets can be deleted.'}), 400
+
+        log_event(session, user_id="manual_user", action_type="DELETE_RULESET", entity_changed=id, old_value=ruleset_to_delete.name)
+        session.delete(ruleset_to_delete)
+        session.commit()
+        return jsonify({"message": "Ruleset deleted successfully."})
+    except Exception as e:
+        session.rollback()
+        return jsonify({'error': str(e)}), 500
     finally:
         session.close()
 
@@ -123,6 +145,22 @@ def update_ruleset(id):
             status='Draft', created_by=data['created_by']
         )
         session.add(new_version)
+
+        # Copy rules from old version to new version
+        for old_rule in old_version.rules:
+            new_rule = Rule(
+                ruleset_id=new_version.id,
+                name=old_rule.name,
+                description=old_rule.description,
+                rule_type=old_rule.rule_type,
+                target_field=old_rule.target_field,
+                condition=old_rule.condition,
+                value=old_rule.value,
+                score_impact=old_rule.score_impact,
+                feedback_message=old_rule.feedback_message
+            )
+            session.add(new_rule)
+
         log_event(session, user_id=data['created_by'], action_type="UPDATE_RULESET", entity_changed=new_version.id, old_value=old_value, new_value=data)
         session.commit()
         return jsonify({"id": new_version.id, "version": new_version.version})
@@ -156,6 +194,58 @@ def activate_ruleset(id):
     finally:
         session.close()
 
+@api_blueprint.route('/rulesets/<string:id>/new-version', methods=['POST'])
+def create_new_version(id):
+    data = request.get_json()
+    if not data or 'created_by' not in data:
+        return jsonify({'error': 'Missing created_by field'}), 400
+
+    session = Session()
+    try:
+        active_ruleset = session.query(Ruleset).filter_by(id=id, status='Active').first()
+        if not active_ruleset:
+            return jsonify({'error': 'Can only create a new version from an Active ruleset.'}), 404
+
+        # Find the highest version number for this group
+        max_version = session.query(func.max(Ruleset.version)).filter_by(group_id=active_ruleset.group_id).scalar()
+
+        new_version_number = max_version + 1
+        new_draft_ruleset = Ruleset(
+            group_id=active_ruleset.group_id,
+            version=new_version_number,
+            name=active_ruleset.name,
+            notification_type=active_ruleset.notification_type,
+            status='Draft',
+            created_by=data['created_by']
+        )
+        session.add(new_draft_ruleset)
+
+        # Copy rules from the active version to the new draft
+        for old_rule in active_ruleset.rules:
+            new_rule = Rule(
+                ruleset=new_draft_ruleset, # Set relationship object
+                name=old_rule.name,
+                description=old_rule.description,
+                rule_type=old_rule.rule_type,
+                target_field=old_rule.target_field,
+                condition=old_rule.condition,
+                value=old_rule.value,
+                score_impact=old_rule.score_impact,
+                feedback_message=old_rule.feedback_message
+            )
+            session.add(new_rule)
+
+        log_event(session, user_id=data['created_by'], action_type="CREATE_NEW_VERSION", entity_changed=new_draft_ruleset.id, old_value={"from_version": active_ruleset.version})
+        session.commit()
+        return jsonify({"id": new_draft_ruleset.id, "version": new_draft_ruleset.version}), 201
+
+    except Exception as e:
+        session.rollback()
+        return jsonify({'error': str(e)}), 500
+    finally:
+        session.close()
+
+
 @api_blueprint.route('/rulesets/<string:ruleset_id>/rules', methods=['POST'])
 def add_rule_to_ruleset(ruleset_id):
     session = Session()
@@ -170,6 +260,7 @@ def add_rule_to_ruleset(ruleset_id):
         for rule_data in rules_data:
             new_rule = Rule(
                 ruleset_id=ruleset_id, name=rule_data['name'],
+                rule_type=rule_data.get('rule_type', 'VALIDATION'),
                 description=rule_data.get('description'), target_field=rule_data['target_field'],
                 condition=rule_data['condition'], value=rule_data.get('value'),
                 score_impact=rule_data['score_impact'], feedback_message=rule_data['feedback_message']
@@ -184,6 +275,59 @@ def add_rule_to_ruleset(ruleset_id):
         return jsonify({'error': str(e)}), 500
     finally:
         session.close()
+
+@api_blueprint.route('/rules/<string:rule_id>', methods=['PUT'])
+def update_rule(rule_id):
+    session = Session()
+    try:
+        rule_to_update = session.query(Rule).filter_by(id=rule_id).first()
+        if not rule_to_update:
+            return jsonify({'error': 'Rule not found'}), 404
+
+        ruleset = session.query(Ruleset).filter_by(id=rule_to_update.ruleset_id).first()
+        if ruleset.status != 'Draft':
+            return jsonify({'error': 'Only rules in a Draft ruleset can be updated.'}), 400
+
+        data = request.get_json()
+        if not data:
+            return jsonify({'error': 'No update data provided'}), 400
+
+        # Simple update for all fields provided in the payload
+        for key, value in data.items():
+            if hasattr(rule_to_update, key):
+                setattr(rule_to_update, key, value)
+
+        log_event(session, user_id=data.get('created_by', 'manual_user'), action_type="UPDATE_RULE", entity_changed=rule_id, new_value=data)
+        session.commit()
+        return jsonify({"message": "Rule updated successfully."})
+    except Exception as e:
+        session.rollback()
+        return jsonify({'error': str(e)}), 500
+    finally:
+        session.close()
+
+@api_blueprint.route('/rules/<string:rule_id>', methods=['DELETE'])
+def delete_rule(rule_id):
+    session = Session()
+    try:
+        rule_to_delete = session.query(Rule).filter_by(id=rule_id).first()
+        if not rule_to_delete:
+            return jsonify({'error': 'Rule not found'}), 404
+
+        ruleset = session.query(Ruleset).filter_by(id=rule_to_delete.ruleset_id).first()
+        if ruleset.status != 'Draft':
+            return jsonify({'error': 'Only rules in a Draft ruleset can be deleted.'}), 400
+
+        log_event(session, user_id="manual_user", action_type="DELETE_RULE", entity_changed=rule_id, old_value=rule_to_delete.name)
+        session.delete(rule_to_delete)
+        session.commit()
+        return jsonify({"message": "Rule deleted successfully."})
+    except Exception as e:
+        session.rollback()
+        return jsonify({'error': str(e)}), 500
+    finally:
+        session.close()
+
 
 @api_blueprint.route('/sop-assistant/extract', methods=['POST'])
 def extract_from_sop():

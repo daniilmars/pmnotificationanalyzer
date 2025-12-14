@@ -3,11 +3,12 @@ import json
 import re
 import time
 import requests
-import google.generativeai as genai
+from vertexai.generative_models import GenerativeModel, GenerationConfig
 from app.models import AnalysisResponse, ProblemDetail
 from app.config_manager import get_config
 
 RULE_MANAGER_URL = "http://localhost:5002"
+
 
 def _fetch_rules_from_manager(notification_type: str) -> list:
     try:
@@ -58,9 +59,18 @@ def analyze_text(notification_data: dict, language: str = "en") -> AnalysisRespo
     config = get_config()
     llm_settings = config.get('analysis_llm_settings', {})
     notification_type = notification_data.get('NotificationType', '')
+
+    # Fetch all rules and separate them by type
     external_rules = _fetch_rules_from_manager(notification_type)
-    rule_score_adjustment, rule_problems = _execute_rules(external_rules, notification_data)
-    rules_str = "\n".join([f"- {rule['name']}: {rule.get('description', '')}" for rule in external_rules])
+    validation_rules = [rule for rule in external_rules if rule.get('rule_type', 'VALIDATION') == 'VALIDATION']
+    ai_guidance_rules = [rule for rule in external_rules if rule.get('rule_type') == 'AI_GUIDANCE']
+
+    # Execute validation rules and get score adjustment
+    rule_score_adjustment, rule_problems = _execute_rules(validation_rules, notification_data)
+
+    # Prepare rule strings for the prompt
+    ai_guidance_str = "\n".join([f"- {rule['name']}: {rule.get('description', '')}" for rule in ai_guidance_rules])
+    validation_rules_str = "\n".join([f"- {rule['name']}: {rule.get('description', '')}" for rule in validation_rules])
 
     lang_map = { "en": "English", "de": "German" }
     output_language = lang_map.get(language, "English")
@@ -70,10 +80,13 @@ def analyze_text(notification_data: dict, language: str = "en") -> AnalysisRespo
 
     prompt = f'''
     You are a meticulous GMP auditor analyzing a maintenance notification.
-    Your Task: Analyze the provided data against the 5 pillars of quality (Compliance, Traceability, Root Cause, Product Impact, CAPA) and the mandatory rules. 
-    
-    Mandatory Rules:
-    {rules_str if rules_str else "No specific rules loaded."} 
+    Your Task: Analyze the provided data against the following quality guidelines and mandatory validation rules.
+
+    Quality Guidelines:
+    {ai_guidance_str if ai_guidance_str else "No specific quality guidelines loaded."}
+
+    Mandatory Validation Rules:
+    {validation_rules_str if validation_rules_str else "No specific validation rules loaded."}
     
     Analysis Data:
     - Structured Data: {structured_data_str}
@@ -89,8 +102,8 @@ def analyze_text(notification_data: dict, language: str = "en") -> AnalysisRespo
     max_retries = 2
     for attempt in range(max_retries):
         try:
-            model = genai.GenerativeModel(llm_settings.get('model', 'gemini-pro'))
-            generation_config = genai.types.GenerationConfig(
+            model = GenerativeModel(llm_settings.get('model', 'gemini-pro'))
+            generation_config = GenerationConfig(
                 temperature=llm_settings.get('temperature', 0.2),
                 response_mime_type="application/json"
             )
@@ -110,6 +123,7 @@ def analyze_text(notification_data: dict, language: str = "en") -> AnalysisRespo
             time.sleep(1)
 
 def chat_with_assistant(notification_data: dict, question: str, analysis_context: AnalysisResponse, language: str = "en") -> dict:
+
     config = get_config()
     llm_settings = config.get('chat_llm_settings', {})
     lang_map = { "en": "English", "de": "German" }
@@ -121,7 +135,7 @@ def chat_with_assistant(notification_data: dict, question: str, analysis_context
     prompt = f'''... Answer the user\'s question: "{question}"\n'''.strip()
 
     try:
-        model = genai.GenerativeModel(llm_settings.get('model', 'gemini-pro'))
+        model = GenerativeModel(llm_settings.get('model', 'gemini-pro'))
         response = model.generate_content(prompt)
         return {"answer": response.text.strip()}
     except Exception as e:

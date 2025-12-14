@@ -1,6 +1,6 @@
-# PM Notification Quality Assistant
+# PM Notification Quality Suite
 
-This project is a full-stack application designed to analyze the quality of Plant Maintenance (PM) notifications. It consists of a Python/Flask backend that uses a Large Language Model for analysis and an SAP Fiori/UI5 frontend for the user interface.
+This project is a full-stack application suite designed to analyze and manage the quality of Plant Maintenance (PM) notifications. It consists of multiple services, including a Python/Flask backend that uses a Large Language Model for analysis and SAP Fiori/UI5 frontends for the user interfaces.
 
 ## Table of Contents
 
@@ -17,9 +17,11 @@ This project is a full-stack application designed to analyze the quality of Plan
 
 ```
 .
+├── launchpad/
+│   └── webapp/        # Unified Launchpad Frontend (SAP Fiori/UI5)
 ├── pm-analyzer/
-│   ├── backend/       # Main PM Analyzer Backend (Python/Flask)
-│   └── frontend/      # Main PM Analyzer Frontend (SAP Fiori/UI5)
+│   ├── backend/       # Maintenance Execution Assistant Backend (Python/Flask)
+│   └── frontend/      # Maintenance Execution Assistant Frontend (SAP Fiori/UI5)
 └── rule-manager/
     ├── backend/       # Rule Manager Backend (Python/Flask)
     └── frontend/      # Rule Manager Frontend (SAP Fiori/UI5)
@@ -27,30 +29,34 @@ This project is a full-stack application designed to analyze the quality of Plan
 
 ## Application Overview
 
-The project now consists of two main applications:
+The project is a suite of applications, accessible from a central launchpad.
 
-1.  **PM Notification Quality Assistant:** A tool for maintenance planners to view notifications and get real-time quality analysis from a hybrid AI and rule-based system.
-2.  **Rule Manager:** A tool for Quality Assurance experts to define, manage, and audit the business rules used by the main analyzer. It includes an AI Assistant to help create rules from SOP documents.
+1.  **Suite Launchpad:** The main entry point for all users, providing access to the different applications.
+2.  **Maintenance Execution Assistant:** A tool for maintenance planners and technicians to view notifications and get real-time quality analysis from a hybrid AI and rule-based system.
+3.  **Rule Manager:** A tool for Quality Assurance experts to define, manage, and audit the business rules used by the assistant. It includes an AI Assistant to help create rules from SOP documents.
 
 ## Key Features
 
-### PM Notification Analyzer
-- **Hybrid Quality Analysis:** Automated evaluation using a combination of Google's Gemini AI and a configurable rule engine.
+### Maintenance Execution Assistant
+- **Hybrid Quality Analysis:** Automated evaluation using a combination of Google's Vertex AI and a configurable rule engine.
 - **Notification Management:** View, filter, and search through a list of PM notifications.
 - **Detailed Notification View:** Access comprehensive details and trigger on-demand analysis.
 - **What-If Analysis & Chat Assistant:** Interactive tools to improve documentation quality.
 
 ### Rule Manager
 - **Web-Based Rule Editor:** A user-friendly UI for QA experts to create and manage rules and rulesets without coding.
-- **Versioning & Audit Trail:** All changes to rules are versioned and logged to ensure GMP compliance.
+- **Advanced Rule Types:** Supports two types of rules:
+    - **Validation Rules:** Simple, objective checks on specific fields (e.g., length, content).
+    - **AI Guidance Rules:** High-level instructions that dynamically guide the AI's analysis.
+- **Robust Versioning & Audit Trail:** All changes to rulesets are versioned, and a complete audit trail is maintained for compliance.
 - **AI SOP Assistant:** Upload Standard Operating Procedure (SOP) documents (PDF) and get AI-powered suggestions for new rules.
 - **Activation Lifecycle:** Rulesets can be drafted, tested, and formally activated for use in the analysis engine.
 
 ## Architecture Deep Dive
 
-The application follows a microservices architecture where two distinct services cooperate.
+The application follows a microservices architecture where multiple services cooperate.
 
-### PM Notification Analyzer Service
+### Maintenance Execution Assistant Service
 - **Backend (Python/Flask):** Handles API requests for notifications and performs the hybrid analysis. It calls the Rule Manager service to fetch active rules for a given notification type.
 - **Frontend (SAP Fiori/UI5):** Provides the main user interface for viewing and analyzing notifications.
 
@@ -60,122 +66,45 @@ The application follows a microservices architecture where two distinct services
 
 ## Getting Started
 
+### Running with Docker Compose
+
+This is the easiest way to get the entire application stack running.
+
+1.  **Configure Credentials:** Make sure you have valid `.env` files in the `pm-analyzer/backend` and `rule-manager/backend` directories.
+2.  **Run Docker Compose:**
+
+    ```bash
+    docker-compose up --build
+    ```
+
+This will build the Docker images for each service and start them. The main entry point for the application is the **Suite Launchpad**.
+
+-   **Suite Launchpad:** http://localhost:8008
+
+From the launchpad, you can navigate to the individual applications:
+-   **Maintenance Execution Assistant:** http://localhost:8081
+-   **Rule Manager:** http://localhost:8080
+
+
 ### Prerequisites
 
-- [Python 3.8+](https://www.python.org/downloads/)
-- [Node.js 16+](https://nodejs.org/en/download/)
-
-### Local Development (Split Mode)
-
-The project is designed to run in a "split mode" with four services running in parallel. You will need **four separate terminal windows**.
-
-#### 1. Configure Credentials
-
-- **Rule Manager Backend:** This service requires a Google Cloud Service Account for the AI SOP Assistant.
-    1.  Place your downloaded service account JSON key file in `rule-manager/backend/` and name it `service-account.json`.
-    2.  Create a file named `.env` in `rule-manager/backend/`.
-    3.  Add the following line:
-        ```
-        GOOGLE_APPLICATION_CREDENTIALS="service-account.json"
-        ```
-- **Main Analyzer Backend:** This service uses a simple API Key.
-    1.  Create a file named `.env` in `pm-analyzer/backend/`.
-    2.  Add your key:
-        ```
-        GOOGLE_API_KEY="AIzaSy..."
-        ```
-
-#### 2. Run the Servers
-
-**Terminal 1: Start Rule Manager Backend**
-```bash
-# Navigate to the Rule Manager backend
-cd rule-manager/backend
-
-# Create a virtual environment if you haven't already
-# python3 -m venv venv.nosync
-
-# Activate it
-. venv.nosync/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Initialize and seed the database
-python3 scripts/seed.py
-
-# Run the server
-python3 -m app.main
-# (This service runs on http://localhost:5002)
-```
-
-**Terminal 2: Start Main Analyzer Backend**
-```bash
-# Navigate to the main backend
-cd pm-analyzer/backend
-
-# Create a virtual environment if you haven't already
-# python3 -m venv venv
-
-# Activate it
-. venv/bin/activate
-
-# Install dependencies
-pip install -r requirements.txt
-
-# Run the server
-python3 run.py
-# (This service runs on http://localhost:5001)
-```
-
-**Terminal 3: Start Rule Manager Frontend**
-```bash
-# Navigate to the Rule Manager frontend
-cd rule-manager/frontend
-
-# Install dependencies
-npm install
-
-# Start the local server
-npm run start-local
-# (This will open in your browser at http://localhost:8080)
-```
-
-**Terminal 4: Start Main Analyzer Frontend**
-```bash
-# Navigate to the main analyzer frontend
-cd pm-analyzer/frontend
-
-# Install dependencies
-npm install
-
-# Start the local server
-npm run start-noflp
-# (This will open in your browser, likely at http://localhost:8081)
-```
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- [Python 3.8+](https://www.python.org/downloads/) (Optional, for local debugging)
+- [Node.js 16+](https://nodejs.org/en/download/) (Optional, for local debugging)
+- [Google Cloud SDK](https://cloud.google.com/sdk/docs/install)
 
 ## Deployment
 
 The application is deployed to SAP BTP Cloud Foundry using a fully automated GitHub Actions workflow. The workflow is defined in `.github/workflows/deploy.yml`.
 
-> **Note:** The deployment configuration has not yet been updated to include the new Rule Manager microservice.
+> **Note:** The deployment configuration has not yet been updated to include the new Rule Manager and Launchpad applications.
 
-### Manual Post-Deployment Step
-
-After the first deployment to a new SAP BTP subaccount, you must manually create an HTTP Destination. This tells the App Router how to find the backend.
-
-- **Navigate To:** Your BTP Subaccount → Connectivity → Destinations
-- **Name:** `pm-analyzer-backend` (must be exact)
-- **Type:** `HTTP`
-- **URL:** The URL of your deployed `pm-analyzer-backend` application.
-- **Proxy Type:** `Internet`
-- **Authentication:** `NoAuthentication`
 
 ## Configuration
 
 ### Backend
 
-The backend requires a `GOOGLE_API_KEY` to be set as an environment variable. For local development, you can create a `.env` file in the `backend` directory. For production, this is set via the `cf set-env` command in the deployment workflow.
+The backend requires a `GOOGLE_CLOUD_PROJECT` to be set as an environment variable. For local development, you can create a `.env` file in the `backend` directory. For production, this is set via the `cf set-env` command in the deployment workflow.
 
 ## Lessons Learned
 

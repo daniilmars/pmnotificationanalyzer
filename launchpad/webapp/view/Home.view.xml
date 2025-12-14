@@ -1,0 +1,33 @@
+<mvc:View
+    controllerName="com.sap.pm.launchpad.controller.Home"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:f="sap.f">
+    <Page title="{i18n>homePageTitle}">
+        <content>
+            <VBox class="sapUiSmallMargin" justifyContent="Center" alignItems="Center">
+                <Title text="{i18n>applicationsTitle}" level="H2" class="sapUiSmallMargin"/>
+                <FlexBox justifyContent="Center" wrap="Wrap">
+                    <GenericTile
+                        class="sapUiTinyMargin"
+                        header="{i18n>maintenanceExecutionAssistantTileHeader}"
+                        subheader="{i18n>maintenanceExecutionAssistantTileSubheader}"
+                        press=".onNavToPmAnalyzer">
+                        <TileContent>
+                            <ImageContent src="sap-icon://wrench"/>
+                        </TileContent>
+                    </GenericTile>
+                    <GenericTile
+                        class="sapUiTinyMargin"
+                        header="{i18n>ruleManagerTileHeader}"
+                        subheader="{i18n>ruleManagerTileSubheader}"
+                        press=".onNavToRuleManager">
+                        <TileContent>
+                            <ImageContent src="sap-icon://action-settings"/>
+                        </TileContent>
+                    </GenericTile>
+                </FlexBox>
+            </VBox>
+        </content>
+    </Page>
+</mvc:View>

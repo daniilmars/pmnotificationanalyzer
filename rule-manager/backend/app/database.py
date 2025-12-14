@@ -22,13 +22,14 @@ class Ruleset(Base):
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow)
     created_by = Column(String(255), nullable=False)
 
-    rules = relationship("Rule", back_populates="ruleset")
+    rules = relationship("Rule", back_populates="ruleset", cascade="all, delete-orphan")
 
 class Rule(Base):
     __tablename__ = 'rules'
 
     id = Column(String, primary_key=True, default=generate_uuid)
     ruleset_id = Column(String, ForeignKey('rulesets.id'), nullable=False)
+    rule_type = Column(String(50), nullable=False, default='VALIDATION') # 'VALIDATION' or 'AI_GUIDANCE'
     name = Column(String(255), nullable=False)
     description = Column(Text)
     target_field = Column(String(50), nullable=False)

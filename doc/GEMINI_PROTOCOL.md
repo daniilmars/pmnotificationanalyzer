@@ -78,21 +78,23 @@ We will follow a five-phase workflow for any significant task (e.g., new feature
 *(To be created at `doc/ONBOARDING.md`)*
 
 ```markdown
-# Project Onboarding: PM Notification Analyzer
+# Project Onboarding: PM Notification Quality Suite
 
-- **Project Overview:** A full-stack application to analyze the quality of Plant Maintenance (PM) notifications using an LLM.
+- **Project Overview:** A suite of full-stack applications designed to analyze and manage the quality of Plant Maintenance (PM) notifications.
 - **Tech Stack:**
   - **Backend:** Python, Flask, Gunicorn
   - **Frontend:** SAP Fiori (SAPUI5)
-  - **Deployment:** SAP BTP, Cloud Foundry
-- **Key Files:**
-  - `backend/app/main.py`: Main Flask application routes.
-  - `backend/app/services/analysis_service.py`: Core LLM integration logic.
-  - `pm-analyzer-fiori/webapp/manifest.json`: Fiori app configuration.
-  - `pm-analyzer-fiori/webapp/controller/Object.controller.js`: Detail view logic.
+  - **Deployment:** SAP BTP, Cloud Foundry (via Docker)
+- **Key Files & Directories:**
+  - `launchpad/`: The main entry point for the application suite.
+  - `pm-analyzer/`: Contains the "Maintenance Execution Assistant" application.
+  - `rule-manager/`: Contains the "Rule Manager" application.
+  - `docker-compose.yml`: Defines all the services and their orchestration for local development.
+  - `README.md`: The main source of truth for project setup and architecture.
 - **Development Conventions:**
-  - Backend follows standard Flask patterns.
-  - Frontend uses modern SAPUI5 asynchronous patterns.
+  - The project uses a microservices architecture.
+  - Backend services follow standard Flask patterns.
+  - Frontend applications use modern SAPUI5 asynchronous patterns.
   - All code must be formatted and linted before commit (tooling to be defined).
 ```
 

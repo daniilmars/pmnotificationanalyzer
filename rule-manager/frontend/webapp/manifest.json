@@ -39,11 +39,7 @@
         "models": {
             "i18n": {
                 "type": "sap.ui.model.resource.ResourceModel",
-                "settings": {
-                    "bundleName": "com.sap.pm.rulemanager.i18n.i18n",
-                    "supportedLocales": ["en", "de"],
-                    "fallbackLocale": "en"
-                }
+                "uri": "i18n/i18n.properties"
             },
             "rulesets": {
                 "type": "sap.ui.model.json.JSONModel",

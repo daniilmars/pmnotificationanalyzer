@@ -11,7 +11,7 @@ load_dotenv()
 from app.services.analysis_service import analyze_text, chat_with_assistant
 from app.services.data_service import get_all_notifications_summary, get_unified_notification
 from app.models import AnalysisResponse
-from app.config_manager import get_config, save_config
+from app.config_manager import get_config, set_config
 from app.database import close_db
 
 app = Flask(__name__)
@@ -148,7 +148,7 @@ def set_configuration():
         config_data = request.get_json()
         if not config_data:
             return jsonify({"error": {"code": "BAD_REQUEST", "message": "Invalid JSON body"}}), 400
-        save_config(config_data)
+        set_config(config_data)
         return jsonify({"status": "ok"}), 200
     except Exception as e:
         app.logger.exception("Failed to save configuration.")

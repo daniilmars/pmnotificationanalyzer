@@ -2,7 +2,7 @@
 
 specVersion: "3.1"
 metadata:
-  name: com.sap.pm.pmanalyzerfiori
+  name: com.sap.pm.rulemanager
 type: application
 resources:
   configuration:
@@ -16,6 +16,6 @@ builder:
     - name: ui5-task-zipper
       afterTask: generateCachebusterInfo
       configuration:
-        archiveName: comsappmpmanalyzerfiori
+        archiveName: comsappmrulemanager
         relativePaths: true
         # Removed additionalFiles: - xs-app.json as it's no longer in this directory

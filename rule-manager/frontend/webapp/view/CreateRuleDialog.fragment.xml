@@ -13,15 +13,24 @@
                     <Label text="Rule Name" required="true" />
                     <Input id="ruleNameInput" required="true" />
 
-                    <Label text="Target Field" required="true" />
-                    <Select id="targetFieldSelect" width="100%">
+                    <Label text="Description" />
+                    <TextArea id="ruleDescriptionInput" rows="3" />
+
+                    <Label text="Rule Type" required="true" />
+                    <Select id="ruleTypeSelect" width="100%" change=".onRuleTypeChange">
+                        <core:Item key="VALIDATION" text="Validation Rule" />
+                        <core:Item key="AI_GUIDANCE" text="AI Guidance Rule" />
+                    </Select>
+
+                    <Label text="Target Field" required="true" visible="{viewModel>/isValidationRule}" />
+                    <Select id="targetFieldSelect" width="100%" visible="{viewModel>/isValidationRule}">
                         <core:Item key="Short Text" text="Short Text" />
                         <core:Item key="Long Text" text="Long Text" />
                         <core:Item key="Notification Type" text="Notification Type" />
                     </Select>
 
-                    <Label text="Condition" required="true" />
-                    <Select id="conditionSelect" width="100%">
+                    <Label text="Condition" required="true" visible="{viewModel>/isValidationRule}" />
+                    <Select id="conditionSelect" width="100%" visible="{viewModel>/isValidationRule}">
                         <core:Item key="is not empty" text="Is Not Empty" />
                         <core:Item key="contains" text="Contains" />
                         <core:Item key="does not contain" text="Does Not Contain" />
@@ -29,20 +38,20 @@
                         <core:Item key="matches regex" text="Matches Regex" />
                     </Select>
 
-                    <Label text="Value" />
-                    <Input id="ruleValueInput" placeholder="(not needed for 'is not empty')" />
+                    <Label text="Value" visible="{viewModel>/isValidationRule}" />
+                    <Input id="ruleValueInput" placeholder="(not needed for 'is not empty')" visible="{viewModel>/isValidationRule}" />
 
-                    <Label text="Score Impact" required="true" />
-                    <Input id="ruleScoreInput" type="Number" value="-10" required="true" />
+                    <Label text="Score Impact" required="true" visible="{viewModel>/isValidationRule}" />
+                    <Input id="ruleScoreInput" type="Number" value="-10" required="true" visible="{viewModel>/isValidationRule}" />
 
-                    <Label text="Feedback Message" required="true" />
-                    <Input id="ruleFeedbackInput" required="true" />
+                    <Label text="Feedback Message" required="true" visible="{viewModel>/isValidationRule}" />
+                    <Input id="ruleFeedbackInput" required="true" visible="{viewModel>/isValidationRule}" />
 
                 </f:content>
             </f:SimpleForm>
         </content>
         <beginButton>
-            <Button text="Save" type="Emphasized" press=".onSaveNewRule" />
+            <Button text="Save" type="Emphasized" press=".onSaveRule" />
         </beginButton>
         <endButton>
             <Button text="Cancel" press=".onCloseCreateRuleDialog" />

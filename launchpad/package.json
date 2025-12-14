@@ -1,0 +1,13 @@
+{
+    "name": "pm-notification-quality-suite-launchpad",
+    "version": "1.0.0",
+    "description": "Launchpad for the PM Notification Quality Suite",
+    "scripts": {
+        "start": "ui5 serve --port 8000",
+        "build": "ui5 build --clean-dest"
+    },
+    "devDependencies": {
+        "@sap/ux-ui5-tooling": "^1.0.0",
+        "@ui5/cli": "^3.0.0"
+    }
+}

@@ -145,6 +145,29 @@ sap.ui.define([
             }
         },
 
+        onDeleteRuleset: async function(oEvent) {
+            const oBindingContext = oEvent.getSource().getBindingContext("rulesets");
+            const oRuleset = oBindingContext.getObject();
+
+            MessageBox.confirm(`Are you sure you want to delete the draft ruleset: "${oRuleset.name}"?`, {
+                onClose: async (sAction) => {
+                    if (sAction === MessageBox.Action.OK) {
+                        try {
+                            const response = await fetch(`/api/v1/rulesets/${oRuleset.id}`, { method: "DELETE" });
+                            if (!response.ok) {
+                                const errorData = await response.json();
+                                throw new Error(errorData.error || `Request failed with status ${response.status}`);
+                            }
+                            MessageBox.success("Ruleset deleted successfully!");
+                            this._loadRulesets();
+                        } catch (error) {
+                            MessageBox.error(`Failed to delete ruleset: ${error.message}`);
+                        }
+                    }
+                }
+            });
+        },
+
         // --- Activate Action --- //
 
         onActivateRuleset: async function(oEvent) {
@@ -176,6 +199,36 @@ sap.ui.define([
                     }
                 }.bind(this)
             });
+        },
+
+        onCreateNewVersion: async function(oEvent) {
+            const oBindingContext = oEvent.getSource().getBindingContext("rulesets");
+            const oRuleset = oBindingContext.getObject();
+
+            const oPayload = { created_by: "manual_user_versioning" }; // Placeholder
+
+            try {
+                const response = await fetch(`/api/v1/rulesets/${oRuleset.id}/new-version`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify(oPayload)
+                });
+
+                if (!response.ok) {
+                    const errorData = await response.json();
+                    throw new Error(errorData.error || `Request failed with status ${response.status}`);
+                }
+
+                const newRuleset = await response.json();
+                MessageBox.success("New draft version created successfully!");
+                this._loadRulesets(); // Refresh the list
+                this.getRouter().navTo("ruleEditor", { 
+                    rulesetId: newRuleset.id
+                });
+
+            } catch (error) {
+                MessageBox.error(`Failed to create new version: ${error.message}`);
+            }
         },
 
         // --- SOP Assistant --- //

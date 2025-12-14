@@ -9,8 +9,8 @@
     },
     {
       "source": "^/(.*)$",
-      "target": "$1",
-      "localDir": "resources/pm-analyzer-fiori/dist"
+      "target": "/$1",
+      "destination": "pm-analyzer-frontend"
     }
   ]
 }
