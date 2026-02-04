@@ -26,6 +26,8 @@ from app.validators import (
 from app.ai_governance import init_governance_db, create_governance_blueprint
 from app.openapi_spec import register_openapi
 from app.clerk_auth import register_clerk_auth, require_auth, require_role, require_admin, get_current_user
+from app.services.notification_service import get_notification_service, Alert, AlertSeverity, AlertType
+from app.services.alert_rules_service import get_alert_rules_service, AlertRule, RuleCondition, Subscription
 
 # Configure logging
 log_level = os.environ.get('LOG_LEVEL', 'INFO').upper()
@@ -79,6 +81,7 @@ def health_check() -> Tuple[str, int]:
 # --- Data Endpoints ---
 
 @app.route('/api/notifications', methods=['GET'])
+@require_auth
 def get_notifications():
     """
     Fetches the list of notifications with optional language and pagination parameters.
@@ -127,6 +130,7 @@ def get_notifications():
         return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": "Failed to fetch notifications"}}), 500
 
 @app.route('/api/notifications/<id>', methods=['GET'])
+@require_auth
 def get_notification_detail(id):
     """Fetches a single notification with details."""
     try:
@@ -154,6 +158,7 @@ def get_notification_detail(id):
 # --- Analysis Endpoints ---
 
 @app.route('/api/analyze', methods=['POST'])
+@require_auth
 def analyze() -> Tuple[str, int]:
     """Analyze a notification for quality issues."""
     data = request.get_json()
@@ -197,6 +202,7 @@ def analyze() -> Tuple[str, int]:
 
 
 @app.route('/api/chat', methods=['POST'])
+@require_auth
 def chat() -> Tuple[str, int]:
     """Chat with the assistant about a notification analysis."""
     data = request.get_json()
@@ -239,6 +245,7 @@ def chat() -> Tuple[str, int]:
 # --- Configuration Endpoints ---
 
 @app.route('/api/configuration', methods=['GET'])
+@require_auth
 def get_configuration():
     """Get the current application configuration."""
     try:
@@ -249,6 +256,7 @@ def get_configuration():
         return jsonify({"error": {"code": "CONFIG_READ_ERROR", "message": "Failed to read configuration"}}), 500
 
 @app.route('/api/configuration', methods=['POST'])
+@require_admin
 def set_configuration():
     """Update the application configuration."""
     try:
@@ -277,6 +285,7 @@ from app.services.data_quality_service import (
 )
 
 @app.route('/api/quality/notification/<id>', methods=['GET'])
+@require_auth
 def get_notification_quality(id):
     """
     Get data quality score for a single notification.
@@ -312,6 +321,7 @@ def get_notification_quality(id):
 
 
 @app.route('/api/quality/batch', methods=['GET'])
+@require_auth
 def get_batch_quality():
     """
     Get aggregate quality metrics for all notifications.
@@ -353,6 +363,7 @@ def get_batch_quality():
 
 
 @app.route('/api/quality/trend', methods=['GET'])
+@require_auth
 def get_quality_trend():
     """
     Get quality trend analysis over time.
@@ -400,6 +411,7 @@ def get_quality_trend():
 
 
 @app.route('/api/quality/dashboard', methods=['GET'])
+@require_auth
 def get_quality_dashboard():
     """
     Get comprehensive data quality dashboard data.
@@ -464,6 +476,7 @@ def get_quality_dashboard():
 
 
 @app.route('/api/quality/export', methods=['GET'])
+@require_auth
 def export_quality_report():
     """
     Export quality report as CSV.
@@ -552,6 +565,7 @@ from app.services.reliability_engineering_service import (
 )
 
 @app.route('/api/reliability/equipment/<equipment_id>/mtbf', methods=['GET'])
+@require_auth
 def get_equipment_mtbf(equipment_id):
     """
     Get Mean Time Between Failures for equipment.
@@ -597,6 +611,7 @@ def get_equipment_mtbf(equipment_id):
 
 
 @app.route('/api/reliability/equipment/<equipment_id>/mttr', methods=['GET'])
+@require_auth
 def get_equipment_mttr(equipment_id):
     """
     Get Mean Time To Repair for equipment.
@@ -640,6 +655,7 @@ def get_equipment_mttr(equipment_id):
 
 
 @app.route('/api/reliability/equipment/<equipment_id>/availability', methods=['GET'])
+@require_auth
 def get_equipment_availability(equipment_id):
     """
     Get equipment availability metrics.
@@ -683,6 +699,7 @@ def get_equipment_availability(equipment_id):
 
 
 @app.route('/api/reliability/equipment/<equipment_id>/score', methods=['GET'])
+@require_auth
 def get_equipment_reliability_score(equipment_id):
     """
     Get comprehensive reliability score for equipment.
@@ -728,6 +745,7 @@ def get_equipment_reliability_score(equipment_id):
 
 
 @app.route('/api/reliability/equipment/<equipment_id>/predictive', methods=['GET'])
+@require_auth
 def get_equipment_predictive(equipment_id):
     """
     Get predictive maintenance indicators for equipment.
@@ -771,6 +789,7 @@ def get_equipment_predictive(equipment_id):
 
 
 @app.route('/api/reliability/equipment/<equipment_id>/weibull', methods=['GET'])
+@require_auth
 def get_equipment_weibull(equipment_id):
     """
     Get Weibull analysis for equipment failure patterns.
@@ -812,6 +831,7 @@ def get_equipment_weibull(equipment_id):
 
 
 @app.route('/api/reliability/fmea', methods=['GET'])
+@require_auth
 def get_fmea_analysis():
     """
     Get Failure Mode and Effects Analysis (FMEA) for all equipment.
@@ -868,6 +888,7 @@ def get_fmea_analysis():
 
 
 @app.route('/api/reliability/dashboard', methods=['GET'])
+@require_auth
 def get_reliability_dashboard():
     """
     Get comprehensive reliability dashboard data.
@@ -939,6 +960,7 @@ def get_reliability_dashboard():
 
 
 @app.route('/api/reliability/export', methods=['GET'])
+@require_auth
 def export_reliability_report():
     """
     Export reliability report as CSV.
@@ -1015,6 +1037,7 @@ from app.services.change_document_service import (
 )
 
 @app.route('/api/audit/changes', methods=['GET'])
+@require_role('admin', 'auditor')
 def get_change_history():
     """
     Get change document history for audit trail.
@@ -1078,6 +1101,7 @@ def get_change_history():
 
 
 @app.route('/api/audit/changes/<object_class>/<object_id>', methods=['GET'])
+@require_role('admin', 'auditor')
 def get_object_change_history(object_class, object_id):
     """
     Get change history for a specific object.
@@ -1126,6 +1150,7 @@ def get_object_change_history(object_class, object_id):
 
 
 @app.route('/api/audit/report', methods=['GET'])
+@require_role('admin', 'auditor')
 def get_audit_report():
     """
     Generate comprehensive audit report for compliance.
@@ -1166,6 +1191,7 @@ def get_audit_report():
 
 
 @app.route('/api/audit/notification/<notification_id>/history', methods=['GET'])
+@require_role('admin', 'auditor')
 def get_notification_change_history(notification_id):
     """
     Get notification-specific change history (QMIH).
@@ -1202,6 +1228,7 @@ def get_notification_change_history(notification_id):
 
 
 @app.route('/api/status/<object_number>', methods=['GET'])
+@require_auth
 def get_object_status(object_number):
     """
     Get current status of an object (JEST).
@@ -1232,6 +1259,7 @@ def get_object_status(object_number):
 
 
 @app.route('/api/confirmations/<order_number>', methods=['GET'])
+@require_auth
 def get_order_confirmations(order_number):
     """
     Get time confirmations for an order (AFRU).
@@ -1272,6 +1300,7 @@ def get_order_confirmations(order_number):
 
 
 @app.route('/api/confirmations/<order_number>', methods=['POST'])
+@require_role('admin', 'editor')
 def create_time_confirmation(order_number):
     """
     Record a time confirmation for an order.
@@ -1337,6 +1366,7 @@ def create_time_confirmation(order_number):
 
 
 @app.route('/api/audit/export', methods=['GET'])
+@require_role('admin', 'auditor')
 def export_audit_report():
     """
     Export audit report as CSV.
@@ -1428,6 +1458,7 @@ REPORT_DB_PATH = os.path.join(
 
 
 @app.route('/api/reports/notification/<notification_id>/pdf', methods=['GET'])
+@require_auth
 def get_notification_pdf_report(notification_id):
     """
     Generate PDF report for a single notification.
@@ -1483,6 +1514,7 @@ def get_notification_pdf_report(notification_id):
 
 
 @app.route('/api/reports/audit/pdf', methods=['GET'])
+@require_role('admin', 'auditor')
 def get_audit_pdf_report():
     """
     Generate PDF audit trail report.
@@ -1541,6 +1573,7 @@ def get_audit_pdf_report():
 
 
 @app.route('/api/reports/quality/pdf', methods=['GET'])
+@require_auth
 def get_quality_pdf_report():
     """
     Generate PDF quality analytics report.
@@ -1588,6 +1621,7 @@ def get_quality_pdf_report():
 
 
 @app.route('/api/reports/reliability/pdf', methods=['GET'])
+@require_auth
 def get_reliability_pdf_report():
     """
     Generate PDF reliability engineering report.
@@ -1630,6 +1664,7 @@ def get_reliability_pdf_report():
 
 
 @app.route('/api/reports/available', methods=['GET'])
+@require_auth
 def get_available_reports():
     """
     Get list of available report types and their status.
@@ -1674,6 +1709,585 @@ def get_available_reports():
     })
 
 
+# --- Email Notification & Alert Endpoints ---
+
+@app.route('/api/alerts/test', methods=['POST'])
+@require_auth
+def send_test_alert():
+    """
+    Send a test alert email to verify notification configuration.
+
+    Request Body:
+        email: Email address to send test to
+
+    Returns:
+        Success status
+    """
+    try:
+        data = request.get_json()
+
+        if not data or not data.get('email'):
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "Email address required"}}), 400
+
+        email = data['email']
+
+        service = get_notification_service()
+
+        # Send a test alert
+        test_alert = Alert(
+            alert_id='TEST-001',
+            alert_type=AlertType.SYSTEM,
+            severity=AlertSeverity.INFO,
+            title='Test Alert',
+            message='This is a test alert to verify your notification configuration is working correctly.',
+            source='PM Notification Analyzer',
+            context={'test': True}
+        )
+
+        success = service.send_alert(test_alert, [email])
+
+        if success:
+            return jsonify({
+                'status': 'sent',
+                'message': f'Test alert sent to {email}'
+            })
+        else:
+            return jsonify({
+                'status': 'failed',
+                'message': 'Failed to send test alert. Check email configuration.'
+            }), 500
+
+    except Exception as e:
+        logger.exception("Error sending test alert")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": str(e)
+            }
+        }), 500
+
+
+@app.route('/api/alerts/rules', methods=['GET'])
+@require_auth
+def get_alert_rules():
+    """
+    Get all configured alert rules.
+
+    Returns:
+        List of alert rules
+    """
+    try:
+        service = get_alert_rules_service()
+        rules = service.get_all_rules()
+
+        return jsonify({
+            'rules': [
+                {
+                    'rule_id': rule.rule_id,
+                    'name': rule.name,
+                    'description': rule.description,
+                    'enabled': rule.enabled,
+                    'severity': rule.severity.value,
+                    'alert_type': rule.alert_type.value,
+                    'conditions': [
+                        {
+                            'field': c.field,
+                            'operator': c.operator,
+                            'value': c.value,
+                            'field_type': c.field_type
+                        } for c in rule.conditions
+                    ],
+                    'cooldown_minutes': rule.cooldown_minutes
+                }
+                for rule in rules
+            ],
+            'count': len(rules)
+        })
+
+    except Exception as e:
+        logger.exception("Error getting alert rules")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get alert rules"
+            }
+        }), 500
+
+
+@app.route('/api/alerts/rules', methods=['POST'])
+@require_role('admin', 'editor')
+def create_alert_rule():
+    """
+    Create a new alert rule.
+
+    Request Body:
+        name: Rule name
+        description: Rule description
+        conditions: List of conditions
+        severity: Alert severity (critical, high, medium, low, info)
+        alert_type: Alert type (quality, reliability, compliance, overdue, system)
+        cooldown_minutes: Minimum minutes between alerts
+
+    Returns:
+        Created rule
+    """
+    try:
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "Request body required"}}), 400
+
+        required_fields = ['name', 'conditions', 'severity', 'alert_type']
+        for field in required_fields:
+            if field not in data:
+                return jsonify({"error": {"code": "BAD_REQUEST", "message": f"Missing required field: {field}"}}), 400
+
+        # Parse conditions
+        conditions = []
+        for cond in data['conditions']:
+            conditions.append(RuleCondition(
+                field=cond['field'],
+                operator=cond['operator'],
+                value=cond['value'],
+                field_type=cond.get('field_type', 'string')
+            ))
+
+        # Create rule
+        rule = AlertRule(
+            rule_id=f"RULE-{datetime.now().strftime('%Y%m%d%H%M%S')}",
+            name=data['name'],
+            description=data.get('description', ''),
+            conditions=conditions,
+            severity=AlertSeverity(data['severity']),
+            alert_type=AlertType(data['alert_type']),
+            enabled=data.get('enabled', True),
+            cooldown_minutes=int(data.get('cooldown_minutes', 60))
+        )
+
+        service = get_alert_rules_service()
+        created_rule = service.add_rule(rule)
+
+        return jsonify({
+            'rule_id': created_rule.rule_id,
+            'name': created_rule.name,
+            'status': 'created'
+        }), 201
+
+    except ValueError as e:
+        return jsonify({"error": {"code": "BAD_REQUEST", "message": str(e)}}), 400
+    except Exception as e:
+        logger.exception("Error creating alert rule")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to create alert rule"
+            }
+        }), 500
+
+
+@app.route('/api/alerts/rules/<rule_id>', methods=['PUT'])
+@require_role('admin', 'editor')
+def update_alert_rule(rule_id):
+    """
+    Update an existing alert rule.
+
+    Path Parameters:
+        rule_id: Rule identifier
+
+    Request Body:
+        enabled: Enable/disable rule
+        Other rule fields to update
+
+    Returns:
+        Updated rule
+    """
+    try:
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "Request body required"}}), 400
+
+        service = get_alert_rules_service()
+
+        # Get existing rule
+        existing_rule = service.get_rule(rule_id)
+        if not existing_rule:
+            return jsonify({"error": {"code": "NOT_FOUND", "message": "Rule not found"}}), 404
+
+        # Update fields
+        if 'enabled' in data:
+            existing_rule.enabled = data['enabled']
+        if 'name' in data:
+            existing_rule.name = data['name']
+        if 'description' in data:
+            existing_rule.description = data['description']
+        if 'cooldown_minutes' in data:
+            existing_rule.cooldown_minutes = int(data['cooldown_minutes'])
+        if 'conditions' in data:
+            conditions = []
+            for cond in data['conditions']:
+                conditions.append(RuleCondition(
+                    field=cond['field'],
+                    operator=cond['operator'],
+                    value=cond['value'],
+                    field_type=cond.get('field_type', 'string')
+                ))
+            existing_rule.conditions = conditions
+
+        service.update_rule(existing_rule)
+
+        return jsonify({
+            'rule_id': rule_id,
+            'status': 'updated'
+        })
+
+    except Exception as e:
+        logger.exception(f"Error updating alert rule {rule_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to update alert rule"
+            }
+        }), 500
+
+
+@app.route('/api/alerts/rules/<rule_id>', methods=['DELETE'])
+@require_admin
+def delete_alert_rule(rule_id):
+    """
+    Delete an alert rule.
+
+    Path Parameters:
+        rule_id: Rule identifier
+
+    Returns:
+        Deletion status
+    """
+    try:
+        service = get_alert_rules_service()
+
+        success = service.remove_rule(rule_id)
+
+        if success:
+            return jsonify({
+                'rule_id': rule_id,
+                'status': 'deleted'
+            })
+        else:
+            return jsonify({"error": {"code": "NOT_FOUND", "message": "Rule not found"}}), 404
+
+    except Exception as e:
+        logger.exception(f"Error deleting alert rule {rule_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to delete alert rule"
+            }
+        }), 500
+
+
+@app.route('/api/alerts/subscriptions', methods=['GET'])
+@require_auth
+def get_subscriptions():
+    """
+    Get alert subscriptions for current user or all (admin).
+
+    Query Parameters:
+        all: If 'true' and user is admin, return all subscriptions
+
+    Returns:
+        List of subscriptions
+    """
+    try:
+        service = get_alert_rules_service()
+        current_user = get_current_user()
+
+        # Admins can see all subscriptions
+        show_all = request.args.get('all', 'false').lower() == 'true'
+
+        if show_all and current_user and 'admin' in current_user.get('roles', []):
+            subscriptions = service.get_all_subscriptions()
+        else:
+            user_email = current_user.get('email') if current_user else None
+            if not user_email:
+                return jsonify({'subscriptions': [], 'count': 0})
+            subscriptions = service.get_user_subscriptions(user_email)
+
+        return jsonify({
+            'subscriptions': [
+                {
+                    'subscription_id': sub.subscription_id,
+                    'user_email': sub.user_email,
+                    'alert_types': [t.value for t in sub.alert_types],
+                    'severities': [s.value for s in sub.severities],
+                    'equipment_filter': sub.equipment_filter,
+                    'enabled': sub.enabled,
+                    'created_at': sub.created_at.isoformat() if sub.created_at else None
+                }
+                for sub in subscriptions
+            ],
+            'count': len(subscriptions)
+        })
+
+    except Exception as e:
+        logger.exception("Error getting subscriptions")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get subscriptions"
+            }
+        }), 500
+
+
+@app.route('/api/alerts/subscriptions', methods=['POST'])
+@require_auth
+def create_subscription():
+    """
+    Create a new alert subscription.
+
+    Request Body:
+        user_email: Email to receive alerts (optional, defaults to current user)
+        alert_types: List of alert types to subscribe to
+        severities: List of severities to receive
+        equipment_filter: Optional list of equipment IDs to filter
+
+    Returns:
+        Created subscription
+    """
+    try:
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "Request body required"}}), 400
+
+        current_user = get_current_user()
+
+        # Use provided email or current user's email
+        user_email = data.get('user_email')
+        if not user_email and current_user:
+            user_email = current_user.get('email')
+
+        if not user_email:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "Email address required"}}), 400
+
+        # Parse alert types
+        alert_types = [AlertType(t) for t in data.get('alert_types', ['quality', 'reliability', 'compliance'])]
+
+        # Parse severities
+        severities = [AlertSeverity(s) for s in data.get('severities', ['critical', 'high'])]
+
+        subscription = Subscription(
+            subscription_id=f"SUB-{datetime.now().strftime('%Y%m%d%H%M%S')}-{user_email[:5]}",
+            user_email=user_email,
+            alert_types=alert_types,
+            severities=severities,
+            equipment_filter=data.get('equipment_filter'),
+            enabled=data.get('enabled', True)
+        )
+
+        service = get_alert_rules_service()
+        created = service.create_subscription(subscription)
+
+        return jsonify({
+            'subscription_id': created.subscription_id,
+            'user_email': created.user_email,
+            'status': 'created'
+        }), 201
+
+    except ValueError as e:
+        return jsonify({"error": {"code": "BAD_REQUEST", "message": str(e)}}), 400
+    except Exception as e:
+        logger.exception("Error creating subscription")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to create subscription"
+            }
+        }), 500
+
+
+@app.route('/api/alerts/subscriptions/<subscription_id>', methods=['PUT'])
+@require_auth
+def update_subscription(subscription_id):
+    """
+    Update an existing subscription.
+
+    Path Parameters:
+        subscription_id: Subscription identifier
+
+    Request Body:
+        enabled: Enable/disable subscription
+        alert_types: Updated alert types
+        severities: Updated severities
+
+    Returns:
+        Update status
+    """
+    try:
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "Request body required"}}), 400
+
+        service = get_alert_rules_service()
+        current_user = get_current_user()
+
+        # Get existing subscription
+        existing = service.get_subscription(subscription_id)
+        if not existing:
+            return jsonify({"error": {"code": "NOT_FOUND", "message": "Subscription not found"}}), 404
+
+        # Check ownership (unless admin)
+        is_admin = current_user and 'admin' in current_user.get('roles', [])
+        if not is_admin and current_user.get('email') != existing.user_email:
+            return jsonify({"error": {"code": "FORBIDDEN", "message": "Cannot modify another user's subscription"}}), 403
+
+        # Update fields
+        if 'enabled' in data:
+            existing.enabled = data['enabled']
+        if 'alert_types' in data:
+            existing.alert_types = [AlertType(t) for t in data['alert_types']]
+        if 'severities' in data:
+            existing.severities = [AlertSeverity(s) for s in data['severities']]
+        if 'equipment_filter' in data:
+            existing.equipment_filter = data['equipment_filter']
+
+        service.update_subscription(existing)
+
+        return jsonify({
+            'subscription_id': subscription_id,
+            'status': 'updated'
+        })
+
+    except ValueError as e:
+        return jsonify({"error": {"code": "BAD_REQUEST", "message": str(e)}}), 400
+    except Exception as e:
+        logger.exception(f"Error updating subscription {subscription_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to update subscription"
+            }
+        }), 500
+
+
+@app.route('/api/alerts/subscriptions/<subscription_id>', methods=['DELETE'])
+@require_auth
+def delete_subscription(subscription_id):
+    """
+    Delete a subscription.
+
+    Path Parameters:
+        subscription_id: Subscription identifier
+
+    Returns:
+        Deletion status
+    """
+    try:
+        service = get_alert_rules_service()
+        current_user = get_current_user()
+
+        # Get existing subscription
+        existing = service.get_subscription(subscription_id)
+        if not existing:
+            return jsonify({"error": {"code": "NOT_FOUND", "message": "Subscription not found"}}), 404
+
+        # Check ownership (unless admin)
+        is_admin = current_user and 'admin' in current_user.get('roles', [])
+        if not is_admin and current_user.get('email') != existing.user_email:
+            return jsonify({"error": {"code": "FORBIDDEN", "message": "Cannot delete another user's subscription"}}), 403
+
+        service.remove_subscription(subscription_id)
+
+        return jsonify({
+            'subscription_id': subscription_id,
+            'status': 'deleted'
+        })
+
+    except Exception as e:
+        logger.exception(f"Error deleting subscription {subscription_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to delete subscription"
+            }
+        }), 500
+
+
+@app.route('/api/alerts/evaluate', methods=['POST'])
+@require_role('admin', 'editor')
+def evaluate_alerts():
+    """
+    Evaluate alert rules against provided data and trigger alerts.
+
+    Request Body:
+        data: Dictionary of data to evaluate
+        context: Optional context string
+
+    Returns:
+        List of triggered alerts
+    """
+    try:
+        data = request.get_json()
+
+        if not data or 'data' not in data:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "Data object required"}}), 400
+
+        service = get_alert_rules_service()
+        alerts = service.evaluate_and_alert(
+            data=data['data'],
+            context=data.get('context', '')
+        )
+
+        return jsonify({
+            'alerts_triggered': len(alerts),
+            'alerts': [
+                {
+                    'alert_id': alert.alert_id,
+                    'title': alert.title,
+                    'severity': alert.severity.value,
+                    'alert_type': alert.alert_type.value,
+                    'message': alert.message
+                }
+                for alert in alerts
+            ]
+        })
+
+    except Exception as e:
+        logger.exception("Error evaluating alerts")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to evaluate alerts"
+            }
+        }), 500
+
+
+@app.route('/api/alerts/config', methods=['GET'])
+@require_admin
+def get_notification_config():
+    """
+    Get email notification configuration status (admin only).
+
+    Returns:
+        Configuration status (no sensitive data)
+    """
+    try:
+        service = get_notification_service()
+        config = service.get_config_status()
+
+        return jsonify(config)
+
+    except Exception as e:
+        logger.exception("Error getting notification config")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get notification configuration"
+            }
+        }), 500
+
+
 # --- SAP Integration Endpoints ---
 
 from app.services.sap_integration_service import (
@@ -1684,6 +2298,7 @@ from app.services.sap_integration_service import (
 
 
 @app.route('/api/sap/status', methods=['GET'])
+@require_auth
 def get_sap_status():
     """
     Get SAP integration status and availability.
@@ -1712,6 +2327,7 @@ def get_sap_status():
 
 
 @app.route('/api/sap/connect', methods=['POST'])
+@require_admin
 def connect_to_sap():
     """
     Establish connection to SAP system.
@@ -1753,6 +2369,7 @@ def connect_to_sap():
 
 
 @app.route('/api/sap/disconnect', methods=['POST'])
+@require_admin
 def disconnect_from_sap():
     """
     Disconnect from SAP system.
@@ -1780,6 +2397,7 @@ def disconnect_from_sap():
 
 
 @app.route('/api/sap/notifications/<notification_id>', methods=['GET'])
+@require_auth
 def get_sap_notification(notification_id):
     """
     Get notification from SAP system.
@@ -1832,6 +2450,7 @@ def get_sap_notification(notification_id):
 
 
 @app.route('/api/sap/notifications', methods=['POST'])
+@require_role('admin', 'editor')
 def create_sap_notification():
     """
     Create notification in SAP system.
@@ -1888,6 +2507,7 @@ def create_sap_notification():
 
 
 @app.route('/api/sap/orders/<order_number>', methods=['GET'])
+@require_auth
 def get_sap_order(order_number):
     """
     Get work order from SAP system.
@@ -1935,6 +2555,7 @@ def get_sap_order(order_number):
 
 
 @app.route('/api/sap/equipment/<equipment_number>', methods=['GET'])
+@require_auth
 def get_sap_equipment(equipment_number):
     """
     Get equipment master data from SAP system.
@@ -1982,6 +2603,7 @@ def get_sap_equipment(equipment_number):
 
 
 @app.route('/api/sap/sync/notifications', methods=['POST'])
+@require_admin
 def sync_sap_notifications():
     """
     Synchronize notifications from SAP to local database.
@@ -2038,6 +2660,7 @@ def sync_sap_notifications():
 
 
 @app.route('/api/sap/changes/<object_class>/<object_id>', methods=['GET'])
+@require_role('admin', 'auditor')
 def get_sap_change_documents(object_class, object_id):
     """
     Get change documents from SAP for an object.
