@@ -531,6 +531,469 @@ def export_quality_report():
         }), 500
 
 
+# --- Reliability Engineering Endpoints ---
+
+from app.services.reliability_engineering_service import (
+    get_reliability_service,
+    ReliabilityEngineeringService
+)
+
+@app.route('/api/reliability/equipment/<equipment_id>/mtbf', methods=['GET'])
+def get_equipment_mtbf(equipment_id):
+    """
+    Get Mean Time Between Failures for equipment.
+
+    Query Parameters:
+        period_days: Analysis period in days (default 365)
+        language: Language for notifications (default 'en')
+
+    Returns:
+        MTBF in hours and days, failure count, trend analysis
+    """
+    try:
+        period_days = int(request.args.get('period_days', 365))
+        language = request.args.get('language', 'en')
+
+        # Get notifications to populate reliability data
+        notifications = get_all_notifications_summary(language, page=1, page_size=1000, paginate=False)
+
+        service = get_reliability_service()
+        service.load_notifications_as_failures(notifications)
+
+        mtbf = service.calculate_mtbf(equipment_id, period_days)
+
+        return jsonify({
+            'equipment_id': mtbf.equipment_id,
+            'mtbf_hours': mtbf.mtbf_hours,
+            'mtbf_days': mtbf.mtbf_days,
+            'total_operating_hours': mtbf.total_operating_hours,
+            'failure_count': mtbf.failure_count,
+            'calculation_period_days': mtbf.calculation_period_days,
+            'confidence_level': mtbf.confidence_level,
+            'trend': mtbf.trend
+        })
+
+    except Exception as e:
+        logger.exception(f"Error calculating MTBF for equipment {equipment_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to calculate MTBF"
+            }
+        }), 500
+
+
+@app.route('/api/reliability/equipment/<equipment_id>/mttr', methods=['GET'])
+def get_equipment_mttr(equipment_id):
+    """
+    Get Mean Time To Repair for equipment.
+
+    Query Parameters:
+        period_days: Analysis period in days (default 365)
+        language: Language for notifications (default 'en')
+
+    Returns:
+        MTTR statistics including min, max, and trend
+    """
+    try:
+        period_days = int(request.args.get('period_days', 365))
+        language = request.args.get('language', 'en')
+
+        notifications = get_all_notifications_summary(language, page=1, page_size=1000, paginate=False)
+
+        service = get_reliability_service()
+        service.load_notifications_as_failures(notifications)
+
+        mttr = service.calculate_mttr(equipment_id, period_days)
+
+        return jsonify({
+            'equipment_id': mttr.equipment_id,
+            'mttr_hours': mttr.mttr_hours,
+            'min_repair_time': mttr.min_repair_time,
+            'max_repair_time': mttr.max_repair_time,
+            'repair_count': mttr.repair_count,
+            'std_deviation': mttr.std_deviation,
+            'trend': mttr.trend
+        })
+
+    except Exception as e:
+        logger.exception(f"Error calculating MTTR for equipment {equipment_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to calculate MTTR"
+            }
+        }), 500
+
+
+@app.route('/api/reliability/equipment/<equipment_id>/availability', methods=['GET'])
+def get_equipment_availability(equipment_id):
+    """
+    Get equipment availability metrics.
+
+    Query Parameters:
+        period_days: Analysis period in days (default 365)
+        language: Language for notifications (default 'en')
+
+    Returns:
+        Availability percentage, uptime/downtime hours
+    """
+    try:
+        period_days = int(request.args.get('period_days', 365))
+        language = request.args.get('language', 'en')
+
+        notifications = get_all_notifications_summary(language, page=1, page_size=1000, paginate=False)
+
+        service = get_reliability_service()
+        service.load_notifications_as_failures(notifications)
+
+        availability = service.calculate_availability(equipment_id, period_days)
+
+        return jsonify({
+            'equipment_id': availability.equipment_id,
+            'availability_percent': availability.availability_percent,
+            'uptime_hours': availability.uptime_hours,
+            'downtime_hours': availability.downtime_hours,
+            'planned_downtime_hours': availability.planned_downtime_hours,
+            'unplanned_downtime_hours': availability.unplanned_downtime_hours,
+            'total_period_hours': availability.total_period_hours
+        })
+
+    except Exception as e:
+        logger.exception(f"Error calculating availability for equipment {equipment_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to calculate availability"
+            }
+        }), 500
+
+
+@app.route('/api/reliability/equipment/<equipment_id>/score', methods=['GET'])
+def get_equipment_reliability_score(equipment_id):
+    """
+    Get comprehensive reliability score for equipment.
+
+    Query Parameters:
+        period_days: Analysis period in days (default 365)
+        language: Language for notifications (default 'en')
+
+    Returns:
+        Overall reliability score, component scores, risk level, recommendations
+    """
+    try:
+        period_days = int(request.args.get('period_days', 365))
+        language = request.args.get('language', 'en')
+
+        notifications = get_all_notifications_summary(language, page=1, page_size=1000, paginate=False)
+
+        service = get_reliability_service()
+        service.load_notifications_as_failures(notifications)
+
+        score = service.calculate_reliability_score(equipment_id, period_days)
+
+        return jsonify({
+            'equipment_id': score.equipment_id,
+            'overall_score': score.overall_score,
+            'mtbf_score': score.mtbf_score,
+            'mttr_score': score.mttr_score,
+            'availability_score': score.availability_score,
+            'failure_trend_score': score.failure_trend_score,
+            'maintenance_compliance_score': score.maintenance_compliance_score,
+            'risk_level': score.risk_level,
+            'recommendations': score.recommendations
+        })
+
+    except Exception as e:
+        logger.exception(f"Error calculating reliability score for equipment {equipment_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to calculate reliability score"
+            }
+        }), 500
+
+
+@app.route('/api/reliability/equipment/<equipment_id>/predictive', methods=['GET'])
+def get_equipment_predictive(equipment_id):
+    """
+    Get predictive maintenance indicators for equipment.
+
+    Query Parameters:
+        period_days: Analysis period in days (default 365)
+        language: Language for notifications (default 'en')
+
+    Returns:
+        Failure probability, recommended action, urgency, contributing factors
+    """
+    try:
+        period_days = int(request.args.get('period_days', 365))
+        language = request.args.get('language', 'en')
+
+        notifications = get_all_notifications_summary(language, page=1, page_size=1000, paginate=False)
+
+        service = get_reliability_service()
+        service.load_notifications_as_failures(notifications)
+
+        predictive = service.generate_predictive_indicators(equipment_id, period_days)
+
+        return jsonify({
+            'equipment_id': predictive.equipment_id,
+            'predicted_failure_probability': predictive.predicted_failure_probability,
+            'recommended_action': predictive.recommended_action,
+            'urgency': predictive.urgency,
+            'estimated_remaining_life_days': predictive.estimated_remaining_life_days,
+            'confidence_level': predictive.confidence_level,
+            'contributing_factors': predictive.contributing_factors
+        })
+
+    except Exception as e:
+        logger.exception(f"Error generating predictive indicators for equipment {equipment_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to generate predictive indicators"
+            }
+        }), 500
+
+
+@app.route('/api/reliability/equipment/<equipment_id>/weibull', methods=['GET'])
+def get_equipment_weibull(equipment_id):
+    """
+    Get Weibull analysis for equipment failure patterns.
+
+    Query Parameters:
+        period_days: Analysis period in days (default 365)
+        language: Language for notifications (default 'en')
+
+    Returns:
+        Weibull shape/scale parameters, failure pattern, reliability estimates
+    """
+    try:
+        period_days = int(request.args.get('period_days', 365))
+        language = request.args.get('language', 'en')
+
+        notifications = get_all_notifications_summary(language, page=1, page_size=1000, paginate=False)
+
+        service = get_reliability_service()
+        service.load_notifications_as_failures(notifications)
+
+        weibull = service.estimate_weibull_parameters(equipment_id, period_days)
+
+        return jsonify({
+            'equipment_id': weibull.equipment_id,
+            'shape_parameter': weibull.shape_parameter,
+            'scale_parameter': weibull.scale_parameter,
+            'failure_pattern': weibull.failure_pattern,
+            'reliability_at_time': weibull.reliability_at_time
+        })
+
+    except Exception as e:
+        logger.exception(f"Error calculating Weibull parameters for equipment {equipment_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to calculate Weibull parameters"
+            }
+        }), 500
+
+
+@app.route('/api/reliability/fmea', methods=['GET'])
+def get_fmea_analysis():
+    """
+    Get Failure Mode and Effects Analysis (FMEA) for all equipment.
+
+    Query Parameters:
+        period_days: Analysis period in days (default 365)
+        language: Language for notifications (default 'en')
+        limit: Max items to return (default 20)
+
+    Returns:
+        List of failure modes with RPN (Risk Priority Number) scores
+    """
+    try:
+        period_days = int(request.args.get('period_days', 365))
+        language = request.args.get('language', 'en')
+        limit = int(request.args.get('limit', 20))
+
+        notifications = get_all_notifications_summary(language, page=1, page_size=1000, paginate=False)
+
+        service = get_reliability_service()
+        service.load_notifications_as_failures(notifications)
+
+        fmea_items = service.perform_fmea_analysis(period_days)
+
+        result = []
+        for item in fmea_items[:limit]:
+            result.append({
+                'failure_mode': item.failure_mode,
+                'potential_effect': item.potential_effect,
+                'severity': item.severity,
+                'occurrence': item.occurrence,
+                'detection': item.detection,
+                'rpn': item.rpn,
+                'recommended_action': item.recommended_action,
+                'current_controls': item.current_controls,
+                'equipment_affected': item.equipment_affected,
+                'occurrence_count': item.occurrence_count
+            })
+
+        return jsonify({
+            'fmea_items': result,
+            'total_count': len(fmea_items),
+            'period_days': period_days
+        })
+
+    except Exception as e:
+        logger.exception("Error performing FMEA analysis")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to perform FMEA analysis"
+            }
+        }), 500
+
+
+@app.route('/api/reliability/dashboard', methods=['GET'])
+def get_reliability_dashboard():
+    """
+    Get comprehensive reliability dashboard data.
+
+    Query Parameters:
+        period_days: Analysis period in days (default 365)
+        language: Language for notifications (default 'en')
+
+    Returns:
+        Overall statistics, equipment summaries, top issues, FMEA highlights
+    """
+    try:
+        period_days = int(request.args.get('period_days', 365))
+        language = request.args.get('language', 'en')
+
+        notifications = get_all_notifications_summary(language, page=1, page_size=1000, paginate=False)
+
+        service = get_reliability_service()
+        service.load_notifications_as_failures(notifications)
+
+        # Get equipment summary
+        summary = service.get_equipment_summary(period_days)
+
+        # Get FMEA highlights
+        fmea_items = service.perform_fmea_analysis(period_days)
+        fmea_highlights = []
+        for item in fmea_items[:5]:
+            fmea_highlights.append({
+                'failure_mode': item.failure_mode,
+                'rpn': item.rpn,
+                'severity': item.severity,
+                'recommended_action': item.recommended_action
+            })
+
+        # Calculate overall metrics
+        equipment_summaries = summary.get('equipment_summaries', [])
+
+        # Get equipment requiring attention
+        attention_required = [
+            eq for eq in equipment_summaries
+            if eq['risk_level'] in ['critical', 'high'] or eq['failure_probability'] > 0.5
+        ]
+
+        dashboard_data = {
+            'summary': {
+                'total_equipment': summary['total_equipment'],
+                'average_reliability_score': summary['average_reliability_score'],
+                'average_availability': summary['average_availability'],
+                'critical_risk_count': summary['critical_risk_count'],
+                'high_risk_count': summary['high_risk_count']
+            },
+            'equipment_list': equipment_summaries[:20],  # Top 20
+            'attention_required': attention_required[:10],
+            'fmea_highlights': fmea_highlights,
+            'period_days': period_days,
+            'generated_at': datetime.now().isoformat()
+        }
+
+        return jsonify(dashboard_data)
+
+    except Exception as e:
+        logger.exception("Error generating reliability dashboard")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to generate reliability dashboard"
+            }
+        }), 500
+
+
+@app.route('/api/reliability/export', methods=['GET'])
+def export_reliability_report():
+    """
+    Export reliability report as CSV.
+
+    Query Parameters:
+        period_days: Analysis period in days (default 365)
+        language: Language for notifications (default 'en')
+
+    Returns:
+        CSV file with reliability metrics for all equipment
+    """
+    import csv
+    from io import StringIO
+    from flask import Response
+
+    try:
+        period_days = int(request.args.get('period_days', 365))
+        language = request.args.get('language', 'en')
+
+        notifications = get_all_notifications_summary(language, page=1, page_size=1000, paginate=False)
+
+        service = get_reliability_service()
+        service.load_notifications_as_failures(notifications)
+
+        summary = service.get_equipment_summary(period_days)
+        equipment_summaries = summary.get('equipment_summaries', [])
+
+        output = StringIO()
+        fieldnames = [
+            'equipment_id', 'reliability_score', 'availability_percent',
+            'risk_level', 'failure_probability', 'urgency',
+            'top_recommendation'
+        ]
+
+        writer = csv.DictWriter(output, fieldnames=fieldnames)
+        writer.writeheader()
+
+        for eq in equipment_summaries:
+            writer.writerow({
+                'equipment_id': eq['equipment_id'],
+                'reliability_score': eq['reliability_score'],
+                'availability_percent': eq['availability'],
+                'risk_level': eq['risk_level'],
+                'failure_probability': eq['failure_probability'],
+                'urgency': eq['urgency'],
+                'top_recommendation': eq['recommendations'][0] if eq['recommendations'] else ''
+            })
+
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+
+        return Response(
+            output.getvalue(),
+            mimetype='text/csv',
+            headers={
+                'Content-Disposition': f'attachment; filename=reliability_report_{timestamp}.csv'
+            }
+        )
+
+    except Exception as e:
+        logger.exception("Error exporting reliability report")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to export reliability report"
+            }
+        }), 500
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5001))
     # Use debug mode only in development

@@ -15,6 +15,12 @@
                     press=".onNavigateToQualityDashboard"
                     type="Emphasized"
                     class="sapUiSmallMarginEnd"/>
+                <Button
+                    icon="sap-icon://performance"
+                    text="{i18n>reliabilityDashboardBtn}"
+                    press=".onNavigateToReliabilityDashboard"
+                    type="Emphasized"
+                    class="sapUiSmallMarginEnd"/>
                 <Select
                     id="languageSelect"
                     change=".onLanguageChange"

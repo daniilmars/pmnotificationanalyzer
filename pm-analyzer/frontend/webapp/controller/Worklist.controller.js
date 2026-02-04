@@ -90,7 +90,12 @@ sap.ui.define([
             const oRouter = this.getOwnerComponent().getRouter();
             oRouter.navTo("qualityDashboard");
         },
- 
+
+        onNavigateToReliabilityDashboard: function () {
+            const oRouter = this.getOwnerComponent().getRouter();
+            oRouter.navTo("reliabilityDashboard");
+        },
+
         onLanguageChange: function(oEvent) {
             const sLanguage = oEvent.getParameter("selectedItem").getKey();
             localStorage.setItem("appLanguage", sLanguage);

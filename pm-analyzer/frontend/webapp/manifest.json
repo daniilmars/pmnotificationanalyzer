@@ -92,6 +92,11 @@
                     "name": "qualityDashboard",
                     "pattern": "QualityDashboard",
                     "target": "qualityDashboard"
+                },
+                {
+                    "name": "reliabilityDashboard",
+                    "pattern": "ReliabilityDashboard",
+                    "target": "reliabilityDashboard"
                 }
             ],
             "targets": {
@@ -106,6 +111,10 @@
                 "qualityDashboard": {
                     "viewName": "QualityDashboard",
                     "viewId": "qualityDashboard"
+                },
+                "reliabilityDashboard": {
+                    "viewName": "ReliabilityDashboard",
+                    "viewId": "reliabilityDashboard"
                 }
             }
         }
