@@ -1,0 +1,306 @@
+<mvc:View
+    controllerName="com.sap.pm.pmanalyzerfiori.controller.AuditDashboard"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:unified="sap.ui.unified">
+
+    <Page
+        id="auditDashboardPage"
+        title="{i18n>auditDashboardTitle}"
+        showNavButton="true"
+        navButtonPress=".onNavBack"
+        busy="{audit>/busy}">
+        <headerContent>
+            <Toolbar>
+                <ToolbarSpacer />
+                <Label text="{i18n>fromDate}" class="sapUiSmallMarginEnd"/>
+                <DatePicker
+                    id="fromDatePicker"
+                    value="{audit>/fromDate}"
+                    valueFormat="yyyyMMdd"
+                    displayFormat="yyyy-MM-dd"
+                    change=".onDateChange"
+                    width="150px"
+                    class="sapUiSmallMarginEnd"/>
+                <Label text="{i18n>toDate}" class="sapUiSmallMarginEnd"/>
+                <DatePicker
+                    id="toDatePicker"
+                    value="{audit>/toDate}"
+                    valueFormat="yyyyMMdd"
+                    displayFormat="yyyy-MM-dd"
+                    change=".onDateChange"
+                    width="150px"
+                    class="sapUiSmallMarginEnd"/>
+                <Button
+                    icon="sap-icon://excel-attachment"
+                    text="{i18n>exportReport}"
+                    press=".onExportReport"
+                    class="sapUiSmallMarginBegin"/>
+                <Button
+                    icon="sap-icon://refresh"
+                    press=".onRefresh"
+                    tooltip="{i18n>refreshData}"/>
+            </Toolbar>
+        </headerContent>
+
+        <content>
+            <l:VerticalLayout width="100%" class="sapUiSmallMargin">
+
+                <!-- Summary KPI Tiles -->
+                <l:HorizontalLayout class="sapUiSmallMarginBottom" allowWrapping="true">
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>totalChanges}"
+                        subheader="{i18n>inPeriod}">
+                        <TileContent>
+                            <NumericContent
+                                value="{audit>/summary/totalChanges}"
+                                withMargin="false"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>objectsChanged}"
+                        subheader="{i18n>uniqueObjects}">
+                        <TileContent>
+                            <NumericContent
+                                value="{audit>/summary/objectsChanged}"
+                                withMargin="false"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>usersInvolved}"
+                        subheader="{i18n>activeUsers}">
+                        <TileContent>
+                            <NumericContent
+                                value="{audit>/summary/usersInvolved}"
+                                withMargin="false"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>creates}"
+                        subheader="{i18n>newRecords}">
+                        <TileContent>
+                            <NumericContent
+                                value="{audit>/summary/inserts}"
+                                valueColor="Good"
+                                withMargin="false"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>updates}"
+                        subheader="{i18n>modifications}">
+                        <TileContent>
+                            <NumericContent
+                                value="{audit>/summary/updates}"
+                                valueColor="Critical"
+                                withMargin="false"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>deletes}"
+                        subheader="{i18n>removals}">
+                        <TileContent>
+                            <NumericContent
+                                value="{audit>/summary/deletes}"
+                                valueColor="Error"
+                                withMargin="false"/>
+                        </TileContent>
+                    </GenericTile>
+                </l:HorizontalLayout>
+
+                <!-- Filter Bar -->
+                <Panel headerText="{i18n>filters}" expandable="true" expanded="false" class="sapUiSmallMarginBottom">
+                    <content>
+                        <HBox alignItems="End" class="sapUiSmallMargin">
+                            <VBox class="sapUiSmallMarginEnd">
+                                <Label text="{i18n>objectClass}"/>
+                                <Select
+                                    id="objectClassFilter"
+                                    selectedKey="{audit>/filterObjectClass}"
+                                    change=".onFilterChange">
+                                    <core:Item key="" text="{i18n>all}" />
+                                    <core:Item key="QMEL" text="QMEL - Notifications" />
+                                    <core:Item key="AUFK" text="AUFK - Orders" />
+                                    <core:Item key="AFVC" text="AFVC - Operations" />
+                                    <core:Item key="JEST" text="JEST - Status" />
+                                    <core:Item key="AFRU" text="AFRU - Confirmations" />
+                                </Select>
+                            </VBox>
+                            <VBox class="sapUiSmallMarginEnd">
+                                <Label text="{i18n>username}"/>
+                                <Input
+                                    id="usernameFilter"
+                                    value="{audit>/filterUsername}"
+                                    placeholder="{i18n>enterUsername}"
+                                    width="200px"
+                                    submit=".onFilterChange"/>
+                            </VBox>
+                            <VBox class="sapUiSmallMarginEnd">
+                                <Label text="{i18n>objectId}"/>
+                                <Input
+                                    id="objectIdFilter"
+                                    value="{audit>/filterObjectId}"
+                                    placeholder="{i18n>enterObjectId}"
+                                    width="200px"
+                                    submit=".onFilterChange"/>
+                            </VBox>
+                            <Button
+                                text="{i18n>applyFilter}"
+                                press=".onFilterChange"
+                                type="Emphasized"/>
+                            <Button
+                                text="{i18n>clearFilter}"
+                                press=".onClearFilter"
+                                class="sapUiSmallMarginBegin"/>
+                        </HBox>
+                    </content>
+                </Panel>
+
+                <!-- Changes by Object Class -->
+                <l:HorizontalLayout width="100%" class="sapUiSmallMarginBottom" allowWrapping="true">
+                    <Panel headerText="{i18n>changesByObjectClass}" class="sapUiSmallMarginEnd" width="48%">
+                        <content>
+                            <List items="{audit>/byObjectClass}" noDataText="{i18n>noDataText}">
+                                <StandardListItem
+                                    title="{audit>object_class}"
+                                    info="{audit>count}"
+                                    infoState="None"/>
+                            </List>
+                        </content>
+                    </Panel>
+
+                    <Panel headerText="{i18n>changesByUser}" width="48%">
+                        <content>
+                            <List items="{audit>/byUser}" noDataText="{i18n>noDataText}">
+                                <StandardListItem
+                                    title="{audit>username}"
+                                    info="{audit>count}"
+                                    infoState="None"/>
+                            </List>
+                        </content>
+                    </Panel>
+                </l:HorizontalLayout>
+
+                <!-- Recent Changes Table -->
+                <Panel
+                    headerText="{i18n>recentChanges}"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom">
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="{i18n>recentChanges}" />
+                            <ToolbarSpacer />
+                            <SearchField
+                                id="changeSearchField"
+                                width="300px"
+                                search=".onSearchChanges"
+                                placeholder="{i18n>searchChanges}"/>
+                        </Toolbar>
+                    </headerToolbar>
+                    <content>
+                        <Table
+                            id="changesTable"
+                            items="{audit>/recentChanges}"
+                            noDataText="{i18n>noChangesFound}"
+                            growing="true"
+                            growingThreshold="50">
+                            <columns>
+                                <Column width="180px"><Text text="{i18n>changeNumber}" /></Column>
+                                <Column width="150px"><Text text="{i18n>timestamp}" /></Column>
+                                <Column width="120px"><Text text="{i18n>user}" /></Column>
+                                <Column width="100px"><Text text="{i18n>objectClass}" /></Column>
+                                <Column width="120px"><Text text="{i18n>objectId}" /></Column>
+                                <Column width="80px" hAlign="Center"><Text text="{i18n>changeType}" /></Column>
+                                <Column><Text text="{i18n>fieldsChanged}" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem
+                                    type="Navigation"
+                                    press=".onChangePress">
+                                    <cells>
+                                        <Text text="{audit>change_number}" />
+                                        <Text text="{path: 'audit>timestamp', formatter: '.formatTimestamp'}" />
+                                        <Text text="{audit>user}" />
+                                        <ObjectStatus
+                                            text="{audit>object_type}"
+                                            state="{= ${audit>object_type} === 'QMEL' ? 'Information' : (${audit>object_type} === 'AUFK' ? 'Success' : 'None') }"/>
+                                        <Link text="{audit>object_id}" press=".onObjectIdPress"/>
+                                        <ObjectStatus
+                                            text="{audit>change_type}"
+                                            state="{= ${audit>change_type} === 'Created' ? 'Success' : (${audit>change_type} === 'Deleted' ? 'Error' : 'Warning') }"/>
+                                        <Text text="{path: 'audit>fields_changed', formatter: '.formatFieldsChanged'}" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </content>
+                </Panel>
+
+                <!-- FDA 21 CFR Part 11 Compliance Info -->
+                <Panel
+                    headerText="{i18n>complianceInfo}"
+                    expandable="true"
+                    expanded="false">
+                    <content>
+                        <MessageStrip
+                            text="{i18n>complianceInfoText}"
+                            type="Information"
+                            showIcon="true"
+                            class="sapUiSmallMargin"/>
+                        <l:Grid defaultSpan="L6 M12 S12" class="sapUiSmallMargin">
+                            <VBox>
+                                <Title text="{i18n>auditTrailFeatures}" level="H5"/>
+                                <List>
+                                    <StandardListItem
+                                        title="{i18n>featureUserTracking}"
+                                        icon="sap-icon://person-placeholder"/>
+                                    <StandardListItem
+                                        title="{i18n>featureTimestamp}"
+                                        icon="sap-icon://appointment"/>
+                                    <StandardListItem
+                                        title="{i18n>featureFieldLevel}"
+                                        icon="sap-icon://detail-view"/>
+                                    <StandardListItem
+                                        title="{i18n>featureOldNewValues}"
+                                        icon="sap-icon://compare"/>
+                                </List>
+                            </VBox>
+                            <VBox>
+                                <Title text="{i18n>dataIntegrity}" level="H5"/>
+                                <List>
+                                    <StandardListItem
+                                        title="{i18n>featureImmutable}"
+                                        icon="sap-icon://locked"/>
+                                    <StandardListItem
+                                        title="{i18n>featureComplete}"
+                                        icon="sap-icon://complete"/>
+                                    <StandardListItem
+                                        title="{i18n>featureExportable}"
+                                        icon="sap-icon://download"/>
+                                    <StandardListItem
+                                        title="{i18n>featureSearchable}"
+                                        icon="sap-icon://search"/>
+                                </List>
+                            </VBox>
+                        </l:Grid>
+                    </content>
+                </Panel>
+
+            </l:VerticalLayout>
+        </content>
+    </Page>
+</mvc:View>

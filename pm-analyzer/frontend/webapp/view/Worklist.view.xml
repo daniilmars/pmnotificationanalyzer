@@ -21,6 +21,12 @@
                     press=".onNavigateToReliabilityDashboard"
                     type="Emphasized"
                     class="sapUiSmallMarginEnd"/>
+                <Button
+                    icon="sap-icon://history"
+                    text="{i18n>auditDashboardBtn}"
+                    press=".onNavigateToAuditDashboard"
+                    type="Transparent"
+                    class="sapUiSmallMarginEnd"/>
                 <Select
                     id="languageSelect"
                     change=".onLanguageChange"

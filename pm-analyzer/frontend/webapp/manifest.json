@@ -97,6 +97,11 @@
                     "name": "reliabilityDashboard",
                     "pattern": "ReliabilityDashboard",
                     "target": "reliabilityDashboard"
+                },
+                {
+                    "name": "auditDashboard",
+                    "pattern": "AuditDashboard",
+                    "target": "auditDashboard"
                 }
             ],
             "targets": {
@@ -115,6 +120,10 @@
                 "reliabilityDashboard": {
                     "viewName": "ReliabilityDashboard",
                     "viewId": "reliabilityDashboard"
+                },
+                "auditDashboard": {
+                    "viewName": "AuditDashboard",
+                    "viewId": "auditDashboard"
                 }
             }
         }

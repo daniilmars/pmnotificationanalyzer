@@ -24,6 +24,7 @@ from app.validators import (
     ALLOWED_LANGUAGES
 )
 from app.ai_governance import init_governance_db, create_governance_blueprint
+from app.openapi_spec import register_openapi
 
 # Configure logging
 log_level = os.environ.get('LOG_LEVEL', 'INFO').upper()
@@ -53,6 +54,10 @@ except Exception as e:
 # Register AI Governance blueprint
 governance_blueprint = create_governance_blueprint()
 app.register_blueprint(governance_blueprint, url_prefix='/api/governance')
+
+# Register OpenAPI/Swagger documentation
+register_openapi(app)
+logger.info("OpenAPI documentation registered at /api/docs and /api/redoc")
 
 @app.teardown_appcontext
 def teardown_db(exception):
@@ -1396,6 +1401,688 @@ def export_audit_report():
             "error": {
                 "code": "INTERNAL_SERVER_ERROR",
                 "message": "Failed to export audit report"
+            }
+        }), 500
+
+
+# --- PDF Report Generation Endpoints ---
+
+from app.services.report_generation_service import (
+    ReportGenerationService,
+    check_reportlab_available
+)
+
+# Get database path for reports
+REPORT_DB_PATH = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+    'data', 'pm_data.db'
+)
+
+
+@app.route('/api/reports/notification/<notification_id>/pdf', methods=['GET'])
+def get_notification_pdf_report(notification_id):
+    """
+    Generate PDF report for a single notification.
+
+    Path Parameters:
+        notification_id: Notification number
+
+    Query Parameters:
+        language: Language code ('en' or 'de'), default 'en'
+
+    Returns:
+        PDF file
+    """
+    from flask import Response
+
+    try:
+        # Validate notification ID
+        is_valid, error = validate_notification_id(notification_id)
+        if not is_valid:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": error}}), 400
+
+        if not check_reportlab_available():
+            return jsonify({
+                "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "PDF generation not available. Install reportlab package."
+                }
+            }), 503
+
+        language = request.args.get('language', 'en')
+
+        service = ReportGenerationService(REPORT_DB_PATH)
+        pdf_bytes = service.generate_notification_report(notification_id, language)
+
+        return Response(
+            pdf_bytes,
+            mimetype='application/pdf',
+            headers={
+                'Content-Disposition': f'attachment; filename=notification_{notification_id}_report.pdf'
+            }
+        )
+
+    except ValueError as e:
+        return jsonify({"error": {"code": "NOT_FOUND", "message": str(e)}}), 404
+    except Exception as e:
+        logger.exception(f"Error generating PDF report for notification {notification_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to generate PDF report"
+            }
+        }), 500
+
+
+@app.route('/api/reports/audit/pdf', methods=['GET'])
+def get_audit_pdf_report():
+    """
+    Generate PDF audit trail report.
+
+    Query Parameters:
+        from_date: Start date (YYYYMMDD)
+        to_date: End date (YYYYMMDD)
+        object_class: Filter by object class
+        username: Filter by user
+
+    Returns:
+        PDF file
+    """
+    from flask import Response
+
+    try:
+        if not check_reportlab_available():
+            return jsonify({
+                "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "PDF generation not available. Install reportlab package."
+                }
+            }), 503
+
+        from_date = request.args.get('from_date')
+        to_date = request.args.get('to_date')
+        object_class = request.args.get('object_class')
+        username = request.args.get('username')
+
+        service = ReportGenerationService(REPORT_DB_PATH)
+        pdf_bytes = service.generate_audit_report(
+            from_date=from_date,
+            to_date=to_date,
+            object_class=object_class,
+            username=username
+        )
+
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+
+        return Response(
+            pdf_bytes,
+            mimetype='application/pdf',
+            headers={
+                'Content-Disposition': f'attachment; filename=audit_report_{timestamp}.pdf'
+            }
+        )
+
+    except Exception as e:
+        logger.exception("Error generating PDF audit report")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to generate PDF audit report"
+            }
+        }), 500
+
+
+@app.route('/api/reports/quality/pdf', methods=['GET'])
+def get_quality_pdf_report():
+    """
+    Generate PDF quality analytics report.
+
+    Query Parameters:
+        period_days: Analysis period in days (default 30)
+
+    Returns:
+        PDF file
+    """
+    from flask import Response
+
+    try:
+        if not check_reportlab_available():
+            return jsonify({
+                "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "PDF generation not available. Install reportlab package."
+                }
+            }), 503
+
+        period_days = int(request.args.get('period_days', 30))
+
+        service = ReportGenerationService(REPORT_DB_PATH)
+        pdf_bytes = service.generate_quality_report(period_days=period_days)
+
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+
+        return Response(
+            pdf_bytes,
+            mimetype='application/pdf',
+            headers={
+                'Content-Disposition': f'attachment; filename=quality_report_{timestamp}.pdf'
+            }
+        )
+
+    except Exception as e:
+        logger.exception("Error generating PDF quality report")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to generate PDF quality report"
+            }
+        }), 500
+
+
+@app.route('/api/reports/reliability/pdf', methods=['GET'])
+def get_reliability_pdf_report():
+    """
+    Generate PDF reliability engineering report.
+
+    Returns:
+        PDF file
+    """
+    from flask import Response
+
+    try:
+        if not check_reportlab_available():
+            return jsonify({
+                "error": {
+                    "code": "SERVICE_UNAVAILABLE",
+                    "message": "PDF generation not available. Install reportlab package."
+                }
+            }), 503
+
+        service = ReportGenerationService(REPORT_DB_PATH)
+        pdf_bytes = service.generate_reliability_report()
+
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+
+        return Response(
+            pdf_bytes,
+            mimetype='application/pdf',
+            headers={
+                'Content-Disposition': f'attachment; filename=reliability_report_{timestamp}.pdf'
+            }
+        )
+
+    except Exception as e:
+        logger.exception("Error generating PDF reliability report")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to generate PDF reliability report"
+            }
+        }), 500
+
+
+@app.route('/api/reports/available', methods=['GET'])
+def get_available_reports():
+    """
+    Get list of available report types and their status.
+
+    Returns:
+        List of report types with availability status
+    """
+    pdf_available = check_reportlab_available()
+
+    return jsonify({
+        'pdf_generation_available': pdf_available,
+        'reports': [
+            {
+                'type': 'notification',
+                'name': 'Notification Report',
+                'description': 'Detailed PDF report for a single notification',
+                'endpoint': '/api/reports/notification/{id}/pdf',
+                'formats': ['pdf'] if pdf_available else []
+            },
+            {
+                'type': 'audit',
+                'name': 'Audit Trail Report',
+                'description': 'FDA 21 CFR Part 11 compliant audit report',
+                'endpoint': '/api/reports/audit/pdf',
+                'formats': ['pdf', 'csv'] if pdf_available else ['csv']
+            },
+            {
+                'type': 'quality',
+                'name': 'Quality Analytics Report',
+                'description': 'Data quality metrics and ALCOA+ compliance',
+                'endpoint': '/api/reports/quality/pdf',
+                'formats': ['pdf', 'csv'] if pdf_available else ['csv']
+            },
+            {
+                'type': 'reliability',
+                'name': 'Reliability Engineering Report',
+                'description': 'Equipment reliability metrics and FMEA analysis',
+                'endpoint': '/api/reports/reliability/pdf',
+                'formats': ['pdf', 'csv'] if pdf_available else ['csv']
+            }
+        ]
+    })
+
+
+# --- SAP Integration Endpoints ---
+
+from app.services.sap_integration_service import (
+    get_sap_service,
+    check_sap_available,
+    SAPIntegrationService
+)
+
+
+@app.route('/api/sap/status', methods=['GET'])
+def get_sap_status():
+    """
+    Get SAP integration status and availability.
+
+    Returns:
+        Connection status, availability info, and configuration
+    """
+    try:
+        availability = check_sap_available()
+        service = get_sap_service()
+        connection_status = service.get_connection_status()
+
+        return jsonify({
+            'availability': availability,
+            'connection': connection_status
+        })
+
+    except Exception as e:
+        logger.exception("Error getting SAP status")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get SAP status"
+            }
+        }), 500
+
+
+@app.route('/api/sap/connect', methods=['POST'])
+def connect_to_sap():
+    """
+    Establish connection to SAP system.
+
+    Returns:
+        Connection result
+    """
+    try:
+        service = get_sap_service()
+
+        if service.is_connected():
+            return jsonify({
+                'status': 'already_connected',
+                'message': 'Already connected to SAP'
+            })
+
+        success = service.connect()
+
+        if success:
+            return jsonify({
+                'status': 'connected',
+                'message': 'Successfully connected to SAP',
+                'connection': service.get_connection_status()
+            })
+        else:
+            return jsonify({
+                'status': 'failed',
+                'message': 'Failed to connect to SAP. Check configuration and credentials.'
+            }), 503
+
+    except Exception as e:
+        logger.exception("Error connecting to SAP")
+        return jsonify({
+            "error": {
+                "code": "CONNECTION_ERROR",
+                "message": str(e)
+            }
+        }), 500
+
+
+@app.route('/api/sap/disconnect', methods=['POST'])
+def disconnect_from_sap():
+    """
+    Disconnect from SAP system.
+
+    Returns:
+        Disconnect result
+    """
+    try:
+        service = get_sap_service()
+        service.disconnect()
+
+        return jsonify({
+            'status': 'disconnected',
+            'message': 'Disconnected from SAP'
+        })
+
+    except Exception as e:
+        logger.exception("Error disconnecting from SAP")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": str(e)
+            }
+        }), 500
+
+
+@app.route('/api/sap/notifications/<notification_id>', methods=['GET'])
+def get_sap_notification(notification_id):
+    """
+    Get notification from SAP system.
+
+    Path Parameters:
+        notification_id: SAP notification number
+
+    Returns:
+        Notification data from SAP
+    """
+    try:
+        # Validate notification ID
+        is_valid, error = validate_notification_id(notification_id)
+        if not is_valid:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": error}}), 400
+
+        service = get_sap_service()
+
+        if not service.is_connected():
+            return jsonify({
+                "error": {
+                    "code": "NOT_CONNECTED",
+                    "message": "Not connected to SAP. Call /api/sap/connect first."
+                }
+            }), 503
+
+        result = service.get_notification(notification_id)
+
+        if result.success:
+            return jsonify({
+                'success': True,
+                'data': result.data,
+                'messages': result.return_messages
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'error': result.error_message,
+                'messages': result.return_messages
+            }), 404
+
+    except Exception as e:
+        logger.exception(f"Error getting SAP notification {notification_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": str(e)
+            }
+        }), 500
+
+
+@app.route('/api/sap/notifications', methods=['POST'])
+def create_sap_notification():
+    """
+    Create notification in SAP system.
+
+    Request Body:
+        NotificationType: Notification type (M1, M2, etc.)
+        Description: Short text
+        Priority: Priority code
+        EquipmentNumber: Equipment
+        FunctionalLocation: Functional location
+
+    Returns:
+        Created notification ID
+    """
+    try:
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "Request body required"}}), 400
+
+        service = get_sap_service()
+
+        if not service.is_connected():
+            return jsonify({
+                "error": {
+                    "code": "NOT_CONNECTED",
+                    "message": "Not connected to SAP. Call /api/sap/connect first."
+                }
+            }), 503
+
+        result = service.create_notification(data)
+
+        if result.success:
+            return jsonify({
+                'success': True,
+                'data': result.data,
+                'messages': result.return_messages
+            }), 201
+        else:
+            return jsonify({
+                'success': False,
+                'error': result.error_message,
+                'messages': result.return_messages
+            }), 400
+
+    except Exception as e:
+        logger.exception("Error creating SAP notification")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": str(e)
+            }
+        }), 500
+
+
+@app.route('/api/sap/orders/<order_number>', methods=['GET'])
+def get_sap_order(order_number):
+    """
+    Get work order from SAP system.
+
+    Path Parameters:
+        order_number: SAP order number
+
+    Returns:
+        Work order data from SAP
+    """
+    try:
+        service = get_sap_service()
+
+        if not service.is_connected():
+            return jsonify({
+                "error": {
+                    "code": "NOT_CONNECTED",
+                    "message": "Not connected to SAP. Call /api/sap/connect first."
+                }
+            }), 503
+
+        result = service.get_work_order(order_number)
+
+        if result.success:
+            return jsonify({
+                'success': True,
+                'data': result.data,
+                'messages': result.return_messages
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'error': result.error_message,
+                'messages': result.return_messages
+            }), 404
+
+    except Exception as e:
+        logger.exception(f"Error getting SAP order {order_number}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": str(e)
+            }
+        }), 500
+
+
+@app.route('/api/sap/equipment/<equipment_number>', methods=['GET'])
+def get_sap_equipment(equipment_number):
+    """
+    Get equipment master data from SAP system.
+
+    Path Parameters:
+        equipment_number: SAP equipment number
+
+    Returns:
+        Equipment data from SAP
+    """
+    try:
+        service = get_sap_service()
+
+        if not service.is_connected():
+            return jsonify({
+                "error": {
+                    "code": "NOT_CONNECTED",
+                    "message": "Not connected to SAP. Call /api/sap/connect first."
+                }
+            }), 503
+
+        result = service.get_equipment(equipment_number)
+
+        if result.success:
+            return jsonify({
+                'success': True,
+                'data': result.data,
+                'messages': result.return_messages
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'error': result.error_message,
+                'messages': result.return_messages
+            }), 404
+
+    except Exception as e:
+        logger.exception(f"Error getting SAP equipment {equipment_number}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": str(e)
+            }
+        }), 500
+
+
+@app.route('/api/sap/sync/notifications', methods=['POST'])
+def sync_sap_notifications():
+    """
+    Synchronize notifications from SAP to local database.
+
+    Request Body (optional):
+        date_from: Start date (YYYYMMDD)
+        date_to: End date (YYYYMMDD)
+        notification_type: Filter by type
+        limit: Max records (default 1000)
+
+    Returns:
+        Sync result with statistics
+    """
+    try:
+        data = request.get_json() or {}
+
+        service = get_sap_service()
+
+        if not service.is_connected():
+            return jsonify({
+                "error": {
+                    "code": "NOT_CONNECTED",
+                    "message": "Not connected to SAP. Call /api/sap/connect first."
+                }
+            }), 503
+
+        result = service.sync_notifications(
+            date_from=data.get('date_from'),
+            date_to=data.get('date_to'),
+            notification_type=data.get('notification_type'),
+            limit=int(data.get('limit', 1000))
+        )
+
+        return jsonify({
+            'success': result.success,
+            'records_processed': result.records_processed,
+            'records_created': result.records_created,
+            'records_updated': result.records_updated,
+            'records_failed': result.records_failed,
+            'errors': result.errors,
+            'warnings': result.warnings,
+            'duration_seconds': result.duration_seconds,
+            'timestamp': result.timestamp.isoformat()
+        })
+
+    except Exception as e:
+        logger.exception("Error syncing SAP notifications")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": str(e)
+            }
+        }), 500
+
+
+@app.route('/api/sap/changes/<object_class>/<object_id>', methods=['GET'])
+def get_sap_change_documents(object_class, object_id):
+    """
+    Get change documents from SAP for an object.
+
+    Path Parameters:
+        object_class: SAP object class (QMEL, AUFK, etc.)
+        object_id: Object identifier
+
+    Query Parameters:
+        date_from: Start date (YYYYMMDD)
+        date_to: End date (YYYYMMDD)
+
+    Returns:
+        Change documents from SAP
+    """
+    try:
+        service = get_sap_service()
+
+        if not service.is_connected():
+            return jsonify({
+                "error": {
+                    "code": "NOT_CONNECTED",
+                    "message": "Not connected to SAP. Call /api/sap/connect first."
+                }
+            }), 503
+
+        date_from = request.args.get('date_from')
+        date_to = request.args.get('date_to')
+
+        result = service.get_change_documents(
+            object_class=object_class.upper(),
+            object_id=object_id,
+            date_from=date_from,
+            date_to=date_to
+        )
+
+        if result.success:
+            return jsonify({
+                'success': True,
+                'data': result.data
+            })
+        else:
+            return jsonify({
+                'success': False,
+                'error': result.error_message
+            }), 400
+
+    except Exception as e:
+        logger.exception(f"Error getting SAP change documents for {object_class}/{object_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": str(e)
             }
         }), 500
 

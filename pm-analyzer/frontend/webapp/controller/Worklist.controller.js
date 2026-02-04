@@ -96,6 +96,11 @@ sap.ui.define([
             oRouter.navTo("reliabilityDashboard");
         },
 
+        onNavigateToAuditDashboard: function () {
+            const oRouter = this.getOwnerComponent().getRouter();
+            oRouter.navTo("auditDashboard");
+        },
+
         onLanguageChange: function(oEvent) {
             const sLanguage = oEvent.getParameter("selectedItem").getKey();
             localStorage.setItem("appLanguage", sLanguage);
