@@ -9,10 +9,11 @@ This document outlines potential enhancements and features for future developmen
 1. [Security & Infrastructure](#security--infrastructure)
 2. [Analytics & Intelligence](#analytics--intelligence)
 3. [Integration & Connectivity](#integration--connectivity)
-4. [Collaboration & Workflow](#collaboration--workflow)
-5. [Operations & Performance](#operations--performance)
-6. [User Experience](#user-experience)
-7. [SAP Fiori Integration](#sap-fiori-integration)
+4. [QMS Integration](#qms-integration)
+5. [Collaboration & Workflow](#collaboration--workflow)
+6. [Operations & Performance](#operations--performance)
+7. [User Experience](#user-experience)
+8. [SAP Fiori Integration](#sap-fiori-integration)
 
 ---
 
@@ -67,13 +68,21 @@ This document outlines potential enhancements and features for future developmen
 
 ## Integration & Connectivity
 
+### Implemented ✅
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| **SAP Build Work Zone** | Native integration with SAP BTP Work Zone | ✅ Implemented |
+| **QMS Integration** | Connect to Quality Management Systems for SOPs | ✅ Implemented |
+
+### Planned
+
 | Feature | Description | Priority |
 |---------|-------------|----------|
 | **Webhooks** | Push notifications to external systems (Slack, Teams, ServiceNow, PagerDuty) | High |
 | **BI Tool Export** | Direct Power BI / Tableau connectors for live dashboards | Medium |
 | **Calendar Sync** | Maintenance schedules to Outlook/Google Calendar | Medium |
 | **Mobile Push** | Native mobile notifications via FCM (Android) / APNs (iOS) | Medium |
-| **SAP Fiori Integration** | Embed as Fiori tile/app in SAP Launchpad | High |
 | **ServiceNow Integration** | Bi-directional sync with ServiceNow incidents | Medium |
 | **IoT Platform Integration** | Connect to Azure IoT Hub, AWS IoT, or SAP IoT | Low |
 
@@ -92,6 +101,117 @@ This document outlines potential enhancements and features for future developmen
   ]
 }
 ```
+
+---
+
+## QMS Integration
+
+### Implemented ✅
+
+The application now supports integration with Quality Management Systems (QMS) to extract up-to-date Standard Operating Procedures (SOPs) for maintenance activities.
+
+| Feature | Description | Status |
+|---------|-------------|--------|
+| Multi-Provider Support | Abstract connector architecture for various QMS platforms | ✅ Implemented |
+| Veeva Vault Connector | Integration with Veeva Vault QMS | ✅ Implemented |
+| MasterControl Connector | Integration with MasterControl QMS | ✅ Implemented |
+| SharePoint Connector | Integration with Microsoft SharePoint | ✅ Implemented |
+| SAP QM Connector | Integration with SAP Quality Management | ✅ Implemented |
+| SOP Search API | Search SOPs by query, equipment type, document type | ✅ Implemented |
+| Equipment-based SOP Recommendations | Auto-suggest relevant SOPs based on notification context | ✅ Implemented |
+
+### Supported QMS Platforms
+
+#### Enterprise QMS
+| Platform | Type | Key Features |
+|----------|------|--------------|
+| **Veeva Vault** | Cloud | Life sciences focused, 21 CFR Part 11 compliant, vault-based document storage |
+| **MasterControl** | Cloud/On-prem | Regulated industries, validation-ready, change control |
+| **TrackWise Digital** | Cloud | CAPA management, quality events, configurable workflows |
+| **ETQ Reliance** | Cloud | Risk-based approach, auto-classification, AI insights |
+| **Qualio** | Cloud | Modern UI, startup-friendly, ISO/FDA compliance |
+| **ComplianceQuest** | Salesforce-based | Native Salesforce integration, mobile-first |
+
+#### Document Management Systems
+| Platform | Type | Key Features |
+|----------|------|--------------|
+| **SAP QM** | ERP Module | Native SAP integration, QM-STR quality notifications |
+| **Microsoft SharePoint** | Cloud/On-prem | Widely adopted, versioning, metadata management |
+| **OpenText** | Enterprise | Large-scale ECM, regulatory compliance |
+| **Documentum** | Enterprise | Lifecycle management, audit trails |
+
+### API Endpoints
+
+```
+GET  /api/qms/status                  - QMS connection status
+POST /api/qms/test-connection         - Test QMS connectivity
+GET  /api/qms/sops                    - Search SOPs with filters
+GET  /api/qms/sops/for-notification   - Get SOPs relevant to a notification
+GET  /api/qms/documents/<id>          - Get document metadata
+GET  /api/qms/documents/<id>/content  - Get document content
+```
+
+### Configuration
+
+Set environment variables for QMS connection:
+
+```bash
+# QMS Provider (veeva_vault, mastercontrol, sharepoint, sap_qm)
+QMS_PROVIDER=veeva_vault
+
+# Veeva Vault Configuration
+VEEVA_VAULT_URL=https://your-vault.veevavault.com
+VEEVA_VAULT_USERNAME=api_user
+VEEVA_VAULT_PASSWORD=********
+
+# MasterControl Configuration
+MASTERCONTROL_URL=https://your-instance.mastercontrol.com
+MASTERCONTROL_API_KEY=********
+
+# SharePoint Configuration
+SHAREPOINT_SITE_URL=https://tenant.sharepoint.com/sites/QMS
+SHAREPOINT_CLIENT_ID=********
+SHAREPOINT_CLIENT_SECRET=********
+
+# SAP QM Configuration (uses existing SAP connection)
+SAP_QM_ENABLED=true
+```
+
+### Architecture
+
+```
+┌────────────────────────────────────────────────────────┐
+│              PM Notification Analyzer                   │
+│  ┌──────────────────────────────────────────────────┐  │
+│  │           QMSIntegrationService                   │  │
+│  │  ┌────────────────────────────────────────────┐  │  │
+│  │  │        Abstract QMSConnector               │  │  │
+│  │  └────────────────────────────────────────────┘  │  │
+│  │         │           │           │          │     │  │
+│  │         ▼           ▼           ▼          ▼     │  │
+│  │  ┌─────────┐ ┌──────────┐ ┌──────────┐ ┌──────┐ │  │
+│  │  │  Veeva  │ │MasterCtrl│ │SharePoint│ │SAP QM│ │  │
+│  │  │  Vault  │ │          │ │          │ │      │ │  │
+│  │  └─────────┘ └──────────┘ └──────────┘ └──────┘ │  │
+│  └──────────────────────────────────────────────────┘  │
+└────────────────────────────────────────────────────────┘
+           │              │              │          │
+           ▼              ▼              ▼          ▼
+    ┌─────────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐
+    │ Veeva Vault │ │MasterCtrl│ │SharePoint│ │  SAP S/4 │
+    │   Cloud     │ │  Cloud   │ │  Online  │ │  HANA    │
+    └─────────────┘ └──────────┘ └──────────┘ └──────────┘
+```
+
+### Planned Enhancements
+
+| Feature | Description | Priority |
+|---------|-------------|----------|
+| SOP Version Control | Track SOP versions and show version history | Medium |
+| Auto-attach SOPs | Automatically attach relevant SOPs to notifications | Medium |
+| Training Record Integration | Link to training records for SOP compliance | Low |
+| SOP Change Notifications | Alert when referenced SOPs are updated | Medium |
+| Offline SOP Caching | Cache SOPs for offline access on mobile | Low |
 
 ---
 
@@ -446,12 +566,14 @@ For rapid development, use Fiori Elements with OData:
 - ✅ Reliability engineering
 - ✅ Authentication (Clerk)
 - ✅ Security infrastructure
+- ✅ SAP Build Work Zone integration
+- ✅ QMS integration (Veeva, MasterControl, SharePoint, SAP QM)
 
 ### Phase 2: Integration (Next)
-- [ ] SAP Fiori tile integration
 - [ ] Webhooks for external systems
 - [ ] Background job scheduler
 - [ ] Caching layer (Redis)
+- [ ] ServiceNow integration
 
 ### Phase 3: Intelligence
 - [ ] Anomaly detection
