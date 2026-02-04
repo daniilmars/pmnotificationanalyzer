@@ -2,27 +2,46 @@ import os
 import json
 import re
 import time
+import logging
 import requests
 import google.generativeai as genai
 from app.models import AnalysisResponse, ProblemDetail
 from app.config_manager import get_config
 
-RULE_MANAGER_URL = "http://localhost:5002"
+logger = logging.getLogger(__name__)
+
+# Configuration from environment variables with sensible defaults
+RULE_MANAGER_URL = os.environ.get('RULE_MANAGER_URL', 'http://localhost:5002')
+HTTP_TIMEOUT = int(os.environ.get('HTTP_TIMEOUT', '30'))  # seconds
 
 def _fetch_rules_from_manager(notification_type: str) -> list:
+    """Fetch active rules from Rule Manager service for the given notification type."""
     try:
-        response = requests.get(f"{RULE_MANAGER_URL}/api/v1/rulesets?notification_type={notification_type}&status=Active")
+        response = requests.get(
+            f"{RULE_MANAGER_URL}/api/v1/rulesets",
+            params={'notification_type': notification_type, 'status': 'Active'},
+            timeout=HTTP_TIMEOUT
+        )
         response.raise_for_status()
         active_rulesets = response.json()
         if not active_rulesets:
             return []
         latest_ruleset = max(active_rulesets, key=lambda rs: rs.get('version', 0))
         active_ruleset_id = latest_ruleset['id']
-        detail_response = requests.get(f"{RULE_MANAGER_URL}/api/v1/rulesets/{active_ruleset_id}")
+        detail_response = requests.get(
+            f"{RULE_MANAGER_URL}/api/v1/rulesets/{active_ruleset_id}",
+            timeout=HTTP_TIMEOUT
+        )
         detail_response.raise_for_status()
         return detail_response.json().get('rules', [])
+    except requests.exceptions.Timeout:
+        logger.warning("Timeout while fetching rules from Rule Manager")
+        return []
+    except requests.exceptions.ConnectionError:
+        logger.warning("Could not connect to Rule Manager service")
+        return []
     except requests.exceptions.RequestException as e:
-        print(f"Could not fetch rules from Rule Manager: {e}")
+        logger.warning(f"Could not fetch rules from Rule Manager: {e}")
         return []
 
 def _execute_rules(rules: list, notification_data: dict) -> tuple[int, list]:
@@ -104,7 +123,7 @@ def analyze_text(notification_data: dict, language: str = "en") -> AnalysisRespo
             
             return ai_response
         except Exception as e:
-            print(f"Attempt {attempt + 1} failed during analysis: {e}")
+            logger.warning(f"Attempt {attempt + 1} failed during analysis: {e}")
             if attempt >= max_retries - 1:
                 raise e
             time.sleep(1)
@@ -125,5 +144,5 @@ def chat_with_assistant(notification_data: dict, question: str, analysis_context
         response = model.generate_content(prompt)
         return {"answer": response.text.strip()}
     except Exception as e:
-        print(f"An error occurred during chat: {e}")
+        logger.error(f"An error occurred during chat: {e}")
         raise e
