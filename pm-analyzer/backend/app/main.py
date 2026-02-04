@@ -3144,6 +3144,223 @@ def get_security_status():
         }), 500
 
 
+# --- QMS Integration Endpoints ---
+
+from app.services.qms_integration_service import get_qms_service, DocumentType
+
+
+@app.route('/api/qms/status', methods=['GET'])
+@require_auth
+def get_qms_status():
+    """
+    Get QMS integration status.
+
+    Returns:
+        Configuration status and connection info
+    """
+    try:
+        service = get_qms_service()
+        return jsonify(service.get_status())
+
+    except Exception as e:
+        logger.exception("Error getting QMS status")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get QMS status"
+            }
+        }), 500
+
+
+@app.route('/api/qms/test-connection', methods=['POST'])
+@require_admin
+def test_qms_connection():
+    """
+    Test connection to the QMS (admin only).
+
+    Request Body (optional):
+        provider: QMS provider to test (default: configured provider)
+
+    Returns:
+        Connection test result
+    """
+    try:
+        data = request.get_json() or {}
+        provider = data.get('provider')
+
+        service = get_qms_service()
+        result = service.test_connection(provider)
+
+        return jsonify(result)
+
+    except Exception as e:
+        logger.exception("Error testing QMS connection")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": str(e)
+            }
+        }), 500
+
+
+@app.route('/api/qms/sops', methods=['GET'])
+@require_auth
+def search_sops():
+    """
+    Search for SOPs in the QMS.
+
+    Query Parameters:
+        query: Search text
+        equipment_type: Filter by equipment type
+        functional_location: Filter by functional location
+        limit: Max results (default 50)
+
+    Returns:
+        List of matching SOPs
+    """
+    try:
+        service = get_qms_service()
+
+        sops = service.search_sops(
+            query=request.args.get('query'),
+            equipment_type=request.args.get('equipment_type'),
+            functional_location=request.args.get('functional_location'),
+            limit=int(request.args.get('limit', 50))
+        )
+
+        return jsonify({
+            'sops': [sop.to_dict() for sop in sops],
+            'count': len(sops)
+        })
+
+    except Exception as e:
+        logger.exception("Error searching SOPs")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to search SOPs"
+            }
+        }), 500
+
+
+@app.route('/api/qms/sops/for-notification', methods=['GET'])
+@require_auth
+def get_sops_for_notification():
+    """
+    Get relevant SOPs for a maintenance notification.
+
+    Query Parameters:
+        equipment_type: Equipment type from notification
+        functional_location: Functional location from notification
+        notification_type: Notification type (M1, M2, etc.)
+
+    Returns:
+        List of relevant SOPs
+    """
+    try:
+        service = get_qms_service()
+
+        sops = service.get_sops_for_notification(
+            equipment_type=request.args.get('equipment_type'),
+            functional_location=request.args.get('functional_location'),
+            notification_type=request.args.get('notification_type')
+        )
+
+        return jsonify({
+            'sops': [sop.to_dict() for sop in sops],
+            'count': len(sops),
+            'context': {
+                'equipment_type': request.args.get('equipment_type'),
+                'functional_location': request.args.get('functional_location'),
+                'notification_type': request.args.get('notification_type')
+            }
+        })
+
+    except Exception as e:
+        logger.exception("Error getting SOPs for notification")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get SOPs for notification"
+            }
+        }), 500
+
+
+@app.route('/api/qms/documents/<document_id>', methods=['GET'])
+@require_auth
+def get_qms_document(document_id):
+    """
+    Get a specific document from the QMS.
+
+    Path Parameters:
+        document_id: Document identifier
+
+    Returns:
+        Document details
+    """
+    try:
+        service = get_qms_service()
+        document = service.get_document(document_id)
+
+        if document:
+            return jsonify(document.to_dict())
+        else:
+            return jsonify({
+                "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Document not found"
+                }
+            }), 404
+
+    except Exception as e:
+        logger.exception(f"Error getting QMS document {document_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get document"
+            }
+        }), 500
+
+
+@app.route('/api/qms/documents/<document_id>/content', methods=['GET'])
+@require_auth
+def get_qms_document_content(document_id):
+    """
+    Get the content/body of a document from the QMS.
+
+    Path Parameters:
+        document_id: Document identifier
+
+    Returns:
+        Document content (text)
+    """
+    try:
+        service = get_qms_service()
+        content = service.get_document_content(document_id)
+
+        if content:
+            return jsonify({
+                'document_id': document_id,
+                'content': content
+            })
+        else:
+            return jsonify({
+                "error": {
+                    "code": "NOT_FOUND",
+                    "message": "Document content not found"
+                }
+            }), 404
+
+    except Exception as e:
+        logger.exception(f"Error getting QMS document content {document_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get document content"
+            }
+        }), 500
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5001))
     # Use debug mode only in development
