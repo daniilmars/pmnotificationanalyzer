@@ -1,11 +1,22 @@
 {
-    "_version": "1.2.0",
+    "_version": "1.32.0",
     "sap.app": {
         "id": "com.sap.pm.pmanalyzerfiori",
         "type": "application",
-        "applicationVersion": { "version": "0.0.1" },
+        "applicationVersion": { "version": "1.0.0" },
         "title": "{{appTitle}}",
         "description": "{{appDescription}}",
+        "tags": {
+            "keywords": [
+                "maintenance",
+                "notifications",
+                "quality",
+                "reliability",
+                "SAP PM",
+                "AI",
+                "analytics"
+            ]
+        },
         "dataSources": {
             "analysisApi": {
                 "uri": "/api/",
@@ -15,13 +26,79 @@
                 "uri": "./mock_data_en.json",
                 "type": "JSON"
             }
+        },
+        "crossNavigation": {
+            "inbounds": {
+                "pmanalyzer-display": {
+                    "semanticObject": "PMNotification",
+                    "action": "analyze",
+                    "title": "{{appTitle}}",
+                    "subTitle": "{{appSubTitle}}",
+                    "icon": "sap-icon://machine",
+                    "signature": {
+                        "parameters": {
+                            "notificationId": {
+                                "required": false
+                            }
+                        },
+                        "additionalParameters": "allowed"
+                    }
+                },
+                "pmanalyzer-quality": {
+                    "semanticObject": "PMQuality",
+                    "action": "dashboard",
+                    "title": "{{qualityTitle}}",
+                    "icon": "sap-icon://quality-issue",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                },
+                "pmanalyzer-reliability": {
+                    "semanticObject": "PMReliability",
+                    "action": "dashboard",
+                    "title": "{{reliabilityTitle}}",
+                    "icon": "sap-icon://monitor-payments",
+                    "signature": {
+                        "parameters": {},
+                        "additionalParameters": "allowed"
+                    }
+                }
+            },
+            "outbounds": {
+                "displayMaintenanceNotification": {
+                    "semanticObject": "MaintenanceNotification",
+                    "action": "display"
+                },
+                "displayEquipment": {
+                    "semanticObject": "Equipment",
+                    "action": "display"
+                },
+                "displayMaintenanceOrder": {
+                    "semanticObject": "MaintenanceOrder",
+                    "action": "display"
+                },
+                "displayFunctionalLocation": {
+                    "semanticObject": "FunctionalLocation",
+                    "action": "display"
+                }
+            }
         }
     },
     "sap.ui": {
         "technology": "UI5",
+        "icons": {
+            "icon": "sap-icon://machine",
+            "favIcon": "",
+            "phone": "",
+            "phone@2": "",
+            "tablet": "",
+            "tablet@2": ""
+        },
         "deviceTypes": { "desktop": true, "tablet": true, "phone": true }
     },
     "sap.ui5": {
+        "flexEnabled": true,
         "resources": {
             "css": [
                 {
@@ -29,12 +106,14 @@
                 }
             ]
         },
-    "dependencies": {
-            "minUI5Version": "1.108.0",
+        "dependencies": {
+            "minUI5Version": "1.120.0",
             "libs": {
                 "sap.m": {},
                 "sap.ui.core": {},
                 "sap.ui.layout": {},
+                "sap.f": {},
+                "sap.ushell": {},
                 "sap.ui.comp": {},
                 "sap.suite.ui.commons": {}
             }
@@ -107,25 +186,42 @@
             "targets": {
                 "worklist": {
                     "viewName": "Worklist",
-                    "viewId": "worklist"
+                    "viewId": "worklist",
+                    "viewLevel": 1
                 },
                 "object": {
                     "viewName": "Object",
-                    "viewId": "object"
+                    "viewId": "object",
+                    "viewLevel": 2
                 },
                 "qualityDashboard": {
                     "viewName": "QualityDashboard",
-                    "viewId": "qualityDashboard"
+                    "viewId": "qualityDashboard",
+                    "viewLevel": 1
                 },
                 "reliabilityDashboard": {
                     "viewName": "ReliabilityDashboard",
-                    "viewId": "reliabilityDashboard"
+                    "viewId": "reliabilityDashboard",
+                    "viewLevel": 1
                 },
                 "auditDashboard": {
                     "viewName": "AuditDashboard",
-                    "viewId": "auditDashboard"
+                    "viewId": "auditDashboard",
+                    "viewLevel": 1
                 }
             }
         }
+    },
+    "sap.flp": {
+        "type": "application",
+        "config": {}
+    },
+    "sap.cloud": {
+        "public": true,
+        "service": "pm-notification-analyzer"
+    },
+    "sap.fiori": {
+        "registrationIds": [],
+        "archeType": "analytical"
     }
 }

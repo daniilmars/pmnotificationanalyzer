@@ -87,6 +87,27 @@ modules:
             - dist/*
           target-path: resources/
 
+  # ========================================
+  # Work Zone Content Deployer
+  # ========================================
+  - name: pm-analyzer-workzone-content
+    type: com.sap.portal.content
+    path: workzone-content
+    parameters:
+      stack: cflinuxfs4
+      memory: 128M
+      buildpack: nodejs_buildpack
+    requires:
+      - name: pm-analyzer-workzone
+      - name: pm-analyzer-html5-repo-host
+      - name: pm-analyzer-uaa
+    build-parameters:
+      requires:
+        - name: pm-analyzer-html5-deployer
+          artifacts:
+            - ./*
+          target-path: resources/
+
 resources:
   # ========================================
   # XSUAA Service (Authentication)
@@ -161,3 +182,15 @@ resources:
       # Alternative for HANA:
       # service: hana
       # service-plan: hdi-shared
+
+  # ========================================
+  # SAP Build Work Zone Service
+  # ========================================
+  - name: pm-analyzer-workzone
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: build-workzone-standard
+      service-plan: standard
+      # Alternative plans:
+      # service-plan: free (for trial)
+      # Use 'build-workzone-advanced' for Work Zone Advanced
