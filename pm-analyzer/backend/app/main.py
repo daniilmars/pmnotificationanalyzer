@@ -29,6 +29,20 @@ from app.clerk_auth import register_clerk_auth, require_auth, require_role, requ
 from app.services.notification_service import get_notification_service, Alert, AlertSeverity, AlertType
 from app.services.alert_rules_service import get_alert_rules_service, AlertRule, RuleCondition, Subscription
 
+# Security infrastructure
+from app.security import (
+    register_rate_limiter,
+    register_api_key_auth,
+    register_ip_whitelist,
+    register_audit_logger,
+    register_session_manager,
+    get_api_key_manager,
+    get_audit_logger,
+    AuditEventType,
+    AuditSeverity as AuditSev,
+    rate_limit
+)
+
 # Configure logging
 log_level = os.environ.get('LOG_LEVEL', 'INFO').upper()
 logging.basicConfig(
@@ -68,6 +82,18 @@ if clerk_enabled:
     logger.info("Clerk authentication enabled")
 else:
     logger.warning("Clerk authentication is DISABLED - set CLERK_SECRET_KEY to enable")
+
+# Register security infrastructure
+# Note: Order matters - rate limiting should be checked early
+rate_limit_enabled = register_rate_limiter(app)
+api_key_enabled = register_api_key_auth(app)
+ip_whitelist_enabled = register_ip_whitelist(app)
+audit_log_enabled = register_audit_logger(app)
+session_mgmt_enabled = register_session_manager(app)
+
+logger.info(f"Security features: rate_limit={rate_limit_enabled}, api_keys={api_key_enabled}, "
+            f"ip_whitelist={ip_whitelist_enabled}, audit_log={audit_log_enabled}, "
+            f"session_mgmt={session_mgmt_enabled}")
 
 @app.teardown_appcontext
 def teardown_db(exception):
@@ -2714,6 +2740,406 @@ def get_sap_change_documents(object_class, object_id):
             "error": {
                 "code": "INTERNAL_SERVER_ERROR",
                 "message": str(e)
+            }
+        }), 500
+
+
+# --- Security Administration Endpoints ---
+
+@app.route('/api/security/api-keys', methods=['GET'])
+@require_admin
+def list_api_keys():
+    """
+    List all API keys (admin only).
+
+    Query Parameters:
+        include_inactive: Include revoked/inactive keys
+
+    Returns:
+        List of API keys (without actual key values)
+    """
+    try:
+        include_inactive = request.args.get('include_inactive', 'false').lower() == 'true'
+        manager = get_api_key_manager()
+        keys = manager.list_keys(include_inactive=include_inactive)
+
+        return jsonify({
+            'api_keys': [
+                {
+                    'key_id': key.key_id,
+                    'name': key.name,
+                    'key_prefix': key.key_prefix,
+                    'created_at': key.created_at.isoformat(),
+                    'expires_at': key.expires_at.isoformat() if key.expires_at else None,
+                    'last_used_at': key.last_used_at.isoformat() if key.last_used_at else None,
+                    'is_active': key.is_active,
+                    'scopes': key.scopes,
+                    'created_by': key.created_by
+                }
+                for key in keys
+            ],
+            'count': len(keys)
+        })
+
+    except Exception as e:
+        logger.exception("Error listing API keys")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to list API keys"
+            }
+        }), 500
+
+
+@app.route('/api/security/api-keys', methods=['POST'])
+@require_admin
+def create_api_key():
+    """
+    Create a new API key (admin only).
+
+    Request Body:
+        name: Key name/description
+        scopes: List of scopes (default: ['read'])
+        expires_in_days: Days until expiry (optional)
+        ip_whitelist: List of allowed IPs (optional)
+
+    Returns:
+        Created key info including the raw key (shown only once)
+    """
+    try:
+        data = request.get_json()
+
+        if not data or not data.get('name'):
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "Key name required"}}), 400
+
+        current_user = get_current_user()
+        created_by = current_user.get('email') if current_user else 'admin'
+
+        manager = get_api_key_manager()
+        raw_key, api_key = manager.generate_key(
+            name=data['name'],
+            created_by=created_by,
+            scopes=data.get('scopes', ['read']),
+            expires_in_days=data.get('expires_in_days'),
+            ip_whitelist=data.get('ip_whitelist'),
+            metadata=data.get('metadata', {})
+        )
+
+        # Log the creation
+        audit_logger = get_audit_logger()
+        audit_logger.log(
+            AuditEventType.API_KEY_CREATE,
+            AuditSev.WARNING,
+            resource_type='api_key',
+            resource_id=api_key.key_id,
+            details={'name': api_key.name, 'scopes': api_key.scopes}
+        )
+
+        return jsonify({
+            'key_id': api_key.key_id,
+            'name': api_key.name,
+            'api_key': raw_key,  # Only returned once!
+            'key_prefix': api_key.key_prefix,
+            'expires_at': api_key.expires_at.isoformat() if api_key.expires_at else None,
+            'scopes': api_key.scopes,
+            'warning': 'Store this API key securely. It will not be shown again.'
+        }), 201
+
+    except ValueError as e:
+        return jsonify({"error": {"code": "BAD_REQUEST", "message": str(e)}}), 400
+    except Exception as e:
+        logger.exception("Error creating API key")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to create API key"
+            }
+        }), 500
+
+
+@app.route('/api/security/api-keys/<key_id>/revoke', methods=['POST'])
+@require_admin
+def revoke_api_key(key_id):
+    """
+    Revoke an API key (admin only).
+
+    Path Parameters:
+        key_id: API key identifier
+
+    Returns:
+        Revocation status
+    """
+    try:
+        current_user = get_current_user()
+        revoked_by = current_user.get('email') if current_user else 'admin'
+
+        manager = get_api_key_manager()
+        success = manager.revoke_key(key_id, revoked_by)
+
+        if success:
+            audit_logger = get_audit_logger()
+            audit_logger.log(
+                AuditEventType.API_KEY_REVOKE,
+                AuditSev.WARNING,
+                resource_type='api_key',
+                resource_id=key_id
+            )
+
+            return jsonify({
+                'key_id': key_id,
+                'status': 'revoked'
+            })
+        else:
+            return jsonify({"error": {"code": "NOT_FOUND", "message": "API key not found"}}), 404
+
+    except Exception as e:
+        logger.exception(f"Error revoking API key {key_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to revoke API key"
+            }
+        }), 500
+
+
+@app.route('/api/security/audit-log', methods=['GET'])
+@require_role('admin', 'auditor')
+def get_security_audit_log():
+    """
+    Get security audit log entries (admin/auditor only).
+
+    Query Parameters:
+        event_type: Filter by event type
+        user_id: Filter by user
+        ip_address: Filter by IP
+        severity: Filter by severity
+        from_date: Start date (ISO format)
+        to_date: End date (ISO format)
+        limit: Max entries (default 100)
+        offset: Pagination offset
+
+    Returns:
+        List of audit events
+    """
+    try:
+        from datetime import datetime
+
+        audit_logger = get_audit_logger()
+
+        # Parse date parameters
+        from_date = None
+        to_date = None
+        if request.args.get('from_date'):
+            from_date = datetime.fromisoformat(request.args.get('from_date'))
+        if request.args.get('to_date'):
+            to_date = datetime.fromisoformat(request.args.get('to_date'))
+
+        events = audit_logger.query_events(
+            event_type=request.args.get('event_type'),
+            user_id=request.args.get('user_id'),
+            ip_address=request.args.get('ip_address'),
+            severity=request.args.get('severity'),
+            from_date=from_date,
+            to_date=to_date,
+            status=request.args.get('status'),
+            limit=int(request.args.get('limit', 100)),
+            offset=int(request.args.get('offset', 0))
+        )
+
+        return jsonify({
+            'events': [event.to_dict() for event in events],
+            'count': len(events)
+        })
+
+    except Exception as e:
+        logger.exception("Error getting audit log")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get audit log"
+            }
+        }), 500
+
+
+@app.route('/api/security/audit-log/summary', methods=['GET'])
+@require_role('admin', 'auditor')
+def get_audit_log_summary():
+    """
+    Get audit log summary statistics (admin/auditor only).
+
+    Query Parameters:
+        from_date: Start date (ISO format)
+        to_date: End date (ISO format)
+
+    Returns:
+        Summary statistics
+    """
+    try:
+        from datetime import datetime
+
+        audit_logger = get_audit_logger()
+
+        from_date = None
+        to_date = None
+        if request.args.get('from_date'):
+            from_date = datetime.fromisoformat(request.args.get('from_date'))
+        if request.args.get('to_date'):
+            to_date = datetime.fromisoformat(request.args.get('to_date'))
+
+        summary = audit_logger.get_summary(from_date, to_date)
+
+        return jsonify(summary)
+
+    except Exception as e:
+        logger.exception("Error getting audit summary")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get audit summary"
+            }
+        }), 500
+
+
+@app.route('/api/security/sessions', methods=['GET'])
+@require_auth
+def get_user_sessions():
+    """
+    Get active sessions for the current user.
+
+    Returns:
+        List of user's active sessions
+    """
+    try:
+        from app.security import get_session_manager
+
+        current_user = get_current_user()
+        if not current_user:
+            return jsonify({'sessions': [], 'count': 0})
+
+        user_id = current_user.get('user_id') or current_user.get('email')
+        manager = get_session_manager()
+        sessions = manager.get_user_sessions(user_id)
+
+        return jsonify({
+            'sessions': [
+                {
+                    'session_id': s.session_id[:8] + '...',  # Partial ID for security
+                    'created_at': s.created_at.isoformat(),
+                    'last_activity': s.last_activity.isoformat(),
+                    'ip_address': s.ip_address,
+                    'device_info': s.device_info,
+                    'is_current': hasattr(g, 'session_id') and g.session_id == s.session_id
+                }
+                for s in sessions
+            ],
+            'count': len(sessions)
+        })
+
+    except Exception as e:
+        logger.exception("Error getting sessions")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get sessions"
+            }
+        }), 500
+
+
+@app.route('/api/security/sessions/invalidate-others', methods=['POST'])
+@require_auth
+def invalidate_other_sessions():
+    """
+    Invalidate all other sessions for the current user.
+
+    Returns:
+        Number of sessions invalidated
+    """
+    try:
+        from app.security import get_session_manager
+
+        current_user = get_current_user()
+        if not current_user:
+            return jsonify({"error": {"code": "UNAUTHORIZED", "message": "Not authenticated"}}), 401
+
+        user_id = current_user.get('user_id') or current_user.get('email')
+        current_session = getattr(g, 'session_id', None)
+
+        manager = get_session_manager()
+        count = manager.invalidate_user_sessions(user_id, 'user_requested', current_session)
+
+        return jsonify({
+            'sessions_invalidated': count,
+            'status': 'success'
+        })
+
+    except Exception as e:
+        logger.exception("Error invalidating sessions")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to invalidate sessions"
+            }
+        }), 500
+
+
+@app.route('/api/security/status', methods=['GET'])
+@require_admin
+def get_security_status():
+    """
+    Get overall security infrastructure status (admin only).
+
+    Returns:
+        Status of all security features
+    """
+    try:
+        from app.security import (
+            get_rate_limiter,
+            get_api_key_manager,
+            get_ip_whitelist,
+            get_audit_logger,
+            get_session_manager
+        )
+
+        rate_limiter = get_rate_limiter()
+        api_key_manager = get_api_key_manager()
+        ip_whitelist = get_ip_whitelist()
+        audit_logger = get_audit_logger()
+        session_manager = get_session_manager()
+
+        return jsonify({
+            'rate_limiting': {
+                'enabled': rate_limiter.config.enabled,
+                'requests_per_minute': rate_limiter.config.default_requests_per_minute,
+                'requests_per_hour': rate_limiter.config.default_requests_per_hour
+            },
+            'api_keys': {
+                'enabled': api_key_manager.config.enabled,
+                'total_keys': len(api_key_manager.list_keys(include_inactive=True)),
+                'active_keys': len(api_key_manager.list_keys(include_inactive=False))
+            },
+            'ip_whitelist': {
+                'enabled': ip_whitelist.config.enabled,
+                'mode': ip_whitelist.config.mode,
+                'allowed_count': len(ip_whitelist.list_allowed()),
+                'blocked_count': len(ip_whitelist.list_blocked())
+            },
+            'audit_logging': {
+                'enabled': audit_logger.config.enabled,
+                'retention_days': audit_logger.config.retention_days
+            },
+            'session_management': {
+                'enabled': session_manager.config.enabled,
+                'max_concurrent': session_manager.config.max_concurrent_sessions,
+                'timeout_minutes': session_manager.config.session_timeout_minutes
+            }
+        })
+
+    except Exception as e:
+        logger.exception("Error getting security status")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get security status"
             }
         }), 500
 
