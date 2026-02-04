@@ -15,14 +15,16 @@ from .validators import (
     validate_activation_request,
     validate_file_upload
 )
+from .auth_service import require_auth, require_permission, AUTH_ENABLED
 
 logger = logging.getLogger(__name__)
 
 api_blueprint = Blueprint('api', __name__)
 
 @api_blueprint.route('/audit-log', methods=['GET'])
+@require_permission('audit_log', 'view')
 def get_audit_log():
-    """(Temporary) Retrieve all audit log entries."""
+    """Retrieve all audit log entries. Requires audit_log:view permission."""
     session = Session()
     try:
         logs = session.query(AuditLog).order_by(AuditLog.timestamp.desc()).all()
@@ -41,8 +43,9 @@ def get_audit_log():
         session.close()
 
 @api_blueprint.route('/rulesets', methods=['GET'])
+@require_auth
 def get_rulesets():
-    """Retrieve a list of all rulesets, with optional filtering."""
+    """Retrieve a list of all rulesets, with optional filtering. Requires authentication."""
     session = Session()
     try:
         query = session.query(Ruleset)
@@ -70,8 +73,9 @@ def get_rulesets():
         session.close()
 
 @api_blueprint.route('/rulesets', methods=['POST'])
+@require_permission('rulesets', 'create')
 def create_ruleset():
-    """Create a new ruleset."""
+    """Create a new ruleset. Requires rulesets:create permission."""
     data = request.get_json()
 
     # Validate request
@@ -102,8 +106,9 @@ def create_ruleset():
         session.close()
 
 @api_blueprint.route('/rulesets/<string:id>', methods=['GET'])
+@require_auth
 def get_ruleset(id):
-    """Get a specific ruleset by ID with its rules."""
+    """Get a specific ruleset by ID with its rules. Requires authentication."""
     # Validate ID
     is_valid, error = validate_uuid(id, 'Ruleset ID')
     if not is_valid:
@@ -129,8 +134,9 @@ def get_ruleset(id):
         session.close()
 
 @api_blueprint.route('/rulesets/<string:id>', methods=['PUT'])
+@require_permission('rulesets', 'update')
 def update_ruleset(id):
-    """Update a draft ruleset (creates a new version)."""
+    """Update a draft ruleset (creates a new version). Requires rulesets:update permission."""
     # Validate ID
     is_valid, error = validate_uuid(id, 'Ruleset ID')
     if not is_valid:
@@ -170,8 +176,9 @@ def update_ruleset(id):
         session.close()
 
 @api_blueprint.route('/rulesets/<string:id>/activate', methods=['POST'])
+@require_permission('rulesets', 'activate')
 def activate_ruleset(id):
-    """Activate a draft ruleset (retires any currently active version)."""
+    """Activate a draft ruleset (retires any currently active version). Requires rulesets:activate permission."""
     # Validate ID
     is_valid, error = validate_uuid(id, 'Ruleset ID')
     if not is_valid:
@@ -206,8 +213,9 @@ def activate_ruleset(id):
         session.close()
 
 @api_blueprint.route('/rulesets/<string:ruleset_id>/rules', methods=['POST'])
+@require_permission('rules', 'create')
 def add_rule_to_ruleset(ruleset_id):
-    """Add rules to a draft ruleset."""
+    """Add rules to a draft ruleset. Requires rules:create permission."""
     # Validate ID
     is_valid, error = validate_uuid(ruleset_id, 'Ruleset ID')
     if not is_valid:
@@ -248,8 +256,9 @@ def add_rule_to_ruleset(ruleset_id):
         session.close()
 
 @api_blueprint.route('/sop-assistant/extract', methods=['POST'])
+@require_permission('sop', 'extract')
 def extract_from_sop():
-    """Extract rules from an uploaded SOP PDF document using AI."""
+    """Extract rules from an uploaded SOP PDF document using AI. Requires sop:extract permission."""
     if 'sop_file' not in request.files:
         return jsonify({'error': 'No file part'}), 400
 

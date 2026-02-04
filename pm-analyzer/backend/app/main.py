@@ -22,6 +22,7 @@ from app.validators import (
     validate_configuration,
     ALLOWED_LANGUAGES
 )
+from app.ai_governance import init_governance_db, create_governance_blueprint
 
 # Configure logging
 log_level = os.environ.get('LOG_LEVEL', 'INFO').upper()
@@ -40,6 +41,17 @@ cors_origins = os.environ.get('CORS_ORIGINS', '*')
 if cors_origins != '*':
     cors_origins = [origin.strip() for origin in cors_origins.split(',')]
 CORS(app, resources={r"/api/*": {"origins": cors_origins}})
+
+# Initialize AI Governance database
+try:
+    init_governance_db()
+    logger.info("AI Governance database initialized")
+except Exception as e:
+    logger.warning(f"Could not initialize AI Governance database: {e}")
+
+# Register AI Governance blueprint
+governance_blueprint = create_governance_blueprint()
+app.register_blueprint(governance_blueprint, url_prefix='/api/governance')
 
 @app.teardown_appcontext
 def teardown_db(exception):

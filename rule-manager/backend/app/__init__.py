@@ -4,7 +4,7 @@ import logging
 from flask import Flask
 from flask_cors import CORS
 from .config import config_by_name
-from .database import init_db
+from .database import init_db, seed_default_roles_and_permissions
 
 # Configure logging
 log_level = os.environ.get('LOG_LEVEL', 'INFO').upper()
@@ -32,6 +32,21 @@ def create_app(config_name='default'):
     # Register blueprints here
     from .api import api_blueprint
     app.register_blueprint(api_blueprint, url_prefix='/api/v1')
+
+    # Register auth blueprint for authentication and authorization
+    from .auth_api import auth_blueprint
+    app.register_blueprint(auth_blueprint, url_prefix='/api/v1/auth')
+
+    # Register validation export blueprint for compliance documentation
+    from .validation_export import validation_blueprint
+    app.register_blueprint(validation_blueprint, url_prefix='/api/v1/validation')
+
+    # Initialize default roles and permissions on first run
+    try:
+        seed_default_roles_and_permissions()
+        logger.info("Default roles and permissions initialized")
+    except Exception as e:
+        logger.warning(f"Could not initialize default roles: {e}")
 
     @app.route("/health")
     def health_check():

@@ -91,3 +91,46 @@ def sample_rules_list():
             'feedback_message': 'Long text should be detailed'
         }
     ]
+
+
+@pytest.fixture
+def sample_user_data():
+    """Sample user creation data."""
+    return {
+        'username': 'testuser',
+        'email': 'testuser@example.com',
+        'password': 'TestPassword123!',
+        'full_name': 'Test User',
+        'department': 'Quality Assurance',
+        'title': 'QA Engineer'
+    }
+
+
+@pytest.fixture
+def authenticated_client(client, sample_user_data):
+    """Create a test client with authenticated user."""
+    from app.database import Session, User
+    from app.auth_service import hash_password, create_user_session
+
+    session = Session()
+    try:
+        # Create test user
+        user = User(
+            id='test-auth-user',
+            username=sample_user_data['username'],
+            email=sample_user_data['email'],
+            password_hash=hash_password(sample_user_data['password']),
+            full_name=sample_user_data['full_name']
+        )
+        session.add(user)
+        session.commit()
+
+        # Create session and get token
+        success, token, _ = create_user_session(session, 'test-auth-user')
+
+        # Return client with auth header
+        client.environ_base['HTTP_AUTHORIZATION'] = f'Bearer {token}'
+        return client
+
+    finally:
+        session.close()
