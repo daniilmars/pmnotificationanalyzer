@@ -25,6 +25,7 @@ from app.validators import (
 )
 from app.ai_governance import init_governance_db, create_governance_blueprint
 from app.openapi_spec import register_openapi
+from app.clerk_auth import register_clerk_auth, require_auth, require_role, require_admin, get_current_user
 
 # Configure logging
 log_level = os.environ.get('LOG_LEVEL', 'INFO').upper()
@@ -58,6 +59,13 @@ app.register_blueprint(governance_blueprint, url_prefix='/api/governance')
 # Register OpenAPI/Swagger documentation
 register_openapi(app)
 logger.info("OpenAPI documentation registered at /api/docs and /api/redoc")
+
+# Register Clerk authentication
+clerk_enabled = register_clerk_auth(app)
+if clerk_enabled:
+    logger.info("Clerk authentication enabled")
+else:
+    logger.warning("Clerk authentication is DISABLED - set CLERK_SECRET_KEY to enable")
 
 @app.teardown_appcontext
 def teardown_db(exception):
