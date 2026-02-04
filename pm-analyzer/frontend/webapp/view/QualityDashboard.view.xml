@@ -1,0 +1,276 @@
+<mvc:View
+    controllerName="com.sap.pm.pmanalyzerfiori.controller.QualityDashboard"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:l="sap.ui.layout"
+    xmlns:micro="sap.suite.ui.microchart">
+
+    <Page
+        id="qualityDashboardPage"
+        title="{i18n>qualityDashboardTitle}"
+        showNavButton="true"
+        navButtonPress=".onNavBack"
+        busy="{dashboard>/busy}">
+        <headerContent>
+            <Toolbar>
+                <ToolbarSpacer />
+                <Label text="{i18n>periodLabel}" class="sapUiSmallMarginEnd"/>
+                <Select
+                    id="periodSelect"
+                    selectedKey="{dashboard>/selectedPeriod}"
+                    change=".onPeriodChange">
+                    <core:Item key="7" text="{i18n>last7Days}" />
+                    <core:Item key="30" text="{i18n>last30Days}" />
+                    <core:Item key="90" text="{i18n>last90Days}" />
+                </Select>
+                <Button
+                    icon="sap-icon://excel-attachment"
+                    text="{i18n>exportReport}"
+                    press=".onExportReport"
+                    class="sapUiSmallMarginBegin"/>
+                <Button
+                    icon="sap-icon://refresh"
+                    press=".onRefresh"
+                    tooltip="{i18n>refreshData}"/>
+            </Toolbar>
+        </headerContent>
+
+        <content>
+            <l:VerticalLayout width="100%" class="sapUiSmallMargin">
+
+                <!-- KPI Tiles Row -->
+                <l:HorizontalLayout class="sapUiSmallMarginBottom" allowWrapping="true">
+                    <l:LayoutData><l:HorizontalLayoutData /></l:LayoutData>
+
+                    <!-- Overall Quality Score Tile -->
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>overallQualityScore}"
+                        subheader="{dashboard>/summary/period}"
+                        press=".onTilePress">
+                        <TileContent>
+                            <NumericContent
+                                value="{dashboard>/summary/averageScore}"
+                                scale="%"
+                                valueColor="{= ${dashboard>/summary/averageScore} >= 80 ? 'Good' : (${dashboard>/summary/averageScore} >= 60 ? 'Critical' : 'Error') }"
+                                indicator="{= ${dashboard>/summary/scoreTrend} > 0 ? 'Up' : (${dashboard>/summary/scoreTrend} < 0 ? 'Down' : 'None') }"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <!-- Total Notifications Tile -->
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>totalNotifications}"
+                        subheader="{i18n>analyzedPeriod}">
+                        <TileContent>
+                            <NumericContent
+                                value="{dashboard>/summary/totalAnalyzed}"
+                                withMargin="false"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <!-- Completeness Score Tile -->
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>completenessScore}">
+                        <TileContent>
+                            <micro:RadialMicroChart
+                                percentage="{dashboard>/summary/avgCompleteness}"
+                                valueColor="{= ${dashboard>/summary/avgCompleteness} >= 80 ? 'Good' : (${dashboard>/summary/avgCompleteness} >= 60 ? 'Critical' : 'Error') }"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <!-- Accuracy Score Tile -->
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>accuracyScore}">
+                        <TileContent>
+                            <micro:RadialMicroChart
+                                percentage="{dashboard>/summary/avgAccuracy}"
+                                valueColor="{= ${dashboard>/summary/avgAccuracy} >= 80 ? 'Good' : (${dashboard>/summary/avgAccuracy} >= 60 ? 'Critical' : 'Error') }"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <!-- Timeliness Score Tile -->
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>timelinessScore}">
+                        <TileContent>
+                            <micro:RadialMicroChart
+                                percentage="{dashboard>/summary/avgTimeliness}"
+                                valueColor="{= ${dashboard>/summary/avgTimeliness} >= 80 ? 'Good' : (${dashboard>/summary/avgTimeliness} >= 60 ? 'Critical' : 'Error') }"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <!-- ALCOA+ Compliance Tile -->
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>alcoaCompliance}"
+                        subheader="{i18n>regulatoryMetric}">
+                        <TileContent>
+                            <NumericContent
+                                value="{dashboard>/summary/alcoaCompliance}"
+                                scale="%"
+                                valueColor="{= ${dashboard>/summary/alcoaCompliance} >= 90 ? 'Good' : (${dashboard>/summary/alcoaCompliance} >= 70 ? 'Critical' : 'Error') }"/>
+                        </TileContent>
+                    </GenericTile>
+                </l:HorizontalLayout>
+
+                <!-- Trend Chart and Distribution Panel -->
+                <l:HorizontalLayout width="100%" class="sapUiSmallMarginBottom" allowWrapping="true">
+
+                    <!-- Quality Trend Panel -->
+                    <Panel
+                        headerText="{i18n>qualityTrendTitle}"
+                        class="sapUiSmallMarginEnd"
+                        width="60%">
+                        <content>
+                            <micro:InteractiveLineChart
+                                id="trendChart"
+                                selectionEnabled="false"
+                                points="{dashboard>/trend/dataPoints}">
+                                <micro:points>
+                                    <micro:InteractiveLineChartPoint
+                                        label="{dashboard>label}"
+                                        value="{dashboard>value}"
+                                        color="{= ${dashboard>value} >= 80 ? 'Good' : (${dashboard>value} >= 60 ? 'Critical' : 'Error') }"/>
+                                </micro:points>
+                            </micro:InteractiveLineChart>
+                        </content>
+                    </Panel>
+
+                    <!-- Score Distribution Panel -->
+                    <Panel
+                        headerText="{i18n>scoreDistribution}"
+                        width="38%">
+                        <content>
+                            <VBox>
+                                <HBox justifyContent="SpaceBetween" class="sapUiSmallMargin">
+                                    <Label text="{i18n>excellent} (80-100)" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus
+                                        text="{dashboard>/distribution/excellent}"
+                                        state="Success"/>
+                                </HBox>
+                                <HBox justifyContent="SpaceBetween" class="sapUiSmallMargin">
+                                    <Label text="{i18n>good} (60-79)" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus
+                                        text="{dashboard>/distribution/good}"
+                                        state="Warning"/>
+                                </HBox>
+                                <HBox justifyContent="SpaceBetween" class="sapUiSmallMargin">
+                                    <Label text="{i18n>needsImprovement} (0-59)" class="sapUiSmallMarginEnd"/>
+                                    <ObjectStatus
+                                        text="{dashboard>/distribution/needsImprovement}"
+                                        state="Error"/>
+                                </HBox>
+                                <micro:HarveyBallMicroChart
+                                    total="100"
+                                    totalLabel="{i18n>total}"
+                                    class="sapUiSmallMarginTop">
+                                    <micro:items>
+                                        <micro:HarveyBallMicroChartItem
+                                            fraction="{dashboard>/summary/averageScore}"
+                                            color="{= ${dashboard>/summary/averageScore} >= 80 ? 'Good' : (${dashboard>/summary/averageScore} >= 60 ? 'Critical' : 'Error') }"/>
+                                    </micro:items>
+                                </micro:HarveyBallMicroChart>
+                            </VBox>
+                        </content>
+                    </Panel>
+                </l:HorizontalLayout>
+
+                <!-- ALCOA+ Compliance Details Panel -->
+                <Panel
+                    headerText="{i18n>alcoaComplianceDetails}"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom">
+                    <content>
+                        <Table
+                            items="{dashboard>/alcoaPrinciples}"
+                            noDataText="{i18n>noDataText}">
+                            <columns>
+                                <Column><Text text="{i18n>principle}" /></Column>
+                                <Column><Text text="{i18n>description}" /></Column>
+                                <Column hAlign="Center"><Text text="{i18n>complianceRate}" /></Column>
+                                <Column hAlign="Center"><Text text="{i18n>status}" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{dashboard>principle}" />
+                                        <Text text="{dashboard>description}" />
+                                        <ProgressIndicator
+                                            percentValue="{dashboard>rate}"
+                                            displayValue="{dashboard>rate}%"
+                                            state="{= ${dashboard>rate} >= 90 ? 'Success' : (${dashboard>rate} >= 70 ? 'Warning' : 'Error') }"
+                                            width="120px"/>
+                                        <ObjectStatus
+                                            text="{= ${dashboard>rate} >= 90 ? 'Compliant' : (${dashboard>rate} >= 70 ? 'Partial' : 'Non-Compliant') }"
+                                            state="{= ${dashboard>rate} >= 90 ? 'Success' : (${dashboard>rate} >= 70 ? 'Warning' : 'Error') }"/>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </content>
+                </Panel>
+
+                <!-- Common Issues Panel -->
+                <Panel
+                    headerText="{i18n>commonIssuesTitle}"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom">
+                    <content>
+                        <Table
+                            items="{dashboard>/commonIssues}"
+                            noDataText="{i18n>noIssuesFound}">
+                            <columns>
+                                <Column width="40%"><Text text="{i18n>issueDescription}" /></Column>
+                                <Column><Text text="{i18n>affectedField}" /></Column>
+                                <Column><Text text="{i18n>severity}" /></Column>
+                                <Column hAlign="End"><Text text="{i18n>occurrences}" /></Column>
+                                <Column hAlign="End"><Text text="{i18n>percentAffected}" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{dashboard>description}" />
+                                        <Text text="{dashboard>field}" />
+                                        <ObjectStatus
+                                            text="{dashboard>severity}"
+                                            state="{= ${dashboard>severity} === 'high' ? 'Error' : (${dashboard>severity} === 'medium' ? 'Warning' : 'None') }"/>
+                                        <ObjectNumber number="{dashboard>count}" />
+                                        <ObjectNumber number="{dashboard>percentage}" unit="%" />
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </content>
+                </Panel>
+
+                <!-- Top Recommendations Panel -->
+                <Panel
+                    headerText="{i18n>topRecommendations}"
+                    expandable="true"
+                    expanded="true">
+                    <content>
+                        <List
+                            items="{dashboard>/recommendations}"
+                            noDataText="{i18n>noRecommendations}">
+                            <StandardListItem
+                                title="{dashboard>title}"
+                                description="{dashboard>description}"
+                                icon="{= ${dashboard>priority} === 'high' ? 'sap-icon://message-error' : (${dashboard>priority} === 'medium' ? 'sap-icon://message-warning' : 'sap-icon://message-information') }"
+                                iconInset="false"
+                                info="{dashboard>impact}"
+                                infoState="{= ${dashboard>priority} === 'high' ? 'Error' : (${dashboard>priority} === 'medium' ? 'Warning' : 'None') }"/>
+                        </List>
+                    </content>
+                </Panel>
+
+            </l:VerticalLayout>
+        </content>
+    </Page>
+</mvc:View>

@@ -87,6 +87,11 @@
                     "name": "object",
                     "pattern": "Notifications/{notificationId}",
                     "target": "object"
+                },
+                {
+                    "name": "qualityDashboard",
+                    "pattern": "QualityDashboard",
+                    "target": "qualityDashboard"
                 }
             ],
             "targets": {
@@ -97,6 +102,10 @@
                 "object": {
                     "viewName": "Object",
                     "viewId": "object"
+                },
+                "qualityDashboard": {
+                    "viewName": "QualityDashboard",
+                    "viewId": "qualityDashboard"
                 }
             }
         }

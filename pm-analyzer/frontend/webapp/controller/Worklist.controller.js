@@ -85,6 +85,11 @@ sap.ui.define([
                 notificationId: oItem.getBindingContext().getProperty("NotificationId")
             });
         },
+
+        onNavigateToQualityDashboard: function () {
+            const oRouter = this.getOwnerComponent().getRouter();
+            oRouter.navTo("qualityDashboard");
+        },
  
         onLanguageChange: function(oEvent) {
             const sLanguage = oEvent.getParameter("selectedItem").getKey();

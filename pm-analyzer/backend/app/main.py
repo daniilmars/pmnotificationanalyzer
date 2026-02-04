@@ -3,6 +3,7 @@ from flask_cors import CORS
 from dotenv import load_dotenv
 import os
 import re
+from datetime import datetime
 from typing import Tuple, Optional
 from google.api_core import exceptions as google_exceptions
 import logging
@@ -251,6 +252,283 @@ def set_configuration():
     except Exception as e:
         logger.exception("Failed to save configuration.")
         return jsonify({"error": {"code": "CONFIG_WRITE_ERROR", "message": "Failed to save configuration"}}), 500
+
+
+# --- Data Quality Endpoints ---
+
+from app.services.data_quality_service import (
+    calculate_notification_quality,
+    calculate_batch_quality,
+    calculate_quality_trend,
+    to_dict
+)
+
+@app.route('/api/quality/notification/<id>', methods=['GET'])
+def get_notification_quality(id):
+    """
+    Get data quality score for a single notification.
+
+    Returns comprehensive quality metrics including ALCOA+ compliance.
+    """
+    try:
+        # Validate notification ID
+        is_valid, error = validate_notification_id(id)
+        if not is_valid:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": error}}), 400
+
+        language = request.args.get('language', 'en')
+
+        # Get notification data
+        notification = get_unified_notification(id, language)
+        if not notification:
+            return jsonify({"error": {"code": "NOT_FOUND", "message": "Notification not found"}}), 404
+
+        # Calculate quality score
+        quality_score = calculate_notification_quality(notification)
+
+        return jsonify(to_dict(quality_score))
+
+    except Exception as e:
+        logger.exception(f"Error calculating quality for notification {id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to calculate quality score"
+            }
+        }), 500
+
+
+@app.route('/api/quality/batch', methods=['GET'])
+def get_batch_quality():
+    """
+    Get aggregate quality metrics for all notifications.
+
+    Query Parameters:
+        language: Language code ('en' or 'de'), default 'en'
+        limit: Max notifications to analyze (default 100, max 1000)
+
+    Returns:
+        Aggregate statistics, score distribution, common issues, ALCOA+ summary
+    """
+    try:
+        language = request.args.get('language', 'en')
+        limit = min(int(request.args.get('limit', 100)), 1000)
+
+        # Get notifications
+        result = get_all_notifications_summary(language, page=1, page_size=limit, paginate=False)
+
+        if not result:
+            return jsonify({
+                'count': 0,
+                'average_score': 0,
+                'message': 'No notifications found'
+            })
+
+        # Calculate batch quality
+        batch_stats = calculate_batch_quality(result)
+
+        return jsonify(batch_stats)
+
+    except Exception as e:
+        logger.exception("Error calculating batch quality")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to calculate batch quality"
+            }
+        }), 500
+
+
+@app.route('/api/quality/trend', methods=['GET'])
+def get_quality_trend():
+    """
+    Get quality trend analysis over time.
+
+    Query Parameters:
+        language: Language code ('en' or 'de'), default 'en'
+        period: 'daily', 'weekly', or 'monthly' (default 'weekly')
+        limit: Max notifications to analyze (default 500, max 2000)
+
+    Returns:
+        List of trend data points with average scores per period
+    """
+    try:
+        language = request.args.get('language', 'en')
+        period = request.args.get('period', 'weekly')
+        limit = min(int(request.args.get('limit', 500)), 2000)
+
+        if period not in ['daily', 'weekly', 'monthly']:
+            return jsonify({
+                "error": {
+                    "code": "BAD_REQUEST",
+                    "message": "Period must be 'daily', 'weekly', or 'monthly'"
+                }
+            }), 400
+
+        # Get notifications
+        result = get_all_notifications_summary(language, page=1, page_size=limit, paginate=False)
+
+        if not result:
+            return jsonify([])
+
+        # Calculate trend
+        trends = calculate_quality_trend(result, period)
+
+        return jsonify([to_dict(t) for t in trends])
+
+    except Exception as e:
+        logger.exception("Error calculating quality trend")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to calculate quality trend"
+            }
+        }), 500
+
+
+@app.route('/api/quality/dashboard', methods=['GET'])
+def get_quality_dashboard():
+    """
+    Get comprehensive data quality dashboard data.
+
+    Returns all metrics needed for a quality dashboard in a single call.
+    """
+    try:
+        language = request.args.get('language', 'en')
+        limit = min(int(request.args.get('limit', 200)), 500)
+
+        # Get notifications
+        notifications = get_all_notifications_summary(language, page=1, page_size=limit, paginate=False)
+
+        if not notifications:
+            return jsonify({
+                'summary': {'count': 0, 'average_score': 0},
+                'trends': [],
+                'top_issues': [],
+                'alcoa_compliance': {}
+            })
+
+        # Calculate all metrics
+        batch_stats = calculate_batch_quality(notifications)
+        weekly_trends = calculate_quality_trend(notifications, 'weekly')
+
+        # Get individual scores for distribution chart
+        individual_scores = []
+        for notif in notifications[:50]:  # Limit for performance
+            quality = calculate_notification_quality(notif)
+            individual_scores.append({
+                'notification_id': quality.notification_id,
+                'score': quality.overall_score,
+                'completeness': quality.completeness_score,
+                'accuracy': quality.accuracy_score
+            })
+
+        dashboard_data = {
+            'summary': {
+                'count': batch_stats['count'],
+                'average_score': batch_stats['average_score'],
+                'min_score': batch_stats.get('min_score', 0),
+                'max_score': batch_stats.get('max_score', 100),
+                'score_distribution': batch_stats['score_distribution']
+            },
+            'trends': [to_dict(t) for t in weekly_trends[-12:]],  # Last 12 weeks
+            'top_issues': batch_stats['common_issues'][:10],
+            'alcoa_compliance': batch_stats['alcoa_summary'],
+            'sample_scores': individual_scores,
+            'generated_at': datetime.now().isoformat()
+        }
+
+        return jsonify(dashboard_data)
+
+    except Exception as e:
+        logger.exception("Error generating quality dashboard")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to generate quality dashboard"
+            }
+        }), 500
+
+
+@app.route('/api/quality/export', methods=['GET'])
+def export_quality_report():
+    """
+    Export quality report as CSV.
+
+    Query Parameters:
+        language: Language code ('en' or 'de'), default 'en'
+        limit: Max notifications (default 500)
+
+    Returns:
+        CSV file with quality scores for all notifications
+    """
+    import csv
+    from io import StringIO
+    from flask import Response
+
+    try:
+        language = request.args.get('language', 'en')
+        limit = min(int(request.args.get('limit', 500)), 2000)
+
+        # Get notifications
+        notifications = get_all_notifications_summary(language, page=1, page_size=limit, paginate=False)
+
+        if not notifications:
+            return jsonify({"error": {"code": "NOT_FOUND", "message": "No notifications found"}}), 404
+
+        # Generate CSV
+        output = StringIO()
+        fieldnames = [
+            'notification_id', 'overall_score', 'completeness_score',
+            'accuracy_score', 'timeliness_score', 'consistency_score',
+            'validity_score', 'alcoa_attributable', 'alcoa_legible',
+            'alcoa_contemporaneous', 'alcoa_original', 'alcoa_accurate',
+            'alcoa_complete', 'alcoa_consistent', 'alcoa_enduring',
+            'alcoa_available', 'issue_count', 'recommendation_count'
+        ]
+
+        writer = csv.DictWriter(output, fieldnames=fieldnames)
+        writer.writeheader()
+
+        for notif in notifications:
+            quality = calculate_notification_quality(notif)
+
+            row = {
+                'notification_id': quality.notification_id,
+                'overall_score': quality.overall_score,
+                'completeness_score': quality.completeness_score,
+                'accuracy_score': quality.accuracy_score,
+                'timeliness_score': quality.timeliness_score,
+                'consistency_score': quality.consistency_score,
+                'validity_score': quality.validity_score,
+                'issue_count': len(quality.issues),
+                'recommendation_count': len(quality.recommendations)
+            }
+
+            # Add ALCOA+ compliance
+            for principle, met in quality.alcoa_compliance.items():
+                row[f'alcoa_{principle}'] = 'Yes' if met else 'No'
+
+            writer.writerow(row)
+
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+
+        return Response(
+            output.getvalue(),
+            mimetype='text/csv',
+            headers={
+                'Content-Disposition': f'attachment; filename=quality_report_{timestamp}.csv'
+            }
+        )
+
+    except Exception as e:
+        logger.exception("Error exporting quality report")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to export quality report"
+            }
+        }), 500
 
 
 if __name__ == '__main__':

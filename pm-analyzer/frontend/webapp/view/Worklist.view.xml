@@ -9,6 +9,12 @@
     <Page id="worklistPage" title="{i18n>worklistTitle}" busy="{ui>/isBusy}">
         <headerContent>
             <HBox alignItems="Center">
+                <Button
+                    icon="sap-icon://manager-insight"
+                    text="{i18n>qualityDashboardBtn}"
+                    press=".onNavigateToQualityDashboard"
+                    type="Emphasized"
+                    class="sapUiSmallMarginEnd"/>
                 <Select
                     id="languageSelect"
                     change=".onLanguageChange"
