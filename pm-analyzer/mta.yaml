@@ -1,0 +1,163 @@
+_schema-version: "3.2"
+ID: pm-notification-analyzer
+version: 2.0.0
+description: SAP PM Notification Analyzer with AI-powered quality analysis
+
+parameters:
+  enable-parallel-deployments: true
+
+modules:
+  # ========================================
+  # Backend Python Application
+  # ========================================
+  - name: pm-analyzer-backend
+    type: python
+    path: backend
+    parameters:
+      buildpack: python_buildpack
+      memory: 512M
+      disk-quota: 1G
+      instances: 1
+      health-check-type: http
+      health-check-http-endpoint: /health
+    properties:
+      FLASK_ENV: production
+      FLASK_DEBUG: "false"
+      LOG_LEVEL: INFO
+      # SAP Integration settings (configured via destination service)
+      SAP_ENABLED: "true"
+      SAP_CONNECTION_TYPE: "odata"
+    requires:
+      - name: pm-analyzer-uaa
+      - name: pm-analyzer-destination
+      - name: pm-analyzer-connectivity
+      - name: pm-analyzer-db
+    provides:
+      - name: pm-analyzer-backend-api
+        properties:
+          url: ${default-url}
+
+  # ========================================
+  # Frontend UI5 Application
+  # ========================================
+  - name: pm-analyzer-frontend
+    type: html5
+    path: frontend
+    build-parameters:
+      builder: custom
+      commands:
+        - npm install
+        - npm run build
+      supported-platforms: []
+
+  # ========================================
+  # Application Router (Approuter)
+  # ========================================
+  - name: pm-analyzer-approuter
+    type: approuter.nodejs
+    path: approuter
+    parameters:
+      memory: 256M
+      disk-quota: 512M
+    properties:
+      TENANT_HOST_PATTERN: "^(.*)-${default-uri}"
+    requires:
+      - name: pm-analyzer-uaa
+      - name: pm-analyzer-destination
+      - name: pm-analyzer-html5-repo-runtime
+      - name: pm-analyzer-backend-api
+        group: destinations
+        properties:
+          name: pm-analyzer-backend
+          url: ~{url}
+          forwardAuthToken: true
+
+  # ========================================
+  # HTML5 App Deployer
+  # ========================================
+  - name: pm-analyzer-html5-deployer
+    type: com.sap.html5.application-content
+    path: frontend
+    requires:
+      - name: pm-analyzer-html5-repo-host
+    build-parameters:
+      requires:
+        - name: pm-analyzer-frontend
+          artifacts:
+            - dist/*
+          target-path: resources/
+
+resources:
+  # ========================================
+  # XSUAA Service (Authentication)
+  # ========================================
+  - name: pm-analyzer-uaa
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: pm-notification-analyzer-${org}-${space}
+        tenant-mode: dedicated
+        oauth2-configuration:
+          redirect-uris:
+            - https://*.cfapps.*.hana.ondemand.com/**
+
+  # ========================================
+  # Destination Service (SAP Connectivity)
+  # ========================================
+  - name: pm-analyzer-destination
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: destination
+      service-plan: lite
+      config:
+        init_data:
+          instance:
+            existing_destinations_policy: update
+            destinations:
+              - Name: SAP_PM_SYSTEM
+                Type: HTTP
+                URL: https://your-sap-system.com
+                Authentication: BasicAuthentication
+                ProxyType: Internet
+                User: ${SAP_USER}
+                Password: ${SAP_PASSWORD}
+                HTML5.DynamicDestination: true
+
+  # ========================================
+  # Connectivity Service (Cloud Connector)
+  # ========================================
+  - name: pm-analyzer-connectivity
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: connectivity
+      service-plan: lite
+
+  # ========================================
+  # HTML5 Repository
+  # ========================================
+  - name: pm-analyzer-html5-repo-host
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-host
+
+  - name: pm-analyzer-html5-repo-runtime
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: html5-apps-repo
+      service-plan: app-runtime
+
+  # ========================================
+  # Database Service (PostgreSQL or HANA)
+  # ========================================
+  - name: pm-analyzer-db
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: postgresql-db
+      service-plan: trial
+      # Alternative for HANA:
+      # service: hana
+      # service-plan: hdi-shared

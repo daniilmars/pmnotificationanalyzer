@@ -1,0 +1,37 @@
+{
+  "authenticationMethod": "route",
+  "sessionTimeout": 60,
+  "welcomeFile": "/index.html",
+  "logout": {
+    "logoutEndpoint": "/logout",
+    "logoutPage": "/"
+  },
+  "routes": [
+    {
+      "source": "^/api/(.*)$",
+      "target": "/api/$1",
+      "destination": "pm-analyzer-backend",
+      "authenticationType": "xsuaa",
+      "csrfProtection": true
+    },
+    {
+      "source": "^/sap/(.*)$",
+      "target": "/sap/$1",
+      "destination": "SAP_PM_SYSTEM",
+      "authenticationType": "xsuaa",
+      "csrfProtection": true
+    },
+    {
+      "source": "^/health$",
+      "target": "/health",
+      "destination": "pm-analyzer-backend",
+      "authenticationType": "none"
+    },
+    {
+      "source": "^(.*)$",
+      "target": "$1",
+      "service": "html5-apps-repo-rt",
+      "authenticationType": "xsuaa"
+    }
+  ]
+}
