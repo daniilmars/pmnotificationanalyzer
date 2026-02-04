@@ -1,0 +1,71 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+
+    <ActionSheet
+        id="userMenuActionSheet"
+        title="{auth>/user/full_name}"
+        placement="Bottom">
+
+        <buttons>
+            <!-- User Profile Info -->
+            <Button
+                text="{auth>/user/email}"
+                icon="sap-icon://email"
+                enabled="false"
+                type="Transparent"/>
+
+            <!-- Role Display -->
+            <Button
+                text="{i18n>yourRoles}: {auth>/roles}"
+                icon="sap-icon://role"
+                enabled="false"
+                type="Transparent"/>
+
+            <!-- Separator line simulated with disabled button -->
+            <Button
+                text="────────────────"
+                enabled="false"
+                type="Transparent"/>
+
+            <!-- Change Password -->
+            <Button
+                text="{i18n>changePassword}"
+                icon="sap-icon://key"
+                press=".onChangePasswordPress"
+                type="Transparent"/>
+
+            <!-- View Audit Log (for Auditors) -->
+            <Button
+                text="{i18n>viewAuditLog}"
+                icon="sap-icon://history"
+                press=".onViewAuditLogPress"
+                type="Transparent"
+                visible="{= ${auth>/permissions}.indexOf('audit_log:view') !== -1}"/>
+
+            <!-- Export Data (for Auditors) -->
+            <Button
+                text="{i18n>exportData}"
+                icon="sap-icon://download"
+                press=".onExportDataPress"
+                type="Transparent"
+                visible="{= ${auth>/permissions}.indexOf('audit_log:export') !== -1}"/>
+
+            <!-- Separator -->
+            <Button
+                text="────────────────"
+                enabled="false"
+                type="Transparent"/>
+
+            <!-- Logout -->
+            <Button
+                text="{i18n>logout}"
+                icon="sap-icon://log"
+                press=".onLogoutPress"
+                type="Reject"/>
+
+        </buttons>
+
+    </ActionSheet>
+
+</core:FragmentDefinition>

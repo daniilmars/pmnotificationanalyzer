@@ -1,14 +1,41 @@
 <mvc:View
     controllerName="com.sap.pm.rulemanager.controller.RulesetDashboard"
     xmlns="sap.m"
-    xmlns:mvc="sap.ui.core.mvc">
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core">
 
     <Page id="rulesetListPage" title="{i18n>dashboardTitle}">
         <headerContent>
             <Toolbar>
                 <ToolbarSpacer />
-                <Button icon="sap-icon://add" text="Create Ruleset" press=".onCreateRuleset" />
-                <Button icon="sap-icon://sap-icon://initiative" text="Import from SOP" press=".onImportFromSop" />
+                <!-- Create Ruleset - requires permission -->
+                <Button
+                    icon="sap-icon://add"
+                    text="Create Ruleset"
+                    press=".onCreateRuleset"
+                    visible="{= ${auth>/isAuthenticated} &amp;&amp; ${auth>/permissions}.indexOf('rulesets:create') !== -1 }"/>
+                <!-- Import from SOP - requires permission -->
+                <Button
+                    icon="sap-icon://initiative"
+                    text="Import from SOP"
+                    press=".onImportFromSop"
+                    visible="{= ${auth>/isAuthenticated} &amp;&amp; ${auth>/permissions}.indexOf('sop:extract') !== -1 }"/>
+                <ToolbarSeparator/>
+                <!-- Login Button - shown when not authenticated -->
+                <Button
+                    id="loginBtn"
+                    icon="sap-icon://person-placeholder"
+                    text="{i18n>login}"
+                    press=".onLoginPress"
+                    type="Emphasized"
+                    visible="{= !${auth>/isAuthenticated} }"/>
+                <!-- User Menu Button - shown when authenticated -->
+                <Button
+                    id="userMenuBtn"
+                    icon="sap-icon://customer"
+                    text="{auth>/user/username}"
+                    press=".onUserMenuPress"
+                    visible="{auth>/isAuthenticated}"/>
             </Toolbar>
         </headerContent>
         <content>
@@ -31,8 +58,18 @@
                             <ObjectStatus text="{rulesets>status}" />
                             <Text text="{rulesets>version}" />
                             <HBox>
-                                <Button icon="sap-icon://edit" press=".onEditRuleset" visible="{= ${rulesets>status} === 'Draft' }" />
-                                <Button icon="sap-icon://activate" press=".onActivateRuleset" visible="{= ${rulesets>status} === 'Draft' }" tooltip="Activate" />
+                                <!-- Edit button - requires rulesets:update permission and Draft status -->
+                                <Button
+                                    icon="sap-icon://edit"
+                                    press=".onEditRuleset"
+                                    tooltip="{i18n>editRuleset}"
+                                    visible="{= ${rulesets>status} === 'Draft' &amp;&amp; ${auth>/permissions}.indexOf('rulesets:update') !== -1 }"/>
+                                <!-- Activate button - requires rulesets:activate permission and Draft status -->
+                                <Button
+                                    icon="sap-icon://activate"
+                                    press=".onActivateRuleset"
+                                    tooltip="{i18n>activateRuleset}"
+                                    visible="{= ${rulesets>status} === 'Draft' &amp;&amp; ${auth>/permissions}.indexOf('rulesets:activate') !== -1 }"/>
                             </HBox>
                         </cells>
                     </ColumnListItem>
