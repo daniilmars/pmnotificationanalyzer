@@ -994,6 +994,412 @@ def export_reliability_report():
         }), 500
 
 
+# --- Audit Trail & Change Document Endpoints (FDA 21 CFR Part 11) ---
+
+from app.services.change_document_service import (
+    get_change_document_service,
+    ChangeDocumentService
+)
+
+@app.route('/api/audit/changes', methods=['GET'])
+def get_change_history():
+    """
+    Get change document history for audit trail.
+
+    Query Parameters:
+        object_class: Filter by object class (QMEL, AUFK, etc.)
+        object_id: Filter by specific object ID
+        username: Filter by user who made changes
+        from_date: Start date (YYYYMMDD)
+        to_date: End date (YYYYMMDD)
+        limit: Max records to return (default 100)
+
+    Returns:
+        List of change history entries with field-level details
+    """
+    try:
+        object_class = request.args.get('object_class')
+        object_id = request.args.get('object_id')
+        username = request.args.get('username')
+        from_date = request.args.get('from_date')
+        to_date = request.args.get('to_date')
+        limit = int(request.args.get('limit', 100))
+
+        service = get_change_document_service()
+        history = service.get_change_history(
+            object_class=object_class,
+            object_id=object_id,
+            username=username,
+            from_date=from_date,
+            to_date=to_date,
+            limit=limit
+        )
+
+        # Convert to JSON-serializable format
+        results = []
+        for entry in history:
+            results.append({
+                'change_number': entry.change_number,
+                'timestamp': entry.timestamp.isoformat(),
+                'user': entry.user,
+                'object_type': entry.object_type,
+                'object_id': entry.object_id,
+                'change_type': entry.change_type,
+                'fields_changed': entry.fields_changed,
+                'transaction_code': entry.transaction_code
+            })
+
+        return jsonify({
+            'changes': results,
+            'count': len(results)
+        })
+
+    except Exception as e:
+        logger.exception("Error getting change history")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get change history"
+            }
+        }), 500
+
+
+@app.route('/api/audit/changes/<object_class>/<object_id>', methods=['GET'])
+def get_object_change_history(object_class, object_id):
+    """
+    Get change history for a specific object.
+
+    Path Parameters:
+        object_class: Object class (QMEL, AUFK, etc.)
+        object_id: Object identifier
+
+    Returns:
+        Complete change history for the object
+    """
+    try:
+        service = get_change_document_service()
+        history = service.get_change_history(
+            object_class=object_class.upper(),
+            object_id=object_id,
+            limit=500
+        )
+
+        results = []
+        for entry in history:
+            results.append({
+                'change_number': entry.change_number,
+                'timestamp': entry.timestamp.isoformat(),
+                'user': entry.user,
+                'change_type': entry.change_type,
+                'fields_changed': entry.fields_changed,
+                'transaction_code': entry.transaction_code
+            })
+
+        return jsonify({
+            'object_class': object_class.upper(),
+            'object_id': object_id,
+            'changes': results,
+            'count': len(results)
+        })
+
+    except Exception as e:
+        logger.exception(f"Error getting change history for {object_class}/{object_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get object change history"
+            }
+        }), 500
+
+
+@app.route('/api/audit/report', methods=['GET'])
+def get_audit_report():
+    """
+    Generate comprehensive audit report for compliance.
+
+    Query Parameters:
+        from_date: Start date (YYYYMMDD)
+        to_date: End date (YYYYMMDD)
+        object_class: Filter by object class
+        username: Filter by user
+
+    Returns:
+        Audit report with summary statistics, changes by user/object
+    """
+    try:
+        from_date = request.args.get('from_date')
+        to_date = request.args.get('to_date')
+        object_class = request.args.get('object_class')
+        username = request.args.get('username')
+
+        service = get_change_document_service()
+        report = service.get_audit_report(
+            from_date=from_date,
+            to_date=to_date,
+            object_class=object_class,
+            username=username
+        )
+
+        return jsonify(report)
+
+    except Exception as e:
+        logger.exception("Error generating audit report")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to generate audit report"
+            }
+        }), 500
+
+
+@app.route('/api/audit/notification/<notification_id>/history', methods=['GET'])
+def get_notification_change_history(notification_id):
+    """
+    Get notification-specific change history (QMIH).
+
+    Path Parameters:
+        notification_id: Notification number
+
+    Returns:
+        Notification version history with change reasons
+    """
+    try:
+        # Validate notification ID
+        is_valid, error = validate_notification_id(notification_id)
+        if not is_valid:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": error}}), 400
+
+        service = get_change_document_service()
+        history = service.get_notification_history(notification_id)
+
+        return jsonify({
+            'notification_id': notification_id,
+            'history': history,
+            'count': len(history)
+        })
+
+    except Exception as e:
+        logger.exception(f"Error getting notification history for {notification_id}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get notification history"
+            }
+        }), 500
+
+
+@app.route('/api/status/<object_number>', methods=['GET'])
+def get_object_status(object_number):
+    """
+    Get current status of an object (JEST).
+
+    Path Parameters:
+        object_number: Internal object number
+
+    Returns:
+        List of active statuses for the object
+    """
+    try:
+        service = get_change_document_service()
+        statuses = service.get_status(object_number)
+
+        return jsonify({
+            'object_number': object_number,
+            'statuses': statuses
+        })
+
+    except Exception as e:
+        logger.exception(f"Error getting status for {object_number}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get object status"
+            }
+        }), 500
+
+
+@app.route('/api/confirmations/<order_number>', methods=['GET'])
+def get_order_confirmations(order_number):
+    """
+    Get time confirmations for an order (AFRU).
+
+    Path Parameters:
+        order_number: Order number
+
+    Query Parameters:
+        operation: Filter by operation number
+
+    Returns:
+        List of time confirmation records
+    """
+    try:
+        operation_number = request.args.get('operation')
+
+        service = get_change_document_service()
+        confirmations = service.get_time_confirmations(
+            order_number,
+            operation_number=operation_number
+        )
+
+        return jsonify({
+            'order_number': order_number,
+            'confirmations': confirmations,
+            'count': len(confirmations),
+            'total_hours': sum(c['actual_work_hours'] for c in confirmations)
+        })
+
+    except Exception as e:
+        logger.exception(f"Error getting confirmations for order {order_number}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to get order confirmations"
+            }
+        }), 500
+
+
+@app.route('/api/confirmations/<order_number>', methods=['POST'])
+def create_time_confirmation(order_number):
+    """
+    Record a time confirmation for an order.
+
+    Path Parameters:
+        order_number: Order number
+
+    Request Body:
+        operation_number: Operation number (optional)
+        actual_work_hours: Hours worked
+        actual_start: Start datetime (ISO format)
+        actual_end: End datetime (ISO format)
+        confirmation_text: Note/comment
+        final_confirmation: Boolean
+        username: User recording confirmation
+
+    Returns:
+        Confirmation number
+    """
+    try:
+        data = request.get_json()
+
+        if not data:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "Request body required"}}), 400
+
+        username = data.get('username', 'SYSTEM')
+        actual_work_hours = float(data.get('actual_work_hours', 0))
+
+        # Parse datetime fields
+        actual_start = None
+        actual_end = None
+        if data.get('actual_start'):
+            actual_start = datetime.fromisoformat(data['actual_start'].replace('Z', '+00:00'))
+        if data.get('actual_end'):
+            actual_end = datetime.fromisoformat(data['actual_end'].replace('Z', '+00:00'))
+
+        service = get_change_document_service()
+        confirmation_number = service.record_time_confirmation(
+            order_number=order_number,
+            operation_number=data.get('operation_number'),
+            username=username,
+            actual_work_hours=actual_work_hours,
+            actual_start=actual_start,
+            actual_end=actual_end,
+            confirmation_text=data.get('confirmation_text'),
+            final_confirmation=data.get('final_confirmation', False)
+        )
+
+        return jsonify({
+            'confirmation_number': confirmation_number,
+            'order_number': order_number,
+            'status': 'created'
+        }), 201
+
+    except Exception as e:
+        logger.exception(f"Error creating confirmation for order {order_number}")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to create time confirmation"
+            }
+        }), 500
+
+
+@app.route('/api/audit/export', methods=['GET'])
+def export_audit_report():
+    """
+    Export audit report as CSV.
+
+    Query Parameters:
+        from_date: Start date (YYYYMMDD)
+        to_date: End date (YYYYMMDD)
+        object_class: Filter by object class
+        username: Filter by user
+
+    Returns:
+        CSV file with audit trail data
+    """
+    import csv
+    from io import StringIO
+    from flask import Response
+
+    try:
+        from_date = request.args.get('from_date')
+        to_date = request.args.get('to_date')
+        object_class = request.args.get('object_class')
+        username = request.args.get('username')
+
+        service = get_change_document_service()
+        history = service.get_change_history(
+            object_class=object_class,
+            username=username,
+            from_date=from_date,
+            to_date=to_date,
+            limit=5000
+        )
+
+        output = StringIO()
+        fieldnames = [
+            'change_number', 'timestamp', 'user', 'object_type', 'object_id',
+            'change_type', 'table', 'field', 'old_value', 'new_value'
+        ]
+
+        writer = csv.DictWriter(output, fieldnames=fieldnames)
+        writer.writeheader()
+
+        for entry in history:
+            for field_change in entry.fields_changed:
+                writer.writerow({
+                    'change_number': entry.change_number,
+                    'timestamp': entry.timestamp.isoformat(),
+                    'user': entry.user,
+                    'object_type': entry.object_type,
+                    'object_id': entry.object_id,
+                    'change_type': entry.change_type,
+                    'table': field_change.get('table', ''),
+                    'field': field_change.get('field', ''),
+                    'old_value': field_change.get('old_value', ''),
+                    'new_value': field_change.get('new_value', '')
+                })
+
+        timestamp = datetime.now().strftime('%Y%m%d_%H%M%S')
+
+        return Response(
+            output.getvalue(),
+            mimetype='text/csv',
+            headers={
+                'Content-Disposition': f'attachment; filename=audit_report_{timestamp}.csv'
+            }
+        )
+
+    except Exception as e:
+        logger.exception("Error exporting audit report")
+        return jsonify({
+            "error": {
+                "code": "INTERNAL_SERVER_ERROR",
+                "message": "Failed to export audit report"
+            }
+        }), 500
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5001))
     # Use debug mode only in development
