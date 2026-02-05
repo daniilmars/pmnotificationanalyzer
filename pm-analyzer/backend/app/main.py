@@ -95,6 +95,15 @@ logger.info(f"Security features: rate_limit={rate_limit_enabled}, api_keys={api_
             f"ip_whitelist={ip_whitelist_enabled}, audit_log={audit_log_enabled}, "
             f"session_mgmt={session_mgmt_enabled}")
 
+# Register entitlement enforcement middleware
+from app.middleware import register_entitlement_middleware
+entitlement_enabled = register_entitlement_middleware(app)
+logger.info(f"Entitlement enforcement: {entitlement_enabled}")
+
+# Register monitoring, structured logging, and health checks
+from app.monitoring import register_monitoring
+register_monitoring(app)
+
 @app.teardown_appcontext
 def teardown_db(exception):
     close_db(exception)
@@ -3504,6 +3513,254 @@ def get_tenant_usage(tenant_id):
 
     except Exception as e:
         logger.exception(f"Error getting tenant usage {tenant_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+# ==========================================
+# GDPR Compliance Endpoints
+# ==========================================
+
+from app.services.gdpr_service import get_gdpr_service
+
+
+@app.route('/api/gdpr/requests', methods=['POST'])
+@require_auth
+def create_gdpr_request():
+    """
+    Create a data subject request (Art. 15/17/20).
+
+    Body: { "request_type": "access|erasure|portability", "subject_email": "..." }
+    """
+    try:
+        data = request.get_json()
+        request_type = data.get('request_type')
+        subject_email = data.get('subject_email')
+
+        if request_type not in ('access', 'erasure', 'portability', 'rectification', 'restriction'):
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "Invalid request_type"}}), 400
+        if not subject_email:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "subject_email is required"}}), 400
+
+        user = get_current_user()
+        tenant_id = getattr(g, 'tenant_id', 'default')
+        subject_id = user.get('user_id', 'unknown') if user else 'unknown'
+
+        gdpr = get_gdpr_service()
+        dsr = gdpr.create_request(tenant_id, subject_id, subject_email, request_type, data.get('details'))
+
+        return jsonify(dsr.to_dict()), 201
+
+    except Exception as e:
+        logger.exception("Error creating GDPR request")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/gdpr/requests', methods=['GET'])
+@require_admin
+def list_gdpr_requests():
+    """List GDPR requests for the tenant (admin only)."""
+    try:
+        tenant_id = getattr(g, 'tenant_id', 'default')
+        status_filter = request.args.get('status')
+        gdpr = get_gdpr_service()
+        requests_list = gdpr.list_requests(tenant_id, status=status_filter)
+        return jsonify({'requests': [r.to_dict() for r in requests_list], 'total': len(requests_list)})
+    except Exception as e:
+        logger.exception("Error listing GDPR requests")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/gdpr/requests/<request_id>', methods=['GET'])
+@require_auth
+def get_gdpr_request(request_id):
+    """Get a specific GDPR request."""
+    try:
+        gdpr = get_gdpr_service()
+        dsr = gdpr.get_request(request_id)
+        if not dsr:
+            return jsonify({"error": {"code": "NOT_FOUND", "message": "Request not found"}}), 404
+        return jsonify(dsr.to_dict())
+    except Exception as e:
+        logger.exception(f"Error getting GDPR request {request_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/gdpr/requests/<request_id>/execute', methods=['POST'])
+@require_admin
+def execute_gdpr_request(request_id):
+    """Execute a GDPR request (admin only)."""
+    try:
+        gdpr = get_gdpr_service()
+        dsr = gdpr.get_request(request_id)
+        if not dsr:
+            return jsonify({"error": {"code": "NOT_FOUND", "message": "Request not found"}}), 404
+
+        user = get_current_user()
+        processed_by = user.get('user_id', 'admin') if user else 'admin'
+
+        if dsr.request_type == 'access' or dsr.request_type == 'portability':
+            export = gdpr.export_subject_data(dsr.tenant_id, dsr.subject_id)
+            gdpr._update_request_status(request_id, 'completed', processed_by)
+            return jsonify({'status': 'completed', 'data': export})
+
+        elif dsr.request_type == 'erasure':
+            result = gdpr.erase_subject_data(dsr.tenant_id, dsr.subject_id, processed_by)
+            gdpr._update_request_status(request_id, 'completed', processed_by)
+            return jsonify({'status': 'completed', 'result': result})
+
+        else:
+            return jsonify({"error": {"code": "NOT_IMPLEMENTED",
+                           "message": f"Execution not implemented for {dsr.request_type}"}}), 501
+
+    except Exception as e:
+        logger.exception(f"Error executing GDPR request {request_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/gdpr/export', methods=['GET'])
+@require_auth
+def export_my_data():
+    """Export current user's personal data (Art. 15 self-service)."""
+    try:
+        user = get_current_user()
+        subject_id = user.get('user_id', 'unknown') if user else 'unknown'
+        tenant_id = getattr(g, 'tenant_id', 'default')
+        fmt = request.args.get('format', 'json')
+
+        gdpr = get_gdpr_service()
+
+        if fmt == 'csv':
+            csv_data = gdpr.export_subject_data_csv(tenant_id, subject_id)
+            return csv_data, 200, {
+                'Content-Type': 'text/csv',
+                'Content-Disposition': f'attachment; filename=my_data_export_{subject_id}.csv'
+            }
+        else:
+            export = gdpr.export_subject_data(tenant_id, subject_id)
+            return jsonify(export)
+
+    except Exception as e:
+        logger.exception("Error exporting user data")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/gdpr/consent', methods=['POST'])
+@require_auth
+def record_consent():
+    """Record user consent for a processing purpose."""
+    try:
+        data = request.get_json()
+        purpose = data.get('purpose')
+        granted = data.get('granted', True)
+
+        if not purpose:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "purpose is required"}}), 400
+
+        user = get_current_user()
+        user_id = user.get('user_id', 'unknown') if user else 'unknown'
+        tenant_id = getattr(g, 'tenant_id', 'default')
+
+        gdpr = get_gdpr_service()
+        record = gdpr.record_consent(
+            tenant_id, user_id, purpose, granted,
+            ip_address=request.remote_addr,
+            user_agent=request.headers.get('User-Agent')
+        )
+        return jsonify(record.to_dict()), 201
+
+    except Exception as e:
+        logger.exception("Error recording consent")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/gdpr/consent', methods=['GET'])
+@require_auth
+def get_my_consents():
+    """Get current user's consent records."""
+    try:
+        user = get_current_user()
+        user_id = user.get('user_id', 'unknown') if user else 'unknown'
+        tenant_id = getattr(g, 'tenant_id', 'default')
+
+        gdpr = get_gdpr_service()
+        consents = gdpr.get_consents(tenant_id, user_id)
+        return jsonify({'consents': [c.to_dict() for c in consents]})
+
+    except Exception as e:
+        logger.exception("Error getting consents")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/gdpr/consent/<purpose>/revoke', methods=['POST'])
+@require_auth
+def revoke_consent(purpose):
+    """Revoke consent for a specific purpose."""
+    try:
+        user = get_current_user()
+        user_id = user.get('user_id', 'unknown') if user else 'unknown'
+        tenant_id = getattr(g, 'tenant_id', 'default')
+
+        gdpr = get_gdpr_service()
+        revoked = gdpr.revoke_consent(tenant_id, user_id, purpose)
+
+        if revoked:
+            return jsonify({'status': 'revoked', 'purpose': purpose})
+        else:
+            return jsonify({"error": {"code": "NOT_FOUND", "message": "No active consent found"}}), 404
+
+    except Exception as e:
+        logger.exception(f"Error revoking consent for {purpose}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/gdpr/data-inventory', methods=['GET'])
+@require_admin
+def get_data_inventory():
+    """Get personal data inventory / data mapping (admin only)."""
+    try:
+        gdpr = get_gdpr_service()
+        inventory = gdpr.get_personal_data_inventory()
+        return jsonify({'personal_data_inventory': inventory})
+    except Exception as e:
+        logger.exception("Error getting data inventory")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/gdpr/retention', methods=['GET'])
+@require_admin
+def get_retention_policies():
+    """Get data retention policies (admin only)."""
+    try:
+        tenant_id = getattr(g, 'tenant_id', 'default')
+        gdpr = get_gdpr_service()
+        policies = gdpr.get_retention_policies(tenant_id)
+        return jsonify({'policies': policies})
+    except Exception as e:
+        logger.exception("Error getting retention policies")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/gdpr/retention', methods=['POST'])
+@require_admin
+def set_retention_policy():
+    """Set data retention policy (admin only)."""
+    try:
+        data = request.get_json()
+        data_type = data.get('data_type')
+        retention_days = data.get('retention_days')
+
+        if not data_type or retention_days is None:
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "data_type and retention_days are required"}}), 400
+
+        tenant_id = getattr(g, 'tenant_id', 'default')
+        gdpr = get_gdpr_service()
+        gdpr.set_retention_policy(tenant_id, data_type, retention_days, data.get('auto_delete', False))
+
+        return jsonify({'status': 'ok', 'data_type': data_type, 'retention_days': retention_days}), 201
+
+    except Exception as e:
+        logger.exception("Error setting retention policy")
         return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
 
 
