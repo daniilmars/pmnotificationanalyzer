@@ -1,6 +1,6 @@
 {
   "xsappname": "pm-notification-analyzer",
-  "tenant-mode": "dedicated",
+  "tenant-mode": "shared",
   "description": "SAP PM Notification Analyzer Security Configuration",
   "scopes": [
     {
@@ -22,7 +22,17 @@
     {
       "name": "$XSAPPNAME.AuditRead",
       "description": "Read access to audit trail (FDA compliance)"
+    },
+    {
+      "name": "$XSAPPNAME.Callback",
+      "description": "SaaS Registry callback access",
+      "grant-as-authority-to-apps": [
+        "$XSAPPNAME(application, sap-provisioning, tenant-onboarding)"
+      ]
     }
+  ],
+  "authorities": [
+    "$XSAPPNAME.Callback"
   ],
   "role-templates": [
     {

@@ -38,12 +38,23 @@ class TenantStatus(Enum):
 
 
 class SubscriptionPlan(Enum):
+    TRIAL = 'trial'
     BASIC = 'basic'
     PROFESSIONAL = 'professional'
     ENTERPRISE = 'enterprise'
 
 
+# Trial configuration
+TRIAL_DURATION_DAYS = 14
+TRIAL_FEATURES = ['analysis', 'quality_scoring', 'reliability', 'reporting', 'alerts']
+
 PLAN_LIMITS = {
+    SubscriptionPlan.TRIAL: {
+        'max_users': 5,
+        'max_notifications': 500,
+        'features': TRIAL_FEATURES,
+        'trial_duration_days': TRIAL_DURATION_DAYS,
+    },
     SubscriptionPlan.BASIC: {
         'max_users': 10,
         'max_notifications': 5000,
@@ -357,6 +368,225 @@ class TenantService:
             'limit': limit,
             'remaining': max(0, limit - metric_total),
         }
+
+    # ------------------------------------------------------------------
+    # Trial Management
+    # ------------------------------------------------------------------
+
+    def provision_trial(self, tenant_id: str, subdomain: str,
+                        display_name: str = '', email: str = '') -> Tenant:
+        """
+        Provision a trial tenant with sample data.
+
+        Creates a trial tenant with Professional-level features,
+        limited quotas, and a 14-day expiration.
+        """
+        limits = PLAN_LIMITS[SubscriptionPlan.TRIAL]
+        now = datetime.utcnow()
+
+        tenant = Tenant(
+            tenant_id=tenant_id,
+            subdomain=subdomain,
+            display_name=display_name or f"Trial - {subdomain}",
+            status=TenantStatus.ACTIVE.value,
+            plan=SubscriptionPlan.TRIAL.value,
+            max_users=limits['max_users'],
+            max_notifications=limits['max_notifications'],
+            created_at=now.isoformat(),
+            updated_at=now.isoformat(),
+            metadata={
+                'is_trial': True,
+                'trial_started': now.isoformat(),
+                'trial_expires': (now + __import__('datetime').timedelta(
+                    days=TRIAL_DURATION_DAYS)).isoformat(),
+                'contact_email': email,
+                'demo_data_seeded': False,
+            }
+        )
+
+        self._create_tenant(tenant)
+        self._provision_tenant_resources(tenant)
+
+        logger.info(f"Trial tenant provisioned: {tenant_id} (expires in {TRIAL_DURATION_DAYS} days)")
+        return tenant
+
+    def check_trial_expiration(self, tenant_id: str) -> Dict[str, Any]:
+        """
+        Check if a trial tenant has expired.
+
+        Returns:
+            Dict with 'expired', 'days_remaining', 'expires_at' keys
+        """
+        tenant = self.get_tenant(tenant_id)
+        if not tenant:
+            return {'expired': True, 'reason': 'tenant_not_found'}
+
+        if tenant.plan != SubscriptionPlan.TRIAL.value:
+            return {'expired': False, 'is_trial': False}
+
+        expires_str = tenant.metadata.get('trial_expires')
+        if not expires_str:
+            return {'expired': True, 'reason': 'no_expiration_date'}
+
+        try:
+            expires = datetime.fromisoformat(expires_str)
+        except (ValueError, TypeError):
+            return {'expired': True, 'reason': 'invalid_expiration_date'}
+
+        now = datetime.utcnow()
+        if now >= expires:
+            # Auto-suspend expired trial
+            if tenant.status == TenantStatus.ACTIVE.value:
+                self._update_tenant_status(tenant_id, TenantStatus.SUSPENDED.value)
+                logger.info(f"Trial expired and suspended: {tenant_id}")
+            return {
+                'expired': True,
+                'is_trial': True,
+                'expires_at': expires_str,
+                'days_remaining': 0,
+            }
+
+        remaining = (expires - now).days
+        return {
+            'expired': False,
+            'is_trial': True,
+            'expires_at': expires_str,
+            'days_remaining': remaining,
+        }
+
+    def convert_trial_to_paid(self, tenant_id: str, plan_name: str) -> Optional[Tenant]:
+        """
+        Convert a trial tenant to a paid subscription plan.
+
+        Args:
+            tenant_id: The trial tenant ID
+            plan_name: Target plan ('basic', 'professional', or 'enterprise')
+
+        Returns:
+            Updated Tenant object or None if conversion fails
+        """
+        tenant = self.get_tenant(tenant_id)
+        if not tenant:
+            return None
+
+        if tenant.plan != SubscriptionPlan.TRIAL.value:
+            logger.warning(f"Tenant {tenant_id} is not a trial (plan: {tenant.plan})")
+            return None
+
+        try:
+            target_plan = SubscriptionPlan(plan_name)
+        except ValueError:
+            return None
+
+        if target_plan == SubscriptionPlan.TRIAL:
+            return None
+
+        limits = PLAN_LIMITS[target_plan]
+
+        with get_db_connection() as conn:
+            # Update plan and limits
+            conn.execute(
+                """UPDATE tenants
+                   SET plan = ?, max_users = ?, max_notifications = ?,
+                       status = ?, updated_at = ?,
+                       metadata = ?
+                   WHERE tenant_id = ?""",
+                (target_plan.value, limits['max_users'], limits['max_notifications'],
+                 TenantStatus.ACTIVE.value, datetime.utcnow().isoformat(),
+                 json.dumps({
+                     **tenant.metadata,
+                     'is_trial': False,
+                     'converted_from_trial': True,
+                     'converted_at': datetime.utcnow().isoformat(),
+                     'previous_plan': 'trial',
+                 }),
+                 tenant_id)
+            )
+
+        logger.info(f"Trial converted to {plan_name}: {tenant_id}")
+        return self.get_tenant(tenant_id)
+
+    def seed_demo_data(self, tenant_id: str) -> Dict[str, Any]:
+        """
+        Seed sample notification data for a trial/demo tenant.
+
+        Returns:
+            Summary of seeded data
+        """
+        tenant = self.get_tenant(tenant_id)
+        if not tenant:
+            return {'error': 'tenant_not_found'}
+
+        seeded = {
+            'notifications': 0,
+            'equipment': 0,
+            'work_orders': 0,
+        }
+
+        try:
+            with get_db_connection() as conn:
+                # Check if demo data already exists
+                cursor = conn.execute(
+                    "SELECT COUNT(*) as cnt FROM QMEL WHERE QMNUM LIKE 'DEMO%'"
+                )
+                row = cursor.fetchone()
+                if row and row['cnt'] > 0:
+                    return {'status': 'already_seeded', 'count': row['cnt']}
+
+                # Seed sample notifications
+                demo_notifications = [
+                    ('DEMO000001', 'M1', '10', 'Pump P-101 bearing failure - unusual vibration detected',
+                     'PLANT-A', 'PUMP-101', 'E001', 'DEMO_USER', '20260101', '2', 'MSPT', 'OSNO'),
+                    ('DEMO000002', 'M2', '20', 'Conveyor belt CV-203 preventive maintenance due',
+                     'PLANT-A', 'CONV-203', 'E002', 'DEMO_USER', '20260115', '3', 'MSPT', 'OSNO'),
+                    ('DEMO000003', 'M1', '30', 'Compressor C-401 high temperature alarm triggered',
+                     'PLANT-B', 'COMP-401', 'E003', 'DEMO_USER', '20260120', '1', 'MSPT', 'OSNO'),
+                    ('DEMO000004', 'M3', '20', 'Valve V-305 inspection request per quarterly schedule',
+                     'PLANT-A', 'VALV-305', 'E004', 'DEMO_USER', '20260125', '4', 'MSPT', 'OSNO'),
+                    ('DEMO000005', 'M2', '10', 'Motor M-102 scheduled rewinding after 25000 hours',
+                     'PLANT-B', 'MOTR-102', 'E005', 'DEMO_USER', '20260130', '2', 'MSPT', 'OSNO'),
+                    ('DEMO000006', 'M1', '30', 'Heat exchanger HX-201 tube leak detected during rounds',
+                     'PLANT-A', 'HTEX-201', 'E006', 'DEMO_USER', '20260201', '1', 'MSPT', 'OSNO'),
+                    ('DEMO000007', 'M2', '20', 'Agitator AG-502 gearbox oil change per PM schedule',
+                     'PLANT-B', 'AGIT-502', 'E007', 'DEMO_USER', '20260202', '3', 'MSPT', 'OSNO'),
+                    ('DEMO000008', 'M1', '10', 'Filter press FP-103 hydraulic pressure drop',
+                     'PLANT-A', 'FLTR-103', 'E008', 'DEMO_USER', '20260203', '2', 'MSPT', 'OSNO'),
+                    ('DEMO000009', 'M3', '20', 'Safety valve SV-701 annual certification due',
+                     'PLANT-B', 'SFVL-701', 'E009', 'DEMO_USER', '20260204', '1', 'MSPT', 'OSNO'),
+                    ('DEMO000010', 'M2', '30', 'Centrifuge CF-301 vibration analysis routine check',
+                     'PLANT-A', 'CENT-301', 'E010', 'DEMO_USER', '20260205', '3', 'MSPT', 'OSNO'),
+                ]
+
+                for notif in demo_notifications:
+                    try:
+                        conn.execute(
+                            """INSERT INTO QMEL
+                               (QMNUM, QMART, QMGRP, QMTXT, SWERK, EQUNR, TPLNR,
+                                QMNAM, ERDAT, PRIESSION, MESSION, QMSTAT)
+                               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                            notif
+                        )
+                        seeded['notifications'] += 1
+                    except Exception:
+                        pass  # Skip if already exists
+
+            # Update tenant metadata
+            if tenant.metadata:
+                tenant.metadata['demo_data_seeded'] = True
+                tenant.metadata['demo_data_seeded_at'] = datetime.utcnow().isoformat()
+                with get_db_connection() as conn:
+                    conn.execute(
+                        "UPDATE tenants SET metadata = ? WHERE tenant_id = ?",
+                        (json.dumps(tenant.metadata), tenant_id)
+                    )
+
+        except Exception as e:
+            logger.error(f"Error seeding demo data for tenant {tenant_id}: {e}")
+            return {'error': str(e)}
+
+        seeded['status'] = 'seeded'
+        logger.info(f"Demo data seeded for tenant {tenant_id}: {seeded}")
+        return seeded
 
     # ------------------------------------------------------------------
     # Internal Helpers

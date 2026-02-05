@@ -6,7 +6,52 @@
     "logoutEndpoint": "/logout",
     "logoutPage": "/"
   },
+  "responseHeaders": [
+    {
+      "name": "Strict-Transport-Security",
+      "value": "max-age=31536000; includeSubDomains"
+    },
+    {
+      "name": "X-Content-Type-Options",
+      "value": "nosniff"
+    },
+    {
+      "name": "X-Frame-Options",
+      "value": "SAMEORIGIN"
+    },
+    {
+      "name": "X-XSS-Protection",
+      "value": "1; mode=block"
+    },
+    {
+      "name": "Referrer-Policy",
+      "value": "strict-origin-when-cross-origin"
+    },
+    {
+      "name": "Permissions-Policy",
+      "value": "camera=(), microphone=(), geolocation=(), payment=()"
+    },
+    {
+      "name": "Content-Security-Policy",
+      "value": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://sapui5.hana.ondemand.com https://ui5.sap.com; style-src 'self' 'unsafe-inline' https://sapui5.hana.ondemand.com https://ui5.sap.com; font-src 'self' https://sapui5.hana.ondemand.com https://ui5.sap.com data:; img-src 'self' https://sapui5.hana.ondemand.com https://ui5.sap.com data:; connect-src 'self' https://*.hana.ondemand.com https://*.sap.com; frame-ancestors 'self' https://*.hana.ondemand.com"
+    }
+  ],
   "routes": [
+    {
+      "source": "^/api/tenant/callback/(.*)$",
+      "target": "/api/tenant/callback/$1",
+      "destination": "pm-analyzer-backend",
+      "authenticationType": "xsuaa",
+      "csrfProtection": false,
+      "scope": "$XSAPPNAME.Callback"
+    },
+    {
+      "source": "^/api/trial/provision$",
+      "target": "/api/trial/provision",
+      "destination": "pm-analyzer-backend",
+      "authenticationType": "none",
+      "csrfProtection": true
+    },
     {
       "source": "^/api/(.*)$",
       "target": "/api/$1",
@@ -22,8 +67,8 @@
       "csrfProtection": true
     },
     {
-      "source": "^/health$",
-      "target": "/health",
+      "source": "^/health(.*)$",
+      "target": "/health$1",
       "destination": "pm-analyzer-backend",
       "authenticationType": "none"
     },
@@ -31,7 +76,22 @@
       "source": "^(.*)$",
       "target": "$1",
       "service": "html5-apps-repo-rt",
-      "authenticationType": "xsuaa"
+      "authenticationType": "xsuaa",
+      "cacheControl": "public, max-age=86400"
+    }
+  ],
+  "errorPage": [
+    {
+      "status": 403,
+      "file": "/error-pages/403.html"
+    },
+    {
+      "status": 404,
+      "file": "/error-pages/404.html"
+    },
+    {
+      "status": 500,
+      "file": "/error-pages/500.html"
     }
   ]
 }

@@ -115,7 +115,7 @@ def health_check() -> Tuple[str, int]:
     return jsonify({
         "status": "ok",
         "database": db_info['type'],
-        "version": "2.1.0"
+        "version": "2.2.0"
     }), 200
 
 # --- Data Endpoints ---
@@ -3513,6 +3513,240 @@ def get_tenant_usage(tenant_id):
 
     except Exception as e:
         logger.exception(f"Error getting tenant usage {tenant_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+# ==========================================
+# Trial & Demo Provisioning Endpoints
+# ==========================================
+
+
+@app.route('/api/trial/provision', methods=['POST'])
+def provision_trial():
+    """
+    Provision a new trial tenant with sample data.
+
+    Body: { "subdomain": "acme-trial", "display_name": "Acme Corp", "email": "admin@acme.com" }
+    """
+    try:
+        data = request.get_json() or {}
+        subdomain = data.get('subdomain')
+        if not subdomain:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "subdomain is required"}}), 400
+
+        # Sanitize subdomain
+        subdomain = re.sub(r'[^a-z0-9-]', '', subdomain.lower().strip())
+        if len(subdomain) < 3:
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "subdomain must be at least 3 characters"}}), 400
+
+        tenant_id = str(__import__('uuid').uuid4())
+        display_name = data.get('display_name', '')
+        email = data.get('email', '')
+
+        tenant_service = get_tenant_service()
+
+        # Check for existing trial with same subdomain
+        existing = tenant_service.list_tenants()
+        for t in existing:
+            if t.subdomain == subdomain:
+                return jsonify({"error": {"code": "CONFLICT",
+                               "message": "Subdomain already in use"}}), 409
+
+        tenant = tenant_service.provision_trial(tenant_id, subdomain, display_name, email)
+
+        # Auto-seed demo data
+        seed_result = tenant_service.seed_demo_data(tenant_id)
+
+        app_url = os.environ.get('APP_URL', request.host_url.rstrip('/'))
+        return jsonify({
+            'status': 'provisioned',
+            'tenant': tenant.to_dict(),
+            'trial_expires': tenant.metadata.get('trial_expires'),
+            'trial_duration_days': 14,
+            'demo_data': seed_result,
+            'app_url': f"https://{subdomain}.{app_url.replace('https://', '')}",
+        }), 201
+
+    except Exception as e:
+        logger.exception("Error provisioning trial")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/trial/<tenant_id>/status', methods=['GET'])
+@require_auth
+def get_trial_status(tenant_id):
+    """Check trial expiration status."""
+    try:
+        tenant_service = get_tenant_service()
+        status = tenant_service.check_trial_expiration(tenant_id)
+        return jsonify(status)
+    except Exception as e:
+        logger.exception(f"Error checking trial status {tenant_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/trial/<tenant_id>/convert', methods=['POST'])
+@require_admin
+def convert_trial(tenant_id):
+    """
+    Convert a trial tenant to a paid plan.
+
+    Body: { "plan": "basic|professional|enterprise" }
+    """
+    try:
+        data = request.get_json() or {}
+        plan = data.get('plan')
+        if not plan or plan not in ('basic', 'professional', 'enterprise'):
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "plan must be basic, professional, or enterprise"}}), 400
+
+        tenant_service = get_tenant_service()
+        tenant = tenant_service.convert_trial_to_paid(tenant_id, plan)
+        if not tenant:
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "Conversion failed - tenant not found or not a trial"}}), 400
+
+        return jsonify({
+            'status': 'converted',
+            'tenant': tenant.to_dict(),
+            'new_plan': plan,
+        })
+
+    except Exception as e:
+        logger.exception(f"Error converting trial {tenant_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/trial/<tenant_id>/seed-demo-data', methods=['POST'])
+@require_admin
+def seed_tenant_demo_data(tenant_id):
+    """Seed demo data into a tenant (admin only)."""
+    try:
+        tenant_service = get_tenant_service()
+        result = tenant_service.seed_demo_data(tenant_id)
+        if 'error' in result:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": result['error']}}), 400
+        return jsonify(result), 201
+    except Exception as e:
+        logger.exception(f"Error seeding demo data {tenant_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+# ==========================================
+# Onboarding & Guided Setup Endpoints
+# ==========================================
+
+from app.services.onboarding_service import get_onboarding_service
+
+
+@app.route('/api/onboarding/state', methods=['GET'])
+@require_auth
+def get_onboarding_state():
+    """Get current onboarding state for the tenant."""
+    try:
+        tenant_id = getattr(g, 'tenant_id', 'default')
+        service = get_onboarding_service()
+        state = service.get_onboarding_state(tenant_id)
+        return jsonify(state.to_dict())
+    except Exception as e:
+        logger.exception("Error getting onboarding state")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/onboarding/steps/<step_id>/complete', methods=['POST'])
+@require_auth
+def complete_onboarding_step(step_id):
+    """
+    Mark an onboarding step as completed.
+
+    Body (optional): { "data": { ... step-specific data ... } }
+    """
+    try:
+        tenant_id = getattr(g, 'tenant_id', 'default')
+        data = request.get_json() or {}
+        step_data = data.get('data')
+
+        service = get_onboarding_service()
+        state = service.complete_step(tenant_id, step_id, step_data)
+        return jsonify(state.to_dict())
+
+    except ValueError as e:
+        return jsonify({"error": {"code": "BAD_REQUEST", "message": str(e)}}), 400
+    except Exception as e:
+        logger.exception(f"Error completing onboarding step {step_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/onboarding/steps/<step_id>/skip', methods=['POST'])
+@require_auth
+def skip_onboarding_step(step_id):
+    """Skip an optional onboarding step."""
+    try:
+        tenant_id = getattr(g, 'tenant_id', 'default')
+        service = get_onboarding_service()
+        state = service.skip_step(tenant_id, step_id)
+        return jsonify(state.to_dict())
+
+    except ValueError as e:
+        return jsonify({"error": {"code": "BAD_REQUEST", "message": str(e)}}), 400
+    except Exception as e:
+        logger.exception(f"Error skipping onboarding step {step_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/onboarding/steps/<step_id>/validate', methods=['GET'])
+@require_auth
+def validate_onboarding_step(step_id):
+    """Run validation check for an onboarding step."""
+    try:
+        tenant_id = getattr(g, 'tenant_id', 'default')
+        service = get_onboarding_service()
+        result = service.validate_step(tenant_id, step_id)
+        return jsonify(result)
+    except Exception as e:
+        logger.exception(f"Error validating onboarding step {step_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/onboarding/reset', methods=['POST'])
+@require_admin
+def reset_onboarding():
+    """Reset onboarding state for the tenant (admin only)."""
+    try:
+        tenant_id = getattr(g, 'tenant_id', 'default')
+        service = get_onboarding_service()
+        state = service.reset_onboarding(tenant_id)
+        return jsonify(state.to_dict())
+    except Exception as e:
+        logger.exception("Error resetting onboarding")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/onboarding/setup-check', methods=['GET'])
+@require_auth
+def check_setup_status():
+    """
+    Quick setup validation check for all components.
+
+    Returns validation results for all onboarding steps at once.
+    """
+    try:
+        tenant_id = getattr(g, 'tenant_id', 'default')
+        service = get_onboarding_service()
+
+        checks = {}
+        for step in ['sap_connection', 'ai_configuration', 'user_roles', 'data_import']:
+            checks[step] = service.validate_step(tenant_id, step)
+
+        all_valid = all(c.get('valid', False) for c in checks.values())
+
+        return jsonify({
+            'all_valid': all_valid,
+            'checks': checks,
+        })
+    except Exception as e:
+        logger.exception("Error running setup check")
         return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
 
 

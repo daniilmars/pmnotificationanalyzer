@@ -1,6 +1,6 @@
 _schema-version: "3.2"
 ID: pm-notification-analyzer
-version: 2.1.0
+version: 2.2.0
 description: SAP PM Notification Analyzer with AI-powered quality analysis
 
 parameters:
@@ -60,12 +60,21 @@ modules:
     parameters:
       memory: 256M
       disk-quota: 512M
+      keep-existing-routes: true
     properties:
       TENANT_HOST_PATTERN: "^(.*)-${default-uri}"
+      SEND_XFRAMEOPTIONS: "false"
+      CORS_ALLOW_ORIGIN: ""
+      httpHeaders: >-
+        [
+          {"X-Content-Type-Options": "nosniff"},
+          {"X-Frame-Options": "SAMEORIGIN"}
+        ]
     requires:
       - name: pm-analyzer-uaa
       - name: pm-analyzer-destination
       - name: pm-analyzer-html5-repo-runtime
+      - name: pm-analyzer-saas-registry
       - name: pm-analyzer-backend-api
         group: destinations
         properties:
@@ -196,11 +205,26 @@ resources:
         appName: pm-notification-analyzer
         xsappname: pm-notification-analyzer-${org}-${space}
         displayName: PM Notification Analyzer
-        description: AI-Powered Maintenance Notification Analysis
+        description: AI-Powered Maintenance Notification Analysis for SAP PM/EAM
         category: 'SAP PM Extensions'
         appUrls:
           getDependencies: ~{pm-analyzer-backend-api/url}/api/tenant/callback/dependencies
           onSubscription: ~{pm-analyzer-backend-api/url}/api/tenant/callback/{tenantId}
+          onSubscriptionAsync: false
+        commercialInfo:
+          plans:
+            - name: trial
+              displayName: Trial
+              description: 14-day free trial with sample data
+            - name: basic
+              displayName: Basic
+              description: Core analysis and quality scoring for small teams
+            - name: professional
+              displayName: Professional
+              description: Full analytics with reliability engineering and reporting
+            - name: enterprise
+              displayName: Enterprise
+              description: Unlimited usage with FDA compliance and QMS integration
     requires:
       - name: pm-analyzer-backend-api
 
