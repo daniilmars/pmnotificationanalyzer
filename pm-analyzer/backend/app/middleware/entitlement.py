@@ -68,12 +68,16 @@ METERED_ENDPOINTS: Dict[str, str] = {
 BYPASS_PREFIXES = [
     '/health',
     '/api/tenant/',
+    '/api/trial/',
     '/api/docs',
     '/api/redoc',
     '/api/openapi',
     '/api/configuration',
     '/api/notifications',  # Basic read access for all plans
     '/api/tenants',        # Admin endpoints have their own auth
+    '/api/users',          # User management has its own role checks
+    '/api/auth/',          # Auth endpoints handled by Clerk
+    '/api/onboarding/',    # Onboarding endpoints for all plans
 ]
 
 
@@ -83,15 +87,17 @@ def _get_tenant_id() -> Optional[str]:
 
     Resolution order:
     1. X-Tenant-ID header (set by approuter or test clients)
-    2. JWT token subdomain claim (BTP XSUAA)
-    3. TENANT_ID environment variable (single-tenant dev mode)
+    2. Clerk org_id from JWT (direct-sales model via Clerk organizations)
+    3. Clerk org_id from Flask g.current_user (set by clerk_auth_middleware)
+    4. BTP XSUAA zid claim from JWT (BTP marketplace model)
+    5. TENANT_ID environment variable (single-tenant dev mode)
     """
     # Explicit header
     tenant_id = request.headers.get('X-Tenant-ID')
     if tenant_id:
         return tenant_id
 
-    # From JWT token (BTP XSUAA sets zid claim for tenant zone)
+    # From JWT token
     auth_header = request.headers.get('Authorization', '')
     if auth_header.startswith('Bearer '):
         try:
@@ -102,11 +108,23 @@ def _get_tenant_id() -> Optional[str]:
             # Add padding
             payload_b64 += '=' * (4 - len(payload_b64) % 4)
             payload = json.loads(base64.urlsafe_b64decode(payload_b64))
+
+            # Clerk org_id (set when user is in an organization session)
+            org_id = payload.get('org_id')
+            if org_id:
+                return org_id
+
+            # BTP XSUAA tenant zone ID
             zid = payload.get('zid')
             if zid:
                 return zid
         except (IndexError, ValueError, Exception):
             pass
+
+    # Check Flask g for Clerk user org_id (set by clerk_auth_middleware)
+    user = getattr(g, 'current_user', None)
+    if user and hasattr(user, 'org_id') and user.org_id:
+        return user.org_id
 
     # Dev mode fallback
     return os.environ.get('TENANT_ID')

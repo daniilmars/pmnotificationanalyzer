@@ -3520,13 +3520,25 @@ def get_tenant_usage(tenant_id):
 # Trial & Demo Provisioning Endpoints
 # ==========================================
 
+from app.services.user_management_service import get_user_management_service
+
 
 @app.route('/api/trial/provision', methods=['POST'])
 def provision_trial():
     """
-    Provision a new trial tenant with sample data.
+    Provision a new trial tenant with Clerk organization and sample data.
 
-    Body: { "subdomain": "acme-trial", "display_name": "Acme Corp", "email": "admin@acme.com" }
+    Body: {
+        "subdomain": "acme-trial",
+        "display_name": "Acme Corp",
+        "email": "admin@acme.com",
+        "user_id": "clerk_user_id"  (optional, from authenticated signup)
+    }
+
+    Flow:
+    1. Create Clerk organization (if Clerk enabled) -> org_id becomes tenant_id
+    2. Create tenant record linked to the Clerk org
+    3. Seed demo notification data
     """
     try:
         data = request.get_json() or {}
@@ -3540,33 +3552,82 @@ def provision_trial():
             return jsonify({"error": {"code": "BAD_REQUEST",
                            "message": "subdomain must be at least 3 characters"}}), 400
 
-        tenant_id = str(__import__('uuid').uuid4())
         display_name = data.get('display_name', '')
         email = data.get('email', '')
 
         tenant_service = get_tenant_service()
 
-        # Check for existing trial with same subdomain
+        # Check for existing tenant with same subdomain
         existing = tenant_service.list_tenants()
         for t in existing:
             if t.subdomain == subdomain:
                 return jsonify({"error": {"code": "CONFLICT",
                                "message": "Subdomain already in use"}}), 409
 
+        # Try to create Clerk organization (org_id becomes tenant_id)
+        user_mgmt = get_user_management_service()
+        clerk_org = None
+        user_id = data.get('user_id', '')
+
+        # Resolve user_id from auth token if not provided
+        if not user_id:
+            user = get_current_user()
+            if user:
+                user_id = user.id
+
+        if user_mgmt.enabled and user_id:
+            clerk_org = user_mgmt.create_organization(
+                name=display_name or subdomain,
+                slug=subdomain,
+                created_by_user_id=user_id,
+                metadata={
+                    'plan': 'trial',
+                    'product': 'pm-notification-analyzer',
+                },
+            )
+
+        # Use Clerk org ID as tenant_id if available, else generate UUID
+        if clerk_org:
+            tenant_id = clerk_org.id
+        else:
+            tenant_id = str(__import__('uuid').uuid4())
+
         tenant = tenant_service.provision_trial(tenant_id, subdomain, display_name, email)
+
+        # Store Clerk org reference in tenant metadata
+        if clerk_org:
+            import json as _json
+            metadata = tenant.metadata or {}
+            metadata['clerk_org_id'] = clerk_org.id
+            metadata['clerk_org_slug'] = clerk_org.slug
+            from app.database import get_db_connection
+            with get_db_connection() as conn:
+                conn.execute(
+                    "UPDATE tenants SET metadata = ? WHERE tenant_id = ?",
+                    (_json.dumps(metadata), tenant_id)
+                )
+
+            # Set the creating user as admin
+            if user_id:
+                user_mgmt.set_application_role(user_id, 'admin')
 
         # Auto-seed demo data
         seed_result = tenant_service.seed_demo_data(tenant_id)
 
         app_url = os.environ.get('APP_URL', request.host_url.rstrip('/'))
-        return jsonify({
+        result = {
             'status': 'provisioned',
             'tenant': tenant.to_dict(),
+            'tenant_id': tenant_id,
             'trial_expires': tenant.metadata.get('trial_expires'),
             'trial_duration_days': 14,
             'demo_data': seed_result,
             'app_url': f"https://{subdomain}.{app_url.replace('https://', '')}",
-        }), 201
+        }
+        if clerk_org:
+            result['organization'] = clerk_org.to_dict()
+
+        return jsonify(result), 201
 
     except Exception as e:
         logger.exception("Error provisioning trial")
@@ -3630,6 +3691,268 @@ def seed_tenant_demo_data(tenant_id):
         return jsonify(result), 201
     except Exception as e:
         logger.exception(f"Error seeding demo data {tenant_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+# ==========================================
+# User Management Endpoints (Clerk Organizations)
+# ==========================================
+
+
+@app.route('/api/users', methods=['GET'])
+@require_role('admin')
+def list_tenant_users():
+    """
+    List all users in the current tenant (Clerk organization).
+    """
+    try:
+        tenant_id = getattr(g, 'tenant_id', None)
+        if not tenant_id:
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "No tenant context"}}), 400
+
+        user_mgmt = get_user_management_service()
+        if not user_mgmt.enabled:
+            return jsonify({"error": {"code": "SERVICE_UNAVAILABLE",
+                           "message": "User management requires Clerk"}}), 503
+
+        limit = request.args.get('limit', 100, type=int)
+        offset = request.args.get('offset', 0, type=int)
+        members = user_mgmt.list_members(tenant_id, limit=limit, offset=offset)
+
+        return jsonify({
+            'users': [m.to_dict() for m in members],
+            'total': len(members),
+            'tenant_id': tenant_id,
+        })
+
+    except Exception as e:
+        logger.exception("Error listing tenant users")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/users/invite', methods=['POST'])
+@require_role('admin')
+def invite_user():
+    """
+    Invite a user to the tenant by email.
+
+    Body: { "email": "user@example.com", "role": "org:member" }
+
+    Clerk sends the invitation email automatically.
+    """
+    try:
+        tenant_id = getattr(g, 'tenant_id', None)
+        if not tenant_id:
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "No tenant context"}}), 400
+
+        data = request.get_json() or {}
+        email = data.get('email')
+        if not email:
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "email is required"}}), 400
+
+        role = data.get('role', 'org:member')
+        if role not in ('org:admin', 'org:member'):
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "role must be org:admin or org:member"}}), 400
+
+        # Check user limit for the tenant plan
+        tenant_service = get_tenant_service()
+        tenant = tenant_service.get_tenant(tenant_id)
+        if tenant and tenant.max_users > 0:
+            user_mgmt = get_user_management_service()
+            current_members = user_mgmt.list_members(tenant_id)
+            if len(current_members) >= tenant.max_users:
+                return jsonify({"error": {
+                    "code": "USER_LIMIT_REACHED",
+                    "message": f"Your {tenant.plan} plan allows {tenant.max_users} users. "
+                               f"Upgrade your plan to add more users.",
+                    "current_users": len(current_members),
+                    "max_users": tenant.max_users,
+                }}), 403
+
+        user_mgmt = get_user_management_service()
+        result = user_mgmt.invite_member(tenant_id, email, role)
+
+        if 'error' in result:
+            return jsonify({"error": {"code": "INVITATION_FAILED",
+                           "message": result['error']}}), 400
+
+        return jsonify(result), 201
+
+    except Exception as e:
+        logger.exception("Error inviting user")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/users/<user_id>/remove', methods=['POST'])
+@require_role('admin')
+def remove_user(user_id):
+    """Remove a user from the tenant organization."""
+    try:
+        tenant_id = getattr(g, 'tenant_id', None)
+        if not tenant_id:
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "No tenant context"}}), 400
+
+        # Prevent self-removal
+        current_user = get_current_user()
+        if current_user and current_user.id == user_id:
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "Cannot remove yourself"}}), 400
+
+        user_mgmt = get_user_management_service()
+        removed = user_mgmt.remove_member(tenant_id, user_id)
+
+        if removed:
+            return jsonify({'status': 'removed', 'user_id': user_id})
+        else:
+            return jsonify({"error": {"code": "REMOVE_FAILED",
+                           "message": "Failed to remove user"}}), 400
+
+    except Exception as e:
+        logger.exception(f"Error removing user {user_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/users/<user_id>/role', methods=['PUT'])
+@require_role('admin')
+def update_user_role(user_id):
+    """
+    Update a user's role within the tenant.
+
+    Body: {
+        "org_role": "org:admin|org:member",   (Clerk organization role)
+        "app_role": "viewer|editor|auditor|admin"  (application-level role)
+    }
+    """
+    try:
+        tenant_id = getattr(g, 'tenant_id', None)
+        if not tenant_id:
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "No tenant context"}}), 400
+
+        data = request.get_json() or {}
+        user_mgmt = get_user_management_service()
+
+        results = {}
+
+        # Update Clerk organization role
+        org_role = data.get('org_role')
+        if org_role:
+            if org_role not in ('org:admin', 'org:member'):
+                return jsonify({"error": {"code": "BAD_REQUEST",
+                               "message": "org_role must be org:admin or org:member"}}), 400
+            results['org_role'] = user_mgmt.update_member_role(tenant_id, user_id, org_role)
+
+        # Update application role
+        app_role = data.get('app_role')
+        if app_role:
+            if app_role not in ('viewer', 'editor', 'auditor', 'admin'):
+                return jsonify({"error": {"code": "BAD_REQUEST",
+                               "message": "app_role must be viewer, editor, auditor, or admin"}}), 400
+            results['app_role'] = user_mgmt.set_application_role(user_id, app_role)
+
+        if not org_role and not app_role:
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "Provide org_role and/or app_role"}}), 400
+
+        return jsonify({'status': 'updated', 'user_id': user_id, 'results': results})
+
+    except Exception as e:
+        logger.exception(f"Error updating user role {user_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/users/invitations', methods=['GET'])
+@require_role('admin')
+def list_invitations():
+    """List pending invitations for the current tenant."""
+    try:
+        tenant_id = getattr(g, 'tenant_id', None)
+        if not tenant_id:
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "No tenant context"}}), 400
+
+        user_mgmt = get_user_management_service()
+        invitations = user_mgmt.list_pending_invitations(tenant_id)
+
+        return jsonify({
+            'invitations': invitations,
+            'total': len(invitations),
+        })
+
+    except Exception as e:
+        logger.exception("Error listing invitations")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/users/invitations/<invitation_id>/revoke', methods=['POST'])
+@require_role('admin')
+def revoke_user_invitation(invitation_id):
+    """Revoke a pending invitation."""
+    try:
+        tenant_id = getattr(g, 'tenant_id', None)
+        if not tenant_id:
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "No tenant context"}}), 400
+
+        user_mgmt = get_user_management_service()
+        revoked = user_mgmt.revoke_invitation(tenant_id, invitation_id)
+
+        if revoked:
+            return jsonify({'status': 'revoked', 'invitation_id': invitation_id})
+        else:
+            return jsonify({"error": {"code": "REVOKE_FAILED",
+                           "message": "Failed to revoke invitation"}}), 400
+
+    except Exception as e:
+        logger.exception(f"Error revoking invitation {invitation_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/users/me/organization', methods=['GET'])
+@require_auth
+def get_my_organization():
+    """
+    Get the current user's organization (tenant) info.
+
+    Returns organization details, tenant plan, and the user's role.
+    """
+    try:
+        tenant_id = getattr(g, 'tenant_id', None)
+        user = get_current_user()
+
+        result = {
+            'tenant_id': tenant_id,
+            'user': user.to_dict() if user else None,
+        }
+
+        if tenant_id:
+            # Get tenant info
+            tenant_service = get_tenant_service()
+            tenant = tenant_service.get_tenant(tenant_id)
+            if tenant:
+                result['tenant'] = {
+                    'plan': tenant.plan,
+                    'status': tenant.status,
+                    'display_name': tenant.display_name,
+                    'max_users': tenant.max_users,
+                }
+
+            # Get org info from Clerk
+            user_mgmt = get_user_management_service()
+            if user_mgmt.enabled:
+                org = user_mgmt.get_organization(tenant_id)
+                if org:
+                    result['organization'] = org.to_dict()
+
+        return jsonify(result)
+
+    except Exception as e:
+        logger.exception("Error getting user organization")
         return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
 
 

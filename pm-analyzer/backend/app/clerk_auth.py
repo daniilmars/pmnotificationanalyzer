@@ -623,7 +623,8 @@ def clerk_webhook():
     Webhook endpoint for Clerk events.
 
     Configure this URL in your Clerk Dashboard under Webhooks.
-    Events: user.created, user.updated, user.deleted, session.created, etc.
+    Events: user.created, user.updated, user.deleted,
+            organization.created, organizationMembership.created, etc.
     """
     # Verify webhook signature (recommended for production)
     # webhook_secret = os.environ.get('CLERK_WEBHOOK_SECRET')
@@ -636,21 +637,55 @@ def clerk_webhook():
     logger.info(f"Received Clerk webhook: {event_type}")
 
     if event_type == 'user.created':
-        # Handle new user registration
         user_data = event.get('data', {})
         logger.info(f"New user created: {user_data.get('id')}")
-        # TODO: Sync user to local database if needed
 
     elif event_type == 'user.updated':
-        # Handle user updates
         user_data = event.get('data', {})
         logger.info(f"User updated: {user_data.get('id')}")
 
     elif event_type == 'user.deleted':
-        # Handle user deletion
         user_data = event.get('data', {})
         logger.info(f"User deleted: {user_data.get('id')}")
-        # TODO: Clean up user data
+
+    elif event_type == 'organizationMembership.created':
+        # A user joined an organization (tenant)
+        membership = event.get('data', {})
+        org_id = membership.get('organization', {}).get('id', '')
+        user_id = membership.get('public_user_data', {}).get('user_id', '')
+        role = membership.get('role', '')
+        logger.info(f"User {user_id} joined org {org_id} as {role}")
+
+        # Record usage metric for active users
+        if org_id:
+            try:
+                from app.services.tenant_service import get_tenant_service
+                get_tenant_service().record_usage(org_id, 'active_users')
+            except Exception:
+                pass
+
+    elif event_type == 'organizationMembership.deleted':
+        membership = event.get('data', {})
+        org_id = membership.get('organization', {}).get('id', '')
+        user_id = membership.get('public_user_data', {}).get('user_id', '')
+        logger.info(f"User {user_id} removed from org {org_id}")
+
+    elif event_type == 'organization.deleted':
+        # Clerk org deleted -> deprovision tenant
+        org_data = event.get('data', {})
+        org_id = org_data.get('id', '')
+        logger.info(f"Organization deleted: {org_id}")
+
+        if org_id:
+            try:
+                from app.services.tenant_service import get_tenant_service
+                ts = get_tenant_service()
+                tenant = ts.get_tenant(org_id)
+                if tenant:
+                    ts.on_unsubscription(org_id)
+                    logger.info(f"Tenant {org_id} deprovisioned via org deletion")
+            except Exception as e:
+                logger.error(f"Error handling org deletion for {org_id}: {e}")
 
     return jsonify({'received': True})
 
