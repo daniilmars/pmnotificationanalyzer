@@ -25,3 +25,6 @@ def set_config(config: dict):
     """Saves the configuration to the JSON file."""
     with open(CONFIG_FILE, 'w') as f:
         json.dump(config, f, indent=4)
+
+# Alias for backward compatibility
+save_config = set_config

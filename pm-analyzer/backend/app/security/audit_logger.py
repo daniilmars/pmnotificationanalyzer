@@ -474,9 +474,12 @@ class SecurityAuditLogger:
             context['method'] = request.method
             context['request_id'] = request.headers.get('X-Request-ID')
 
-        if hasattr(g, 'current_user') and g.current_user:
-            context['user_id'] = g.current_user.get('user_id')
-            context['user_email'] = g.current_user.get('email')
+        try:
+            if hasattr(g, 'current_user') and g.current_user:
+                context['user_id'] = g.current_user.get('user_id')
+                context['user_email'] = g.current_user.get('email')
+        except RuntimeError:
+            pass  # Outside request context (e.g., during startup)
 
         return context
 
