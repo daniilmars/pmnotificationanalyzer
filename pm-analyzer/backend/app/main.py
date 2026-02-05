@@ -4321,6 +4321,265 @@ def set_retention_policy():
         return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
 
 
+# ========================================
+# File Import Endpoints
+# ========================================
+
+@app.route('/api/import/upload', methods=['POST'])
+@require_auth
+def import_upload():
+    """
+    Import notifications from an uploaded file (CSV or JSON).
+
+    Accepts multipart/form-data with:
+    - file: The CSV or JSON file
+    - format: 'csv' or 'json' (auto-detected from extension if omitted)
+    - language: Language code for text fields (default: 'en')
+    - mode: Duplicate handling - 'skip' (default), 'replace', or 'error'
+    - delimiter: CSV delimiter (auto-detected if omitted)
+
+    Or application/json with:
+    - notifications: Array of notification objects (inline JSON import)
+    - language, mode: Same as above
+    """
+    from app.services.import_service import import_csv, import_json
+
+    try:
+        user = get_current_user()
+        username = user.email.split('@')[0] if user else 'IMPORT'
+
+        # Check content type
+        if request.content_type and 'application/json' in request.content_type:
+            # Inline JSON import
+            data = request.get_json()
+            if not data:
+                return jsonify({"error": {"code": "BAD_REQUEST",
+                               "message": "Request body is required"}}), 400
+
+            language = data.get('language', 'en')
+            mode = data.get('mode', 'skip')
+            # Build JSON content from the request body
+            import json
+            content = json.dumps(data)
+            result = import_json(content, language=language, mode=mode, username=username)
+            return jsonify(result.to_dict()), 200 if result.status != 'failed' else 400
+
+        # File upload (multipart/form-data)
+        if 'file' not in request.files:
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "No file provided. Send a file with key 'file'."}}), 400
+
+        file = request.files['file']
+        if not file.filename:
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "Empty filename"}}), 400
+
+        # Read file content
+        try:
+            content = file.read().decode('utf-8-sig')  # Handle BOM
+        except UnicodeDecodeError:
+            try:
+                file.seek(0)
+                content = file.read().decode('latin-1')
+            except Exception:
+                return jsonify({"error": {"code": "BAD_REQUEST",
+                               "message": "Could not decode file. Please use UTF-8 encoding."}}), 400
+
+        if not content.strip():
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "File is empty"}}), 400
+
+        # Determine format
+        file_format = request.form.get('format', '').lower()
+        if not file_format:
+            if file.filename.lower().endswith('.json'):
+                file_format = 'json'
+            elif file.filename.lower().endswith(('.csv', '.tsv', '.txt')):
+                file_format = 'csv'
+            else:
+                # Try to detect from content
+                stripped = content.strip()
+                if stripped.startswith('{') or stripped.startswith('['):
+                    file_format = 'json'
+                else:
+                    file_format = 'csv'
+
+        language = request.form.get('language', 'en')
+        mode = request.form.get('mode', 'skip')
+        delimiter = request.form.get('delimiter', ',')
+
+        if language not in ('en', 'de'):
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "Language must be 'en' or 'de'"}}), 400
+        if mode not in ('skip', 'replace', 'error'):
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "Mode must be 'skip', 'replace', or 'error'"}}), 400
+
+        # Import
+        if file_format == 'json':
+            result = import_json(content, language=language, mode=mode, username=username)
+        else:
+            result = import_csv(content, language=language, mode=mode,
+                              username=username, delimiter=delimiter)
+
+        status_code = 200 if result.status != 'failed' else 400
+        return jsonify(result.to_dict()), status_code
+
+    except Exception as e:
+        logger.exception("Error during file import")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/import/validate', methods=['POST'])
+@require_auth
+def import_validate():
+    """
+    Validate a file without importing (dry run).
+
+    Same parameters as /api/import/upload but does not insert any data.
+    Returns validation results including errors, warnings, and duplicate detection.
+    """
+    from app.services.import_service import validate_file
+
+    try:
+        if 'file' not in request.files:
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "No file provided"}}), 400
+
+        file = request.files['file']
+        if not file.filename:
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "Empty filename"}}), 400
+
+        try:
+            content = file.read().decode('utf-8-sig')
+        except UnicodeDecodeError:
+            try:
+                file.seek(0)
+                content = file.read().decode('latin-1')
+            except Exception:
+                return jsonify({"error": {"code": "BAD_REQUEST",
+                               "message": "Could not decode file"}}), 400
+
+        if not content.strip():
+            return jsonify({"error": {"code": "BAD_REQUEST",
+                           "message": "File is empty"}}), 400
+
+        # Determine format
+        file_format = request.form.get('format', '').lower()
+        if not file_format:
+            if file.filename.lower().endswith('.json'):
+                file_format = 'json'
+            else:
+                file_format = 'csv'
+
+        delimiter = request.form.get('delimiter', ',')
+        result = validate_file(content, file_format=file_format, delimiter=delimiter)
+
+        return jsonify(result.to_dict()), 200
+
+    except Exception as e:
+        logger.exception("Error during file validation")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/import/template/<file_format>', methods=['GET'])
+def import_template(file_format):
+    """
+    Download an import template file (CSV or JSON).
+
+    Args:
+        file_format: 'csv' or 'json'
+    """
+    from app.services.import_service import get_import_template
+    from flask import Response
+
+    if file_format not in ('csv', 'json'):
+        return jsonify({"error": {"code": "BAD_REQUEST",
+                       "message": "Format must be 'csv' or 'json'"}}), 400
+
+    content = get_import_template(file_format)
+
+    if file_format == 'json':
+        return Response(
+            content,
+            mimetype='application/json',
+            headers={'Content-Disposition': 'attachment; filename=pm_notifications_template.json'}
+        )
+    else:
+        return Response(
+            content,
+            mimetype='text/csv',
+            headers={'Content-Disposition': 'attachment; filename=pm_notifications_template.csv'}
+        )
+
+
+@app.route('/api/import/formats', methods=['GET'])
+def import_formats():
+    """
+    Get information about supported import formats and field mappings.
+    """
+    from app.services.import_service import CSV_ALIASES, VALID_NOTIFICATION_TYPES, VALID_PRIORITIES
+
+    return jsonify({
+        'formats': ['csv', 'json'],
+        'max_records': 5000,
+        'duplicate_modes': {
+            'skip': 'Skip duplicate notification numbers (default)',
+            'replace': 'Replace existing notifications with imported data',
+            'error': 'Report duplicates as errors without importing them',
+        },
+        'required_fields': {
+            'QMNUM': 'Notification number (unique identifier)',
+            'QMART': f'Notification type: {", ".join(sorted(VALID_NOTIFICATION_TYPES))}',
+        },
+        'recommended_fields': {
+            'QMTXT': 'Short text / description (for analysis)',
+            'TDLINE': 'Long text / detailed description (for AI analysis quality)',
+            'EQUNR': 'Equipment number',
+            'TPLNR': 'Functional location',
+            'PRIOK': f'Priority: {", ".join(sorted(VALID_PRIORITIES))} (1=Very High, 4=Low)',
+            'QMNAM': 'Created by (username)',
+            'ERDAT': 'Creation date (YYYYMMDD, YYYY-MM-DD, DD.MM.YYYY)',
+        },
+        'optional_fields': {
+            'MZEIT': 'Creation time (HHMMSS or HH:MM:SS)',
+            'STRMN': 'Required start date',
+            'LTRMN': 'Required end date / due date',
+            'FECOD': 'Damage code',
+            'FEGRP': 'Damage code group',
+            'OTEIL': 'Object part (component)',
+            'OTGRP': 'Object part group',
+            'FETXT': 'Item/damage description text',
+            'URCOD': 'Cause code',
+            'URGRP': 'Cause code group',
+            'URTXT': 'Cause description text',
+            'AUFNR': 'Work order number',
+            'AUART': 'Work order type (PM01, PM02, PM03)',
+            'KTEXT': 'Work order description',
+        },
+        'csv_column_aliases': {
+            field: alias for alias, field in sorted(CSV_ALIASES.items())
+        },
+        'date_formats': ['YYYYMMDD', 'YYYY-MM-DD', 'DD.MM.YYYY', 'DD/MM/YYYY'],
+        'priority_names': {
+            '1': ['Very High', 'Critical'],
+            '2': ['High', 'Urgent'],
+            '3': ['Medium', 'Normal'],
+            '4': ['Low', 'Minor'],
+        },
+        'notification_types': {
+            'M1': 'Malfunction Report',
+            'M2': 'Maintenance Request',
+            'M3': 'Activity Report',
+            'M4': 'Service Request',
+            'M5': 'Quality Notification',
+            'Z1': 'Custom Type 1',
+            'Z2': 'Custom Type 2',
+        },
+    }), 200
+
+
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5001))
     # Use debug mode only in development

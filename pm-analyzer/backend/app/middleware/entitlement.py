@@ -62,6 +62,7 @@ METERED_ENDPOINTS: Dict[str, str] = {
     '/api/quality/export': 'exports',
     '/api/reliability/export': 'exports',
     '/api/audit/export': 'exports',
+    '/api/import/upload': 'notifications_imported',
 }
 
 # Endpoints that bypass entitlement checks entirely
@@ -78,6 +79,8 @@ BYPASS_PREFIXES = [
     '/api/users',          # User management has its own role checks
     '/api/auth/',          # Auth endpoints handled by Clerk
     '/api/onboarding/',    # Onboarding endpoints for all plans
+    '/api/import/template',  # Import templates publicly accessible
+    '/api/import/formats',   # Import format info publicly accessible
 ]
 
 
