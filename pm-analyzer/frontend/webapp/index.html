@@ -4,6 +4,26 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>PM Notification Quality Analyzer</title>
+
+    <!-- Clerk Authentication SDK -->
+    <!-- Replace YOUR_PUBLISHABLE_KEY with your actual Clerk publishable key -->
+    <!-- Get your key from: https://dashboard.clerk.dev/apps -> API Keys -->
+    <script>
+        // Clerk configuration - set your publishable key here or via environment
+        window.CLERK_PUBLISHABLE_KEY = window.CLERK_PUBLISHABLE_KEY || "";
+
+        // Only load Clerk if key is configured
+        if (window.CLERK_PUBLISHABLE_KEY) {
+            var script = document.createElement('script');
+            script.async = true;
+            script.crossOrigin = 'anonymous';
+            script.src = 'https://cdn.jsdelivr.net/npm/@clerk/clerk-js@latest/dist/clerk.browser.js';
+            script.setAttribute('data-clerk-publishable-key', window.CLERK_PUBLISHABLE_KEY);
+            document.head.appendChild(script);
+        }
+    </script>
+
+    <!-- SAP UI5 Bootstrap -->
     <script id="sap-ui-bootstrap"
     src="https://ui5.sap.com/1.120/resources/sap-ui-core.js"
         data-sap-ui-libs="sap.m, sap.ui.layout, sap.ui.comp"

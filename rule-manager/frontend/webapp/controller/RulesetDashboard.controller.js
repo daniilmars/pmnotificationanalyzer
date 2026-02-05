@@ -4,8 +4,9 @@ sap.ui.define([
     "sap/ui/model/Filter",
     "sap/ui/model/FilterOperator",
     "sap/m/MessageBox",
+    "sap/m/MessageToast",
     "sap/ui/core/Fragment"
-], function (BaseController, JSONModel, Filter, FilterOperator, MessageBox, Fragment) {
+], function (BaseController, JSONModel, Filter, FilterOperator, MessageBox, MessageToast, Fragment) {
     "use strict";
     return BaseController.extend("com.sap.pm.rulemanager.controller.RulesetDashboard", {
 
@@ -14,14 +15,39 @@ sap.ui.define([
             this._loadRulesets();
         },
 
+        /**
+         * Handle login button press
+         */
+        onLoginPress: function () {
+            var that = this;
+            this.showLoginDialog(false).then(function () {
+                // Reload rulesets after successful login
+                that._loadRulesets();
+            }).catch(function () {
+                // Login cancelled or failed
+            });
+        },
+
         _loadRulesets: async function() {
-            const oModel = this.getView().getModel("rulesets");
+            var oModel = this.getView().getModel("rulesets");
+            var oAuthService = this.getAuthService();
+
             try {
-                const response = await fetch("/api/v1/rulesets");
+                var oHeaders = oAuthService.getAuthHeaders();
+                var response = await fetch("/api/v1/rulesets", {
+                    headers: oHeaders
+                });
+
                 if (!response.ok) {
-                    throw new Error(`Failed to load rulesets: ${response.statusText}`);
+                    // Handle auth errors gracefully
+                    if (response.status === 401) {
+                        // Not authenticated - show empty list, user needs to login
+                        oModel.setData([]);
+                        return;
+                    }
+                    throw new Error("Failed to load rulesets: " + response.statusText);
                 }
-                const data = await response.json();
+                var data = await response.json();
                 oModel.setData(data);
             } catch (error) {
                 MessageBox.error("Could not load rulesets: " + error.message);
@@ -61,33 +87,44 @@ sap.ui.define([
         },
 
         onSaveNewRuleset: async function() {
-            const sName = Fragment.byId(this.getView().getId(), "rulesetNameInput").getValue();
-            const sType = Fragment.byId(this.getView().getId(), "notificationTypeInput").getValue();
+            var sName = Fragment.byId(this.getView().getId(), "rulesetNameInput").getValue();
+            var sType = Fragment.byId(this.getView().getId(), "notificationTypeInput").getValue();
 
             if (!sName || !sType) {
                 MessageBox.error("Please fill in all required fields.");
                 return;
             }
 
-            const oNewRuleset = { name: sName, notification_type: sType, created_by: "manual_user" };
+            var oAuthService = this.getAuthService();
+            var oUser = oAuthService.getCurrentUser();
+            var oNewRuleset = {
+                name: sName,
+                notification_type: sType,
+                created_by: oUser ? oUser.username : "system"
+            };
 
             try {
-                const response = await fetch("/api/v1/rulesets", {
+                var oHeaders = Object.assign(
+                    { "Content-Type": "application/json" },
+                    oAuthService.getAuthHeaders()
+                );
+
+                var response = await fetch("/api/v1/rulesets", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: oHeaders,
                     body: JSON.stringify(oNewRuleset)
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || `Request failed with status ${response.status}`);
+                    var errorData = await response.json();
+                    throw new Error(errorData.error || "Request failed with status " + response.status);
                 }
 
-                MessageBox.success("Ruleset created successfully!");
+                MessageToast.show("Ruleset created successfully!");
                 this.onCloseDialog();
                 this._loadRulesets();
             } catch (error) {
-                MessageBox.error(`Failed to create ruleset: ${error.message}`);
+                MessageBox.error("Failed to create ruleset: " + error.message);
             }
         },
 
@@ -120,114 +157,125 @@ sap.ui.define([
         },
 
         onSaveUpdateRuleset: async function() {
-            const oModel = this._oEditDialog.getModel();
-            const oUpdatedData = oModel.getData();
+            var oModel = this._oEditDialog.getModel();
+            var oUpdatedData = oModel.getData();
+            var oAuthService = this.getAuthService();
+            var oUser = oAuthService.getCurrentUser();
 
-            const oPayload = { name: oUpdatedData.name, notification_type: oUpdatedData.notification_type, created_by: "manual_user_edit" };
+            var oPayload = {
+                name: oUpdatedData.name,
+                notification_type: oUpdatedData.notification_type,
+                created_by: oUser ? oUser.username : "system"
+            };
 
             try {
-                const response = await fetch(`/api/v1/rulesets/${this._oCurrentRulesetToEdit.id}`, {
+                var oHeaders = Object.assign(
+                    { "Content-Type": "application/json" },
+                    oAuthService.getAuthHeaders()
+                );
+
+                var response = await fetch("/api/v1/rulesets/" + this._oCurrentRulesetToEdit.id, {
                     method: "PUT",
-                    headers: { "Content-Type": "application/json" },
+                    headers: oHeaders,
                     body: JSON.stringify(oPayload)
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || `Request failed with status ${response.status}`);
+                    var errorData = await response.json();
+                    throw new Error(errorData.error || "Request failed with status " + response.status);
                 }
 
-                MessageBox.success("Ruleset updated successfully! A new version has been created.");
+                MessageToast.show("Ruleset updated successfully! A new version has been created.");
                 this.onCloseEditDialog();
                 this._loadRulesets();
             } catch (error) {
-                MessageBox.error(`Failed to update ruleset: ${error.message}`);
+                MessageBox.error("Failed to update ruleset: " + error.message);
             }
         },
 
-        onDeleteRuleset: async function(oEvent) {
-            const oBindingContext = oEvent.getSource().getBindingContext("rulesets");
-            const oRuleset = oBindingContext.getObject();
+        // --- Activate Action (with Electronic Signature) --- //
 
-            MessageBox.confirm(`Are you sure you want to delete the draft ruleset: "${oRuleset.name}"?`, {
-                onClose: async (sAction) => {
-                    if (sAction === MessageBox.Action.OK) {
-                        try {
-                            const response = await fetch(`/api/v1/rulesets/${oRuleset.id}`, { method: "DELETE" });
-                            if (!response.ok) {
-                                const errorData = await response.json();
-                                throw new Error(errorData.error || `Request failed with status ${response.status}`);
-                            }
-                            MessageBox.success("Ruleset deleted successfully!");
-                            this._loadRulesets();
-                        } catch (error) {
-                            MessageBox.error(`Failed to delete ruleset: ${error.message}`);
+        onActivateRuleset: function(oEvent) {
+            var that = this;
+            var oBindingContext = oEvent.getSource().getBindingContext("rulesets");
+            var oRulesetToActivate = oBindingContext.getObject();
+
+            // Confirm activation
+            MessageBox.confirm(
+                "Activating this ruleset requires an electronic signature for regulatory compliance.\n\n" +
+                "Are you sure you want to activate version " + oRulesetToActivate.version + " of ruleset '" + oRulesetToActivate.name + "'?",
+                {
+                    title: "Confirm Activation",
+                    onClose: function (sAction) {
+                        if (sAction === MessageBox.Action.OK) {
+                            // Request electronic signature
+                            that._activateWithSignature(oRulesetToActivate);
                         }
                     }
+                }
+            );
+        },
+
+        /**
+         * Activate ruleset with electronic signature
+         * @param {object} oRuleset - Ruleset to activate
+         */
+        _activateWithSignature: function(oRuleset) {
+            var that = this;
+
+            // Request electronic signature for activation
+            this.requestSignature({
+                entityType: "ruleset",
+                entityId: oRuleset.id,
+                entityName: oRuleset.name,
+                entityVersion: oRuleset.version
+            }, "Approved").then(function(oSignature) {
+                // Signature successful, now activate the ruleset
+                return that._performActivation(oRuleset, oSignature);
+            }).catch(function(oError) {
+                if (oError.message !== "Signature cancelled") {
+                    MessageBox.error("Activation cancelled: " + oError.message);
                 }
             });
         },
 
-        // --- Activate Action --- //
+        /**
+         * Perform the actual ruleset activation
+         * @param {object} oRuleset - Ruleset to activate
+         * @param {object} oSignature - Electronic signature
+         */
+        _performActivation: async function(oRuleset, oSignature) {
+            var that = this;
+            var oAuthService = this.getAuthService();
+            var oUser = oAuthService.getCurrentUser();
 
-        onActivateRuleset: async function(oEvent) {
-            const oBindingContext = oEvent.getSource().getBindingContext("rulesets");
-            const oRulesetToActivate = oBindingContext.getObject();
-
-            MessageBox.confirm(`Are you sure you want to activate version ${oRulesetToActivate.version} of this ruleset?`, {
-                onClose: async function (sAction) {
-                    if (sAction === MessageBox.Action.OK) {
-                        const oPayload = { created_by: "manual_user_activate" }; // Placeholder
-                        try {
-                            const response = await fetch(`/api/v1/rulesets/${oRulesetToActivate.id}/activate`, {
-                                method: "POST",
-                                headers: { "Content-Type": "application/json" },
-                                body: JSON.stringify(oPayload)
-                            });
-
-                            if (!response.ok) {
-                                const errorData = await response.json();
-                                throw new Error(errorData.error || `Request failed with status ${response.status}`);
-                            }
-
-                            MessageBox.success("Ruleset activated successfully!");
-                            this._loadRulesets(); // Refresh the table
-
-                        } catch (error) {
-                            MessageBox.error(`Failed to activate ruleset: ${error.message}`);
-                        }
-                    }
-                }.bind(this)
-            });
-        },
-
-        onCreateNewVersion: async function(oEvent) {
-            const oBindingContext = oEvent.getSource().getBindingContext("rulesets");
-            const oRuleset = oBindingContext.getObject();
-
-            const oPayload = { created_by: "manual_user_versioning" }; // Placeholder
+            var oPayload = {
+                created_by: oUser ? oUser.username : "system",
+                signature_id: oSignature.id
+            };
 
             try {
-                const response = await fetch(`/api/v1/rulesets/${oRuleset.id}/new-version`, {
+                var oHeaders = Object.assign(
+                    { "Content-Type": "application/json" },
+                    oAuthService.getAuthHeaders()
+                );
+
+                var response = await fetch("/api/v1/rulesets/" + oRuleset.id + "/activate", {
                     method: "POST",
-                    headers: { "Content-Type": "application/json" },
+                    headers: oHeaders,
                     body: JSON.stringify(oPayload)
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || `Request failed with status ${response.status}`);
+                    var errorData = await response.json();
+                    throw new Error(errorData.error || "Request failed with status " + response.status);
                 }
 
-                const newRuleset = await response.json();
-                MessageBox.success("New draft version created successfully!");
-                this._loadRulesets(); // Refresh the list
-                this.getRouter().navTo("ruleEditor", { 
-                    rulesetId: newRuleset.id
-                });
+                MessageToast.show("Ruleset '" + oRuleset.name + "' activated successfully!");
+                that._loadRulesets();
 
             } catch (error) {
-                MessageBox.error(`Failed to create new version: ${error.message}`);
+                MessageBox.error("Failed to activate ruleset: " + error.message);
             }
         },
 
@@ -268,42 +316,48 @@ sap.ui.define([
         },
 
         onAnalyzeSop: async function() {
-            const oFileUploader = Fragment.byId(this.getView().getId(), "sopFileUploader");
-            const oRulesetSelect = Fragment.byId(this.getView().getId(), "rulesetSelect");
-            const sSelectedRulesetId = oRulesetSelect.getSelectedKey();
-            const oFile = oFileUploader.getDomRef("fu").files[0];
+            var oFileUploader = Fragment.byId(this.getView().getId(), "sopFileUploader");
+            var oRulesetSelect = Fragment.byId(this.getView().getId(), "rulesetSelect");
+            var sSelectedRulesetId = oRulesetSelect.getSelectedKey();
+            var oFile = oFileUploader.getDomRef("fu").files[0];
 
             if (!oFile || !sSelectedRulesetId) {
                 MessageBox.error("Please choose a file and a ruleset.");
                 return;
             }
 
-            const oFormData = new FormData();
+            var oFormData = new FormData();
             oFormData.append("sop_file", oFile);
 
             this.getView().setBusy(true);
             this.onCloseSopDialog();
 
             try {
-                const response = await fetch("/api/v1/sop-assistant/extract", {
+                var oAuthService = this.getAuthService();
+                var oHeaders = oAuthService.getAuthHeaders();
+
+                var response = await fetch("/api/v1/sop-assistant/extract", {
                     method: "POST",
+                    headers: oHeaders,
                     body: oFormData
                 });
 
                 if (!response.ok) {
-                    const errorData = await response.json();
-                    throw new Error(errorData.error || `Request failed with status ${response.status}`);
+                    var errorData = await response.json();
+                    throw new Error(errorData.error || "Request failed with status " + response.status);
                 }
 
-                const aSuggestedRules = await response.json();
-                
+                var aSuggestedRules = await response.json();
+
                 this.getRouter().navTo("review", {
                     rulesetId: sSelectedRulesetId,
                     suggestedRules: encodeURIComponent(JSON.stringify(aSuggestedRules))
                 });
 
             } catch (error) {
-                MessageBox.error(`Failed to analyze SOP: ${error.message}`);
+                MessageBox.error("Failed to analyze SOP: " + error.message);
+            } finally {
+                this.getView().setBusy(false);
             }
         }
 

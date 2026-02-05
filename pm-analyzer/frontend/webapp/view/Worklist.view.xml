@@ -9,6 +9,24 @@
     <Page id="worklistPage" title="{i18n>worklistTitle}" busy="{ui>/isBusy}">
         <headerContent>
             <HBox alignItems="Center">
+                <Button
+                    icon="sap-icon://manager-insight"
+                    text="{i18n>qualityDashboardBtn}"
+                    press=".onNavigateToQualityDashboard"
+                    type="Emphasized"
+                    class="sapUiSmallMarginEnd"/>
+                <Button
+                    icon="sap-icon://performance"
+                    text="{i18n>reliabilityDashboardBtn}"
+                    press=".onNavigateToReliabilityDashboard"
+                    type="Emphasized"
+                    class="sapUiSmallMarginEnd"/>
+                <Button
+                    icon="sap-icon://history"
+                    text="{i18n>auditDashboardBtn}"
+                    press=".onNavigateToAuditDashboard"
+                    type="Transparent"
+                    class="sapUiSmallMarginEnd"/>
                 <Select
                     id="languageSelect"
                     change=".onLanguageChange"

@@ -1,0 +1,98 @@
+{
+  "_version": "3.0.0",
+  "identification": {
+    "id": "pm-notification-analyzer-site",
+    "entityType": "bundle"
+  },
+  "payload": {
+    "catalogs": [
+      {
+        "_version": "3.0.0",
+        "identification": {
+          "id": "pm-analyzer-catalog",
+          "title": "{{catalogTitle}}",
+          "entityType": "catalog",
+          "i18n": "i18n/i18n.properties"
+        },
+        "payload": {
+          "viz": [
+            {
+              "appId": "com.sap.pm.pmanalyzerfiori",
+              "vizId": "pmanalyzer-display"
+            },
+            {
+              "appId": "com.sap.pm.pmanalyzerfiori",
+              "vizId": "pmanalyzer-quality"
+            },
+            {
+              "appId": "com.sap.pm.pmanalyzerfiori",
+              "vizId": "pmanalyzer-reliability"
+            }
+          ]
+        }
+      }
+    ],
+    "groups": [
+      {
+        "_version": "3.0.0",
+        "identification": {
+          "id": "pm-analyzer-group",
+          "title": "{{groupTitle}}",
+          "entityType": "group",
+          "i18n": "i18n/i18n.properties"
+        },
+        "payload": {
+          "viz": [
+            {
+              "appId": "com.sap.pm.pmanalyzerfiori",
+              "vizId": "pmanalyzer-display",
+              "displayFormatHint": "standard"
+            },
+            {
+              "appId": "com.sap.pm.pmanalyzerfiori",
+              "vizId": "pmanalyzer-quality",
+              "displayFormatHint": "compact"
+            },
+            {
+              "appId": "com.sap.pm.pmanalyzerfiori",
+              "vizId": "pmanalyzer-reliability",
+              "displayFormatHint": "compact"
+            }
+          ]
+        }
+      }
+    ],
+    "sites": [
+      {
+        "_version": "3.0.0",
+        "identification": {
+          "id": "pm-analyzer-site",
+          "title": "{{siteTitle}}",
+          "description": "{{siteDescription}}",
+          "entityType": "site",
+          "i18n": "i18n/i18n.properties"
+        },
+        "payload": {
+          "config": {
+            "ushellConfig": {
+              "renderers": {
+                "fiori2": {
+                  "componentData": {
+                    "config": {
+                      "enableSearch": true,
+                      "enablePersonalization": true,
+                      "enableSetTheme": true,
+                      "enableSetLanguage": true
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "groups": ["pm-analyzer-group"],
+          "catalogs": ["pm-analyzer-catalog"]
+        }
+      }
+    ]
+  }
+}

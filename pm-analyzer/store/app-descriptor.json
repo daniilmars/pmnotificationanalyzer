@@ -1,0 +1,191 @@
+{
+  "$schema": "https://schema.sap.com/btp/app-descriptor/v1",
+  "id": "pm-notification-analyzer",
+  "version": "2.1.0",
+  "vendor": {
+    "name": "PM Analyzer Solutions",
+    "website": "https://pm-analyzer.example.com",
+    "support_url": "https://pm-analyzer.example.com/support",
+    "privacy_url": "https://pm-analyzer.example.com/privacy",
+    "terms_url": "https://pm-analyzer.example.com/terms"
+  },
+  "listing": {
+    "title": "PM Notification Analyzer",
+    "subtitle": "AI-Powered Maintenance Notification Analysis for SAP PM/EAM",
+    "short_description": "Analyze SAP Plant Maintenance notifications for data quality, equipment reliability, and regulatory compliance using AI.",
+    "long_description": "The PM Notification Analyzer leverages AI to transform SAP Plant Maintenance (PM/EAM) notification data into actionable insights. Built natively on SAP BTP with SAPUI5/Fiori, it integrates seamlessly with your existing SAP landscape.\n\nKey capabilities:\n- AI-powered notification text analysis with Google Gemini\n- ALCOA+ data quality scoring for FDA 21 CFR Part 11 compliance\n- Equipment reliability engineering (MTBF, MTTR, FMEA, availability)\n- Predictive maintenance indicators and failure probability scoring\n- Quality Management System (QMS) integration (Veeva Vault, MasterControl, SAP QM)\n- Multi-language support (English, German)\n- Comprehensive audit trail and change document tracking\n- GDPR-compliant data handling with self-service data export and erasure\n\nDesigned for regulated industries including pharmaceutical, chemical, food & beverage, and discrete manufacturing where maintenance data quality and compliance are critical.",
+    "highlights": [
+      "AI-powered notification analysis with quality scoring",
+      "FDA 21 CFR Part 11 compliance with ALCOA+ framework",
+      "Equipment reliability engineering (MTBF/MTTR/FMEA)",
+      "Predictive maintenance with failure probability scoring",
+      "QMS integration (Veeva Vault, MasterControl, SAP QM)",
+      "GDPR-compliant with self-service data export"
+    ],
+    "categories": [
+      "Asset Management",
+      "Plant Maintenance",
+      "Quality Management",
+      "Compliance",
+      "Analytics"
+    ],
+    "industries": [
+      "Pharmaceutical",
+      "Chemical",
+      "Food & Beverage",
+      "Discrete Manufacturing",
+      "Process Manufacturing",
+      "Utilities",
+      "Oil & Gas"
+    ],
+    "keywords": [
+      "SAP PM",
+      "Plant Maintenance",
+      "EAM",
+      "Notification Analysis",
+      "AI Analytics",
+      "ALCOA+",
+      "FDA 21 CFR Part 11",
+      "Equipment Reliability",
+      "MTBF",
+      "MTTR",
+      "Predictive Maintenance",
+      "Quality Management",
+      "GDPR",
+      "Compliance",
+      "FMEA",
+      "Data Quality"
+    ],
+    "icon": "sap-icon://machine",
+    "screenshots": [
+      {
+        "file": "screenshots/worklist.png",
+        "caption": "Notification Worklist with AI Quality Scores"
+      },
+      {
+        "file": "screenshots/quality-dashboard.png",
+        "caption": "Quality Dashboard with ALCOA+ Compliance"
+      },
+      {
+        "file": "screenshots/reliability-dashboard.png",
+        "caption": "Equipment Reliability Dashboard (MTBF/MTTR)"
+      },
+      {
+        "file": "screenshots/notification-detail.png",
+        "caption": "AI-Powered Notification Analysis"
+      },
+      {
+        "file": "screenshots/audit-dashboard.png",
+        "caption": "Audit Trail and Compliance Dashboard"
+      }
+    ],
+    "videos": [],
+    "documentation_url": "https://pm-analyzer.example.com/docs",
+    "changelog_url": "https://pm-analyzer.example.com/changelog"
+  },
+  "technical": {
+    "deployment_model": "multi-tenant",
+    "runtime": "Cloud Foundry",
+    "stack": "cflinuxfs4",
+    "technologies": [
+      "Python 3.12",
+      "Flask",
+      "SAPUI5",
+      "SAP Fiori",
+      "PostgreSQL",
+      "Google Gemini AI"
+    ],
+    "sap_integration": {
+      "systems": [
+        "SAP S/4HANA",
+        "SAP ECC",
+        "SAP S/4HANA Cloud"
+      ],
+      "apis": [
+        "API_MAINTNOTIFICATION (OData v2/v4)",
+        "BAPI_ALM_NOTIF_GET_DETAIL (RFC)",
+        "API_EQUIPMENT (OData)"
+      ],
+      "connectivity": [
+        "SAP Destination Service",
+        "SAP Connectivity Service (Cloud Connector)",
+        "Principal Propagation"
+      ]
+    },
+    "btp_services_required": [
+      {
+        "service": "xsuaa",
+        "plan": "application",
+        "purpose": "Authentication and authorization"
+      },
+      {
+        "service": "postgresql-db",
+        "plan": "standard",
+        "purpose": "Data persistence"
+      },
+      {
+        "service": "destination",
+        "plan": "lite",
+        "purpose": "SAP system connectivity"
+      },
+      {
+        "service": "connectivity",
+        "plan": "lite",
+        "purpose": "Cloud Connector for on-premise SAP"
+      },
+      {
+        "service": "html5-apps-repo",
+        "plan": "app-host",
+        "purpose": "Frontend hosting"
+      },
+      {
+        "service": "saas-registry",
+        "plan": "application",
+        "purpose": "Multi-tenant subscription management"
+      },
+      {
+        "service": "build-workzone-standard",
+        "plan": "standard",
+        "purpose": "SAP Build Work Zone integration"
+      }
+    ],
+    "minimum_btp_resources": {
+      "memory": "768M",
+      "disk": "1.5G",
+      "instances": 1
+    },
+    "recommended_btp_resources": {
+      "memory": "1536M",
+      "disk": "2G",
+      "instances": 2
+    }
+  },
+  "compliance": {
+    "certifications": [
+      "GDPR Article 6, 7, 13-15, 17, 20, 25, 28, 30, 32, 33",
+      "FDA 21 CFR Part 11 (supporting controls)",
+      "SOC 2 alignment (Trust Services Criteria)"
+    ],
+    "data_residency": "EU (configurable per BTP region)",
+    "encryption": {
+      "in_transit": "TLS 1.2+",
+      "at_rest": "AES-256"
+    },
+    "audit_logging": true,
+    "data_isolation": "schema-per-tenant"
+  },
+  "support": {
+    "channels": ["Portal", "Email", "Phone (Enterprise)"],
+    "sla": {
+      "basic": "99.5% uptime",
+      "professional": "99.7% uptime",
+      "enterprise": "99.9% uptime"
+    },
+    "response_times": {
+      "p1_critical": "1-4 hours",
+      "p2_high": "2-8 hours",
+      "p3_medium": "4 hours - 2 days",
+      "p4_low": "2-5 days"
+    }
+  }
+}

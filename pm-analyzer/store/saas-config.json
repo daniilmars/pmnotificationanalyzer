@@ -1,0 +1,165 @@
+{
+  "$schema": "https://schema.sap.com/btp/saas-provisioning/v1",
+  "appName": "pm-notification-analyzer",
+  "displayName": "PM Notification Analyzer",
+  "description": "AI-Powered Maintenance Notification Analysis for SAP PM/EAM",
+  "category": "SAP PM Extensions",
+  "appUrls": {
+    "onSubscription": "/api/tenant/callback/{tenantId}",
+    "getDependencies": "/api/tenant/callback/dependencies",
+    "onSubscriptionAsync": false
+  },
+  "commercialInfo": {
+    "plans": [
+      {
+        "name": "basic",
+        "displayName": "Basic",
+        "description": "Core notification analysis and quality scoring for small teams",
+        "isTrial": false,
+        "features": [
+          {
+            "name": "analysis",
+            "displayName": "AI Notification Analysis",
+            "description": "AI-powered text quality analysis using Google Gemini"
+          },
+          {
+            "name": "quality_scoring",
+            "displayName": "ALCOA+ Quality Scoring",
+            "description": "Data quality scoring against the ALCOA+ framework"
+          }
+        ],
+        "quotas": {
+          "max_users": 10,
+          "max_notifications_per_month": 5000
+        }
+      },
+      {
+        "name": "professional",
+        "displayName": "Professional",
+        "description": "Full analytics suite with reliability engineering and reporting",
+        "isTrial": false,
+        "features": [
+          {
+            "name": "analysis",
+            "displayName": "AI Notification Analysis",
+            "description": "AI-powered text quality analysis using Google Gemini"
+          },
+          {
+            "name": "quality_scoring",
+            "displayName": "ALCOA+ Quality Scoring",
+            "description": "Data quality scoring against the ALCOA+ framework"
+          },
+          {
+            "name": "reliability",
+            "displayName": "Reliability Engineering",
+            "description": "MTBF, MTTR, FMEA, availability, and predictive maintenance"
+          },
+          {
+            "name": "reporting",
+            "displayName": "Reports & PDF Export",
+            "description": "Generate and export analysis reports in PDF format"
+          },
+          {
+            "name": "alerts",
+            "displayName": "Custom Alert Rules",
+            "description": "Configure alert rules for quality, reliability, and equipment events"
+          }
+        ],
+        "quotas": {
+          "max_users": 50,
+          "max_notifications_per_month": 25000
+        }
+      },
+      {
+        "name": "enterprise",
+        "displayName": "Enterprise",
+        "description": "Unlimited usage with FDA compliance, QMS integration, and API access",
+        "isTrial": false,
+        "features": [
+          {
+            "name": "analysis",
+            "displayName": "AI Notification Analysis",
+            "description": "AI-powered text quality analysis using Google Gemini"
+          },
+          {
+            "name": "quality_scoring",
+            "displayName": "ALCOA+ Quality Scoring",
+            "description": "Data quality scoring against the ALCOA+ framework"
+          },
+          {
+            "name": "reliability",
+            "displayName": "Reliability Engineering",
+            "description": "MTBF, MTTR, FMEA, availability, and predictive maintenance"
+          },
+          {
+            "name": "reporting",
+            "displayName": "Reports & PDF Export",
+            "description": "Generate and export analysis reports in PDF format"
+          },
+          {
+            "name": "alerts",
+            "displayName": "Custom Alert Rules",
+            "description": "Configure alert rules for quality, reliability, and equipment events"
+          },
+          {
+            "name": "fda_compliance",
+            "displayName": "FDA 21 CFR Part 11",
+            "description": "FDA compliance supporting controls with audit trail"
+          },
+          {
+            "name": "qms_integration",
+            "displayName": "QMS Integration",
+            "description": "Integration with Veeva Vault, MasterControl, SharePoint, SAP QM"
+          },
+          {
+            "name": "api_access",
+            "displayName": "API Access",
+            "description": "RESTful API access for system-to-system integration"
+          }
+        ],
+        "quotas": {
+          "max_users": -1,
+          "max_notifications_per_month": -1
+        }
+      },
+      {
+        "name": "trial",
+        "displayName": "Trial",
+        "description": "14-day free trial with Professional plan features and sample data",
+        "isTrial": true,
+        "trialDurationDays": 14,
+        "features": [
+          {
+            "name": "analysis",
+            "displayName": "AI Notification Analysis",
+            "description": "AI-powered text quality analysis using Google Gemini"
+          },
+          {
+            "name": "quality_scoring",
+            "displayName": "ALCOA+ Quality Scoring",
+            "description": "Data quality scoring against the ALCOA+ framework"
+          },
+          {
+            "name": "reliability",
+            "displayName": "Reliability Engineering",
+            "description": "MTBF, MTTR, FMEA, availability, and predictive maintenance"
+          },
+          {
+            "name": "reporting",
+            "displayName": "Reports & PDF Export",
+            "description": "Generate and export analysis reports in PDF format"
+          },
+          {
+            "name": "alerts",
+            "displayName": "Custom Alert Rules",
+            "description": "Configure alert rules for quality, reliability, and equipment events"
+          }
+        ],
+        "quotas": {
+          "max_users": 5,
+          "max_notifications_per_month": 500
+        }
+      }
+    ]
+  }
+}

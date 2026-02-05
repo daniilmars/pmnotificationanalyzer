@@ -1,9 +1,28 @@
+---
 applications:
-- name: pm-analyzer-backend
-  path: .
-  buildpack: python_buildpack
-  command: gunicorn --bind 0.0.0.0:$PORT app.main:app
-  memory: 512M
-  disk_quota: 1G
-  routes:
-  - route: pm-analyzer-backend-dev.cfapps.us10-001.hana.ondemand.com 
+  - name: pm-analyzer-backend
+    path: .
+    memory: 512M
+    disk_quota: 1G
+    instances: 1
+    buildpacks:
+      - python_buildpack
+    command: gunicorn --bind 0.0.0.0:$PORT --workers 2 --threads 4 app.main:app
+    health-check-type: http
+    health-check-http-endpoint: /health
+    timeout: 180
+    env:
+      FLASK_ENV: production
+      FLASK_DEBUG: "false"
+      LOG_LEVEL: INFO
+      SAP_ENABLED: "true"
+      SAP_CONNECTION_TYPE: "odata"
+      # Database will be bound via service
+      # SAP credentials via destination service
+    services:
+      - pm-analyzer-uaa
+      - pm-analyzer-destination
+      - pm-analyzer-connectivity
+      - pm-analyzer-db
+    routes:
+      - route: pm-analyzer-backend.cfapps.us10-001.hana.ondemand.com

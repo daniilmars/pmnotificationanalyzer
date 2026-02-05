@@ -1,0 +1,15 @@
+{
+  "name": "pm-analyzer-approuter",
+  "version": "2.2.0",
+  "description": "Application Router for PM Notification Analyzer (Multi-Tenant SaaS)",
+  "scripts": {
+    "start": "node node_modules/@sap/approuter/approuter.js"
+  },
+  "dependencies": {
+    "@sap/approuter": "^14.0.0",
+    "@sap/html5-repo-mock": "^2.1.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,179 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.ui.layout.form">
+
+    <Dialog
+        id="signatureDialog"
+        title="{i18n>signatureDialogTitle}"
+        type="Message"
+        contentWidth="500px"
+        state="Warning">
+
+        <content>
+            <VBox class="sapUiSmallMargin">
+                <!-- Signature Information Header -->
+                <MessageStrip
+                    text="{i18n>signatureComplianceNotice}"
+                    type="Information"
+                    showIcon="true"
+                    class="sapUiSmallMarginBottom"/>
+
+                <!-- Entity Information -->
+                <Panel
+                    headerText="{i18n>signatureEntityInfo}"
+                    expandable="false"
+                    class="sapUiSmallMarginBottom">
+                    <content>
+                        <f:SimpleForm
+                            editable="false"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            columnsXL="1"
+                            columnsL="1"
+                            columnsM="1">
+
+                            <Label text="{i18n>signatureEntityType}"/>
+                            <Text text="{signatureModel>/entityType}"/>
+
+                            <Label text="{i18n>signatureEntityId}"/>
+                            <Text text="{signatureModel>/entityId}"/>
+
+                            <Label text="{i18n>signatureEntityName}"/>
+                            <Text text="{signatureModel>/entityName}"/>
+
+                            <Label text="{i18n>signatureVersion}" visible="{= ${signatureModel>/entityVersion} !== null}"/>
+                            <Text text="{signatureModel>/entityVersion}" visible="{= ${signatureModel>/entityVersion} !== null}"/>
+
+                        </f:SimpleForm>
+                    </content>
+                </Panel>
+
+                <!-- Signature Details -->
+                <Panel
+                    headerText="{i18n>signatureDetails}"
+                    expandable="false">
+                    <content>
+                        <f:SimpleForm
+                            editable="true"
+                            layout="ResponsiveGridLayout"
+                            labelSpanXL="4"
+                            labelSpanL="4"
+                            labelSpanM="4"
+                            labelSpanS="12"
+                            columnsXL="1"
+                            columnsL="1"
+                            columnsM="1">
+
+                            <Label text="{i18n>signatureMeaning}" required="true"/>
+                            <Select
+                                id="signatureMeaning"
+                                selectedKey="{signatureModel>/meaning}"
+                                forceSelection="false">
+                                <core:Item key="Approved" text="{i18n>signatureMeaningApproved}"/>
+                                <core:Item key="Reviewed" text="{i18n>signatureMeaningReviewed}"/>
+                                <core:Item key="Created" text="{i18n>signatureMeaningCreated}"/>
+                                <core:Item key="Verified" text="{i18n>signatureMeaningVerified}"/>
+                                <core:Item key="Rejected" text="{i18n>signatureMeaningRejected}"/>
+                            </Select>
+
+                            <Label text="{i18n>signatureReason}"/>
+                            <TextArea
+                                id="signatureReason"
+                                value="{signatureModel>/reason}"
+                                placeholder="{i18n>signatureReasonPlaceholder}"
+                                rows="3"
+                                width="100%"/>
+
+                        </f:SimpleForm>
+                    </content>
+                </Panel>
+
+                <!-- Re-authentication Section -->
+                <Panel
+                    headerText="{i18n>signatureReauthentication}"
+                    expandable="false"
+                    class="sapUiSmallMarginTop">
+                    <content>
+                        <VBox>
+                            <MessageStrip
+                                text="{i18n>signatureReauthNotice}"
+                                type="Warning"
+                                showIcon="true"
+                                class="sapUiSmallMarginBottom"/>
+
+                            <f:SimpleForm
+                                editable="true"
+                                layout="ResponsiveGridLayout"
+                                labelSpanXL="4"
+                                labelSpanL="4"
+                                labelSpanM="4"
+                                labelSpanS="12"
+                                columnsXL="1"
+                                columnsL="1"
+                                columnsM="1">
+
+                                <Label text="{i18n>signingAs}"/>
+                                <Text text="{auth>/user/full_name} ({auth>/user/username})"/>
+
+                                <Label text="{i18n>password}" required="true"/>
+                                <Input
+                                    id="signaturePassword"
+                                    value="{signatureModel>/password}"
+                                    type="Password"
+                                    placeholder="{i18n>enterPasswordToSign}"
+                                    submit=".onSignatureSubmit"
+                                    valueLiveUpdate="true"/>
+
+                            </f:SimpleForm>
+                        </VBox>
+                    </content>
+                </Panel>
+
+                <!-- Error Message -->
+                <MessageStrip
+                    id="signatureErrorStrip"
+                    visible="{signatureModel>/hasError}"
+                    text="{signatureModel>/errorMessage}"
+                    type="Error"
+                    showIcon="true"
+                    class="sapUiSmallMarginTop"/>
+
+            </VBox>
+        </content>
+
+        <beginButton>
+            <Button
+                id="signatureSubmitBtn"
+                text="{i18n>signAndSubmit}"
+                type="Emphasized"
+                icon="sap-icon://signature"
+                press=".onSignatureSubmit"
+                enabled="{= ${signatureModel>/password} !== '' &amp;&amp; ${signatureModel>/meaning} !== '' &amp;&amp; !${signatureModel>/isSubmitting}}"/>
+        </beginButton>
+
+        <endButton>
+            <Button
+                text="{i18n>cancel}"
+                press=".onSignatureDialogCancel"/>
+        </endButton>
+
+        <customHeader>
+            <Bar>
+                <contentMiddle>
+                    <Title text="{i18n>signatureDialogTitle}"/>
+                </contentMiddle>
+                <contentRight>
+                    <BusyIndicator
+                        visible="{signatureModel>/isSubmitting}"
+                        size="Small"/>
+                </contentRight>
+            </Bar>
+        </customHeader>
+
+    </Dialog>
+
+</core:FragmentDefinition>

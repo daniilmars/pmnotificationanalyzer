@@ -85,7 +85,22 @@ sap.ui.define([
                 notificationId: oItem.getBindingContext().getProperty("NotificationId")
             });
         },
- 
+
+        onNavigateToQualityDashboard: function () {
+            const oRouter = this.getOwnerComponent().getRouter();
+            oRouter.navTo("qualityDashboard");
+        },
+
+        onNavigateToReliabilityDashboard: function () {
+            const oRouter = this.getOwnerComponent().getRouter();
+            oRouter.navTo("reliabilityDashboard");
+        },
+
+        onNavigateToAuditDashboard: function () {
+            const oRouter = this.getOwnerComponent().getRouter();
+            oRouter.navTo("auditDashboard");
+        },
+
         onLanguageChange: function(oEvent) {
             const sLanguage = oEvent.getParameter("selectedItem").getKey();
             localStorage.setItem("appLanguage", sLanguage);

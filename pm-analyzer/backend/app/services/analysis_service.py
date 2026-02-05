@@ -2,28 +2,53 @@ import os
 import json
 import re
 import time
+import logging
 import requests
-from vertexai.generative_models import GenerativeModel, GenerationConfig
+import google.generativeai as genai
 from app.models import AnalysisResponse, ProblemDetail
 from app.config_manager import get_config
+from app.ai_governance import (
+    log_ai_usage,
+    validate_model,
+    generate_request_id,
+    AI_GOVERNANCE_ENABLED
+)
 
-RULE_MANAGER_URL = "http://localhost:5002"
+logger = logging.getLogger(__name__)
+
+# Configuration from environment variables with sensible defaults
+RULE_MANAGER_URL = os.environ.get('RULE_MANAGER_URL', 'http://localhost:5002')
+HTTP_TIMEOUT = int(os.environ.get('HTTP_TIMEOUT', '30'))  # seconds
 
 
 def _fetch_rules_from_manager(notification_type: str) -> list:
+    """Fetch active rules from Rule Manager service for the given notification type."""
     try:
-        response = requests.get(f"{RULE_MANAGER_URL}/api/v1/rulesets?notification_type={notification_type}&status=Active")
+        response = requests.get(
+            f"{RULE_MANAGER_URL}/api/v1/rulesets",
+            params={'notification_type': notification_type, 'status': 'Active'},
+            timeout=HTTP_TIMEOUT
+        )
         response.raise_for_status()
         active_rulesets = response.json()
         if not active_rulesets:
             return []
         latest_ruleset = max(active_rulesets, key=lambda rs: rs.get('version', 0))
         active_ruleset_id = latest_ruleset['id']
-        detail_response = requests.get(f"{RULE_MANAGER_URL}/api/v1/rulesets/{active_ruleset_id}")
+        detail_response = requests.get(
+            f"{RULE_MANAGER_URL}/api/v1/rulesets/{active_ruleset_id}",
+            timeout=HTTP_TIMEOUT
+        )
         detail_response.raise_for_status()
         return detail_response.json().get('rules', [])
+    except requests.exceptions.Timeout:
+        logger.warning("Timeout while fetching rules from Rule Manager")
+        return []
+    except requests.exceptions.ConnectionError:
+        logger.warning("Could not connect to Rule Manager service")
+        return []
     except requests.exceptions.RequestException as e:
-        print(f"Could not fetch rules from Rule Manager: {e}")
+        logger.warning(f"Could not fetch rules from Rule Manager: {e}")
         return []
 
 def _execute_rules(rules: list, notification_data: dict) -> tuple[int, list]:
@@ -100,25 +125,74 @@ def analyze_text(notification_data: dict, language: str = "en") -> AnalysisRespo
     '''.strip()
 
     max_retries = 2
+    model_id = llm_settings.get('model', 'gemini-pro')
+    request_id = generate_request_id()
+    start_time = time.time()
+    status = 'success'
+    error_message = None
+    output_data = None
+
+    # Validate model is approved for use
+    if AI_GOVERNANCE_ENABLED:
+        is_approved, validation_error = validate_model(model_id)
+        if not is_approved:
+            log_ai_usage(
+                request_id=request_id,
+                model_id=model_id,
+                input_data=prompt,
+                status='filtered',
+                error_message=validation_error,
+                context_type='notification_analysis',
+                context_id=notification_data.get('NotificationId')
+            )
+            raise ValueError(validation_error)
+
     for attempt in range(max_retries):
         try:
-            model = GenerativeModel(llm_settings.get('model', 'gemini-pro'))
-            generation_config = GenerationConfig(
+            model = genai.GenerativeModel(model_id)
+            generation_config = genai.types.GenerationConfig(
                 temperature=llm_settings.get('temperature', 0.2),
                 response_mime_type="application/json"
             )
             response = model.generate_content(prompt, generation_config=generation_config)
-            
+
             ai_response = AnalysisResponse.model_validate_json(response.text)
-            
+            output_data = response.text
+
             ai_response.problems.extend(rule_problems)
             ai_response.score += rule_score_adjustment
             ai_response.score = max(0, min(100, ai_response.score))
-            
+
+            # Log successful AI usage
+            latency_ms = int((time.time() - start_time) * 1000)
+            log_ai_usage(
+                request_id=request_id,
+                model_id=model_id,
+                input_data=prompt,
+                output_data=output_data,
+                template_name='analysis_prompt',
+                latency_ms=latency_ms,
+                status='success',
+                context_type='notification_analysis',
+                context_id=notification_data.get('NotificationId')
+            )
+
             return ai_response
         except Exception as e:
-            print(f"Attempt {attempt + 1} failed during analysis: {e}")
+            logger.warning(f"Attempt {attempt + 1} failed during analysis: {e}")
             if attempt >= max_retries - 1:
+                # Log failed AI usage
+                latency_ms = int((time.time() - start_time) * 1000)
+                log_ai_usage(
+                    request_id=request_id,
+                    model_id=model_id,
+                    input_data=prompt,
+                    latency_ms=latency_ms,
+                    status='error',
+                    error_message=str(e),
+                    context_type='notification_analysis',
+                    context_id=notification_data.get('NotificationId')
+                )
                 raise e
             time.sleep(1)
 
@@ -131,13 +205,60 @@ def chat_with_assistant(notification_data: dict, question: str, analysis_context
     context_str = "..." # Omitting for brevity as it's not the focus of the fix
     long_text = notification_data.get('LongText', '')
     analysis_problems_str = "\n".join([f"- {p.description}" for p in analysis_context.problems])
-    
+
     prompt = f'''... Answer the user\'s question: "{question}"\n'''.strip()
 
+    model_id = llm_settings.get('model', 'gemini-pro')
+    request_id = generate_request_id()
+    start_time = time.time()
+
+    # Validate model is approved for use
+    if AI_GOVERNANCE_ENABLED:
+        is_approved, validation_error = validate_model(model_id)
+        if not is_approved:
+            log_ai_usage(
+                request_id=request_id,
+                model_id=model_id,
+                input_data=prompt,
+                status='filtered',
+                error_message=validation_error,
+                context_type='chat',
+                context_id=notification_data.get('NotificationId')
+            )
+            raise ValueError(validation_error)
+
     try:
-        model = GenerativeModel(llm_settings.get('model', 'gemini-pro'))
+        model = genai.GenerativeModel(model_id)
         response = model.generate_content(prompt)
-        return {"answer": response.text.strip()}
+        answer = response.text.strip()
+
+        # Log successful AI usage
+        latency_ms = int((time.time() - start_time) * 1000)
+        log_ai_usage(
+            request_id=request_id,
+            model_id=model_id,
+            input_data=prompt,
+            output_data=answer,
+            template_name='chat_prompt',
+            latency_ms=latency_ms,
+            status='success',
+            context_type='chat',
+            context_id=notification_data.get('NotificationId')
+        )
+
+        return {"answer": answer}
     except Exception as e:
-        print(f"An error occurred during chat: {e}")
+        # Log failed AI usage
+        latency_ms = int((time.time() - start_time) * 1000)
+        log_ai_usage(
+            request_id=request_id,
+            model_id=model_id,
+            input_data=prompt,
+            latency_ms=latency_ms,
+            status='error',
+            error_message=str(e),
+            context_type='chat',
+            context_id=notification_data.get('NotificationId')
+        )
+        logger.error(f"An error occurred during chat: {e}")
         raise e

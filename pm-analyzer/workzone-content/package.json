@@ -1,0 +1,11 @@
+{
+  "name": "pm-analyzer-workzone-content",
+  "version": "1.0.0",
+  "description": "Work Zone content for PM Notification Analyzer",
+  "scripts": {
+    "build": "echo 'No build required'"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

@@ -1,0 +1,243 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop, 'feature/**']
+  pull_request:
+    branches: [main]
+
+env:
+  PYTHON_VERSION: '3.12'
+  NODE_VERSION: '18'
+
+jobs:
+  # ==========================================
+  # Backend Tests & Quality
+  # ==========================================
+  backend-test:
+    name: Backend Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pm-analyzer/backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: 'pip'
+          cache-dependency-path: pm-analyzer/backend/requirements.txt
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install flake8 bandit safety
+
+      - name: Lint with flake8
+        run: |
+          flake8 app/ --count --select=E9,F63,F7,F82 --show-source --statistics
+          flake8 app/ --count --exit-zero --max-complexity=10 --max-line-length=120 --statistics
+
+      - name: Run tests with coverage
+        env:
+          AUTH_ENABLED: 'false'
+          FLASK_DEBUG: 'false'
+          DATABASE_TYPE: 'sqlite'
+        run: |
+          pytest tests/ -v --cov=app --cov-report=xml --cov-report=term-missing --junitxml=test-results.xml
+
+      - name: Upload coverage report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-coverage
+          path: pm-analyzer/backend/coverage.xml
+
+      - name: Upload test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: backend-test-results
+          path: pm-analyzer/backend/test-results.xml
+
+  # ==========================================
+  # Security Scanning
+  # ==========================================
+  security-scan:
+    name: Security Scan
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pm-analyzer/backend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install bandit safety
+
+      - name: Run Bandit (SAST)
+        run: |
+          bandit -r app/ -f json -o bandit-report.json --severity-level medium || true
+          bandit -r app/ --severity-level high
+
+      - name: Check dependencies for vulnerabilities
+        run: |
+          pip install pip-audit
+          pip-audit --strict || true
+
+      - name: Upload security report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: security-reports
+          path: pm-analyzer/backend/bandit-report.json
+
+  # ==========================================
+  # Frontend Tests & Build
+  # ==========================================
+  frontend-test:
+    name: Frontend Tests
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pm-analyzer/frontend
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'npm'
+          cache-dependency-path: pm-analyzer/frontend/package-lock.json
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build frontend
+        run: npm run build
+
+  # ==========================================
+  # MTA Build
+  # ==========================================
+  mta-build:
+    name: MTA Build
+    needs: [backend-test, frontend-test]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/develop'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+
+      - name: Install MTA Build Tool
+        run: npm install -g mbt
+
+      - name: Build MTA archive
+        working-directory: pm-analyzer
+        run: mbt build -p=cf
+
+      - name: Upload MTA archive
+        uses: actions/upload-artifact@v4
+        with:
+          name: mta-archive
+          path: pm-analyzer/mta_archives/*.mtar
+
+  # ==========================================
+  # Deploy to BTP (staging)
+  # ==========================================
+  deploy-staging:
+    name: Deploy to Staging
+    needs: [mta-build, security-scan]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+    environment: staging
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download MTA archive
+        uses: actions/download-artifact@v4
+        with:
+          name: mta-archive
+          path: mta_archives
+
+      - name: Install CF CLI
+        run: |
+          wget -q -O cf-cli.deb "https://packages.cloudfoundry.org/stable?release=debian64&version=v8&source=github"
+          sudo dpkg -i cf-cli.deb
+
+      - name: Install MTA plugin
+        run: cf install-plugin multiapps -f
+
+      - name: Deploy to BTP staging
+        env:
+          CF_API: ${{ secrets.CF_API }}
+          CF_ORG: ${{ secrets.CF_ORG }}
+          CF_SPACE: ${{ secrets.CF_SPACE_STAGING }}
+          CF_USER: ${{ secrets.CF_USER }}
+          CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
+        run: |
+          cf login -a "$CF_API" -u "$CF_USER" -p "$CF_PASSWORD" -o "$CF_ORG" -s "$CF_SPACE"
+          cf deploy mta_archives/*.mtar -f
+
+  # ==========================================
+  # Deploy to BTP (production)
+  # ==========================================
+  deploy-production:
+    name: Deploy to Production
+    needs: [mta-build, security-scan]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download MTA archive
+        uses: actions/download-artifact@v4
+        with:
+          name: mta-archive
+          path: mta_archives
+
+      - name: Install CF CLI
+        run: |
+          wget -q -O cf-cli.deb "https://packages.cloudfoundry.org/stable?release=debian64&version=v8&source=github"
+          sudo dpkg -i cf-cli.deb
+
+      - name: Install MTA plugin
+        run: cf install-plugin multiapps -f
+
+      - name: Deploy to BTP production
+        env:
+          CF_API: ${{ secrets.CF_API }}
+          CF_ORG: ${{ secrets.CF_ORG }}
+          CF_SPACE: ${{ secrets.CF_SPACE_PROD }}
+          CF_USER: ${{ secrets.CF_USER }}
+          CF_PASSWORD: ${{ secrets.CF_PASSWORD }}
+        run: |
+          cf login -a "$CF_API" -u "$CF_USER" -p "$CF_PASSWORD" -o "$CF_ORG" -s "$CF_SPACE"
+          cf deploy mta_archives/*.mtar -f
+
+      - name: Run smoke tests
+        run: |
+          echo "Running smoke tests against production..."
+          # curl -f https://${{ secrets.PROD_APP_URL }}/health || exit 1

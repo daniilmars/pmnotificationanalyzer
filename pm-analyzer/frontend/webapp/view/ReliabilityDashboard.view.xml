@@ -1,0 +1,312 @@
+<mvc:View
+    controllerName="com.sap.pm.pmanalyzerfiori.controller.ReliabilityDashboard"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+    xmlns:core="sap.ui.core"
+    xmlns:l="sap.ui.layout"
+    xmlns:f="sap.ui.layout.form"
+    xmlns:micro="sap.suite.ui.microchart">
+
+    <Page
+        id="reliabilityDashboardPage"
+        title="{i18n>reliabilityDashboardTitle}"
+        showNavButton="true"
+        navButtonPress=".onNavBack"
+        busy="{reliability>/busy}">
+        <headerContent>
+            <Toolbar>
+                <ToolbarSpacer />
+                <Label text="{i18n>periodLabel}" class="sapUiSmallMarginEnd"/>
+                <Select
+                    id="periodSelect"
+                    selectedKey="{reliability>/selectedPeriod}"
+                    change=".onPeriodChange">
+                    <core:Item key="90" text="{i18n>last90Days}" />
+                    <core:Item key="180" text="{i18n>last180Days}" />
+                    <core:Item key="365" text="{i18n>last365Days}" />
+                </Select>
+                <Button
+                    icon="sap-icon://excel-attachment"
+                    text="{i18n>exportReport}"
+                    press=".onExportReport"
+                    class="sapUiSmallMarginBegin"/>
+                <Button
+                    icon="sap-icon://refresh"
+                    press=".onRefresh"
+                    tooltip="{i18n>refreshData}"/>
+            </Toolbar>
+        </headerContent>
+
+        <content>
+            <l:VerticalLayout width="100%" class="sapUiSmallMargin">
+
+                <!-- Summary KPI Tiles -->
+                <l:HorizontalLayout class="sapUiSmallMarginBottom" allowWrapping="true">
+
+                    <!-- Average Reliability Score -->
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>avgReliabilityScore}"
+                        subheader="{i18n>allEquipment}">
+                        <TileContent>
+                            <NumericContent
+                                value="{reliability>/summary/averageReliabilityScore}"
+                                scale="%"
+                                valueColor="{= ${reliability>/summary/averageReliabilityScore} >= 80 ? 'Good' : (${reliability>/summary/averageReliabilityScore} >= 60 ? 'Critical' : 'Error') }"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <!-- Average Availability -->
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>avgAvailability}"
+                        subheader="{i18n>operationalUptime}">
+                        <TileContent>
+                            <NumericContent
+                                value="{reliability>/summary/averageAvailability}"
+                                scale="%"
+                                valueColor="{= ${reliability>/summary/averageAvailability} >= 95 ? 'Good' : (${reliability>/summary/averageAvailability} >= 90 ? 'Critical' : 'Error') }"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <!-- Total Equipment -->
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>totalEquipment}"
+                        subheader="{i18n>monitored}">
+                        <TileContent>
+                            <NumericContent
+                                value="{reliability>/summary/totalEquipment}"
+                                withMargin="false"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <!-- Critical Risk -->
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>criticalRisk}"
+                        subheader="{i18n>requiresAttention}"
+                        state="{= ${reliability>/summary/criticalRiskCount} > 0 ? 'Error' : 'Loaded' }">
+                        <TileContent>
+                            <NumericContent
+                                value="{reliability>/summary/criticalRiskCount}"
+                                valueColor="Error"
+                                withMargin="false"/>
+                        </TileContent>
+                    </GenericTile>
+
+                    <!-- High Risk -->
+                    <GenericTile
+                        class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
+                        header="{i18n>highRisk}"
+                        subheader="{i18n>monitorClosely}">
+                        <TileContent>
+                            <NumericContent
+                                value="{reliability>/summary/highRiskCount}"
+                                valueColor="Critical"
+                                withMargin="false"/>
+                        </TileContent>
+                    </GenericTile>
+                </l:HorizontalLayout>
+
+                <!-- Equipment Requiring Attention Panel -->
+                <Panel
+                    headerText="{i18n>equipmentAttentionTitle}"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom"
+                    visible="{= ${reliability>/attentionRequired}.length > 0 }">
+                    <content>
+                        <Table
+                            items="{reliability>/attentionRequired}"
+                            noDataText="{i18n>noAttentionRequired}">
+                            <columns>
+                                <Column width="15%"><Text text="{i18n>equipmentId}" /></Column>
+                                <Column width="12%"><Text text="{i18n>reliabilityScore}" /></Column>
+                                <Column width="12%"><Text text="{i18n>availability}" /></Column>
+                                <Column width="10%"><Text text="{i18n>riskLevel}" /></Column>
+                                <Column width="12%"><Text text="{i18n>failureProbability}" /></Column>
+                                <Column width="10%"><Text text="{i18n>urgency}" /></Column>
+                                <Column><Text text="{i18n>recommendation}" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem
+                                    type="Navigation"
+                                    press=".onEquipmentPress">
+                                    <cells>
+                                        <ObjectIdentifier title="{reliability>equipment_id}" />
+                                        <ObjectNumber
+                                            number="{reliability>reliability_score}"
+                                            unit="%"
+                                            state="{= ${reliability>reliability_score} >= 80 ? 'Success' : (${reliability>reliability_score} >= 60 ? 'Warning' : 'Error') }"/>
+                                        <ObjectNumber
+                                            number="{reliability>availability}"
+                                            unit="%"
+                                            state="{= ${reliability>availability} >= 95 ? 'Success' : (${reliability>availability} >= 90 ? 'Warning' : 'Error') }"/>
+                                        <ObjectStatus
+                                            text="{reliability>risk_level}"
+                                            state="{= ${reliability>risk_level} === 'critical' ? 'Error' : (${reliability>risk_level} === 'high' ? 'Warning' : 'None') }"/>
+                                        <ObjectNumber
+                                            number="{path: 'reliability>failure_probability', formatter: '.formatPercent'}"
+                                            unit="%"
+                                            state="{= ${reliability>failure_probability} > 0.5 ? 'Error' : (${reliability>failure_probability} > 0.3 ? 'Warning' : 'Success') }"/>
+                                        <ObjectStatus
+                                            text="{reliability>urgency}"
+                                            state="{= ${reliability>urgency} === 'immediate' ? 'Error' : (${reliability>urgency} === 'soon' ? 'Warning' : 'None') }"/>
+                                        <Text text="{= ${reliability>recommendations}[0] || '' }" wrapping="true"/>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </content>
+                </Panel>
+
+                <!-- FMEA Analysis Panel -->
+                <Panel
+                    headerText="{i18n>fmeaAnalysisTitle}"
+                    expandable="true"
+                    expanded="true"
+                    class="sapUiSmallMarginBottom">
+                    <headerToolbar>
+                        <Toolbar>
+                            <Title text="{i18n>fmeaAnalysisTitle}" />
+                            <ToolbarSpacer />
+                            <Label text="{i18n>rpnThreshold}:" class="sapUiSmallMarginEnd"/>
+                            <Input
+                                id="rpnThresholdInput"
+                                type="Number"
+                                value="100"
+                                width="80px"
+                                class="sapUiSmallMarginEnd"/>
+                            <Button
+                                text="{i18n>filterHighRisk}"
+                                press=".onFilterFMEA"/>
+                        </Toolbar>
+                    </headerToolbar>
+                    <content>
+                        <Table
+                            id="fmeaTable"
+                            items="{reliability>/fmeaHighlights}"
+                            noDataText="{i18n>noFmeaData}">
+                            <columns>
+                                <Column width="20%"><Text text="{i18n>failureMode}" /></Column>
+                                <Column width="8%" hAlign="Center"><Text text="{i18n>severity}" /></Column>
+                                <Column width="8%" hAlign="Center"><Text text="{i18n>occurrence}" /></Column>
+                                <Column width="8%" hAlign="Center"><Text text="{i18n>detection}" /></Column>
+                                <Column width="10%" hAlign="Center"><Text text="{i18n>rpn}" /></Column>
+                                <Column><Text text="{i18n>recommendedAction}" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem>
+                                    <cells>
+                                        <Text text="{reliability>failure_mode}" />
+                                        <ObjectNumber
+                                            number="{reliability>severity}"
+                                            state="{= ${reliability>severity} >= 8 ? 'Error' : (${reliability>severity} >= 5 ? 'Warning' : 'Success') }"/>
+                                        <ObjectNumber
+                                            number="{reliability>occurrence}"
+                                            state="{= ${reliability>occurrence} >= 8 ? 'Error' : (${reliability>occurrence} >= 5 ? 'Warning' : 'Success') }"/>
+                                        <ObjectNumber
+                                            number="{reliability>detection}"
+                                            state="{= ${reliability>detection} >= 8 ? 'Error' : (${reliability>detection} >= 5 ? 'Warning' : 'Success') }"/>
+                                        <ObjectNumber
+                                            number="{reliability>rpn}"
+                                            emphasized="true"
+                                            state="{= ${reliability>rpn} >= 200 ? 'Error' : (${reliability>rpn} >= 100 ? 'Warning' : 'Success') }"/>
+                                        <Text text="{reliability>recommended_action}" wrapping="true"/>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </content>
+                </Panel>
+
+                <!-- All Equipment Panel -->
+                <Panel
+                    headerText="{i18n>allEquipmentTitle}"
+                    expandable="true"
+                    expanded="false"
+                    class="sapUiSmallMarginBottom">
+                    <content>
+                        <Table
+                            items="{reliability>/equipmentList}"
+                            noDataText="{i18n>noEquipmentData}">
+                            <columns>
+                                <Column width="15%"><Text text="{i18n>equipmentId}" /></Column>
+                                <Column width="15%"><Text text="{i18n>reliabilityScore}" /></Column>
+                                <Column width="15%"><Text text="{i18n>availability}" /></Column>
+                                <Column width="12%"><Text text="{i18n>riskLevel}" /></Column>
+                                <Column width="15%"><Text text="{i18n>failureProbability}" /></Column>
+                                <Column><Text text="{i18n>urgency}" /></Column>
+                            </columns>
+                            <items>
+                                <ColumnListItem
+                                    type="Navigation"
+                                    press=".onEquipmentPress">
+                                    <cells>
+                                        <ObjectIdentifier title="{reliability>equipment_id}" />
+                                        <ProgressIndicator
+                                            percentValue="{reliability>reliability_score}"
+                                            displayValue="{reliability>reliability_score}%"
+                                            state="{= ${reliability>reliability_score} >= 80 ? 'Success' : (${reliability>reliability_score} >= 60 ? 'Warning' : 'Error') }"
+                                            width="100px"/>
+                                        <ProgressIndicator
+                                            percentValue="{reliability>availability}"
+                                            displayValue="{reliability>availability}%"
+                                            state="{= ${reliability>availability} >= 95 ? 'Success' : (${reliability>availability} >= 90 ? 'Warning' : 'Error') }"
+                                            width="100px"/>
+                                        <ObjectStatus
+                                            text="{reliability>risk_level}"
+                                            state="{= ${reliability>risk_level} === 'critical' ? 'Error' : (${reliability>risk_level} === 'high' ? 'Warning' : (${reliability>risk_level} === 'medium' ? 'Warning' : 'Success')) }"/>
+                                        <ObjectNumber
+                                            number="{path: 'reliability>failure_probability', formatter: '.formatPercent'}"
+                                            unit="%"/>
+                                        <ObjectStatus
+                                            text="{reliability>urgency}"
+                                            state="{= ${reliability>urgency} === 'immediate' ? 'Error' : (${reliability>urgency} === 'soon' ? 'Warning' : 'None') }"/>
+                                    </cells>
+                                </ColumnListItem>
+                            </items>
+                        </Table>
+                    </content>
+                </Panel>
+
+                <!-- Reliability Metrics Legend -->
+                <Panel
+                    headerText="{i18n>metricsLegend}"
+                    expandable="true"
+                    expanded="false">
+                    <content>
+                        <l:Grid defaultSpan="L6 M12 S12">
+                            <VBox class="sapUiSmallMargin">
+                                <Title text="{i18n>mtbfTitle}" level="H5"/>
+                                <Text text="{i18n>mtbfDescription}" class="sapUiTinyMarginTop"/>
+                            </VBox>
+                            <VBox class="sapUiSmallMargin">
+                                <Title text="{i18n>mttrTitle}" level="H5"/>
+                                <Text text="{i18n>mttrDescription}" class="sapUiTinyMarginTop"/>
+                            </VBox>
+                            <VBox class="sapUiSmallMargin">
+                                <Title text="{i18n>availabilityTitle}" level="H5"/>
+                                <Text text="{i18n>availabilityDescription}" class="sapUiTinyMarginTop"/>
+                            </VBox>
+                            <VBox class="sapUiSmallMargin">
+                                <Title text="{i18n>fmeaTitle}" level="H5"/>
+                                <Text text="{i18n>fmeaDescription}" class="sapUiTinyMarginTop"/>
+                            </VBox>
+                            <VBox class="sapUiSmallMargin">
+                                <Title text="{i18n>rpnTitle}" level="H5"/>
+                                <Text text="{i18n>rpnDescription}" class="sapUiTinyMarginTop"/>
+                            </VBox>
+                            <VBox class="sapUiSmallMargin">
+                                <Title text="{i18n>weibullTitle}" level="H5"/>
+                                <Text text="{i18n>weibullDescription}" class="sapUiTinyMarginTop"/>
+                            </VBox>
+                        </l:Grid>
+                    </content>
+                </Panel>
+
+            </l:VerticalLayout>
+        </content>
+    </Page>
+</mvc:View>

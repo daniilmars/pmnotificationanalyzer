@@ -1,0 +1,118 @@
+{
+  "xsappname": "pm-notification-analyzer",
+  "tenant-mode": "shared",
+  "description": "SAP PM Notification Analyzer Security Configuration",
+  "scopes": [
+    {
+      "name": "$XSAPPNAME.Read",
+      "description": "Read access to notifications and analytics"
+    },
+    {
+      "name": "$XSAPPNAME.Write",
+      "description": "Write access to create/modify notifications"
+    },
+    {
+      "name": "$XSAPPNAME.Admin",
+      "description": "Administrative access"
+    },
+    {
+      "name": "$XSAPPNAME.SAPIntegration",
+      "description": "Access to SAP system integration"
+    },
+    {
+      "name": "$XSAPPNAME.AuditRead",
+      "description": "Read access to audit trail (FDA compliance)"
+    },
+    {
+      "name": "$XSAPPNAME.Callback",
+      "description": "SaaS Registry callback access",
+      "grant-as-authority-to-apps": [
+        "$XSAPPNAME(application, sap-provisioning, tenant-onboarding)"
+      ]
+    }
+  ],
+  "authorities": [
+    "$XSAPPNAME.Callback"
+  ],
+  "role-templates": [
+    {
+      "name": "Viewer",
+      "description": "View notifications and analytics",
+      "scope-references": [
+        "$XSAPPNAME.Read"
+      ]
+    },
+    {
+      "name": "Editor",
+      "description": "Create and modify notifications",
+      "scope-references": [
+        "$XSAPPNAME.Read",
+        "$XSAPPNAME.Write"
+      ]
+    },
+    {
+      "name": "Auditor",
+      "description": "Access audit trail for compliance",
+      "scope-references": [
+        "$XSAPPNAME.Read",
+        "$XSAPPNAME.AuditRead"
+      ]
+    },
+    {
+      "name": "SAPAdmin",
+      "description": "Manage SAP system integration",
+      "scope-references": [
+        "$XSAPPNAME.Read",
+        "$XSAPPNAME.Write",
+        "$XSAPPNAME.SAPIntegration"
+      ]
+    },
+    {
+      "name": "Administrator",
+      "description": "Full administrative access",
+      "scope-references": [
+        "$XSAPPNAME.Read",
+        "$XSAPPNAME.Write",
+        "$XSAPPNAME.Admin",
+        "$XSAPPNAME.SAPIntegration",
+        "$XSAPPNAME.AuditRead"
+      ]
+    }
+  ],
+  "role-collections": [
+    {
+      "name": "PM_Analyzer_Viewer",
+      "description": "PM Notification Analyzer - Viewer",
+      "role-template-references": [
+        "$XSAPPNAME.Viewer"
+      ]
+    },
+    {
+      "name": "PM_Analyzer_Editor",
+      "description": "PM Notification Analyzer - Editor",
+      "role-template-references": [
+        "$XSAPPNAME.Editor"
+      ]
+    },
+    {
+      "name": "PM_Analyzer_Auditor",
+      "description": "PM Notification Analyzer - Auditor (FDA Compliance)",
+      "role-template-references": [
+        "$XSAPPNAME.Auditor"
+      ]
+    },
+    {
+      "name": "PM_Analyzer_Admin",
+      "description": "PM Notification Analyzer - Administrator",
+      "role-template-references": [
+        "$XSAPPNAME.Administrator"
+      ]
+    }
+  ],
+  "oauth2-configuration": {
+    "token-validity": 43200,
+    "redirect-uris": [
+      "https://*.cfapps.*.hana.ondemand.com/**"
+    ]
+  }
+}
