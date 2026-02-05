@@ -14,7 +14,7 @@ from app.services.analysis_service import analyze_text, chat_with_assistant
 from app.services.data_service import get_all_notifications_summary, get_unified_notification
 from app.models import AnalysisResponse
 from app.config_manager import get_config, save_config
-from app.database import close_db
+from app.database import close_db, close_pool, get_database_info, DATABASE_TYPE
 from app.validators import (
     validate_notification_id,
     validate_language,
@@ -102,7 +102,12 @@ def teardown_db(exception):
 @app.route('/health', methods=['GET'])
 def health_check() -> Tuple[str, int]:
     """Health check endpoint for monitoring."""
-    return jsonify({"status": "ok"}), 200
+    db_info = get_database_info()
+    return jsonify({
+        "status": "ok",
+        "database": db_info['type'],
+        "version": "2.1.0"
+    }), 200
 
 # --- Data Endpoints ---
 
@@ -3359,6 +3364,147 @@ def get_qms_document_content(document_id):
                 "message": "Failed to get document content"
             }
         }), 500
+
+
+# ==========================================
+# SaaS Tenant Management Endpoints
+# ==========================================
+
+from app.services.tenant_service import get_tenant_service
+
+
+@app.route('/api/tenant/callback/<tenant_id>', methods=['PUT'])
+def saas_subscription_callback(tenant_id):
+    """
+    SaaS Registry subscription callback.
+
+    Called by SAP BTP SaaS Provisioning Service when a customer subscribes.
+    """
+    try:
+        payload = request.get_json() or {}
+        tenant_service = get_tenant_service()
+        tenant = tenant_service.on_subscription(tenant_id, payload)
+
+        # Return the application URL for the tenant
+        app_url = os.environ.get('APP_URL', request.host_url.rstrip('/'))
+        return jsonify({
+            'status': 'subscribed',
+            'tenant_id': tenant.tenant_id,
+            'subdomain': tenant.subdomain,
+            'app_url': f"https://{tenant.subdomain}.{app_url.replace('https://', '')}"
+        }), 200
+
+    except Exception as e:
+        logger.exception(f"Tenant subscription failed: {tenant_id}")
+        return jsonify({"error": {"code": "PROVISIONING_FAILED", "message": str(e)}}), 500
+
+
+@app.route('/api/tenant/callback/<tenant_id>', methods=['DELETE'])
+def saas_unsubscription_callback(tenant_id):
+    """
+    SaaS Registry unsubscription callback.
+
+    Called by SAP BTP SaaS Provisioning Service when a customer unsubscribes.
+    """
+    try:
+        tenant_service = get_tenant_service()
+        tenant_service.on_unsubscription(tenant_id)
+        return jsonify({'status': 'unsubscribed', 'tenant_id': tenant_id}), 200
+
+    except Exception as e:
+        logger.exception(f"Tenant unsubscription failed: {tenant_id}")
+        return jsonify({"error": {"code": "DEPROVISIONING_FAILED", "message": str(e)}}), 500
+
+
+@app.route('/api/tenant/callback/dependencies', methods=['GET'])
+def saas_dependencies_callback():
+    """SaaS Registry dependencies callback."""
+    tenant_service = get_tenant_service()
+    return jsonify(tenant_service.get_dependencies()), 200
+
+
+@app.route('/api/tenants', methods=['GET'])
+@require_admin
+def list_tenants():
+    """List all tenants (admin only)."""
+    try:
+        tenant_service = get_tenant_service()
+        status_filter = request.args.get('status')
+        tenants = tenant_service.list_tenants(status=status_filter)
+        return jsonify({
+            'tenants': [t.to_dict() for t in tenants],
+            'total': len(tenants)
+        })
+    except Exception as e:
+        logger.exception("Error listing tenants")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/tenants/<tenant_id>', methods=['GET'])
+@require_admin
+def get_tenant(tenant_id):
+    """Get tenant details (admin only)."""
+    try:
+        tenant_service = get_tenant_service()
+        tenant = tenant_service.get_tenant(tenant_id)
+        if not tenant:
+            return jsonify({"error": {"code": "NOT_FOUND", "message": "Tenant not found"}}), 404
+
+        usage = tenant_service.get_usage_summary(tenant_id)
+        result = tenant.to_dict()
+        result['usage'] = usage
+        return jsonify(result)
+
+    except Exception as e:
+        logger.exception(f"Error getting tenant {tenant_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/tenants/<tenant_id>/plan', methods=['PUT'])
+@require_admin
+def update_tenant_plan(tenant_id):
+    """Update tenant subscription plan (admin only)."""
+    try:
+        data = request.get_json()
+        plan = data.get('plan')
+        if not plan:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "plan is required"}}), 400
+
+        tenant_service = get_tenant_service()
+        tenant = tenant_service.update_tenant_plan(tenant_id, plan)
+        if not tenant:
+            return jsonify({"error": {"code": "BAD_REQUEST", "message": "Invalid plan"}}), 400
+
+        return jsonify(tenant.to_dict())
+
+    except Exception as e:
+        logger.exception(f"Error updating tenant plan {tenant_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
+
+
+@app.route('/api/tenants/<tenant_id>/usage', methods=['GET'])
+@require_admin
+def get_tenant_usage(tenant_id):
+    """Get tenant usage metrics (admin only)."""
+    try:
+        tenant_service = get_tenant_service()
+        usage = tenant_service.get_usage_summary(tenant_id)
+        entitlements = {}
+        for feature in ['analysis', 'quality_scoring', 'reliability', 'reporting',
+                        'alerts', 'fda_compliance', 'qms_integration', 'api_access']:
+            entitlements[feature] = tenant_service.check_entitlement(tenant_id, feature)
+
+        return jsonify({
+            'tenant_id': tenant_id,
+            'usage': usage,
+            'entitlements': entitlements,
+            'notifications_limit': tenant_service.check_usage_limit(tenant_id, 'notifications_analyzed'),
+            'users_limit': tenant_service.check_usage_limit(tenant_id, 'active_users'),
+        })
+
+    except Exception as e:
+        logger.exception(f"Error getting tenant usage {tenant_id}")
+        return jsonify({"error": {"code": "INTERNAL_SERVER_ERROR", "message": str(e)}}), 500
 
 
 if __name__ == '__main__':

@@ -24,6 +24,7 @@ reportlab>=4.0.0
 
 # Database
 psycopg2-binary>=2.9.0  # PostgreSQL for BTP
+alembic>=1.13.0          # Database migrations
 
 # SAP RFC (optional - install separately if needed)
 # pyrfc>=3.0.0

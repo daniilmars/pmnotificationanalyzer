@@ -1,6 +1,6 @@
 _schema-version: "3.2"
 ID: pm-notification-analyzer
-version: 2.0.0
+version: 2.1.0
 description: SAP PM Notification Analyzer with AI-powered quality analysis
 
 parameters:
@@ -32,6 +32,7 @@ modules:
       - name: pm-analyzer-destination
       - name: pm-analyzer-connectivity
       - name: pm-analyzer-db
+      - name: pm-analyzer-saas-registry
     provides:
       - name: pm-analyzer-backend-api
         properties:
@@ -120,7 +121,7 @@ resources:
       path: ./xs-security.json
       config:
         xsappname: pm-notification-analyzer-${org}-${space}
-        tenant-mode: dedicated
+        tenant-mode: shared
         oauth2-configuration:
           redirect-uris:
             - https://*.cfapps.*.hana.ondemand.com/**
@@ -182,6 +183,26 @@ resources:
       # Alternative for HANA:
       # service: hana
       # service-plan: hdi-shared
+
+  # ========================================
+  # SaaS Provisioning Service (Multi-Tenancy)
+  # ========================================
+  - name: pm-analyzer-saas-registry
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: saas-registry
+      service-plan: application
+      config:
+        appName: pm-notification-analyzer
+        xsappname: pm-notification-analyzer-${org}-${space}
+        displayName: PM Notification Analyzer
+        description: AI-Powered Maintenance Notification Analysis
+        category: 'SAP PM Extensions'
+        appUrls:
+          getDependencies: ~{pm-analyzer-backend-api/url}/api/tenant/callback/dependencies
+          onSubscription: ~{pm-analyzer-backend-api/url}/api/tenant/callback/{tenantId}
+    requires:
+      - name: pm-analyzer-backend-api
 
   # ========================================
   # SAP Build Work Zone Service
