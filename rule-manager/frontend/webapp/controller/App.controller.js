@@ -1,12 +1,18 @@
 sap.ui.define([
-    "sap/ui/core/mvc/Controller"
+    "sap/ui/core/mvc/Controller",
+    "sap/m/library"
 ],
-function (Controller) {
+function (Controller, mobileLibrary) {
     "use strict";
+
+    var URLHelper = mobileLibrary.URLHelper;
 
     return Controller.extend("com.sap.pm.rulemanager.controller.App", {
         onInit: function () {
-            // Initialization logic for the App view can go here if needed.
+        },
+
+        onHomePressed: function () {
+            URLHelper.redirect("http://localhost:8008/index.html", false);
         }
     });
 });

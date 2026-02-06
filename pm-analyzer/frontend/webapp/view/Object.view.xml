@@ -8,41 +8,51 @@
 
     <Page
         id="page"
-        title="{i18n>objectTitle}: {object>/NotificationId}"
-        showNavButton="true"
-        navButtonPress=".onNavBack">
-        <headerContent>
-            <Button
-                icon="sap-icon://ai"
-                text="{i18n>qualityAnalysisTab}"
-                press=".onToggleSideContent"
-                type="Emphasized" />
-        </headerContent>
+        showHeader="false"
+        showNavButton="false">
+        <subHeader>
+            <OverflowToolbar>
+                <Button icon="sap-icon://nav-back" press=".onNavBack" type="Ghost" tooltip="Back"/>
+                <Title text="{i18n>objectTitle}: {object>/NotificationId}" level="H4"/>
+                <ToolbarSpacer />
+                <Button
+                    id="toggleSideContentBtn"
+                    icon="sap-icon://ai"
+                    text="{i18n>qualityAnalysisTab}"
+                    press=".onToggleSideContent"
+                    type="Emphasized" />
+            </OverflowToolbar>
+        </subHeader>
         <content>
             <l:DynamicSideContent
                 id="DynamicSideContent"
                 class="sapUiDSCExplored"
-                sideContentVisibility="AlwaysShow"
-                showSideContent="true">
-                
+                sideContentVisibility="ShowAboveS"
+                showSideContent="false"
+                containerQuery="true">
+
                 <l:mainContent>
-                    <VBox class="sapUiSmallMargin">
-                        <Title text="{object>/Description}" class="sapUiSmallMarginBottom" />
-                        <f:SimpleForm layout="ResponsiveGridLayout">
-                            <f:content>
-                                <Label text="{i18n>priorityLabel}"/>
-                                <ObjectStatus
-                                    text="{object>/PriorityText}"
-                                    state="{= ${object>/Priority} === '1' ? 'Error' : ${object>/Priority} === '2' ? 'Warning' : 'None' }" />
-                                <Label text="{i18n>notificationTypeLabel}"/>
-                                <Text text="{object>/NotificationTypeText}" />
-                                <Label text="{i18n>createdByLabel}"/>
-                                <Text text="{object>/CreatedByUser}" />
-                                <Label text="{i18n>creationDateLabel}"/>
-                                <Text text="{path: 'object>/CreationDate', formatter: '.formatter.formatDateTime'}" />
-                            </f:content>
-                        </f:SimpleForm>
-                    </VBox>
+                    <!-- Notification Object Header -->
+                    <ObjectHeader
+                        title="{object>/Description}"
+                        number="{object>/NotificationId}"
+                        numberUnit="ID"
+                        class="sapUiSmallMarginBottom">
+                        <statuses>
+                            <ObjectStatus
+                                text="{object>/PriorityText}"
+                                state="{= ${object>/Priority} === '1' ? 'Error' : ${object>/Priority} === '2' ? 'Warning' : 'None' }" />
+                            <ObjectStatus
+                                text="{object>/StatusText}"
+                                state="Information" />
+                        </statuses>
+                        <attributes>
+                            <ObjectAttribute title="{i18n>notificationTypeLabel}" text="{object>/NotificationTypeText}"/>
+                            <ObjectAttribute title="{i18n>createdByLabel}" text="{object>/CreatedByUser}"/>
+                            <ObjectAttribute title="{i18n>creationDateLabel}" text="{path: 'object>/CreationDate', formatter: '.formatter.formatDateTime'}"/>
+                            <ObjectAttribute title="{i18n>functionalLocationLabel}" text="{object>/FunctionalLocation}"/>
+                        </attributes>
+                    </ObjectHeader>
                     <IconTabBar
                         id="iconTabBar"
                         class="sapUiResponsiveContentPadding">

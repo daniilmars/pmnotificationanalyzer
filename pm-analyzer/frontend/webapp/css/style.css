@@ -1,6 +1,19 @@
-/* Erhöht die Basis-Schriftgrösse der gesamten Anwendung */
+/* --- ShellBar + App Layout --- */
+.sapUiView {
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+}
+
+.sapMApp {
+    flex: 1 1 auto;
+    position: relative !important;
+    height: auto !important;
+}
+
+/* --- Base Typography --- */
 .sapUiBody {
-    font-size: 1.05rem; 
+    font-size: 1.05rem;
 }
 
 .priorityStatus {
@@ -8,26 +21,14 @@
     font-weight: bold;
 }
 
-/* Erhöht die Basis-Schriftgrösse der gesamten Anwendung */
-.sapUiBody {
-    font-size: 1.05rem; 
-}
-
-.priorityStatus {
-    font-size: 1.25rem;
-    font-weight: bold;
-}
-
-/* --- START: Professional Timeline Styles --- */
-
-/* Base for each step in the timeline */
+/* --- Timeline Styles --- */
 .timelineStep {
     flex-grow: 1;
     text-align: center;
     padding: 0.5rem;
     margin-right: 0.25rem;
-    border-radius: 3px; /* Slightly sharper corners */
-    border: 1px solid transparent; /* Start with transparent border */
+    border-radius: 3px;
+    border: 1px solid transparent;
     transition: all 0.2s ease-in-out;
 }
 
@@ -36,24 +37,23 @@
 }
 
 .timelineText {
-    font-weight: 600; /* Semi-bold for better readability */
+    font-weight: 600;
 }
 
-/* Completed Step: Green for success */
+/* Completed Step */
 .timelineStep[data-status="completed"] {
-    background-color: #107e3e; /* SAP Success Green */
-    border-color: #0d6732; /* Darker Green */
+    background-color: #107e3e;
+    border-color: #0d6732;
 }
 .timelineStep[data-status="completed"] .timelineText,
 .timelineStep[data-status="completed"] .sapUiIcon {
     color: white;
 }
 
-/* Current Step: Blue for attention/in-progress */
+/* Current Step */
 .timelineStep[data-status="current"] {
-    background-color: #0a6ed1; /* SAP Info Blue */
-    border-color: #0057a8; /* Darker SAP Blue */
-    /* Make it stand out more */
+    background-color: #0a6ed1;
+    border-color: #0057a8;
     transform: scale(1.05);
     box-shadow: 0 0 8px rgba(0,0,0,0.3);
     z-index: 1;
@@ -62,26 +62,26 @@
     color: white;
 }
 
-/* Future Step: Grey for inactive */
+/* Future Step */
 .timelineStep[data-status="future"] {
-    background-color: #fafafa; /* Off-white */
-    border-color: #d9d9d9; /* Light Grey */
+    background-color: #fafafa;
+    border-color: #d9d9d9;
 }
 .timelineStep[data-status="future"] .timelineText {
-    color: #666666; /* Medium Grey */
+    color: #666666;
 }
-/* --- END: Professional Timeline Styles --- */
 
-/* Ensure the full text of problem descriptions is visible */
+/* Problem descriptions */
 .problemListItem .sapMText {
     white-space: normal;
 }
 
-/* --- START: Field Highlighting Animation --- */
-    0% { background-color: rgba(10, 110, 209, 0.2); } /* Light blue */
+/* Field Highlighting Animation */
+@keyframes highlight-field {
+    0% { background-color: rgba(10, 110, 209, 0.2); }
     100% { background-color: transparent; }
 }
 
+.highlightField {
     animation: highlight-field 2s ease-out;
 }
-/* --- END: Field Highlighting Animation --- */

@@ -9,15 +9,19 @@ sap.ui.define([
     return Controller.extend("com.sap.pm.launchpad.controller.Home", {
 
         onNavToPmAnalyzer: function () {
-            // In a real-world scenario, this would be a more robust navigation.
-            // For local development, we will just open the URL.
             URLHelper.redirect("http://localhost:8081/index.html", true);
         },
 
         onNavToRuleManager: function () {
-            // In a real-world scenario, this would be a more robust navigation.
-            // For local development, we will just open the URL.
             URLHelper.redirect("http://localhost:8080/index.html", true);
+        },
+
+        onNavToQualityDashboard: function () {
+            URLHelper.redirect("http://localhost:8081/index.html#/QualityDashboard", true);
+        },
+
+        onNavToReliabilityDashboard: function () {
+            URLHelper.redirect("http://localhost:8081/index.html#/ReliabilityDashboard", true);
         }
     });
 });

@@ -107,6 +107,18 @@ sap.ui.define([
             window.location.reload(); // Reload to refresh UI language
         },
 
+        onListUpdateFinished: function (oEvent) {
+            var sTitle,
+                iTotalItems = oEvent.getParameter("total"),
+                oTitle = this.byId("listTitle");
+            if (iTotalItems) {
+                sTitle = this.getView().getModel("i18n").getResourceBundle().getText("worklistTitle") + " (" + iTotalItems + ")";
+            } else {
+                sTitle = this.getView().getModel("i18n").getResourceBundle().getText("worklistTitle");
+            }
+            oTitle.setText(sTitle);
+        },
+
         onFilterSearch: function() {
             const aFilters = [];
             const sQuery = this.byId("shortTextFilter").getValue();

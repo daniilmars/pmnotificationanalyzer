@@ -13,8 +13,12 @@ services:
       - "5001:5001"
     env_file:
       - ./pm-analyzer/backend/.env
+    environment:
+      - RULE_MANAGER_URL=http://rule-manager-backend:5002
     volumes:
       - ./pm-analyzer/backend/data:/app/data
+    depends_on:
+      - rule-manager-backend
 
   pm-analyzer-frontend:
     build:

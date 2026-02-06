@@ -2,41 +2,81 @@
     controllerName="com.sap.pm.rulemanager.controller.RuleEditor"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc">
-    <Page title="Edit Ruleset" showNavButton="true" navButtonPress=".onNavBack">
-        <headerContent>
-            <Toolbar>
+    <Page showHeader="false" showNavButton="false">
+        <subHeader>
+            <OverflowToolbar>
+                <Button icon="sap-icon://nav-back" press=".onNavBack" type="Ghost" tooltip="Back"/>
+                <Title text="Edit Ruleset" level="H4"/>
                 <ToolbarSpacer />
-                <Button icon="sap-icon://add" text="Create Rule" press=".onCreateRule" visible="{viewModel>/isDraft}" />
-            </Toolbar>
-        </headerContent>
+                <Button icon="sap-icon://add" text="Create Rule" press=".onCreateRule" type="Emphasized" visible="{viewModel>/isDraft}" />
+            </OverflowToolbar>
+        </subHeader>
         <content>
+            <!-- Ruleset Header -->
+            <ObjectHeader
+                title="{ruleset>/name}"
+                number="v{ruleset>/version}"
+                intro="{ruleset>/notification_type}"
+                class="sapUiSmallMarginBottom">
+                <statuses>
+                    <ObjectStatus
+                        text="{ruleset>/status}"
+                        state="{= ${ruleset>/status} === 'Active' ? 'Success' : (${ruleset>/status} === 'Draft' ? 'Information' : 'None') }"
+                        icon="{= ${ruleset>/status} === 'Active' ? 'sap-icon://accept' : (${ruleset>/status} === 'Draft' ? 'sap-icon://edit' : 'sap-icon://history') }"/>
+                </statuses>
+                <attributes>
+                    <ObjectAttribute title="Group" text="{ruleset>/group_id}"/>
+                    <ObjectAttribute title="Created" text="{ruleset>/created_at_formatted}"/>
+                    <ObjectAttribute title="Created By" text="{ruleset>/created_by}"/>
+                </attributes>
+            </ObjectHeader>
+
+            <!-- Rules Table -->
             <Table
                 id="rulesTable"
                 items="{rules>/}"
-                noDataText="No rules defined for this ruleset.">
+                sticky="ColumnHeaders"
+                >
+                <noData>
+                    <IllustratedMessage
+                        illustrationType="sapIllus-AddColumn"
+                        title="No Rules Defined"
+                        description="Add rules to this ruleset using the Create Rule button above."/>
+                </noData>
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title text="Rules" level="H5"/>
+                        <ToolbarSpacer/>
+                    </OverflowToolbar>
+                </headerToolbar>
                 <columns>
-                    <Column><Text text="Rule Name" /></Column>
-                    <Column><Text text="Description" /></Column>
+                    <Column width="15%"><Text text="Rule Name" /></Column>
+                    <Column width="25%"><Text text="Description" /></Column>
                     <Column><Text text="Rule Type" /></Column>
                     <Column><Text text="Target Field" /></Column>
                     <Column><Text text="Condition" /></Column>
                     <Column><Text text="Value" /></Column>
-                    <Column><Text text="Score Impact" /></Column>
-                    <Column />
+                    <Column hAlign="End"><Text text="Score Impact" /></Column>
+                    <Column width="6rem" visible="{viewModel>/isDraft}" />
                 </columns>
                 <items>
                     <ColumnListItem>
                         <cells>
-                            <Text text="{rules>name}" />
+                            <ObjectIdentifier title="{rules>name}" />
                             <Text text="{rules>description}" />
-                            <Text text="{rules>rule_type}" />
+                            <ObjectStatus
+                                text="{rules>rule_type}"
+                                state="{= ${rules>rule_type} === 'VALIDATION' ? 'Information' : (${rules>rule_type} === 'AI_GUIDANCE' ? 'Success' : 'None') }"
+                                icon="{= ${rules>rule_type} === 'VALIDATION' ? 'sap-icon://validate' : 'sap-icon://ai' }"/>
                             <Text text="{rules>target_field}" />
                             <Text text="{rules>condition}" />
                             <Text text="{rules>value}" />
-                            <Text text="{rules>score_impact}" />
+                            <ObjectNumber
+                                number="{rules>score_impact}"
+                                state="{= ${rules>score_impact} > 0 ? 'Success' : (${rules>score_impact} &lt; 0 ? 'Error' : 'None') }"/>
                             <HBox visible="{viewModel>/isDraft}">
-                                <Button icon="sap-icon://edit" press=".onEditRule" />
-                                <Button icon="sap-icon://delete" press=".onDeleteRule" />
+                                <Button icon="sap-icon://edit" press=".onEditRule" type="Ghost" tooltip="Edit"/>
+                                <Button icon="sap-icon://delete" press=".onDeleteRule" type="Ghost" tooltip="Delete"/>
                             </HBox>
                         </cells>
                     </ColumnListItem>

@@ -2,28 +2,51 @@
     controllerName="com.sap.pm.launchpad.controller.Home"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns:f="sap.f">
-    <Page title="{i18n>homePageTitle}">
+    xmlns:f="sap.f"
+    xmlns:core="sap.ui.core">
+    <Page showHeader="false" backgroundDesign="List" enableScrolling="true">
         <content>
-            <VBox class="sapUiSmallMargin" justifyContent="Center" alignItems="Center">
-                <Title text="{i18n>applicationsTitle}" level="H2" class="sapUiSmallMargin"/>
-                <FlexBox justifyContent="Center" wrap="Wrap">
+            <VBox class="sapUiResponsiveMargin">
+                <Title text="{i18n>applicationsTitle}" level="H3" class="sapUiMediumMarginTop sapUiSmallMarginBottom"/>
+                <FlexBox wrap="Wrap" class="sapUiSmallMarginTop">
                     <GenericTile
-                        class="sapUiTinyMargin"
+                        class="sapUiTinyMarginBegin sapUiTinyMarginTop"
                         header="{i18n>maintenanceExecutionAssistantTileHeader}"
                         subheader="{i18n>maintenanceExecutionAssistantTileSubheader}"
+                        frameType="OneByOne"
                         press=".onNavToPmAnalyzer">
                         <TileContent>
-                            <ImageContent src="sap-icon://wrench"/>
+                            <ImageContent src="sap-icon://machine" />
                         </TileContent>
                     </GenericTile>
                     <GenericTile
-                        class="sapUiTinyMargin"
+                        class="sapUiTinyMarginBegin sapUiTinyMarginTop"
                         header="{i18n>ruleManagerTileHeader}"
                         subheader="{i18n>ruleManagerTileSubheader}"
+                        frameType="OneByOne"
                         press=".onNavToRuleManager">
                         <TileContent>
-                            <ImageContent src="sap-icon://action-settings"/>
+                            <ImageContent src="sap-icon://bbyd-dashboard" />
+                        </TileContent>
+                    </GenericTile>
+                    <GenericTile
+                        class="sapUiTinyMarginBegin sapUiTinyMarginTop"
+                        header="{i18n>qualityDashboardTileHeader}"
+                        subheader="{i18n>qualityDashboardTileSubheader}"
+                        frameType="OneByOne"
+                        press=".onNavToQualityDashboard">
+                        <TileContent>
+                            <ImageContent src="sap-icon://quality-issue" />
+                        </TileContent>
+                    </GenericTile>
+                    <GenericTile
+                        class="sapUiTinyMarginBegin sapUiTinyMarginTop"
+                        header="{i18n>reliabilityDashboardTileHeader}"
+                        subheader="{i18n>reliabilityDashboardTileSubheader}"
+                        frameType="OneByOne"
+                        press=".onNavToReliabilityDashboard">
+                        <TileContent>
+                            <ImageContent src="sap-icon://monitor-payments" />
                         </TileContent>
                     </GenericTile>
                 </FlexBox>

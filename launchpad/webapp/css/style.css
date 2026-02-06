@@ -1,0 +1,19 @@
+/* Launchpad Styling */
+
+/* Ensure ShellBar + App stack properly */
+.sapUiView {
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+}
+
+.sapMApp {
+    flex: 1 1 auto;
+    position: relative !important;
+    height: auto !important;
+}
+
+/* Tile section spacing */
+.sapUiResponsiveMargin .sapMGT {
+    margin: 0.5rem;
+}

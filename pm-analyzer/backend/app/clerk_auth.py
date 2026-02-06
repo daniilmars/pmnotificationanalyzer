@@ -492,6 +492,11 @@ def require_role(*roles: str) -> Callable:
         @wraps(f)
         @require_auth
         def decorated(*args, **kwargs):
+            # Skip role check if auth is disabled (development mode)
+            config = get_clerk_config()
+            if not config.enabled:
+                return f(*args, **kwargs)
+
             user = get_current_user()
 
             if not user:

@@ -54,6 +54,26 @@ sap.ui.define([
             }
         },
 
+        formatDate: function (sDateStr) {
+            if (!sDateStr) { return ""; }
+            try {
+                var oDate = new Date(sDateStr);
+                return oDate.toLocaleDateString();
+            } catch (e) {
+                return sDateStr;
+            }
+        },
+
+        onSearchRulesets: function (oEvent) {
+            var sQuery = oEvent.getParameter("newValue");
+            var aFilters = [];
+            if (sQuery) {
+                aFilters.push(new Filter("name", FilterOperator.Contains, sQuery));
+            }
+            var oTable = this.byId("rulesetsTable");
+            oTable.getBinding("items").filter(aFilters);
+        },
+
         onPressRuleset: function (oEvent) {
             const oItem = oEvent.getSource();
             const oBindingContext = oItem.getBindingContext("rulesets");

@@ -2,6 +2,19 @@
     controllerName="com.sap.pm.launchpad.controller.App"
     xmlns:mvc="sap.ui.core.mvc"
     xmlns="sap.m"
+    xmlns:f="sap.f"
     displayBlock="true">
+    <f:ShellBar
+        id="shellBar"
+        title="PM Notification Quality Suite"
+        showNavButton="false"
+        showCopilot="false"
+        showSearch="false"
+        showNotifications="false"
+        showProductSwitcher="false">
+        <f:profile>
+            <Avatar initials="U" displaySize="XS"/>
+        </f:profile>
+    </f:ShellBar>
     <App id="app"/>
 </mvc:View>

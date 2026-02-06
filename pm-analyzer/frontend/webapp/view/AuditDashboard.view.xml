@@ -54,7 +54,7 @@
                     <GenericTile
                         class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                         header="{i18n>totalChanges}"
-                        subheader="{i18n>inPeriod}">
+                        subheader="In Period">
                         <TileContent>
                             <NumericContent
                                 value="{audit>/summary/totalChanges}"
@@ -65,7 +65,7 @@
                     <GenericTile
                         class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                         header="{i18n>objectsChanged}"
-                        subheader="{i18n>uniqueObjects}">
+                        subheader="Unique Objects">
                         <TileContent>
                             <NumericContent
                                 value="{audit>/summary/objectsChanged}"
@@ -76,7 +76,7 @@
                     <GenericTile
                         class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                         header="{i18n>usersInvolved}"
-                        subheader="{i18n>activeUsers}">
+                        subheader="Active Users">
                         <TileContent>
                             <NumericContent
                                 value="{audit>/summary/usersInvolved}"
@@ -87,7 +87,7 @@
                     <GenericTile
                         class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                         header="{i18n>creates}"
-                        subheader="{i18n>newRecords}">
+                        subheader="New Records">
                         <TileContent>
                             <NumericContent
                                 value="{audit>/summary/inserts}"
@@ -99,7 +99,7 @@
                     <GenericTile
                         class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                         header="{i18n>updates}"
-                        subheader="{i18n>modifications}">
+                        subheader="Modifications">
                         <TileContent>
                             <NumericContent
                                 value="{audit>/summary/updates}"
@@ -111,7 +111,7 @@
                     <GenericTile
                         class="sapUiTinyMarginEnd sapUiTinyMarginBottom"
                         header="{i18n>deletes}"
-                        subheader="{i18n>removals}">
+                        subheader="Removals">
                         <TileContent>
                             <NumericContent
                                 value="{audit>/summary/deletes}"
@@ -169,11 +169,11 @@
                     </content>
                 </Panel>
 
-                <!-- Changes by Object Class -->
-                <l:HorizontalLayout width="100%" class="sapUiSmallMarginBottom" allowWrapping="true">
-                    <Panel headerText="{i18n>changesByObjectClass}" class="sapUiSmallMarginEnd" width="48%">
+                <!-- Changes Distribution -->
+                <l:Grid defaultSpan="L6 M6 S12" class="sapUiSmallMarginBottom">
+                    <Panel headerText="Changes by Object Class">
                         <content>
-                            <List items="{audit>/byObjectClass}" noDataText="{i18n>noDataText}">
+                            <List items="{audit>/byObjectClass}" noDataText="No changes found.">
                                 <StandardListItem
                                     title="{audit>object_class}"
                                     info="{audit>count}"
@@ -181,10 +181,9 @@
                             </List>
                         </content>
                     </Panel>
-
-                    <Panel headerText="{i18n>changesByUser}" width="48%">
+                    <Panel headerText="Changes by User">
                         <content>
-                            <List items="{audit>/byUser}" noDataText="{i18n>noDataText}">
+                            <List items="{audit>/byUser}" noDataText="No changes found.">
                                 <StandardListItem
                                     title="{audit>username}"
                                     info="{audit>count}"
@@ -192,7 +191,7 @@
                             </List>
                         </content>
                     </Panel>
-                </l:HorizontalLayout>
+                </l:Grid>
 
                 <!-- Recent Changes Table -->
                 <Panel

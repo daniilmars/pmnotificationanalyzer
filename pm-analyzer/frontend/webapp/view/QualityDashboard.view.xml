@@ -41,8 +41,7 @@
             <l:VerticalLayout width="100%" class="sapUiSmallMargin">
 
                 <!-- KPI Tiles Row -->
-                <l:HorizontalLayout class="sapUiSmallMarginBottom" allowWrapping="true">
-                    <l:LayoutData><l:HorizontalLayoutData /></l:LayoutData>
+                <FlexBox wrap="Wrap" class="sapUiSmallMarginBottom">
 
                     <!-- Overall Quality Score Tile -->
                     <GenericTile
@@ -55,7 +54,7 @@
                                 value="{dashboard>/summary/averageScore}"
                                 scale="%"
                                 valueColor="{= ${dashboard>/summary/averageScore} >= 80 ? 'Good' : (${dashboard>/summary/averageScore} >= 60 ? 'Critical' : 'Error') }"
-                                indicator="{= ${dashboard>/summary/scoreTrend} > 0 ? 'Up' : (${dashboard>/summary/scoreTrend} < 0 ? 'Down' : 'None') }"/>
+                                indicator="{= ${dashboard>/summary/scoreTrend} > 0 ? 'Up' : (${dashboard>/summary/scoreTrend} &lt; 0 ? 'Down' : 'None') }"/>
                         </TileContent>
                     </GenericTile>
 
@@ -116,10 +115,10 @@
                                 valueColor="{= ${dashboard>/summary/alcoaCompliance} >= 90 ? 'Good' : (${dashboard>/summary/alcoaCompliance} >= 70 ? 'Critical' : 'Error') }"/>
                         </TileContent>
                     </GenericTile>
-                </l:HorizontalLayout>
+                </FlexBox>
 
                 <!-- Trend Chart and Distribution Panel -->
-                <l:HorizontalLayout width="100%" class="sapUiSmallMarginBottom" allowWrapping="true">
+                <FlexBox wrap="Wrap" class="sapUiSmallMarginBottom">
 
                     <!-- Quality Trend Panel -->
                     <Panel
@@ -178,7 +177,7 @@
                             </VBox>
                         </content>
                     </Panel>
-                </l:HorizontalLayout>
+                </FlexBox>
 
                 <!-- ALCOA+ Compliance Details Panel -->
                 <Panel

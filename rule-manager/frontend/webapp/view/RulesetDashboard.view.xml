@@ -4,21 +4,24 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:core="sap.ui.core">
 
-    <Page id="rulesetListPage" title="{i18n>dashboardTitle}">
-        <headerContent>
+    <Page id="rulesetListPage" showHeader="false">
+        <subHeader>
             <Toolbar>
+                <Title text="{i18n>dashboardTitle}" level="H4"/>
                 <ToolbarSpacer />
                 <!-- Create Ruleset - requires permission -->
                 <Button
                     icon="sap-icon://add"
                     text="Create Ruleset"
                     press=".onCreateRuleset"
+                    type="Emphasized"
                     visible="{= ${auth>/isAuthenticated} &amp;&amp; ${auth>/permissions}.indexOf('rulesets:create') !== -1 }"/>
                 <!-- Import from SOP - requires permission -->
                 <Button
                     icon="sap-icon://initiative"
                     text="Import from SOP"
                     press=".onImportFromSop"
+                    type="Ghost"
                     visible="{= ${auth>/isAuthenticated} &amp;&amp; ${auth>/permissions}.indexOf('sop:extract') !== -1 }"/>
                 <ToolbarSeparator/>
                 <!-- Login Button - shown when not authenticated -->
@@ -37,38 +40,62 @@
                     press=".onUserMenuPress"
                     visible="{auth>/isAuthenticated}"/>
             </Toolbar>
-        </headerContent>
+        </subHeader>
         <content>
             <Table
                 id="rulesetsTable"
                 items="{rulesets>/}"
-                noDataText="{i18n>noDataText}">
+                mode="SingleSelectMaster"
+                sticky="ColumnHeaders"
+                growing="true"
+                growingThreshold="20">
+                <noData>
+                    <IllustratedMessage
+                        illustrationType="sapIllus-EmptyList"
+                        title="{i18n>noDataText}"
+                        description="{i18n>noRulesetsDescription}"/>
+                </noData>
+                <headerToolbar>
+                    <OverflowToolbar>
+                        <Title text="Rulesets" level="H5"/>
+                        <ToolbarSpacer/>
+                        <SearchField placeholder="Search..." width="15rem" liveChange=".onSearchRulesets"/>
+                    </OverflowToolbar>
+                </headerToolbar>
                 <columns>
-                    <Column><Text text="{i18n>rulesetNameLabel}" /></Column>
-                    <Column><Text text="{i18n>assignedToLabel}" /></Column>
-                    <Column><Text text="{i18n>statusLabel}" /></Column>
-                    <Column><Text text="{i18n>versionLabel}" /></Column>
-                    <Column />
+                    <Column width="25%"><Text text="{i18n>rulesetNameLabel}" /></Column>
+                    <Column width="12%"><Text text="{i18n>assignedToLabel}" /></Column>
+                    <Column width="10%"><Text text="{i18n>statusLabel}" /></Column>
+                    <Column width="8%" hAlign="Center"><Text text="{i18n>versionLabel}" /></Column>
+                    <Column width="15%"><Text text="Created" /></Column>
+                    <Column width="30%" hAlign="End"/>
                 </columns>
                 <items>
                     <ColumnListItem type="Navigation" press=".onPressRuleset">
                         <cells>
-                            <Text text="{rulesets>name}" />
+                            <ObjectIdentifier title="{rulesets>name}" text="{rulesets>group_id}"/>
                             <Text text="{rulesets>notification_type}" />
-                            <ObjectStatus text="{rulesets>status}" />
-                            <Text text="{rulesets>version}" />
-                            <HBox>
-                                <!-- Edit button - requires rulesets:update permission and Draft status -->
+                            <ObjectStatus
+                                text="{rulesets>status}"
+                                state="{= ${rulesets>status} === 'Active' ? 'Success' : (${rulesets>status} === 'Draft' ? 'Information' : 'None') }"
+                                icon="{= ${rulesets>status} === 'Active' ? 'sap-icon://accept' : (${rulesets>status} === 'Draft' ? 'sap-icon://edit' : 'sap-icon://history') }"/>
+                            <ObjectNumber number="{rulesets>version}" unit="v" emphasized="false"/>
+                            <Text text="{
+                                path: 'rulesets>created_at',
+                                formatter: '.formatDate'
+                            }"/>
+                            <HBox justifyContent="End">
                                 <Button
                                     icon="sap-icon://edit"
                                     press=".onEditRuleset"
                                     tooltip="{i18n>editRuleset}"
+                                    type="Transparent"
                                     visible="{= ${rulesets>status} === 'Draft' &amp;&amp; ${auth>/permissions}.indexOf('rulesets:update') !== -1 }"/>
-                                <!-- Activate button - requires rulesets:activate permission and Draft status -->
                                 <Button
                                     icon="sap-icon://activate"
                                     press=".onActivateRuleset"
                                     tooltip="{i18n>activateRuleset}"
+                                    type="Transparent"
                                     visible="{= ${rulesets>status} === 'Draft' &amp;&amp; ${auth>/permissions}.indexOf('rulesets:activate') !== -1 }"/>
                             </HBox>
                         </cells>

@@ -22,8 +22,10 @@ sap.ui.define([
         _onObjectMatched: async function (oEvent) {
             const sRulesetId = oEvent.getParameter("arguments").rulesetId;
             this._rulesetId = sRulesetId;
-            const oModel = new JSONModel();
+            var oModel = new JSONModel();
             this.getView().setModel(oModel, "rules");
+            var oRulesetModel = new JSONModel();
+            this.getView().setModel(oRulesetModel, "ruleset");
             this._loadRules();
         },
 
@@ -37,6 +39,20 @@ sap.ui.define([
                 console.log("Rules data received from backend:", data.rules);
                 this.getView().getModel("rules").setData(data.rules);
                 this.getView().getModel("viewModel").setProperty("/isDraft", data.status === "Draft");
+                // Populate ruleset header model
+                var sCreatedAt = data.created_at || "";
+                if (sCreatedAt) {
+                    try { sCreatedAt = new Date(sCreatedAt).toLocaleDateString(); } catch (e) { /* keep raw */ }
+                }
+                this.getView().getModel("ruleset").setData({
+                    name: data.name,
+                    version: data.version,
+                    status: data.status,
+                    notification_type: data.notification_type,
+                    group_id: data.group_id,
+                    created_by: data.created_by,
+                    created_at_formatted: sCreatedAt
+                });
             } catch (error) {
                 MessageBox.error(error.message);
             }

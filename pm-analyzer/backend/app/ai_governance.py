@@ -23,7 +23,7 @@ from functools import wraps
 logger = logging.getLogger(__name__)
 
 # AI Governance Configuration
-APPROVED_MODELS = os.environ.get('APPROVED_AI_MODELS', 'gemini-pro,gemini-1.5-pro,gemini-1.5-flash').split(',')
+APPROVED_MODELS = os.environ.get('APPROVED_AI_MODELS', 'gemini-pro,gemini-1.5-pro,gemini-1.5-flash,gemini-2.0-flash,gemini-2.5-pro,gemini-2.5-flash').split(',')
 AI_GOVERNANCE_ENABLED = os.environ.get('AI_GOVERNANCE_ENABLED', 'true').lower() == 'true'
 AI_USAGE_LOG_RETENTION_DAYS = int(os.environ.get('AI_USAGE_LOG_RETENTION_DAYS', '2555'))  # ~7 years default
 
