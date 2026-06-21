@@ -115,7 +115,8 @@
                 "sap.f": {},
                 "sap.ushell": {},
                 "sap.ui.comp": {},
-                "sap.suite.ui.commons": {}
+                "sap.suite.ui.commons": {},
+                "sap.uxap": {}
             }
         },
         "contentDensities": { "compact": true, "cozy": true },

@@ -40,19 +40,10 @@ sap.ui.define([
             }
         },
 
-        onToggleSideContent: function (oEvent) {
-            const oDynamicSideContent = this.byId("DynamicSideContent");
-            // Toggle the showSideContent property
-            const bCurrentState = oDynamicSideContent.getShowSideContent();
-            oDynamicSideContent.setShowSideContent(!bCurrentState);
-            
-            // Update button text/icon state if needed (optional, but good UX)
-            const oButton = oEvent.getSource();
-            if (bCurrentState) { // if it was true, now false (hidden)
-                 oButton.setType("Default");
-            } else {
-                 oButton.setType("Emphasized");
-            }
+        onScrollToQuality: function () {
+            const oObjectPageLayout = this.byId("objectPageLayout");
+            const oQualitySection = this.byId("qualitySection");
+            oObjectPageLayout.scrollToSection(oQualitySection.getId(), 300);
         },
 
         _onObjectMatched: async function (oEvent) {
@@ -242,61 +233,50 @@ sap.ui.define([
         },
         
         onProblemPress: function (oEvent) {
-             const sFieldId = oEvent.getSource().data("field");
-             const oIconTabBar = this.byId("iconTabBar");
-             let oTargetControl;
-             let sTargetTabKey;
- 
-             switch (sFieldId) {
-                 case "DESCRIPTION":
-                     sTargetTabKey = "notification";
-                     oTargetControl = this.byId("notificationDetailsVBox"); 
-                     break;
-                 case "LONG_TEXT":
-                     // In new layout, this is in side content, always visible if open.
-                     // Focus the text area
-                     oTargetControl = this.byId("longTextForAnalysis");
-                     // Ensure side content is open
-                     const oDSC = this.byId("DynamicSideContent");
-                     if (!oDSC.getShowSideContent()) {
-                         oDSC.setShowSideContent(true);
-                     }
-                     break;
-                 case "DAMAGE_CODE":
-                 case "CAUSE_CODE":
-                     sTargetTabKey = "notification";
-                     oTargetControl = this.byId("codesForm");
-                     break;
-                 case "WORK_ORDER_DESCRIPTION":
-                     sTargetTabKey = "workOrder";
-                     oTargetControl = this.byId("workOrderDetailsForm"); 
-                     break;
-                 default: 
-                     // General issue
-                     break;
-             }
- 
-             if (sTargetTabKey && oIconTabBar.getSelectedKey() !== sTargetTabKey) {
-                 oIconTabBar.setSelectedKey(sTargetTabKey);
-             }
- 
-             setTimeout(() => {
-                 if (oTargetControl) {
-                     const oDomRef = oTargetControl.getDomRef();
-                     if (oDomRef) {
-                         oDomRef.scrollIntoView({ behavior: "smooth", block: "center" });
-     
-                         oDomRef.classList.add("highlighted-field");
-                         oDomRef.addEventListener("animationend", () => {
-                             oDomRef.classList.remove("highlighted-field");
-                         });
-     
-                         if (oTargetControl.focus) {
-                             setTimeout(() => oTargetControl.focus(), 300);
-                         }
-                     }
-                 }
-             }, 300); 
+            const sFieldId = oEvent.getSource().data("field");
+            const oObjectPageLayout = this.byId("objectPageLayout");
+            let oTargetSection;
+            let oTargetControl;
+
+            switch (sFieldId) {
+                case "DESCRIPTION":
+                case "LONG_TEXT":
+                    oTargetSection = this.byId("notificationSection");
+                    oTargetControl = this.byId("notificationDetailsForm");
+                    break;
+                case "DAMAGE_CODE":
+                case "CAUSE_CODE":
+                    oTargetSection = this.byId("notificationSection");
+                    oTargetControl = this.byId("codesForm");
+                    break;
+                case "WORK_ORDER_DESCRIPTION":
+                    oTargetSection = this.byId("workOrderSection");
+                    oTargetControl = this.byId("workOrderDetailsForm");
+                    break;
+                default:
+                    oTargetSection = this.byId("notificationSection");
+                    break;
+            }
+
+            if (oTargetSection) {
+                oObjectPageLayout.scrollToSection(oTargetSection.getId(), 300);
+            }
+
+            setTimeout(() => {
+                if (oTargetControl) {
+                    const oDomRef = oTargetControl.getDomRef();
+                    if (oDomRef) {
+                        oDomRef.scrollIntoView({ behavior: "smooth", block: "center" });
+                        oDomRef.classList.add("highlighted-field");
+                        oDomRef.addEventListener("animationend", () => {
+                            oDomRef.classList.remove("highlighted-field");
+                        });
+                        if (oTargetControl.focus) {
+                            setTimeout(() => oTargetControl.focus(), 300);
+                        }
+                    }
+                }
+            }, 350);
         }
     });
 });

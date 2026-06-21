@@ -76,6 +76,11 @@
     white-space: normal;
 }
 
+/* Object Page Layout full height fill */
+.sapUxAPObjectPageLayout {
+    height: 100%;
+}
+
 /* Field Highlighting Animation */
 @keyframes highlight-field {
     0% { background-color: rgba(10, 110, 209, 0.2); }

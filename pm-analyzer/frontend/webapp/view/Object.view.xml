@@ -4,256 +4,334 @@
     xmlns:mvc="sap.ui.core.mvc"
     xmlns:f="sap.ui.layout.form"
     xmlns:l="sap.ui.layout"
+    xmlns:uxap="sap.uxap"
     xmlns:core="sap.ui.core">
 
-    <Page
-        id="page"
-        showHeader="false"
-        showNavButton="false">
-        <subHeader>
-            <OverflowToolbar>
-                <Button icon="sap-icon://nav-back" press=".onNavBack" type="Ghost" tooltip="Back"/>
-                <Title text="{i18n>objectTitle}: {object>/NotificationId}" level="H4"/>
-                <ToolbarSpacer />
-                <Button
-                    id="toggleSideContentBtn"
-                    icon="sap-icon://ai"
-                    text="{i18n>qualityAnalysisTab}"
-                    press=".onToggleSideContent"
-                    type="Emphasized" />
-            </OverflowToolbar>
-        </subHeader>
-        <content>
-            <l:DynamicSideContent
-                id="DynamicSideContent"
-                class="sapUiDSCExplored"
-                sideContentVisibility="ShowAboveS"
-                showSideContent="false"
-                containerQuery="true">
+    <uxap:ObjectPageLayout id="objectPageLayout" upperCaseAnchorBar="false" showTitleInHeaderContent="false">
 
-                <l:mainContent>
-                    <!-- Notification Object Header -->
-                    <ObjectHeader
-                        title="{object>/Description}"
-                        number="{object>/NotificationId}"
-                        numberUnit="ID"
-                        class="sapUiSmallMarginBottom">
-                        <statuses>
-                            <ObjectStatus
-                                text="{object>/PriorityText}"
-                                state="{= ${object>/Priority} === '1' ? 'Error' : ${object>/Priority} === '2' ? 'Warning' : 'None' }" />
-                            <ObjectStatus
-                                text="{object>/StatusText}"
-                                state="Information" />
-                        </statuses>
-                        <attributes>
-                            <ObjectAttribute title="{i18n>notificationTypeLabel}" text="{object>/NotificationTypeText}"/>
-                            <ObjectAttribute title="{i18n>createdByLabel}" text="{object>/CreatedByUser}"/>
-                            <ObjectAttribute title="{i18n>creationDateLabel}" text="{path: 'object>/CreationDate', formatter: '.formatter.formatDateTime'}"/>
-                            <ObjectAttribute title="{i18n>functionalLocationLabel}" text="{object>/FunctionalLocation}"/>
-                        </attributes>
-                    </ObjectHeader>
-                    <IconTabBar
-                        id="iconTabBar"
-                        class="sapUiResponsiveContentPadding">
-                        <items>
-                            <IconTabFilter key="notification" text="{i18n>notificationDetailsTab}">
-                                
-                                <HBox items="{timeline>/notification}" class="sapUiSmallMarginBottom">
+        <uxap:headerTitle>
+            <uxap:ObjectPageDynamicHeaderTitle>
+                <uxap:breadcrumbs>
+                    <Breadcrumbs currentLocationText="{object>/NotificationId}">
+                        <links>
+                            <Link text="{i18n>worklistTitle}" press=".onNavBack"/>
+                        </links>
+                    </Breadcrumbs>
+                </uxap:breadcrumbs>
+                <uxap:expandedHeading>
+                    <Title text="{object>/Description}" level="H2" wrapping="true"/>
+                </uxap:expandedHeading>
+                <uxap:snappedHeading>
+                    <VBox>
+                        <Title text="{object>/Description}" level="H3"/>
+                        <Text text="{object>/NotificationId}" class="sapUiTinyMarginTop"/>
+                    </VBox>
+                </uxap:snappedHeading>
+                <uxap:content>
+                    <HBox wrap="Wrap" alignItems="Center">
+                        <ObjectStatus
+                            text="{object>/PriorityText}"
+                            state="{= ${object>/Priority} === '1' ? 'Error' : ${object>/Priority} === '2' ? 'Warning' : 'None'}"
+                            class="sapUiSmallMarginEnd sapUiSmallMarginTop"/>
+                        <ObjectStatus
+                            text="{object>/StatusText}"
+                            state="Information"
+                            class="sapUiSmallMarginEnd sapUiSmallMarginTop"/>
+                        <ObjectStatus
+                            text="{object>/NotificationTypeText}"
+                            state="None"
+                            class="sapUiSmallMarginTop"/>
+                    </HBox>
+                </uxap:content>
+                <uxap:snappedContent>
+                    <HBox wrap="Wrap" alignItems="Center">
+                        <ObjectStatus
+                            text="{object>/PriorityText}"
+                            state="{= ${object>/Priority} === '1' ? 'Error' : ${object>/Priority} === '2' ? 'Warning' : 'None'}"
+                            class="sapUiTinyMarginEnd"/>
+                        <ObjectStatus text="{object>/StatusText}" state="Information"/>
+                    </HBox>
+                </uxap:snappedContent>
+                <uxap:actions>
+                    <Button
+                        id="scrollToQualityBtn"
+                        icon="sap-icon://ai"
+                        text="{i18n>qualityAnalysisTab}"
+                        type="Emphasized"
+                        press=".onScrollToQuality"/>
+                </uxap:actions>
+                <uxap:navigationActions>
+                    <Button icon="sap-icon://nav-back" press=".onNavBack" type="Transparent" tooltip="Back"/>
+                </uxap:navigationActions>
+            </uxap:ObjectPageDynamicHeaderTitle>
+        </uxap:headerTitle>
+
+        <uxap:headerContent>
+            <l:HorizontalLayout allowWrapping="true">
+                <ObjectAttribute title="{i18n>notificationTypeLabel}" text="{object>/NotificationTypeText}" class="sapUiSmallMarginEnd"/>
+                <ObjectAttribute title="{i18n>createdByLabel}" text="{object>/CreatedByUser}" class="sapUiSmallMarginEnd"/>
+                <ObjectAttribute title="{i18n>creationDateLabel}" text="{path: 'object>/CreationDate', formatter: '.formatter.formatDateTime'}" class="sapUiSmallMarginEnd"/>
+                <ObjectAttribute title="{i18n>functionalLocationLabel}" text="{object>/FunctionalLocation}"/>
+            </l:HorizontalLayout>
+        </uxap:headerContent>
+
+        <uxap:sections>
+
+            <!-- Section 1: Notification Details -->
+            <uxap:ObjectPageSection title="{i18n>notificationDetailsTab}" id="notificationSection" titleUppercase="false">
+                <uxap:subSections>
+
+                    <uxap:ObjectPageSubSection title="Status" titleUppercase="false">
+                        <uxap:blocks>
+                            <VBox class="sapUiMediumMarginTop sapUiMediumMarginBottom" width="100%">
+                                <HBox items="{timeline>/notification}" width="100%">
                                     <VBox class="timelineStep">
                                         <customData>
-                                            <core:CustomData key="status" value="{timeline>status}" writeToDom="true" />
+                                            <core:CustomData key="status" value="{timeline>status}" writeToDom="true"/>
                                         </customData>
                                         <HBox justifyContent="Center" alignItems="Center" width="100%">
                                             <Text text="{timeline>text}" class="timelineText"/>
                                             <core:Icon
                                                 src="sap-icon://accept"
                                                 class="sapUiTinyMarginBegin"
-                                                visible="{= ${timeline>status} === 'completed' }" />
+                                                visible="{= ${timeline>status} === 'completed'}"/>
                                         </HBox>
                                     </VBox>
                                 </HBox>
+                            </VBox>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
 
-                                <f:SimpleForm layout="ResponsiveGridLayout" class="sapUiLargeMarginTop">
-                                    <f:content>
-                                        <Label text="{i18n>functionalLocationLabel}"/>
-                                        <Text text="{object>/FunctionalLocation}" />
-                                        <Label text="{i18n>equipmentLabel}"/>
-                                        <Text text="{object>/EquipmentNumber}" />
-                                        <Label text="{i18n>requiredStartLabel}"/>
-                                        <Text text="{path: 'object>/RequiredStartDate', formatter: '.formatter.formatDateTime'}" />
-                                        <Label text="{i18n>requiredEndLabel}"/>
-                                        <Text text="{path: 'object>/RequiredEndDate', formatter: '.formatter.formatDateTime'}" />
-                                        <Label text="{i18n>malfunctionStartLabel}"/>
-                                        <Text text="{path: 'object>/MalfunctionStartDate', formatter: '.formatter.formatDateTime'}" />
-                                        <Label text="{i18n>malfunctionEndLabel}"/>
-                                        <Text text="{path: 'object>/MalfunctionEndDate', formatter: '.formatter.formatDateTime'}" />
-                                        <Label text="{i18n>longTextLabel}"/>
-                                        <Text text="{object>/LongText}" />
-                                    </f:content>
-                                </f:SimpleForm>
-                                <f:SimpleForm id="codesForm" title="{i18n>codesLabel}" layout="ResponsiveGridLayout">
-                                    <f:content>
-                                        <Label text="{i18n>damageLabel}"/>
-                                        <Text text="{object>/Damage/Text} ({object>/Damage/CodeGroup} - {object>/Damage/Code})" />
-                                        <Label text="{i18n>causeLabel}"/>
-                                        <Text text="{object>/Cause/Text} ({object>/Cause/CodeGroup} - {object>/Cause/Code})" />
-                                    </f:content>
-                                </f:SimpleForm>
-                            </IconTabFilter>
+                    <uxap:ObjectPageSubSection title="Details" id="notificationDetailsSubSection" titleUppercase="false">
+                        <uxap:blocks>
+                            <f:SimpleForm id="notificationDetailsForm" layout="ResponsiveGridLayout" class="sapUiMediumMarginTop sapUiMediumMarginBottom">
+                                <f:content>
+                                    <Label text="{i18n>functionalLocationLabel}"/>
+                                    <Text text="{object>/FunctionalLocation}"/>
+                                    <Label text="{i18n>equipmentLabel}"/>
+                                    <Text text="{object>/EquipmentNumber}"/>
+                                    <Label text="{i18n>requiredStartLabel}"/>
+                                    <Text text="{path: 'object>/RequiredStartDate', formatter: '.formatter.formatDateTime'}"/>
+                                    <Label text="{i18n>requiredEndLabel}"/>
+                                    <Text text="{path: 'object>/RequiredEndDate', formatter: '.formatter.formatDateTime'}"/>
+                                    <Label text="{i18n>malfunctionStartLabel}"/>
+                                    <Text text="{path: 'object>/MalfunctionStartDate', formatter: '.formatter.formatDateTime'}"/>
+                                    <Label text="{i18n>malfunctionEndLabel}"/>
+                                    <Text text="{path: 'object>/MalfunctionEndDate', formatter: '.formatter.formatDateTime'}"/>
+                                    <Label text="{i18n>longTextLabel}"/>
+                                    <Text text="{object>/LongText}" wrapping="true"/>
+                                </f:content>
+                            </f:SimpleForm>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
 
-                            <IconTabFilter key="workOrder" text="{i18n>workOrderTab}">
-                                
-                                <HBox items="{timeline>/workOrder}" class="sapUiSmallMarginBottom">
+                    <uxap:ObjectPageSubSection title="{i18n>codesLabel}" id="codesSubSection" titleUppercase="false">
+                        <uxap:blocks>
+                            <f:SimpleForm id="codesForm" layout="ResponsiveGridLayout" class="sapUiMediumMarginTop sapUiMediumMarginBottom">
+                                <f:content>
+                                    <Label text="{i18n>damageLabel}"/>
+                                    <Text text="{object>/Damage/Text} ({object>/Damage/CodeGroup} - {object>/Damage/Code})"/>
+                                    <Label text="{i18n>causeLabel}"/>
+                                    <Text text="{object>/Cause/Text} ({object>/Cause/CodeGroup} - {object>/Cause/Code})"/>
+                                </f:content>
+                            </f:SimpleForm>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <!-- Section 2: Work Order -->
+            <uxap:ObjectPageSection title="{i18n>workOrderTab}" id="workOrderSection" titleUppercase="false">
+                <uxap:subSections>
+
+                    <uxap:ObjectPageSubSection title="Order Status" titleUppercase="false">
+                        <uxap:blocks>
+                            <VBox class="sapUiMediumMarginTop sapUiMediumMarginBottom" width="100%">
+                                <HBox items="{timeline>/workOrder}" width="100%">
                                     <VBox class="timelineStep">
                                         <customData>
-                                            <core:CustomData key="status" value="{timeline>status}" writeToDom="true" />
+                                            <core:CustomData key="status" value="{timeline>status}" writeToDom="true"/>
                                         </customData>
                                         <HBox justifyContent="Center" alignItems="Center" width="100%">
                                             <Text text="{timeline>text}" class="timelineText"/>
                                             <core:Icon
                                                 src="sap-icon://accept"
                                                 class="sapUiTinyMarginBegin"
-                                                visible="{= ${timeline>status} === 'completed' }" />
+                                                visible="{= ${timeline>status} === 'completed'}"/>
                                         </HBox>
                                     </VBox>
                                 </HBox>
+                            </VBox>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
 
-                                <f:SimpleForm id="workOrderDetailsForm" layout="ResponsiveGridLayout" class="sapUiLargeMarginTop">
-                                    <f:content>
-                                        <Label text="{i18n>orderIdLabel}"/>
-                                        <Text text="{object>/WorkOrder/OrderId}" />
-                                        <Label text="{i18n>descriptionLabel}"/>
-                                        <Text text="{object>/WorkOrder/Description}" />
-                                        <Label text="{i18n>orderTypeLabel}"/>
-                                        <Text text="{object>/WorkOrder/OrderTypeText}" />
-                                        <Label text="{i18n>workCenterLabel}"/>
-                                        <Text text="{object>/WorkOrder/WorkCenter}" />
-                                        <Label text="{i18n>plannerGroupLabel}"/>
-                                        <Text text="{object>/WorkOrder/PlannerGroup}" />
-                                        <Label text="{i18n>basicStartDateLabel}"/>
-                                        <Text text="{path: 'object>/WorkOrder/BasicStartDate', formatter: '.formatter.formatDateTime'}" />
-                                        <Label text="{i18n>basicEndDateLabel}"/>
-                                        <Text text="{path: 'object>/WorkOrder/BasicEndDate', formatter: '.formatter.formatDateTime'}" />                            </f:content>
-                                </f:SimpleForm>
-                                <Table
-                                    headerText="{i18n>operationsHeader}"
-                                    items="{object>/WorkOrder/Operations}"
-                                    class="sapUiMediumMarginTop">
-                                    <columns>
-                                        <Column><Text text="{i18n>operationColumn}" /></Column>
-                                        <Column><Text text="{i18n>descriptionColumn}" /></Column>
-                                        <Column><Text text="{i18n>workCenterColumn}" /></Column>
-                                        <Column hAlign="End"><Text text="{i18n>durationColumn}" /></Column>
-                                    </columns>
-                                    <items>
-                                        <ColumnListItem>
-                                            <cells>
-                                                <Text text="{object>OperationNumber}" />
-                                                <Text text="{object>Description}" />
-                                                <Text text="{object>WorkCenter}" />
-                                                <Text text="{object>Duration} {object>DurationUnit}" />
-                                            </cells>
-                                        </ColumnListItem>
-                                    </items>
-                                </Table>
-                                
-                                <Table
-                                    headerText="Materials / Components"
-                                    items="{object>/WorkOrder/AllMaterials}"
-                                    class="sapUiMediumMarginTop">
-                                    <columns>
-                                        <Column><Text text="Material" /></Column>
-                                        <Column><Text text="Description" /></Column>
-                                        <Column><Text text="Operation Ref" /></Column>
-                                        <Column hAlign="End"><Text text="Quantity" /></Column>
-                                    </columns>
-                                    <items>
-                                        <ColumnListItem>
-                                            <cells>
-                                                <Text text="{object>MaterialNumber}" />
-                                                <Text text="{object>Description}" />
-                                                <Text text="{object>ForOperation}" />
-                                                <Text text="{object>Quantity} {object>Unit}" />
-                                            </cells>
-                                        </ColumnListItem>
-                                    </items>
-                                </Table>
-                            </IconTabFilter>
-                        </items>
-                    </IconTabBar>
-                </l:mainContent>
+                    <uxap:ObjectPageSubSection title="Order Details" id="workOrderDetailsSubSection" titleUppercase="false">
+                        <uxap:blocks>
+                            <f:SimpleForm id="workOrderDetailsForm" layout="ResponsiveGridLayout" class="sapUiMediumMarginTop sapUiMediumMarginBottom">
+                                <f:content>
+                                    <Label text="{i18n>orderIdLabel}"/>
+                                    <Text text="{object>/WorkOrder/OrderId}"/>
+                                    <Label text="{i18n>descriptionLabel}"/>
+                                    <Text text="{object>/WorkOrder/Description}"/>
+                                    <Label text="{i18n>orderTypeLabel}"/>
+                                    <Text text="{object>/WorkOrder/OrderTypeText}"/>
+                                    <Label text="{i18n>workCenterLabel}"/>
+                                    <Text text="{object>/WorkOrder/WorkCenter}"/>
+                                    <Label text="{i18n>plannerGroupLabel}"/>
+                                    <Text text="{object>/WorkOrder/PlannerGroup}"/>
+                                    <Label text="{i18n>basicStartDateLabel}"/>
+                                    <Text text="{path: 'object>/WorkOrder/BasicStartDate', formatter: '.formatter.formatDateTime'}"/>
+                                    <Label text="{i18n>basicEndDateLabel}"/>
+                                    <Text text="{path: 'object>/WorkOrder/BasicEndDate', formatter: '.formatter.formatDateTime'}"/>
+                                </f:content>
+                            </f:SimpleForm>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
 
-                <l:sideContent>
-                    <!-- Quality Guardian Panel -->
-                    <VBox class="sapUiSmallMargin" busy="{analysis>/busy}">
-                        <Title text="{i18n>qualityScoreLabel}" class="sapUiSmallMarginBottom" />
-                        <ProgressIndicator
-                            percentValue="{analysis>/score}"
-                            displayValue="{analysis>/score}%"
-                            state="{= ${analysis>/score} > 70 ? 'Success' : (${analysis>/score} >= 50 ? 'Warning' : 'Error') }"
-                            class="sapUiSmallMarginBottom" />
-                        
-                        <f:SimpleForm layout="ResponsiveGridLayout">
-                            <f:content>
-                                <Label text="{i18n>summaryLabel}"/>
-                                <Text text="{analysis>/summary}" />
-                                <Label text="{i18n>problemsLabel}"/>
-                                <List
-                                    items="{analysis>/problems}"
-                                    noDataText="{i18n>noProblemsFound}"
-                                    class="sapUiNoContentPadding">
-                                    <CustomListItem>
-                                        <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiSmallMarginBeginEnd">
-                                            <Text text="{analysis>description}" class="sapMText sapUiSmallMarginEnd" wrapping="true"/>
-                                            <core:Icon
-                                                src="sap-icon://navigation-right-arrow"
-                                                class="sapUiTinyMarginBegin"
-                                                press=".onProblemPress"
-                                                tooltip="{i18n>navigateToFieldTooltip}">
-                                                <core:dependents>
-                                                    <core:CustomData key="field" value="{analysis>field}" />
-                                                </core:dependents>
-                                            </core:Icon>
-                                        </HBox>
-                                    </CustomListItem>
-                                </List>
-                            </f:content>
-                        </f:SimpleForm>
+                    <uxap:ObjectPageSubSection title="{i18n>operationsHeader}" titleUppercase="false">
+                        <uxap:blocks>
+                            <Table
+                                items="{object>/WorkOrder/Operations}"
+                                noDataText="No operations."
+                                class="sapUiMediumMarginTop sapUiMediumMarginBottom">
+                                <columns>
+                                    <Column><Text text="{i18n>operationColumn}"/></Column>
+                                    <Column><Text text="{i18n>descriptionColumn}"/></Column>
+                                    <Column><Text text="{i18n>workCenterColumn}"/></Column>
+                                    <Column hAlign="End"><Text text="{i18n>durationColumn}"/></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{object>OperationNumber}"/>
+                                            <Text text="{object>Description}"/>
+                                            <Text text="{object>WorkCenter}"/>
+                                            <Text text="{object>Duration} {object>DurationUnit}"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
 
-                        <Label text="{i18n>whatIfAnalysisLabel}" class="sapUiSmallMarginTopBottom" />
-                        <TextArea id="longTextForAnalysis" value="{object>/LongText}" rows="8" width="100%" />
-                        <Button text="{i18n>reanalyzeButtonText}" type="Emphasized" press=".onReanalyze" class="sapUiSmallMarginTop"/>
-                    
-                        <!-- Chat with Assistant -->
-                        <Title text="{i18n>chatTitle}" class="sapUiMediumMarginTop sapUiSmallMarginBottom" />
-                        <ScrollContainer id="chatScrollContainer" height="300px" vertical="true" class="sapUiSmallMarginBottom">
+                    <uxap:ObjectPageSubSection title="Materials / Components" titleUppercase="false">
+                        <uxap:blocks>
+                            <Table
+                                items="{object>/WorkOrder/AllMaterials}"
+                                noDataText="No materials."
+                                class="sapUiMediumMarginTop sapUiMediumMarginBottom">
+                                <columns>
+                                    <Column><Text text="Material"/></Column>
+                                    <Column><Text text="Description"/></Column>
+                                    <Column><Text text="Operation Ref"/></Column>
+                                    <Column hAlign="End"><Text text="Quantity"/></Column>
+                                </columns>
+                                <items>
+                                    <ColumnListItem>
+                                        <cells>
+                                            <Text text="{object>MaterialNumber}"/>
+                                            <Text text="{object>Description}"/>
+                                            <Text text="{object>ForOperation}"/>
+                                            <Text text="{object>Quantity} {object>Unit}"/>
+                                        </cells>
+                                    </ColumnListItem>
+                                </items>
+                            </Table>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+            <!-- Section 3: Quality Analysis -->
+            <uxap:ObjectPageSection title="{i18n>qualityAnalysisTab}" id="qualitySection" titleUppercase="false">
+                <uxap:subSections>
+
+                    <uxap:ObjectPageSubSection title="{i18n>qualityScoreLabel}" titleUppercase="false">
+                        <uxap:blocks>
+                            <VBox class="sapUiMediumMarginTop sapUiMediumMarginBottom" busy="{analysis>/busy}">
+                                <ProgressIndicator
+                                    percentValue="{analysis>/score}"
+                                    displayValue="{analysis>/score}%"
+                                    state="{= ${analysis>/score} > 70 ? 'Success' : (${analysis>/score} >= 50 ? 'Warning' : 'Error')}"
+                                    height="2rem"
+                                    width="60%"
+                                    class="sapUiSmallMarginBottom"/>
+                                <Label text="{i18n>summaryLabel}" class="sapUiTinyMarginBottom"/>
+                                <Text text="{analysis>/summary}" wrapping="true"/>
+                            </VBox>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+
+                    <uxap:ObjectPageSubSection title="{i18n>problemsLabel}" titleUppercase="false">
+                        <uxap:blocks>
                             <List
-                                items="{chat>/messages}"
-                                showSeparators="None">
+                                items="{analysis>/problems}"
+                                noDataText="{i18n>noProblemsFound}"
+                                class="sapUiMediumMarginTop sapUiMediumMarginBottom">
                                 <CustomListItem>
-                                    <HBox class="sapUiSmallMargin">
+                                    <HBox alignItems="Center" justifyContent="SpaceBetween" class="sapUiSmallMarginBeginEnd">
+                                        <Text text="{analysis>description}" class="sapMText sapUiSmallMarginEnd" wrapping="true"/>
                                         <core:Icon
-                                            src="{= ${chat>author} === 'user' ? 'sap-icon://customer' : 'sap-icon://fa-solid/robot'}"
-                                            class="sapUiTinyMarginEnd"
-                                            color="{= ${chat>author} === 'user' ? '#0a6ed1' : '#107e3e'}"
-                                            size="1.5rem"/>
-                                        <VBox>
-                                            <Text text="{chat>text}" />
-                                        </VBox>
+                                            src="sap-icon://navigation-right-arrow"
+                                            class="sapUiTinyMarginBegin"
+                                            press=".onProblemPress"
+                                            tooltip="{i18n>navigateToFieldTooltip}">
+                                            <core:dependents>
+                                                <core:CustomData key="field" value="{analysis>field}"/>
+                                            </core:dependents>
+                                        </core:Icon>
                                     </HBox>
                                 </CustomListItem>
                             </List>
-                        </ScrollContainer>
-                        <FeedInput
-                            placeholder="{i18n>chatInputPlaceholder}"
-                            post=".onPostChatMessage"
-                            showIcon="true"
-                            icon="sap-icon://send"/>
-                    </VBox>
-                </l:sideContent>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
 
-            </l:DynamicSideContent>
-        </content>
-    </Page>
+                    <uxap:ObjectPageSubSection title="{i18n>whatIfAnalysisLabel}" titleUppercase="false">
+                        <uxap:blocks>
+                            <VBox class="sapUiMediumMarginTop sapUiMediumMarginBottom" width="70%">
+                                <TextArea id="longTextForAnalysis" value="{object>/LongText}" rows="8" width="100%"/>
+                                <Button
+                                    text="{i18n>reanalyzeButtonText}"
+                                    type="Emphasized"
+                                    press=".onReanalyze"
+                                    class="sapUiSmallMarginTop"/>
+                            </VBox>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+
+                    <uxap:ObjectPageSubSection title="{i18n>chatTitle}" titleUppercase="false">
+                        <uxap:blocks>
+                            <VBox class="sapUiMediumMarginTop sapUiMediumMarginBottom" width="70%">
+                                <ScrollContainer id="chatScrollContainer" height="300px" vertical="true" class="sapUiSmallMarginBottom">
+                                    <List items="{chat>/messages}" showSeparators="None">
+                                        <CustomListItem>
+                                            <HBox class="sapUiSmallMargin">
+                                                <core:Icon
+                                                    src="{= ${chat>author} === 'user' ? 'sap-icon://customer' : 'sap-icon://fa-solid/robot'}"
+                                                    class="sapUiTinyMarginEnd"
+                                                    color="{= ${chat>author} === 'user' ? '#0a6ed1' : '#107e3e'}"
+                                                    size="1.5rem"/>
+                                                <VBox>
+                                                    <Text text="{chat>text}" wrapping="true"/>
+                                                </VBox>
+                                            </HBox>
+                                        </CustomListItem>
+                                    </List>
+                                </ScrollContainer>
+                                <FeedInput
+                                    placeholder="{i18n>chatInputPlaceholder}"
+                                    post=".onPostChatMessage"
+                                    showIcon="true"
+                                    icon="sap-icon://send"/>
+                            </VBox>
+                        </uxap:blocks>
+                    </uxap:ObjectPageSubSection>
+
+                </uxap:subSections>
+            </uxap:ObjectPageSection>
+
+        </uxap:sections>
+    </uxap:ObjectPageLayout>
 </mvc:View>
