@@ -1,7 +1,7 @@
 # Guided Capture — UX Concept Requirements
 
-> **Status:** Draft v0.1 — Requirements phase
-> **Date:** 2026-06-21
+> **Status:** Draft v0.2 — Requirements phase
+> **Date:** 2026-06-28
 > **Context:** New UI/UX concept for the PM Notification Quality Suite
 > **Problem statement:** Maintenance technicians are not motivated to document properly.
 > Documentation quality must instead be *engineered in at capture time* through a guided,
@@ -47,35 +47,71 @@ We introduce one **new primary persona** and reuse the existing supporting ones.
 
 | Dimension | Decision |
 |-----------|----------|
-| **Workflow coverage** | **Full lifecycle** — Quick Capture → Enrich → Execute (work order) → Close/Confirm |
+| **Maintenance types** | **All** — planned/preventive, proactive corrective (condition/inspection-driven), reactive corrective (breakdown), inspection/calibration. The flow **branches by type** (see §3.1). |
+| **Workflow coverage** | **Full lifecycle** — Identify → Capture → Enrich → Execute → Close/Confirm |
 | **Devices** | **Mixed** — phone-first on the floor, desktop for completion/review |
 | **Input modalities** | **All** — voice, photo/video, tap-to-select, conversational AI wizard |
+| **Asset identification** | **Data Matrix (2D) scan** as the primary front door; GS1 Data Matrix may carry equipment / serial / batch in one scan. Search is the fallback. |
 | **AI proactivity** | **Risk-tiered** — autonomy steps down as regulatory weight steps up (see §6) |
 
-### 3.1 The lifecycle, reframed as a guided journey
+### 3.1 One front door, several journeys — maintenance types
+
+The single entry point is **"Scan to start."** Tom scans the asset's **Data Matrix code**;
+the system resolves the asset, looks up what work is **due or open** on it, and routes him
+into the journey that fits the maintenance type. Each type stresses different data and has a
+different trigger, so the guidance adapts.
+
+| Maintenance type | Trigger / entry point | What pre-exists | What the guided flow emphasizes | Heaviest regulated data |
+|------------------|-----------------------|-----------------|---------------------------------|--------------------------|
+| **Planned / Preventive** | Maintenance plan → scheduled order (exists before Tom arrives) | Order + task list / operations | Scan → pull up the **due checklist** → guided step-by-step execution → record **measurement readings / counters** → confirm + findings | Measurement readings, pass/fail vs. limits |
+| **Proactive corrective** (condition / inspection-driven) | A finding during inspection or condition monitoring | Sometimes an inspection round | Capture the **finding + condition severity**, recommend a correction, hand off to planning | Condition assessment, severity |
+| **Reactive corrective** (breakdown) | Unplanned fault discovered on the floor | Nothing — starts from zero | **Fast capture** (voice + photo), **malfunction start/end** (downtime!), breakdown indicator, immediate fix confirmation | Malfunction times, breakdown indicator |
+| **Inspection / Calibration** | Scheduled or ad-hoc check | Calibration plan / limits | Guided **reading entry vs. acceptance limits**, automatic pass/fail, **e-signature** | Calibration result (Part 11 signature) |
+
+**Why this matters for the design:** the *capture* step is not one screen. For a breakdown it's
+a 30-second voice+photo report; for planned work it's a checklist with measurement entry; for an
+inspection finding it's a condition assessment. The **scan + routing** is the shared spine; the
+journeys diverge after it.
+
+### 3.2 The lifecycle, reframed as a guided journey
 
 ```
-   CAPTURE                ENRICH              EXECUTE              CLOSE
- (on the asset)        (any device)        (work order)      (signed-off record)
-┌───────────┐        ┌───────────┐       ┌───────────┐       ┌───────────┐
-│ 30-second │        │ AI fills   │       │ Confirm   │       │ What did  │
-│ voice +   │  ───▶  │ gaps; Tom  │ ───▶  │ ops, parts│ ───▶  │ you find/ │
-│ photo     │        │ confirms   │       │ used, time│       │ do? + sign│
-└───────────┘        └───────────┘       └───────────┘       └───────────┘
-   minimal              quality              hands-on             ALCOA+
-   friction             nudges               reality              complete
+  IDENTIFY              CAPTURE               ENRICH             EXECUTE             CLOSE
+ (scan asset)        (varies by type)      (any device)       (work order)    (signed-off record)
+┌───────────┐       ┌───────────┐        ┌───────────┐      ┌───────────┐     ┌───────────┐
+│ Data      │       │ breakdown:│        │ AI fills   │      │ Confirm   │     │ What did  │
+│ Matrix    │ ───▶  │ voice+photo│ ───▶  │ gaps; Tom  │ ──▶  │ ops, parts│ ──▶ │ you find/ │
+│ scan →    │       │ planned:  │        │ confirms   │      │ used, time│     │ do? + sign│
+│ route by  │       │ checklist │        │            │      │ readings  │     │           │
+│ work type │       │ +readings │        │            │      │           │     │           │
+└───────────┘       └───────────┘        └───────────┘      └───────────┘     └───────────┘
+  shared spine        branch by type        quality            hands-on          ALCOA+
+                                            nudges              reality           complete
 ```
 
-The key idea: **capture must be near-zero friction**, and quality is *progressively*
-assembled — never demanded all at once.
+The key idea: **identification is one scan**, **capture is near-zero friction and shaped by
+the work type**, and quality is *progressively* assembled — never demanded all at once.
 
 ---
 
 ## 4. Functional Requirements
 
+### FR-0 — Scan to start & route by maintenance type (shared front door)
+- **FR-0.1** Identify the asset by scanning its **Data Matrix (2D) code** with the phone camera;
+  parse **GS1 Data Matrix** to extract equipment number / serial / batch where encoded.
+- **FR-0.2** Fallbacks when no scan is possible: "near me" (last-used / location) and free search.
+- **FR-0.3** On successful scan, resolve the asset and look up **work due or open** on it
+  (scheduled orders, existing notifications, calibration due), then **route** Tom into the
+  matching journey (planned / proactive corrective / reactive corrective / inspection).
+- **FR-0.4** If nothing is open and Tom initiates work, let him **pick the maintenance type**
+  via clear choices; the chosen type configures the rest of the guided flow.
+- **FR-0.5** The scanned asset identity is bound to the record for **attribution** and is
+  retained as part of the source data (ALCOA+ Attributable).
+
 ### FR-1 — Quick Capture (phone, on the asset)
-- **FR-1.1** Identify the asset with the least effort: scan QR/NFC/barcode on equipment,
-  pick from "near me" (last-used / GPS / location beacon), or search as fallback.
+- **FR-1.1** Capture content is **shaped by maintenance type** (per §3.1): breakdown → fast
+  voice+photo fault report; planned → guided checklist + measurement entry; inspection →
+  reading-vs-limit entry; proactive → condition/finding assessment.
 - **FR-1.2** One-tap **voice capture**: Tom describes the problem out loud; the system
   transcribes it and retains the **raw audio + transcript as the original source record**.
 - **FR-1.3** One-tap **photo/video** capture of the fault; multiple media per report.
@@ -113,6 +149,11 @@ assembled — never demanded all at once.
 - **FR-5.2** Guided **findings capture at close**: "What did you actually find? What did you
   do?" — this is the highest-value reliability data and is most often skipped today.
 - **FR-5.3** Closing a regulated record requires an **electronic signature** (see §6 Tier 3).
+- **FR-5.4** **Measurement & reading capture** (planned / inspection / calibration): present each
+  measurement point with its **acceptance limits**, capture the reading by tap/voice, and
+  **auto-evaluate pass/fail**. An out-of-limit reading **escalates into a guided finding/notification**
+  (bridging an inspection into proactive corrective). Readings are retained as **original
+  measurement documents** (ALCOA+ Original/Attributable).
 
 ### FR-6 — Cross-cutting
 - **FR-6.1** Resume any in-progress capture from any device.
@@ -186,7 +227,8 @@ loop (per Part 11 / Annex 11 / FDA AI guidance) for anything that matters.
 ---
 
 ## 9. Assumptions
-- A1: Equipment carries scannable identifiers (QR/NFC/barcode) **or** a searchable master exists.
+- A1: Equipment carries **Data Matrix (2D) codes**; where GS1-encoded, they may carry
+  equipment / serial / batch. A searchable asset master exists for the fallback path.
 - A2: The Gemini-based AI services can be extended for voice transcription, image
   understanding, and structured extraction (or complemented by suitable services).
 - A3: The existing notification data model (type, damage/cause codes, malfunction dates,
@@ -197,15 +239,24 @@ loop (per Part 11 / Annex 11 / FDA AI guidance) for anything that matters.
 ---
 
 ## 10. Open Questions (to resolve before the concept design)
-1. **Asset identification:** Do your assets already have QR/NFC/barcodes, or must we rely on search?
-2. **Voice/vision AI:** Is extending Gemini to audio + image acceptable, or is there a
+
+**Resolved**
+- ~~Asset identification~~ → **Data Matrix (2D) scan**, primary front door (GS1 where available).
+- ~~Maintenance scope~~ → **All maintenance types** (planned, proactive corrective, reactive
+  corrective, inspection/calibration); the flow branches by type.
+
+**Still open**
+1. **Voice/vision AI:** Is extending Gemini to audio + image acceptable, or is there a
    preferred/validated service for transcription and image understanding in your GxP scope?
-3. **Offline scope:** Is full offline capture required (basements/steel), or is "spotty but
+2. **Offline scope:** Is full offline capture required (basements/steel), or is "spotty but
    present" connectivity the realistic worst case?
-4. **Signature reach:** Which lifecycle events legally require an e-signature in *your*
-   regulatory interpretation — only Close, or also root-cause/CAPA confirmation?
-5. **Rollout:** Is the new guided flow **additive** (a new "Report a Fault" entry alongside
-   today's analyzer), or does it **replace** the current create/detail experience?
+3. **Signature reach:** Which lifecycle events legally require an e-signature in *your*
+   regulatory interpretation — only Close, or also calibration/out-of-limit/CAPA confirmation?
+4. **Source of "work due":** Does FR-0.3 (look up open/scheduled work on scan) read from SAP PM
+   directly (orders, maintenance plans, measurement points) or via a sync/integration layer?
+5. **Rollout:** Is the guided flow **additive** (a new "Scan to start" entry alongside today's
+   analyzer/planner views) or does it **replace** the current create/detail experience?
+   *(Working assumption: additive — a new unified technician front door — until told otherwise.)*
 
 ---
 
