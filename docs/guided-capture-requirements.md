@@ -1,7 +1,7 @@
 # Guided Capture — UX Concept Requirements
 
-> **Status:** Draft v0.2 — Requirements phase
-> **Date:** 2026-06-28
+> **Status:** Draft v0.3 — Requirements phase (research-grounded)
+> **Date:** 2026-06-29
 > **Context:** New UI/UX concept for the PM Notification Quality Suite
 > **Problem statement:** Maintenance technicians are not motivated to document properly.
 > Documentation quality must instead be *engineered in at capture time* through a guided,
@@ -73,6 +73,19 @@ a 30-second voice+photo report; for planned work it's a checklist with measureme
 inspection finding it's a condition assessment. The **scan + routing** is the shared spine; the
 journeys diverge after it.
 
+**Mapping to SAP PM & EN 13306** (so the concept lands on the real data model — see §12):
+
+| Our journey | EN 13306 class | SAP PM notification | SAP PM order type |
+|-------------|----------------|---------------------|-------------------|
+| Reactive corrective (breakdown) | Corrective → immediate | **M2** Malfunction report | PM02 Breakdown |
+| Proactive corrective | Corrective → deferred (condition-based) | **M1** Maintenance request | PM01 Corrective |
+| Planned / Preventive | Preventive → predetermined | **M1** / order-driven | PM03 Preventive |
+| Inspection / Calibration | Preventive → condition-based | **M3** Activity report | PM05 Calibration |
+
+> SAP PM expresses the failure narrative through **catalogs/codes** (object part, damage,
+> cause, activity, tasks) and equipment condition through **measuring points / counters /
+> measurement documents**. These are the structures our guided flow must populate — see FR-7.
+
 ### 3.2 The lifecycle, reframed as a guided journey
 
 ```
@@ -98,7 +111,9 @@ the work type**, and quality is *progressively* assembled — never demanded all
 
 ### FR-0 — Scan to start & route by maintenance type (shared front door)
 - **FR-0.1** Identify the asset by scanning its **Data Matrix (2D) code** with the phone camera;
-  parse **GS1 Data Matrix** to extract equipment number / serial / batch where encoded.
+  parse **GS1 Data Matrix** Application Identifiers to extract identity where encoded —
+  typically **AI (01) GTIN**, **AI (21) serial number**, **AI (10) batch/lot**, and dates
+  (AI 11/17). Map the parsed identity to the SAP equipment / functional location.
 - **FR-0.2** Fallbacks when no scan is possible: "near me" (last-used / location) and free search.
 - **FR-0.3** On successful scan, resolve the asset and look up **work due or open** on it
   (scheduled orders, existing notifications, calibration due), then **route** Tom into the
@@ -155,10 +170,30 @@ the work type**, and quality is *progressively* assembled — never demanded all
   (bridging an inspection into proactive corrective). Readings are retained as **original
   measurement documents** (ALCOA+ Original/Attributable).
 
+### FR-7 — Capture the reliability data chain (ISO 14224 / SAP catalogs)
+> **The reason poor documentation hurts:** downstream reliability work (FMEA, RCM, MTBF/MTTR)
+> needs a *structured failure narrative*, not prose. ISO 14224 defines that narrative and SAP PM
+> encodes it as catalog codes. Making this chain effortless is the whole point of the guided flow.
+
+- **FR-7.1** Guide the technician to capture the **failure data chain** as standardized codes,
+  one tap-to-select step each, pre-ranked by equipment history:
+  - **Object part** affected (SAP catalog B / ISO "maintainable item")
+  - **Failure mode** — what was observed (SAP damage catalog C / ISO failure mode)
+  - **Failure mechanism / cause** — why it happened (SAP cause catalog 5 / ISO failure cause)
+  - **Detection method** — how it was found (inspection, condition monitoring, operator, breakdown)
+  - **Activity performed** — what was done (SAP activity catalog A)
+- **FR-7.2** Capture **failure consequence / impact** (safety, product, downtime, environment)
+  to support criticality and RPN.
+- **FR-7.3** Capture **malfunction start/end** and **breakdown indicator** for MTBF/MTTR/availability.
+- **FR-7.4** Where a code does not fit, allow free text **plus** an AI-proposed best-fit code for
+  human confirmation — never leave the chain as un-coded prose only.
+- **FR-7.5** The completeness/quality meter (FR-2.4) is scored against this chain, so "good"
+  is defined by reliability-grade data, not character count.
+
 ### FR-6 — Cross-cutting
 - **FR-6.1** Resume any in-progress capture from any device.
 - **FR-6.2** Full **bilingual** support (EN/DE), matching the existing app.
-- **FR-6.3** Accessibility: large touch targets, high contrast, glove/noise tolerant.
+- **FR-6.3** Accessibility: large touch targets, high contrast, glove/noise tolerant (see NFR-6).
 
 ---
 
@@ -192,7 +227,15 @@ loop (per Part 11 / Annex 11 / FDA AI guidance) for anything that matters.
 | **T0 — Convenience** | Asset identification from scan/GPS, UI prefill of non-record context | **Auto-fill silently** | May correct | Source of inference logged |
 | **T1 — Regulated, low impact** | Notification type, functional location, work center | **Suggest; one-tap confirm** | Confirms each | Suggested vs. confirmed value stored |
 | **T2 — Regulated, high impact** | Damage code, root cause, severity/priority, CAPA, findings text | **Draft + coach only**; cannot finalize | **Must actively author/edit**; original human input preserved | AI draft, human final, model & prompt version |
-| **T3 — Signature events** | Closing a notification, approving/confirming a regulated record | **No auto-fill; no drafting of the attestation** | **Electronic signature** (2-factor) + meaning declaration | Signature linked to record; full event audit |
+| **T3 — Signature events** | Closing a notification, approving a calibration/out-of-limit result, confirming a regulated record | **No auto-fill; no drafting of the attestation** | **Electronic signature** + meaning declaration | Signature linked to record; full event audit |
+
+**Electronic signature components (21 CFR Part 11 §11.50 / §11.200 — applies to T3):**
+- Two distinct identification components (e.g. **user ID + password**), or biometric.
+- Signature **manifestation** stored with the record: **printed name of signer, date & time
+  (UTC), and the meaning** of the signature (e.g. "reviewed", "approved", "performed").
+- Signature **linked** to its record so it cannot be excised, copied, or transferred to falsify.
+- For a series of signings in one continuous session, re-authentication rules per §11.200.
+- Audit trail of the signing event retained **at least as long as the record itself**.
 
 ### AI Governance requirements (apply to all tiers)
 - **AI-G1 — Transparency:** Anything AI-generated is visibly marked as a *suggestion* until a human acts on it.
@@ -201,6 +244,13 @@ loop (per Part 11 / Annex 11 / FDA AI guidance) for anything that matters.
 - **AI-G4 — Suggestion audit trail:** Store {AI value, human final value, user, timestamp, model version, prompt version} for every AI-assisted field.
 - **AI-G5 — Confidence:** AI exposes a confidence signal; low confidence escalates to an explicit human question rather than a silent prefill.
 - **AI-G6 — No silent authorship:** The AI must never be the attributable author of a GxP record value.
+- **AI-G7 — Guard against automation bias:** Per EU AI Act Art. 14 (human oversight) and FDA GMLP
+  (human–AI team performance), the UI must counter over-reliance — suggestions are visibly
+  provisional, never pre-accepted, and high-impact (T2/T3) fields require an explicit human act,
+  not a default-through. Humans must be able to understand the AI's capabilities and limits and
+  disregard/override its output.
+- **AI-G8 — Model & prompt governance:** Record AI model version and prompt version with each
+  interaction (supports GAMP 5 / PCCP change control and reproducibility).
 
 ---
 
@@ -209,12 +259,13 @@ loop (per Part 11 / Annex 11 / FDA AI guidance) for anything that matters.
 | ID | Requirement |
 |----|-------------|
 | **NFR-1** | Quick Capture usable one-handed, with gloves, in noise (voice + large targets). |
-| **NFR-2** | Offline-first capture; durable local queue; conflict-safe sync. |
+| **NFR-2** | Offline-first capture; durable local queue; conflict-safe sync (parity with SAP Service & Asset Manager, which holds equipment, orders, notifications, checklists & measurement points locally and syncs on reconnect). |
 | **NFR-3** | Capture-to-submit p50 < 60s; AI suggestion latency target < 3s (degrade gracefully if AI/network unavailable — capture must never be blocked by the AI). |
 | **NFR-4** | Built on SAPUI5 / Fiori for consistency with the existing suite; reuse Horizon theme. |
 | **NFR-5** | EN/DE localization parity. |
-| **NFR-6** | Accessibility: WCAG-aligned contrast, target sizes, screen-reader labels. |
+| **NFR-6** | Accessibility: **touch targets ≥ 48 × 48 dp** (glove-tolerant; ≥ WCAG 2.5.5 enhanced target), **text contrast ≥ 4.5:1** (WCAG AA), dynamic/large text support, screen-reader labels. |
 | **NFR-7** | All AI calls and human confirmations are auditable per §6. |
+| **NFR-8** | Data Matrix decoding must handle worn/curved/low-light labels (live camera, torch, retry); manual entry fallback when a code is unreadable. |
 
 ---
 
@@ -268,4 +319,36 @@ loop (per Part 11 / Annex 11 / FDA AI guidance) for anything that matters.
 - **SC-4** AI quality score ≥ 70 on first submission for the majority of notifications.
 - **SC-5** Zero ALCOA+ findings in audit: every value attributable to a human, contemporaneous,
   with originals retained.
-```
+- **SC-6** ≥ 90% of corrective records carry a complete **failure data chain** (object part →
+  failure mode → cause → detection) as codes, not prose-only (FR-7).
+
+---
+
+## 12. Standards & Research Basis
+
+The requirements above are derived from the following standards and references. Each row notes
+what it contributes and which requirements it drives.
+
+| Domain | Standard / source | Drives |
+|--------|-------------------|--------|
+| **Failure data taxonomy** | **ISO 14224** — collection & exchange of reliability and maintenance data; standard taxonomy for failure mode, mechanism, cause, detection method | FR-7, SC-6, quality scoring |
+| **Maintenance terminology** | **EN 13306** — preventive / corrective / condition-based / predictive classification | §3.1 journey taxonomy |
+| **SAP data model** | SAP PM notification types **M1/M2/M3**, order types **PM01–PM07**, catalogs (object part, damage, cause, activity), measuring points / counters / measurement documents | §3.1 mapping, FR-5.4, FR-7 |
+| **Asset identification** | **GS1 Data Matrix** guideline & Application Identifiers (01 GTIN, 21 serial, 10 batch, 11/17 dates); UDI practice | FR-0.1, NFR-8 |
+| **Electronic records & signatures** | **FDA 21 CFR Part 11** (§11.10 audit trail, §11.50 signature manifestation, §11.200 components) | §6 T3, AI-G4 |
+| **Computerised systems / data integrity** | **EU GMP Annex 11**, **ALCOA+** | §5, §6 |
+| **Risk-based validation** | **GAMP 5** (incl. AI/ML in GxP; Cat 4/5; PCCP) | §6, AI-G8 |
+| **AI governance** | **FDA Good Machine Learning Practice (GMLP)**; **EU AI Act Art. 14** human oversight & anti-over-reliance | AI-G1…G8, esp. AI-G7 |
+| **Mobile maintenance UX** | **SAP Service & Asset Manager** (offline scope, checklists, measurement readings, barcode/voice, AR work instructions) | NFR-2, FR-1/5 |
+| **Accessibility** | **SAP Fiori** accessibility guidelines; **WCAG 2.x** (contrast 4.5:1, target size) | NFR-6 |
+
+### Sources
+- ISO 14224 — [ISO 14224:2016](https://www.iso.org/standard/64076.html); [field guide](https://ifluids.com/standard/iso-14224-reliability-failure-data-guide/); [ISO 14224 vs other standards](https://www.nrx.com/iso-14224-vs-other-standards/)
+- EN 13306 — [maintenance types overview](https://www.aneo.fi/en/maintenance/what-are-maintenance-types); [predictive vs condition-based](https://en.it-development.com/predictive-maintenance-stop-confusing-it-with-condition-based-maintenance/)
+- SAP PM — [Notification Type (SAP Help)](https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/9e21827baabc46ee86355f6b3bae53b5/b00ec55398dd1f4be10000000a174cb4.html); [notification & order/catalog overview](https://sappmlearnings.blogspot.com/2023/01/types-of-notificationsordersorder.html); [breakdown maintenance](https://www.tutorialspoint.com/sap_pm/sap_pm_breakdown_maintenance.htm)
+- SAP measuring points / measurement documents — [Working with Measuring Points and Counters (SAP Learning)](https://learning.sap.com/courses/managing-technical-objects-in-sap-s-4hana-asset-management/working-with-measuring-points-and-counters); [Measuring Point (SAP Help)](https://help.sap.com/docs/SAP_S4HANA_ON-PREMISE/e72f747389b340229f7fa343975bfa57/606cb65334e6b54ce10000000a174cb4.html)
+- GS1 Data Matrix — [GS1 DataMatrix Guideline](https://www.gs1.org/standards/gs1-datamatrix-guideline/25); [GS1 US healthcare barcodes](https://documents.gs1us.org/adobe/assets/deliver/urn:aaid:aem:100a32db-cf5f-4bba-922a-016429b8ebcf/Infographic-Healthcare-Industry-Know-Your-GS1-Barcodes-and-What-Is-In-Them.pdf)
+- 21 CFR Part 11 — [e-signature/audit trail requirements](https://www.certivo.io/blog/electronic-signature-audit-trail-requirements); [compliance overview](https://intuitionlabs.ai/articles/21-cfr-part-11-electronic-records-signatures-overview)
+- AI governance — [FDA GMLP](https://www.propharmagroup.com/thought-leadership/good-machine-learning-practice-gmlp); [EU AI Act Art. 14 human oversight](https://artificialintelligenceact.eu/article/14/); [GAMP 5 AI/ML in GxP](https://intuitionlabs.ai/articles/gamp-5-ai-ml-validation-gxp)
+- SAP Service & Asset Manager — [features](https://www.sap.com/products/scm/asset-manager/features.html); [SAP Help](https://help.sap.com/docs/service-asset-manager)
+- Accessibility — [Accessibility in SAP Fiori](https://www.sap.com/design-system/fiori-design-web/v1-120/discover/sap-design-system/product-standards/accessibility-in-sap-fiori)
