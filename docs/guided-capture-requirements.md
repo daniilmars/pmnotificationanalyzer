@@ -295,6 +295,9 @@ loop (per Part 11 / Annex 11 / FDA AI guidance) for anything that matters.
 - ~~Asset identification~~ → **Data Matrix (2D) scan**, primary front door (GS1 where available).
 - ~~Maintenance scope~~ → **All maintenance types** (planned, proactive corrective, reactive
   corrective, inspection/calibration); the flow branches by type.
+- ~~Source of "work due" / integration architecture (FR-0.3)~~ → **Option C** (custom SAPUI5 + AI
+  on SAP Mobile Services offline OData; S/4HANA = system of record). See
+  `guided-capture-integration-options.md`.
 
 **Still open**
 1. **Voice/vision AI:** Is extending Gemini to audio + image acceptable, or is there a
@@ -303,11 +306,12 @@ loop (per Part 11 / Annex 11 / FDA AI guidance) for anything that matters.
    present" connectivity the realistic worst case?
 3. **Signature reach:** Which lifecycle events legally require an e-signature in *your*
    regulatory interpretation — only Close, or also calibration/out-of-limit/CAPA confirmation?
-4. **Source of "work due":** Does FR-0.3 (look up open/scheduled work on scan) read from SAP PM
-   directly (orders, maintenance plans, measurement points) or via a sync/integration layer?
-5. **Rollout:** Is the guided flow **additive** (a new "Scan to start" entry alongside today's
+   Must signing work **offline**?
+4. **Rollout:** Is the guided flow **additive** (a new "Scan to start" entry alongside today's
    analyzer/planner views) or does it **replace** the current create/detail experience?
    *(Working assumption: additive — a new unified technician front door — until told otherwise.)*
+5. **Landscape:** S/4HANA or ECC? Cloud or on-premise? SSAM / SAP Mobile Services already
+   licensed? (Confirms but does not block Option C — see integration doc §7.)
 
 ---
 

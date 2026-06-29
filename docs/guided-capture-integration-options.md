@@ -1,6 +1,6 @@
 # Guided Capture — Integration Architecture Options
 
-> **Status:** Draft v0.1 — Decision support
+> **Status:** ✅ Accepted — **Option C confirmed (2026-06-29)**
 > **Date:** 2026-06-29
 > **Decides:** Open question from the requirements (FR-0.3 / Q4): how does the guided app
 > **read** PM context ("work due", catalogs, equipment history) and **write** records back to
@@ -158,6 +158,11 @@ Scale: ✅ strong · ◐ partial · ⚠️ weak
 ---
 
 ## 5. Recommendation
+
+> **DECISION (2026-06-29): Option C confirmed by product owner.** Build the custom SAPUI5 + AI
+> guided experience on SAP Mobile Services offline OData; S/4HANA PM is the system of record; AI
+> layer on BTP; desktop *Enrich* path may use direct live OData (A) as a sub-mode. The §7 decisions
+> below remain to be confirmed but do not block starting the UX concept.
 
 **Adopt Option C** — a custom SAPUI5 + AI guided experience on **SAP Mobile Services offline OData**,
 with **S/4HANA PM as the system of record** and the **AI layer on BTP**. For the desktop *Enrich*
